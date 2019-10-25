@@ -1,0 +1,622 @@
+﻿<div class="addnews page bdbg" style="background-color:white">
+    <style>
+        .weui-navbar__item2 {
+            position: relative;
+            display: block;
+            flex: 1;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 15px;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+
+
+            .weui-navbar__item2:after {
+                content: " ";
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: 1px;
+                bottom: 0;
+                color: #CCCCCC;
+                transform-origin: 100% 0;
+                transform: scaleX(0.5);
+            }
+
+            .weui-navbar__item2:last-child:after {
+                display: none;
+            }
+    </style>
+    <div id="dialogs">
+        <div class="js_dialog" id="Reg_Wran" style="display: none;">
+            <div class="weui-mask"></div>
+            <div class="weui-dialog">
+                <div class="weui-dialog__bd" id="Reg_Wran_Msg"></div>
+                <div class="weui-dialog__ft">
+                    <a href="javascript:;" onclick="$('#Reg_Wran').fadeOut(200)" class="weui-dialog__btn weui-dialog__btn_primary">確認</a>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div id="newrentsuccess" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">發布完成</p>
+        </div>
+    </div>
+    <div class="page__bd" style="">
+        <form id="newspost" enctype="multipart/form-data" style="display:none" name="fileinfo">
+            <div class="weui-tab">
+                <div class="weui-navbar navbg" style="" id="posthd">
+                    <div class="weui-navbar__item2" id="newrentclose" onclick="plus.webview.close(plus.webview.currentWebview())">
+                        <i alt="" class="fa fa-2x fa-mail-reply" style="color:gray;padding-left:10px;width:100%;text-align:left"></i>
+                    </div>
+                    <div class="weui-navbar__item2" style="font-size:20px">
+                        發佈動態
+                    </div>
+                    <div class="weui-navbar__item2" style="visibility:hidden">
+                        <i alt="" class="fa fa-2x fa-check" style="color:green;width:90%;text-align:right"></i>
+                    </div>
+                </div>
+
+                <div class="weui-tab__panel">
+                    <div class="weui-mask" id="postMask" style="display: none;"></div>
+                    <div class="page__bd" style="" id="newpostform">
+                        <div class="weui-gallery" id="gallery">
+                            <span class="weui-gallery__img" id="galleryImg"></span>
+                            <div class="weui-gallery__opr">
+                                <a href="javascript:" class="weui-gallery__del">
+                                    <i class="weui-icon-delete weui-icon_gallery-delete"></i>
+
+                                </a>
+                            </div>
+                        </div>
+                        <div class="weui-cells__title">動態內容(30字內)</div>
+                        <div class="weui-cells weui-cells_form">
+
+                            <div class="weui-cell">
+                                <div class="weui-cell__bd">
+                                    <textarea class="weui-textarea" rows="5" name="Content" style="user-select: all;-webkit-user-select: all;background-color: rgba(255, 255, 255, 0);"></textarea>
+                                    <div class="weui-textarea-counter"><span>0</span>/30</div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="weui-cells__title">請選擇相關技能</div>
+
+                        <div class="weui-cells weui-cells_form">
+                            <div class="weui-cell weui-cell_select">
+                                <div class="weui-cell__bd">
+                                    <select class="weui-select" name="Kind"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="weui-cells__title">
+                            附加內容
+                            <a href="javascript:;" id="upia" onclick="pickph('image')" class="weui-btn weui-btn_mini weui-btn_primary">圖</a>
+                            <a href="javascript:;" id="upva" onclick="pickph('video')" class="weui-btn weui-btn_mini weui-btn_primary">影</a>
+                        </div>
+
+                        <div class="weui-cells weui-cells_form">
+
+                            <div class="weui-cell">
+                                <div class="weui-cell__bd">
+                                    <div class="weui-uploader">
+                                        <div class="weui-uploader__hd">
+                                            <div class="weui-uploader__info" id="picinfo">0/4</div>
+                                        </div>
+                                        <div class="weui-uploader__bd">
+                                            <ul class="weui-uploader__files" id="uploaderFilesI"></ul>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--<div class="weui-cell">
+                                <div class="weui-cell__bd">
+                                    <div class="weui-uploader">
+                                        <div class="weui-uploader__hd">
+                                            <p class="weui-uploader__title">圖片上傳</p>
+                                            <div class="weui-uploader__info" id="picinfo">0/3</div>
+                                        </div>
+                                        <div class="weui-uploader__bd">
+                                            <ul class="weui-uploader__files" id="uploaderFilesI"></ul>
+                                            <div class="weui-uploader__input-box">
+                                                <input id="" name="fileImg" class="weui-uploader__input uploaderInputI" type="file" accept="image/*" multiple>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="weui-cell">
+                                <div class="weui-cell__bd">
+                                    <div class="weui-uploader">
+                                        <div class="weui-uploader__hd">
+                                            <p class="weui-uploader__title">影片上傳</p>
+
+                                        </div>
+                                        <div class="weui-uploader__bd">
+                                            <ul class="weui-uploader__files" id="uploaderFilesV"></ul>
+
+                                            <div class="weui-uploader__input-box">
+
+
+                                                <input id="uploaderInputV" name="file" class="weui-uploader__input" type="file" accept="video/*" style=" ">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>-->
+
+                            <br>
+                          
+                        </div>
+                    </div>
+
+                    <div class="page__ft" style="">
+
+                    </div>
+
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+    <div class="page__ft" style="position:fixed;bottom:0px;left:5%;width:90%">
+        <a href="javascript:;" onclick="newpost(this);" style="" class="weui-btn weui-btn_primary">發表動態</a>
+        <div id="onzip" style="display: none;">
+            <div class="weui-mask_transparent"></div>
+            <div class="weui-toast">
+                <i class="weui-loading weui-icon_toast"></i>
+                <p class="weui-toast__content">{{msg}}</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var zipvue = new Vue({
+            el: "#onzip",
+            data: {
+                msg:""
+            }
+        })
+        //压缩图片
+        var compressImage = function (url, filename, divid, cb) {
+            var name = "_doc/upload/" + divid + "-" + filename;//_doc/upload/F_ZDDZZ-1467602809090.jpg
+            plus.zip.compressImage({
+                src: url,//src: (String 类型 )压缩转换原始图片的路径
+                dst: name,//压缩转换目标图片的路径
+                quality: 50,//quality: (Number 类型 )压缩图片的质量.取值范围为1-100
+                overwrite: true,//overwrite: (Boolean 类型 )覆盖生成新文件
+             
+            },
+                function (event) {
+                    //uploadf(event.target,divid);
+                    var path = name;//压缩转换目标图片的路径
+                    console.dir(event.target)
+                    console.dir(divid)
+                    console.dir(filename)
+                    console.dir(path)
+                    saveimage(event.target, divid, filename, path, cb);
+                }, function (error) {
+                    plus.nativeUI.toast("压缩图片失败，请稍候再试");
+                });
+        }
+        var saveimage = function (url, divid, name, path, cb) {
+            var state = 0;
+            var wt = plus.nativeUI.showWaiting();
+            var id = "";
+            var src = url;
+            cb(name, divid, id, src);
+            wt.close();
+
+        }
+        var vcount = 0;
+        var icount = 0;
+      
+        function pickph(filter) {
+            console.log("filter3", filter)
+            var divid = "news"
+            var $uploaderFilesI = $("#uploaderFilesI");
+            var tmpl = '<li class="weui-uploader__file" uptype="fileImg" upurl="#url2#"  style="background-image:url(#url#)"></li>';
+            var tmpv = '<li class="weui-uploader__file" uptype="file" upurl="#url2#" gifurl="#url3#" ><video  src="#url#" style="max-width:100%;max-height:100%;height:auto;width:auto;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)" preload="auto" autoplay loop muted playsinline webkit-playsinline  /></li>';
+            var cb = function (name, divid, id, src) {
+
+
+                plus.io.resolveLocalFileSystemURL(src, function (entry) {
+                    entry.getMetadata(function (md) {
+
+                     
+                        var path = entry.toLocalURL();//圖片本地路徑
+                        var name = entry.name//圖片名稱
+                        if (filter == 'video') {
+                            //開始壓縮
+                          
+                            Bridge.setffmpegStatisticsCallback(function (st) {
+                             
+                            })
+                           
+                            var isnext = false;
+                            var smallpic = "";
+                            var alltime = 0;
+                            var wWaiting = plus.nativeUI.showWaiting("壓縮中...", { back: "none", width: "100px", height: "100px"});
+                            Bridge.setffmpegLogCallback(function (st) {
+                              //  console.dir(dst);
+                                var dst = decodeURIComponent(st).replace(/\+/g,' ')
+                                console.dir(dst);
+                                try {
+                                    if (isnext) {
+                                        var timearray = dst.split(":");
+
+                                        alltime = (timearray[0] * 60 + (timearray[1] * 1)) * 60 + (timearray[2] * 1.0);
+
+                                        isnext = false;
+                                        if (alltime > 30) {
+                                            //Bridge.ffmpegCancel();
+                                            //alert("檔案超過30秒");
+                                            //wWaiting.close();
+                                            alltime = 30;
+                                        }
+                                    }
+                                    if (dst.indexOf("  Duration: ") != -1) {
+                                        isnext = true;
+                                    }
+                                    if ((dst.indexOf(" time=") != -1) && (dst.indexOf(" bitrate") != -1)) {
+                                        var nowtime = dst.split(" time=")[1].split(" bitrate")[0];
+                                        if (nowtime.indexOf("-") == -1) {
+                                            var nowtimearray = nowtime.split(":");
+                                            var nowtimeint = (nowtimearray[0] * 60 + (nowtimearray[1] * 1)) * 60 + (nowtimearray[2] * 1.0);
+                                            // console.log("setffmpegLogCallback", nowtimeint + " / " + alltime)
+                                            wWaiting.setTitle("進度" + parseInt((nowtimeint / alltime) * 100) + "%");
+                                        }
+
+                                    }
+                                    if (dst.indexOf("video:") == 0) {
+                                        plus.io.requestFileSystem(plus.io.PRIVATE_DOC, function (fs) {
+                                            var cmd2 = "-i " + path + " -an -vframes 1 " + fs.root.toLocalURL() + "tmp.jpg" + " -y";
+                                            console.dir(cmd2); 
+                                       
+                                            Bridge.setffmpegLogCallback(function (st2) {
+                                                var dst2 = decodeURIComponent(st2).replace(/\+/g, ' ')
+                                                if (dst2.indexOf("video:") == 0) {
+                                                    wWaiting.setTitle("轉檔完成");
+                                                    setTimeout(function () {
+                                                        plus.nativeUI.closeWaiting();
+                                                    }, 1000);
+                                                    var pimg = $(tmpv.replace('#url#', fs.root.toLocalURL() + "tmp.mp4").replace('#url2#', fs.root.toLocalURL() + "tmp.mp4").replace('#url3#', fs.root.toLocalURL() + "tmp.jpg"));
+                                                    $uploaderFilesI.append(pimg);
+                                                    vcount = $uploaderFilesI.find("li video").length;
+                                                    icount = $uploaderFilesI.find("li").length - $uploaderFilesI.find("li video").length;
+                                                    if (vcount >= 1)
+                                                        $("#upva").hide();
+                                                    else
+                                                        $("#upva").show();
+                                                    if (icount >= 3)
+                                                        $("#upia").hide();
+                                                    else
+                                                        $("#upia").show();
+                                                    $("#picinfo").text("影:" + vcount + "/1 圖:" + icount + "/3");
+                                                }
+                                            })
+                                            Bridge.ffmpegExecute(cmd2, function () { }, "AddNews")
+                                            
+                                        })
+                                        // console.log("setffmpegLogCallback", "轉檔完成");
+
+                                    }
+                                } catch (exx) {
+                                    console.dir(exx)
+                                }
+                                
+                              
+                            })
+                       
+                            plus.io.requestFileSystem(plus.io.PRIVATE_DOC, function (fs) {
+                                 //I路徑 path
+                                //O路徑 fs.root + "/tmp.mp4"
+                                console.dir(fs.root)
+
+                                var cmd = "-i " + path + " -vf \"fps=60\" -vf scale='min(720,iw):-2' -t 30 -strict experimental -profile:v high -vcodec libx264 -bsf:v h264_mp4toannexb -f mp4 -movflags +faststart " + fs.root.toLocalURL() + "tmp.mp4" + " -y";
+
+                                fs.root.getDirectory("tmp", { create: true }, function () {
+                                    Bridge.ffmpegExecute(cmd, function (st) {
+
+                                    }, "AddNews")
+                                })
+
+                               
+                                
+                            
+
+                            }, function (e) {
+                                alert("Request file system failed: " + e.message);
+                            });
+                           
+
+                            
+
+                           
+                        } else {
+                            var pimg = $(tmpl.replace('#url#', path).replace('#url2#', path));
+                            $uploaderFilesI.append(pimg);
+                            vcount = $uploaderFilesI.find("li video").length;
+                            icount = $uploaderFilesI.find("li").length - $uploaderFilesI.find("li video").length;
+                            if (vcount >= 1)
+                                $("#upva").hide();
+                            else
+                                $("#upva").show();
+                            if (icount >= 3)
+                                $("#upia").hide();
+                            else
+                                $("#upia").show();
+                            $("#picinfo").text("影:" + vcount + "/1 圖:" + icount + "/3");
+                        }
+                       
+                    })
+
+                }, function (e) {
+
+                });
+
+
+
+            }
+            if ($uploaderFilesI.find("li video").length > 0 && filter == 'video') {
+                alert("影片只能上傳一個");
+                return;
+            }
+            if (($uploaderFilesI.find("li").length - $uploaderFilesI.find("li video").length) > 2 && filter != 'video') {
+                alert("圖片只能上傳三張");
+                return;
+            }
+            plus.gallery.pick(function (p) {
+                if ($uploaderFilesI.find("li").length + 1 > 4) {
+                    alert("檔案多於四個");
+                    return;
+                }
+
+                // for (var i = 0; i < p.files.length; i++) {
+
+                // var pitem = p.files[i];
+                var pitem = p;
+                console.log("filter2", filter)
+                plus.io.resolveLocalFileSystemURL(p, function (entry) {
+                    console.log("filter", filter)
+                    if (filter == 'video') {
+                        console.dir(entry.toLocalURL());
+                        cb('', '', '', entry.toLocalURL())
+
+
+                    } else {
+                        compressImage(entry.toLocalURL(), entry.name, divid, cb);
+                    }
+
+                }, function (e) {
+                    plus.nativeUI.toast("读取拍照文件错误：" + e.message);
+                });
+                // }
+
+            }, function (err) {
+                console.dir(err)
+                console.dir(filter)
+            }, {
+                    filename: "_doc/camera/",
+                    filter: filter,
+                    system: true,
+                    multiple: false,
+                    maximum: 1,
+                    onmaxed: function () {
+                        plus.nativeUI.alert('目前只能一個一個選擇');
+                    }
+                });
+            
+        }
+
+        function newpost(e) {
+            //Context
+
+            var data = {};
+            data["Content"] = $("#newspost [name=Content]").val();
+            data["Kind"] = $("#newspost [name=Kind]").val();
+            data["FileList"] = [];
+            data["FileImgList"] = [];
+            data["FileGifList"] = [];
+            var flist = $("#uploaderFilesI li");
+            for (var i = 0; i < flist.length; i++) {
+                if ($($("#uploaderFilesI li")[i]).attr("uptype") == "file") {
+                    data["FileList"].push($($("#uploaderFilesI li")[i]).attr("upurl"));
+                    data["FileGifList"].push($($("#uploaderFilesI li")[i]).attr("gifurl"));
+                }  
+                else
+                    data["FileImgList"].push($($("#uploaderFilesI li")[i]).attr("upurl"));
+            }
+          
+
+            if (data["Content"] == "") {
+                $("#newspost [name=Content]").parents(".weui-cell").addClass("weui-cell_warn");
+                $("#Reg_Wran_Msg").text("內容不可為空");
+                $("#Reg_Wran").show();
+                return;
+            }
+            console.dir(data);
+           // return;
+            //var formData = new FormData(document.forms.namedItem("fileinfo"));
+            $(e).attr("onclick", false);
+
+            $("#loadingToast").show();
+
+            //var wa = plus.nativeUI.showWaiting();
+            //alert(ajaxurl + "UpdateTitleImg");
+            var task = plus.uploader.createUpload(ajaxurl + "News", {
+                method: "POST", timeout: 0, blocksize:0
+            },
+                function (t, status) {
+                   // alert(t.responseText);
+                    var r;
+                    try {
+                        r = JSON.parse(t.responseText);
+                    } catch (e) {
+                       // alert(t.responseText)
+                        console.dir(status)
+                        console.dir(t)
+                        $("#loadingToast").hide();
+                        alert("上傳錯誤");
+
+                        return;
+                    }
+                  
+                    if (r.result_status) {
+                        $("#loadingToast").hide();
+                        $("#newrentsuccess").fadeIn(200);
+
+                        plus.webview.all()[plus.webview.all().length - 2].evalJS("cardlist.chgtag(0)")
+                        setTimeout(function () {
+                            $("#newrentsuccess").hide();
+                            $("#newrentclose").click();
+                        }, 2000)
+                    }
+                    else {
+                        $("#loadingToast").hide();
+                        alert(r.result_message)
+                        $(e).attr("onclick", "newpost(this)");
+                    }
+                }
+            );
+            for (j = 0; j < data["FileList"].length; j++) {
+                task.addFile(data["FileList"][j], { key: "file" });
+            }
+            for (j = 0; j < data["FileImgList"].length; j++) {
+                task.addFile(data["FileImgList"][j], { key: "fileImg" + j  });
+            }
+            for (j = 0; j < data["FileGifList"].length; j++) {
+                task.addFile(data["FileGifList"][j], { key: "gif" });
+            }
+         //fileImg
+            task.addData("Content", data["Content"]);
+            task.addData("Kind", data["Kind"]);
+            task.setRequestHeader("Server_Token", encodeURIComponent(Server_Token))
+            task.start();
+
+            //$.ajax({
+            //    url: ajaxurl + "News",
+            //    type: 'post',
+            //    data: formData,
+            //    headers: { "Server_Token": encodeURIComponent(Server_Token) },
+            //    processData: false,
+            //    contentType: false,
+            //    success: function (r) {
+            //        if (r.result_status) {
+            //            $("#loadingToast").hide();
+            //            $("#newrentsuccess").fadeIn(200);
+
+            //            plus.webview.all()[plus.webview.all().length - 2].evalJS("cardlist.chgtag(2)")
+            //            setTimeout(function () {
+            //                $("#newrentsuccess").hide();
+            //                $("#newrentclose").click();
+            //            }, 2000)
+
+            //        } else {
+            //            $("#loadingToast").hide();
+            //            alert(r.result_message)
+            //            $(e).attr("onclick", "newpost(this)");
+            //        }
+            //    },
+            //    error: function () {
+            //        $("#loadingToast").hide();
+            //        alert("網路錯誤")
+
+            //        $(e).attr("onclick", "newpost(this)");
+            //    }
+            //});
+        }
+        plus.nativeUI.showWaiting("載入中...");
+        getimdata("getMyCert", "", function (s) {
+            GInfo.MyCert = s;
+            var data = GInfo.MyCert;
+            var newdata = data.filter(e => e.isPass == true);
+            if (newdata.length == 0) {
+                plus.nativeUI.closeWaiting();
+                alert("只要成為陪玩師，就可以發佈動態喔~");
+                plus.webview.close(plus.webview.currentWebview())
+                return;
+            }
+            for (var i = 0; i < newdata.length; i++) {
+                var item = newdata[i];
+                var html = '<option value="' + item.KindID + '">' + item.KindName + '</option>';
+                $("[name=Kind]").append(html);
+            }
+            $("#newspost").show();
+            plus.nativeUI.closeWaiting();
+        })
+
+        $(function () {
+
+
+            $('.weui-tabbar').hide();
+
+            var tmpV = '<li class="weui-uploader__file" style=""><video src="#url#" style="width:auto;height:auto;max-width:100%;max-height:100%" autoplay loop muted playsinline webkit-playsinline></li>',
+                tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>',
+                $gallery = $("#gallery"), $galleryImg = $("#galleryImg"),
+
+                $uploaderInputI = $(".uploaderInputI"),
+                $uploaderInputV = $("#uploaderInputV"),
+                $uploaderFilesI = $("#uploaderFilesI"),
+                $uploaderFilesV = $("#uploaderFilesV")
+                ;
+
+
+            var predel;
+            $gallery.find(".weui-gallery__del").on("click", function () {
+
+                predel.remove();
+                vcount = $uploaderFilesI.find("li video").length;
+                icount = $uploaderFilesI.find("li").length - $uploaderFilesI.find("li video").length;
+                if (vcount >= 1)
+                    $("#upva").hide();
+                else
+                    $("#upva").show();
+                if (icount >= 3)
+                    $("#upia").hide();
+                else
+                    $("#upia").show();
+                $("#picinfo").text("影:" + vcount + "/1 圖:" + icount + "/3");
+                // $("#picinfo").text($uploaderFilesI.find("li").length + "/4");
+                //$("[name=uploadfiles_Img]")[0].files.find(function (e) {
+                //    console.dir(e)
+                //})
+                $gallery.fadeOut(100);
+                $("#posthd").show();
+            })
+            $uploaderFilesI.on("click", "li", function () {
+                $("#posthd").hide();
+                predel = $(this);
+
+                //weui-gallery__del
+                $galleryImg.attr("style", this.getAttribute("style"));
+                $galleryImg.html($(this).html());
+                $gallery.fadeIn(100);
+            });
+            //$uploaderFilesV.on("click", "li", function () {
+            //    $("#posthd").hide();
+            //    predel = $(this);
+            //    $galleryImg.attr("style", this.getAttribute("style"));
+            //    $gallery.fadeIn(100);
+
+            //});
+            $gallery.on("click", function () {
+                $gallery.fadeOut(100);
+                $("#posthd").show();
+            });
+        })
+
+    </script>
+</div>
+

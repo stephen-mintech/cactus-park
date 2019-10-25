@@ -1,0 +1,1989 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+
+    <!--<script src="js/html5plus/jpush.js"></script>-->
+
+    <script src="js/vue.min.js"></script>
+    <link href="css/materialize.css" rel="stylesheet" />
+    <!--<script src="js/materialize.js"></script>-->
+    <link href="css/ionicons/ionicons.min.css?4" rel="stylesheet" />
+    <!--<script src="js/jmessage-sdk-web.2.6.0.min.js"></script>-->
+    <!--<script src="js/hammer.min.js"></script>-->
+    <!--<script src="js/canvas-video-player.js"></script>-->
+    <!--<script src="js/eruda.min.js"></script>-->
+    <script src="js/exif.js"></script>
+    <!--<script src="html5plus://ready"></script>-->
+    <script src="js/html5plus/common.js?5"></script>
+    <!--<script type="text/javascript" src="js/iframeapi.js"></script>
+    <script src="js/recorder.mp3.min.js"></script>-->
+    <!--<script type="text/javascript" src="http://player.youku.com/jsapi"></script>-->
+    <script src="js/weui/jquery-2.1.4.js"></script>
+    <script src="js/weui/jquery-weui.min.js"></script>
+    <!--<script src="js/bodymovin.js"></script>-->
+    <!--<script src="js/lottie.min.js?2"></script>-->
+    <!--<script src="js/lottie_light.js"></script>-->
+    <!--<script src="js/weui/weui.min.js"></script>-->
+    <!--<script src="js/weui/swiper.js"></script>-->
+    <!--<script src="js/jquery.qrcode.min.js"></script>-->
+    <!--<script src="js/weui/example.js"></script>-->
+    <link href="css/swiper/swiper.min.css" rel="stylesheet" />
+    <link href="css/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <!--<link href="css/weui/jquery-weui.css" rel="stylesheet" />-->
+    <link href="css/weui/weui.min.css?1" rel="stylesheet" />
+    <link href="css/weui/example.css" rel="stylesheet" />
+    <script src="js/PublicTools.js?13"></script>
+    <script src="js/BridgeClass.js?16"></script>
+    <script src="js/Main.js?16"></script>
+    <!--<script src="js/howler.js?5"></script>-->
+    <!--<script src="js/AudioControl.js?18"></script>-->
+    <script src="js/swiper/swiper.min.js"></script>
+    <script src="js/JQPlus/jquery.masonry.min.js"></script>
+    <script src="js/linq.min.js"></script>
+    <script src="js/linq.jquery.js"></script>
+    <!--<script src="js/ScrollTrigger.js?8"></script>-->
+    <script src="js/moment.min.js"></script>
+    <script src="js/jquery.lazyload.min.js"></script>
+
+    <link href="css/mescroll.min.css" rel="stylesheet" />
+    <script src="js/mescroll.min.js"></script>
+    <script src="js/BBIM.js?5"></script>
+    <link href="css/style/style1.css" rel="stylesheet" />
+    <meta http-equiv="cache-control" content="max-age=80000">
+    <meta http-equiv="pragma" content="public">
+    <meta http-equiv="Expires" content="600">
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title></title>
+    <style>
+        /*@font-face {
+            font-family: "HanyiSenty";
+            src: url('css/font/HanyiSenty.ttf');
+        }*/
+        * {
+            font-family: Ionicons;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+
+
+        input {
+            -webkit-user-select: all;
+            user-select: all;
+        }
+
+        .weui-bar__item_on .shadow_icon {
+            /*-webkit-filter: drop-shadow(3px 3px 4px white);*/
+        }
+
+        .btn_click:active {
+            -webkit-transform: scale(.8);
+        }
+
+        .add_icon {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 80px;
+            right: 20px;
+            z-index: 1;
+        }
+
+        .swiper-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        .ganlabel_g {
+            margin: 0 auto;
+            padding: 2px 8px;
+            text-align: center;
+            font-size: 12px;
+            line-height: 20px;
+            border-radius: 5em;
+            background-color: hotpink;
+            color: white;
+        }
+
+            .ganlabel_g::before {
+                content: "♀";
+            }
+
+        .ganlabel_b {
+            margin: 0 auto;
+            padding: 2px 8px;
+            text-align: center;
+            font-size: 12px;
+            line-height: 20px;
+            border-radius: 5em;
+            background-color: rgb(110, 209, 248);
+            color: white;
+        }
+
+            .ganlabel_b::before {
+                content: "♂";
+            }
+
+        .ganlabel_s {
+            margin: 0 auto;
+            padding: 2px 8px;
+            text-align: center;
+            font-size: 12px;
+            line-height: 20px;
+            border-radius: 5em;
+            background-color: rgb(110, 209, 248);
+            color: white;
+        }
+
+        .ganlabel_n {
+            margin: 0 auto;
+            padding: 2px 8px;
+            text-align: center;
+            font-size: 12px;
+            line-height: 20px;
+            border-radius: 5em;
+            background-color: rgb(196, 59, 255);
+            color: white;
+        }
+
+            .ganlabel_n::after {
+                content: "y";
+            }
+
+        .ganlabel_star {
+            margin: 0 auto;
+            padding: 2px 8px;
+            text-align: center;
+            font-size: 12px;
+            line-height: 20px;
+            border-radius: 5em;
+            background-color: rgb(255, 179, 59);
+            color: white;
+        }
+
+        .event_sh {
+            animation-name: oxxo;
+            animation-duration: 2s;
+            animation-iteration-count: infinite
+        }
+
+        .event_tip {
+            animation-name: oxxo2;
+            animation-duration: 1.5s;
+            animation-iteration-count: infinite
+        }
+
+        @keyframes oxxo {
+            0% {
+                transform: translateY(0px)
+            }
+
+            50% {
+                transform: translateY(-10px)
+            }
+
+            100% {
+                transform: translateY(0px)
+            }
+        }
+
+        @keyframes oxxo2 {
+            0% {
+                opacity: 1.0;
+            }
+
+            49% {
+                opacity: 1.0;
+            }
+
+            50% {
+                opacity: 0.0;
+            }
+
+            100% {
+                opacity: 0.0;
+            }
+        }
+    </style>
+
+    <style>
+        /**** Clearfix ****/
+        .clearfix:before, .clearfix:after {
+            content: "";
+            display: table;
+        }
+
+        .clearfix:after {
+            clear: both;
+        }
+
+        .clearfix {
+            zoom: 1;
+        }
+
+        .barcolor2 {
+            /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#e2e2e2+0,dbdbdb+50,d1d1d1+51,fefefe+100;Grey+Gloss+%231 */
+            background: #e2e2e2; /* Old browsers */
+            background: -moz-linear-gradient(top, #e2e2e2 0%, #dbdbdb 50%, #d1d1d1 51%, #fefefe 100%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(top, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to bottom, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', endColorstr='#fefefe',GradientType=0 ); /* IE6-9 */
+        }
+
+        .barcolor {
+            /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#29b8e5+0,b3dced+38,0082b2+81&1+0,1+98,0.32+100 */
+            background: -moz-radial-gradient(center, ellipse cover, rgba(41,184,229,1) 0%, rgba(179,220,237,1) 38%, rgba(0,130,178,1) 81%, rgba(0,130,178,1) 98%, rgba(0,130,178,0.32) 100%); /* FF3.6-15 */
+            background: -webkit-radial-gradient(center, ellipse cover, rgba(41,184,229,1) 0%,rgba(179,220,237,1) 38%,rgba(0,130,178,1) 81%,rgba(0,130,178,1) 98%,rgba(0,130,178,0.32) 100%); /* Chrome10-25,Safari5.1-6 */
+            background: radial-gradient(ellipse at center, rgba(41,184,229,1) 0%,rgba(179,220,237,1) 38%,rgba(0,130,178,1) 81%,rgba(0,130,178,1) 98%,rgba(0,130,178,0.32) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#29b8e5', endColorstr='#520082b2',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+            border-radius: 2em;
+        }
+
+        .weui-navbar__item2 {
+            position: relative;
+            display: block;
+            flex: 1;
+            padding: 6px 0;
+            text-align: center;
+            font-size: 15px;
+            -webkit-tap-highlight-color: rgba(0, 0, 0,0);
+            background-color: rgba(255,255,255,0.4);
+            border-radius: 2em;
+        }
+
+            .weui-navbar__item2:active {
+                background-color: rgba(220,220,220,0.4);
+                border-radius: 2em;
+            }
+
+            .weui-navbar__item2.weui-bar__item_on {
+                background-color: rgba(83,202,255,0.4);
+                border-radius: 2em;
+            }
+
+            .weui-navbar__item2:after {
+                content: " ";
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: 1px;
+                bottom: 0;
+                color: #CCCCCC;
+                transform-origin: 100% 0;
+                transform: scaleX(0.5);
+            }
+
+            .weui-navbar__item2:last-child:after {
+                display: none;
+            }
+
+        .weui-grid2 {
+            /* 防止多列布局，分页媒体和多区域上下文中的意外中断 */
+            /*break-inside: avoid;*/
+            background: #fff;
+            width: 100%
+        }
+
+        .mitem {
+            width: 95%;
+            padding-left: 2.5%;
+            /*float: left;*/
+            margin-bottom: 30px;
+        }
+
+        .weui-grid2 p {
+            padding: 5px 10px;
+        }
+
+        .weui-grid2 div {
+            padding-bottom: 10px
+        }
+
+        .weui-grid__label2 {
+            text-align: left;
+            color: #000000;
+            font-size: 14px;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .skilllabel {
+            margin: 0 auto;
+            padding: 5px 10px;
+            text-align: center;
+            font-size: 12px;
+            border-radius: 3em;
+            background-color: rgb(196, 246, 252);
+            color: blue;
+        }
+
+        .weui-grids2 {
+            /*margin: 0 auto;*/
+            /*width: 100%;*/
+            /*column-count: 1;
+            column-width: 20px;
+            column-gap: 10px;*/
+        }
+
+
+        .container2 {
+            padding: 5px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            clear: both;
+        }
+
+        .list li {
+            float: left;
+        }
+
+        .T_R {
+            position: absolute;
+            top: 5px;
+            right: -15px;
+            /* 擺放位置 */
+            width: 50px;
+            height: 10px;
+            background-color: #4084f6;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            /* 尺寸大小、顏色、陰影 */
+            color: #fff;
+            line-height: 10px;
+            text-align: center;
+            font-size: 8px;
+            letter-spacing: 1.5px;
+            /* 文字設定 */
+            transform: rotate(45deg); /* 轉45度 */
+        }
+
+            .T_R:after {
+                content: "推薦";
+            }
+
+        .T_T {
+            position: absolute;
+            top: 5px;
+            right: -15px;
+            /* 擺放位置 */
+            width: 50px;
+            height: 10px;
+            background-color: #E53935;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            /* 尺寸大小、顏色、陰影 */
+            color: #fff;
+            line-height: 10px;
+            text-align: center;
+            font-size: 8px;
+            letter-spacing: 1.5px;
+            /* 文字設定 */
+            transform: rotate(45deg); /* 轉45度 */
+        }
+
+            .T_T:after {
+                content: "置頂";
+            }
+
+        .T_Free1 {
+            position: absolute;
+            top: 0px;
+            left: -15px;
+            /* 擺放位置 */
+            width: 50px;
+            height: 20px;
+            background-color: #e32fc0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            /* 尺寸大小、顏色、陰影 */
+            color: #fff;
+            line-height: 28px;
+            vertical-align: bottom;
+            text-align: center;
+            font-size: 8px;
+            letter-spacing: 1.5px;
+            /* 文字設定 */
+            transform: rotate(-45deg); /* 轉45度 */
+        }
+
+            .T_Free1:after {
+                content: "可體驗";
+            }
+
+        .dot {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+    </style>
+    <style id="ggs">
+        .isand {
+            display: none !important;
+        }
+
+        .isnotand {
+            display: inherit;
+        }
+    </style>
+    <script>
+
+        var ajaxurl = "";
+        // var debugurl = "http://192.168.1.254:888/Zuzu/";
+        var debugurl = "http://192.168.1.110:8999/";
+
+        //window.onerror = function (message, source, lineno, colno, error) {
+        //    location.href = "ErrorMsg.html?msg=" + encodeURIComponent(error);
+        //};
+        //onerror = function (message, source, lineno, colno, error) {
+        //    location.href = "ErrorMsg.html?msg=" + encodeURIComponent(error);
+        //};
+        var conf = {}
+        conf = new Vue({
+            data: {
+                hidenews: false
+            },
+            watch: {
+                hidenews: function (val) {
+                    var self = this;
+                    this.$nextTick(function () {
+                        self.review()
+                    })
+                }
+
+            },
+            methods: {
+                review: function () {
+                    // $("#ggs").html(".isand{display:inherit ;}.isnotand{display:none !important;}")
+                    if (this.hidenews == true) {
+                        $("#ggs").html(".isand{display:none !important;}.isnotand{display:inherit ;}")
+
+                    } else {
+                        $("#ggs").html(".isand{display:inherit ;}.isnotand{display:none !important;}")
+
+                    }
+                }
+            }
+        })
+
+        // conf = new Vue({
+        //    data: {
+        //        hidenews: true
+        //     },
+        //     watch: {
+        //         hidenews: function (val) {
+        //             if (val == true) {
+
+        //                 $(".isand").hide();
+        //             } else {
+
+        //                 $(".isand").show();
+        //             }
+
+        //         }
+
+        //     }
+        //})
+
+
+    </script>
+
+
+    <!--<script src="https://connect.facebook.net/en_US/sdk.js"></script>-->
+    <script>
+        //window.fbAsyncInit = function () {
+        //    FB.init({
+        //        appId: '2205366512890758',
+        //        xfbml: true,
+        //        version: 'v2.8'
+        //    });
+
+        //    FB.AppEvents.logEvent('OpenApp');
+        //};
+    </script>
+</head>
+
+<body ontouchstart style="height:1920px;">
+    <div id="loadingToast" style="display:none">
+        <div class="weui-mask" style=""></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">載入中</p>
+        </div>
+    </div>
+    <div class="container" id="container">
+        <div class="page layers js_show bdbg" style="">
+            <div class="weui-navbar" style="display:none">
+                <div class="weui-navbar__item navbg" style="">
+                    <div class="weui-flex">
+
+
+                        <div style="width:15%;height:100%" id="BackBtn" onclick="clicknav(this)" btag="Home">
+                            <div style="color:white;font-size:18px" class="weui-flex__item">
+                                <i class="fa fa-angle-left" style=""></i>
+                            </div>
+                        </div>
+                        <div class="weui-flex__item" style="position:absolute;left:15%;width:70%;height:100%;text-align:center;top:5px">
+                            <span style="color:white;font-size:24px;" id="NavTitle"></span>
+                        </div>
+                        <div style="margin-right:20px" hidden="hidden">
+                            <i style="" class="fa fa-ellipsis-v"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-tab" id="indextab" style="background-color:black">
+                <div class="weui-tab__panel bdbg js_show" id="MainPanel" style="height: 100%;">
+
+
+                </div>
+                <div class="weui-tabbar tabbg" id="idxtab" style="">
+                    <!--<div class="event_tip" style="z-index:3">
+                        <img src="event/goldEgg2/image/tips.png" class="event_sh " style="width:23.66px;height:14.66px;position:absolute;top:-54px;right:38px;" />
+
+                    </div>
+                    <img src="event/goldEgg2/image/egg.png" onclick="eventpage()" class="event_sh" style="width:48px;height:51px;position:absolute;top:-58px;right:10px;z-index:2" />
+                    <img src="event/goldEgg2/image/base.png" class="event_sh" style="width:48px;height:auto;position:absolute;top:-15px;right:10px;z-index:1" />-->
+
+                    <a href="javascript:;" onclick="clicknav(this)" btag="NewHome" homech="0" ctag="index" class="weui-tabbar__item weui-bar__item_on">
+                        <span style="display: inline-block;position: relative;">
+                            <i alt="" class="weui-tabbar__icon shadow_icon fa fa-2x ion-ios-home-outline"></i>
+
+                        </span>
+                        <p class="weui-tabbar__label">首頁</p>
+
+                    </a>
+
+                    <!--<a href="javascript:;" onclick="clicknav(this)" btag="GroupPage" class="weui-tabbar__item ">-->
+                    <a href="javascript:;" onclick="clicknav(this,0)" btag="Home" class="weui-tabbar__item isand2" style="">
+                        <span style="display: inline-block;position: relative;">
+                            <i alt="" class="weui-tabbar__icon shadow_icon fa fa-2x ion-ios-game-controller-a-outline"></i>
+                            <!--<span id="hiscount" class="weui-badge" style="position: absolute;top: -2px;right: -13px;display:none"></span>-->
+                        </span>
+                        <p class="weui-tabbar__label">動態</p>
+                        <!--<p class="weui-tabbar__label">群組</p>-->
+                    </a>
+                    <a href="javascript:;" onclick="clicknav(this,0)" btag="RareHome" class="weui-tabbar__item" style="">
+                        <span style="display: inline-block;position: relative;">
+                            <i alt="" class="weui-tabbar__icon shadow_icon fa fa-2x fa-gittip"></i>
+                            <!--<span id="hiscount" class="weui-badge" style="position: absolute;top: -2px;right: -13px;display:none"></span>-->
+                        </span>
+                        <p class="weui-tabbar__label">排行</p>
+                        <!--<p class="weui-tabbar__label">群組</p>-->
+                    </a>
+                    <!--<a href="javascript:;" onclick="clicknav(this)" btag="Home" homech="3" class="weui-tabbar__item ">
+                        <span style="display: inline-block;position: relative;">
+                            <i alt="" class="weui-tabbar__icon shadow_icon fa fa-2x ion-ios-chatbubble-outline"></i>
+
+                        </span>
+                        <p class="weui-tabbar__label">人氣榜</p>
+
+                    </a>-->
+                    <a href="javascript:;" onclick="clicknav(this)" btag="MessageBox" class="weui-tabbar__item">
+                        <span style="display: inline-block;position: relative;">
+                            <i alt="" class="weui-tabbar__icon shadow_icon fa fa-2x ion-ios-list-outline"></i>
+                            <span class="weui-badge" id="notreadmsg" style="position: absolute;top: -2px;right: -13px;display:none" v-bind:style="{'display':(totalcount==0?'none':'inline')}">{{totalcount}}</span>
+                        </span>
+                        <p class="weui-tabbar__label">消息</p>
+                    </a>
+                    <a href="javascript:;" onclick="clicknav(this);" btag="Setting" class="weui-tabbar__item">
+                        <i alt="" class="weui-tabbar__icon shadow_icon fa fa-2x ion-ios-person-outline"></i>
+                        <p class="weui-tabbar__label">我的</p>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        <div class="js_dialog" id="NoLogin" style="display: none;">
+            <div class="weui-mask"></div>
+            <div class="weui-dialog">
+                <div class="weui-dialog__hd"><strong class="weui-dialog__title">訊息</strong></div>
+                <div class="weui-dialog__bd">您尚未登入會員</div>
+                <div class="weui-dialog__ft">
+                    <a href="javascript:;" onclick="$('#NoLogin').fadeOut(500)" class="weui-dialog__btn weui-dialog__btn_default">稍後登入</a>
+                    <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">前往登入</a>
+                </div>
+            </div>
+        </div>
+        <div class="js_dialog" id="callpost" style="display: none;">
+            <div class="weui-mask"></div>
+
+        </div>
+        <div id="ActionDiv">
+            <div class="weui-mask" id="iosMask" style="display: none;" onclick="$(this).hide()"></div>
+            <div class="weui-actionsheet " id="iosActionsheet" style="overflow-y:auto; -webkit-overflow-scrolling: touch;height:50%">
+                <div class="weui-actionsheet__title">
+                    <p class="weui-actionsheet__title-text" style="position:relative;width:100%;text-align:left" id="ActionTitle"></p>
+                </div>
+                <div class="weui-actionsheet__menu" id="ActionMenu">
+
+                </div>
+                <div class="weui-actionsheet__action">
+                    <div class="weui-actionsheet__cell" id="iosActionsheetCancel">取消</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script id="AllTab" type="text/html">
+
+    </script>
+
+    <script id="toast1" type="text/html">
+
+
+    </script>
+
+    <!--<script src="js/fastclick.js"></script>-->
+    <script>
+        var reloadmsgbox = function () { };
+        function closesp() {
+            //plus.webview.getWebviewById("loading").hide()
+        }
+        //var JIM = new JMessage();
+        var first = null;
+        var BackBtnFn = function () {
+            if (first == null) {
+                first = new Date().getTime();
+                plus.nativeUI.toast("再按一次返回退出傾心陪玩");
+                setTimeout(function () {
+                    first = null;
+                }, 1000);
+            } else {
+                if (new Date().getTime() - first < 1000) {
+                    plus.runtime.quit();
+                }
+            }
+
+        };
+        var BackBtnFn_org = function () {
+            if (first == null) {
+                first = new Date().getTime();
+                plus.nativeUI.toast("再按一次返回退出傾心陪玩");
+                setTimeout(function () {
+                    first = null;
+                }, 1000);
+            } else {
+                if (new Date().getTime() - first < 1000) {
+                    plus.runtime.quit();
+                }
+            }
+
+        };
+        var BackBtnFnHover_org = function (e) {
+            e.remove();
+
+        };
+        var winH = $(window).height();
+        $("body").height(winH);
+        var bgsoundid;
+
+        var GInfo;
+        //window.onfocus = onFocus;
+        //window.onblur = onBlur;
+        var IMClient;
+        var Server_Token = "";
+        var HistoryCount = 0;
+        var NowHistoryCount = 0;
+        var $layers = $(".layers__layer"),
+            $infos = $(".j_info");
+        function showInfo(name) {
+            $infos.filter("[data-for='" + name + "']").show().siblings().hide();
+        }
+
+        function addBackEvent(fn) {
+            plus.key.removeEventListener('backbutton', BackBtnFn);
+            BackBtnFn = fn;
+            plus.key.addEventListener('backbutton', BackBtnFn, false);
+        }
+        function clicknav(e, param) {
+            plus.webview.currentWebview().endPullToRefresh();
+            plus.webview.currentWebview().setPullToRefresh({ support: false, style: 'circle', offset: '5px' });
+
+            if (top["isallready"] != true) {
+                return;
+            }
+            addBackEvent(BackBtnFn_org);
+            if (param == undefined) {
+                if ($(e).attr("bparam"))
+                    param = $(e).attr("bparam");
+                else
+                    param = "";
+            }
+
+
+            if ($(e).is('.weui-tabbar__item')) {
+                $(".weui-tabbar__item").removeClass("weui-bar__item_on");
+                $(e).addClass("weui-bar__item_on");
+            }
+            var tagid = $(e).attr("btag");
+
+           // $(".weui-tab__panel").html("");
+          //  $("#MainPanel").html("");
+            //$(".layers").append($("#toast").html());
+            // $("#loadingToast").show();
+            $(".weui-navbar").hide();
+            $("#NavTitle").text("");
+            $("#BackBtn").css("visibility", "hidden");
+            $("#BackBtn").attr("disabled", "disabled")
+            $("#addbtn").hide();
+            $("#addbtn").off("click");
+
+            var callback = function (s) {
+
+                var $html = $(s).addClass('slideIn');
+                $html.on('animationend webkitAnimationEnd',
+                    function () {
+                        $html.removeClass('slideIn').addClass('js_show');
+                    });
+                $("#loadingToast").hide();//$("#loadingToast").remove();
+             //   $(".weui-tab__panel").children().remove();
+               // $(".weui-tab__panel").empty();
+
+                $(".weui-tab__panel").html($html);
+
+            }
+            var callback0 = function (s) {
+                $(".weui-tab__panel").html($(s));
+                $("#loadingToast").hide();
+            }
+            eval("mainui." + $(e).attr("btag") + "(Server_Token,callback,param)");
+
+
+        }
+
+        var hoverwindow;
+
+        function hovernav(e, param, needim, orgdata) {
+            //alert(needim)
+            var newneedim = true;
+            if (needim == false) {
+                newneedim = false;
+            }
+            if (needim == undefined) {
+                needim = "";
+            }
+            addBackEvent(BackBtnFn_org);
+            if (param == undefined) {
+                if ($(e).attr("bparam"))
+                    param = $(e).attr("bparam");
+                else
+                    param = "";
+            }
+
+            var tagid = e;
+
+            //$(".layers").append($("#toast").html());
+            //$("#loadingToast").show();
+
+
+
+
+            var callback = function (s) {
+                var $html = $(s).addClass('slideIn');
+
+                $html.on('animationend webkitAnimationEnd',
+                    function () {
+                        $html.removeClass('slideIn').addClass('js_show');
+                        $("#loadingToast").hide();//$("#loadingToast").remove();
+                    });
+
+                $(".layers.page").prepend($html);
+
+            }
+            //if ($(e).attr("btag") == "NewsPage") {
+            //    eval("mainui." + $(e).attr("btag") + "(Server_Token,callback,param)");
+            //    return;
+            //}
+            if (JSON.parse(Server_Token).Status == "管理員") {
+                // hoverwindow.loadURL(debugurl + 'layout.html?needim=' + needim + '&p=' + $(e).attr("btag") + "&param=" + param, $(e).attr("btag"), { PreloadData: orgdata})
+                var w = plus.webview.create(debugurl + 'layout.html?needim=' + needim + '&p=' + $(e).attr("btag"), $(e).attr("btag"), { "cachemode": "default", "popGesture": "close", "userSelect": true, "softinputMode": "adjustResize"}, { PreloadData: (orgdata || null), param: encodeURIComponent(param), newneedim: newneedim });
+                // plus.webview.getLaunchWebview().append(w)
+
+                w.show("slide-in-right");
+            }
+            else {
+                // hoverwindow.loadURL('layout.html?needim=' + needim + '&p=' + $(e).attr("btag") + "&param=" + param, $(e).attr("btag"), { PreloadData: orgdata })
+                var w = plus.webview.create('layout.html?needim=' + needim + '&p=' + $(e).attr("btag"), $(e).attr("btag"), { "cachemode": "default", "popGesture": "close", "userSelect": true, "softinputMode": "adjustResize" }, { PreloadData: (orgdata || null), param: encodeURIComponent(param), newneedim: newneedim });
+                w.show("slide-in-right");
+                //  plus.webview.getLaunchWebview().loadURL(w)
+
+            }
+            // hoverwindow = plus.webview.create("", { "cachemode": "noCache", "background": "#84D8ff", "backgroundColorTop": "#84D8ff", "backgroundColorBottom": "#84D8ff", "popGesture": "close" });
+
+            //eval("mainui." + $(e).attr("btag") + "(Server_Token,callback,param)");
+
+        }
+        function hovernav_new(e, param, nview) {
+            var orgdata = null
+            var needim = false;
+            var newneedim = true;
+            if (needim == false) {
+                newneedim = false;
+            }
+            if (needim == undefined) {
+                needim = "";
+            }
+            addBackEvent(BackBtnFn_org);
+            if (param == undefined) {
+                if ($(e).attr("bparam"))
+                    param = $(e).attr("bparam");
+                else
+                    param = "";
+            }
+            if (nview == undefined) {
+                if ($(e).attr("nview"))
+                    nview = JSON.parse($(e).attr("nview"));
+                else
+                    nview = {};
+            }
+
+            var tagid = e;
+            var needadddebug = "";
+            if (JSON.parse(Server_Token).Status == "管理員") {
+                needadddebug = debugurl;
+            }
+            else {
+                needadddebug = "";
+            }
+            var nbtn = [
+                {
+                    'type': 'back',
+                    'float': 'left',
+                    'background': '#dd7299',
+
+                }
+            ]
+            if (nview.moreinfo == true) {
+                nbtn.push({
+                    'type': 'menu',
+                    'background': '#dd7299',
+                    'float': 'right',
+                    'onclick': function () {
+                        w.evalJS('moreclick()')
+
+                    }
+                })
+            }
+            var ntags = [];
+            if ((nview.img || '') != '') {
+                //var imgview = {
+                //    'tag': 'img',
+                //    'id': 'imgview',
+                //    'position': { right: '44px',top:'2px', width: '40px', height: '40px' },
+                //    'src': nview.img,
+                //    'rectStyles': {
+                //        'radius':'999px'
+                //    }
+
+                //}
+                //var imgview2 = {
+                //    'tag': 'rect',
+                //    'id': 'rectview',
+                //    'position': { right: '88px', top: '2px', width: '40px', height: '40px' },
+
+                //    'rectStyles': {
+                //        'color':'white',
+                //        'radius': '999px'
+                //    }
+
+                //}
+                //ntags.push(imgview)
+                //ntags.push(imgview2)
+            }
+            console.dir(ntags);
+            var sntags = [
+                {
+                    'tag': 'img',
+                    'id': 'loadingpic',
+                    'position': { top: 'auto', left: 'auto', width: '50%', height: 'auto' },
+                    'sprite': { top: 'auto', left: 'auto', width: '100%', height: '100%' },
+                    'src': 'img/loading.gif'
+
+                }
+            ]
+            if ((nview.img || '') != '') {
+                if ((nview.img || '') != '') {
+                    // nview.img = nview.img.replace(".jpg_s", ".jpg").replace(".gif_s", ".gif")
+                }
+                sntags = [
+                    {
+                        'tag': 'img',
+                        'id': 'loadingpic1',
+                        'position': { top: 'auto', left: 'auto', width: 'auto', height: '100%' },
+                        'sprite': { top: '0px', width: 'auto', bottom: '0px' },
+                        'src': nview.img
+
+                    },
+
+                    {
+                        'tag': 'rect',
+                        'id': 'loadingrect',
+                        'position': { margin: 'auto', width: '100%', height: '100%' },
+                        'color': 'rgba(0,0,0,0.3)'
+
+                    },
+
+                ]
+            }
+            var w = plus.webview.create(needadddebug + 'layout.html?needim=' + needim + '&p=' + $(e).attr("btag"), $(e).attr("btag"), {
+                "cachemode": "default",
+                "popGesture": "close",
+                "userSelect": true,
+                'backButtonAutoControl': 'none',
+                'plusrequire': 'ahead',
+
+                'titleNView': {
+                    // autoBackButton:true,
+                    'backgroundColor': '#dd7299',
+                    'type': (nview.type || 'default'),
+                    'titleColor': 'white',
+                    'titleText': (nview.titleText || ''),
+                    'buttons': nbtn,
+                    'tags': ntags
+                },
+                'subNViews': [{
+                    'id': 'loadingsub',
+                    'styles': { 'height': '100%', 'width': "auto", backgroundColor: (((nview.img || '') == '') ? '#FFFFFF' : '#000000') },
+                    'tags': sntags
+                }]
+            }, { PreloadData: (orgdata || null), param: encodeURIComponent(param), newneedim: newneedim });
+
+            //w.addEventListener("close", function () {
+            //    console.dir("close")
+            //    w.removeEventListener("rendered", rendw)
+            //})
+            //w.addEventListener("rendered", rendw)
+            // w.show("slide-in-right");
+            if ((nview.img || '') != '') {
+                plus.nativeUI.showWaiting("", { loading: { icon: "img/loading.png", display: "inline", height: "150px", interval: 50 }, background: 'rgba(0,0,0,0)' });
+            }
+
+            w.show("fade-in");
+        }
+        function R_GInfo() {
+            console.dir('R_GInfo')
+            var obj = {
+                MyInfo: GInfo.MyInfo,
+                MyCert: GInfo.MyCert,
+                KindList: GInfo.KindList,
+            }
+            for (i = 0; i < plus.webview.all().length; i++) {
+                console.dir(plus.webview.all())
+                if (plus.webview.all()[i].id != "7cplay" && plus.webview.all()[i].id != "BBIM") {
+                    console.dir(plus.webview.all()[i].id)
+                    plus.webview.all()[i].evalJS("try{R_GInfo(" + JSON.stringify(obj) + ")}catch(ex){console.dir(ex)}")
+                }
+                console.dir(plus.webview.all())
+
+            }
+
+        }
+        function freshhiscount() {
+            HistoryCount = JSON.parse(NowHistoryCount);
+            $("#hiscount").hide();
+        }
+        function refreshstyle(s) {
+            var filestyle = "style1.css";
+            if (s == "2")
+                filestyle = "style2.css";
+            Bridge.readFile("css/style/" + filestyle, function (styst) {
+                $("#globalstyle").html(styst);
+
+            });
+        }
+        var pready = false;
+        var $ready = false;
+        var bbim;
+        var mainui;
+        var audiocontrol;
+        var Bridge;
+        var publicTools;
+        var scrollTrigger
+        var getsett;
+        var indexready = function () {
+            if (!pready || !$ready) {
+                return;
+            }
+            console.dir(1)
+            //  $(".weui-tab").html($("#AllTab").html());
+
+
+            Bridge = new BridgeClass();
+            mainui = new MainUI();
+            // audiocontrol = new AudioControl();
+            publicTools = new PublicTools();
+            document.addEventListener("pause", function () {
+                console.log("pause")
+                //audiocontrol.BGPause("background");
+            }, false);
+            document.addEventListener("resume", function () {
+                console.log("resume")
+                //publicTools.CheckVersion();
+                //audiocontrol.BGPlay();
+            }, false);
+            document.addEventListener("background", function () {
+                console.log("background")
+
+            }, false);
+            document.addEventListener("foreground", function () {
+                console.log("foreground")
+
+            }, false);
+            document.addEventListener("newintent", function (st) {
+                console.dir(st);
+            }, false);
+
+            getsett = function () {
+                Bridge.getData("Setting",
+                    function (f) {
+                        console.dir("getsetting")
+                        if (f == "") {
+                            f = "{}";
+                        }
+                        var goind = function (p) {
+                            console.dir("goind")
+                            top["isallready"] = true;
+                            var json = JSON.parse(f);
+                            if (Server_Token != "") {
+
+                                if (JSON.parse(Server_Token).Status == "管理員") {
+                                    ajaxurl = "http://192.168.1.110:8900/api/"
+                                   // window.eruda && eruda.init() && eruda.get('console').config.set('displayUnenumerable', false);
+                                    if (window.location.href.slice(0, 4) == "file") {
+                                        // console.log(debugurl + "index.html");
+                                        // view.close();
+                                       // plus.webview.getWebviewById("loading").close()
+                                        var ws = plus.webview.currentWebview();
+                                        ws.loadURL(debugurl + "index.html?" + Math.random());
+
+
+                                    } else {
+                                        // audiocontrol.BGPlay("main");
+                                        if (p != "")
+                                            $("a[btag=" + p + "]").click();
+                                        else
+                                            $("a[ctag=index]").click();
+                                        addBackEvent(BackBtnFn);
+                                        closesp();
+                                        Bridge.getOnClickRemoteNotificationData()
+                                        //Bridge.getOnClickRemoteNotificationData();
+                                    }
+                                } else {
+                                    // audiocontrol.BGPlay("main");
+                                    if (p != "")
+                                        $("a[btag=" + p + "]").click();
+                                    else
+                                        $("a[ctag=index]").click();
+                                    addBackEvent(BackBtnFn);
+                                    closesp();
+                                    Bridge.getOnClickRemoteNotificationData()
+                                    //Bridge.getOnClickRemoteNotificationData();
+                                }
+
+
+                            } else {
+                                console.dir("notoken")
+                                // audiocontrol.BGPlay("main");
+                                if (p != "")
+                                    $("a[btag=" + p + "]").click();
+                                else
+                                    $("a[ctag=index]").click();
+                                addBackEvent(BackBtnFn);
+                                closesp();
+                                Bridge.getOnClickRemoteNotificationData()
+                                //Bridge.getOnClickRemoteNotificationData();
+                            }
+
+                        }
+                        var firstin = plus.storage.getItem("firstin");
+                        goind("")
+
+                        return;
+
+
+                    })
+            }
+
+            var alldata = function () {
+                console.dir("alldata")
+                plus.device.setWakelock(true);
+                Bridge.getData("GetStyle", function (sty) {
+                    var filestyle = "style1.css";
+                    if (sty == "2")
+                        filestyle = "style2.css";
+                    Bridge.readFile("css/style/" + filestyle, function (styst) {
+
+                        $("html").append("<style id='globalstyle'>" + styst + "</style>");
+                    });
+                })
+                var p = "";
+                var url = location.href;
+                if (url.indexOf('?') != -1) {
+                    var id = "";
+                    //在此直接將各自的參數資料切割放進ary中
+                    var ary = url.split('?')[1].split('&');
+                    //此時ary的內容為：
+                    //ary[0] = 'id=U001'，ary[1] = 'name=GQSM'
+
+                    //下迴圈去搜尋每個資料參數
+                    for (i = 0; i <= ary.length - 1; i++) {
+                        //如果資料名稱為id的話那就把他取出來
+                        if (ary[i].split('=')[0] == 'p')
+                            p = ary[i].split('=')[1];
+
+                    }
+
+                }
+
+
+
+                console.dir(3)
+                //推波相關
+
+                //plus.push.setAutoNotification(false);
+                //plus.push.addEventListener("click", function (msg) {
+                //    // 分析msg.payload处理业务逻辑
+                //    alert("You clicked: " + msg.content);
+                //}, false);
+
+                //推波相關結束
+                if (Server_Token != "") {
+                    var imurl = "wss://wss.7cplay.com:2053/App/";
+                    if (JSON.parse(Server_Token).Status == "管理員")
+                        imurl = "wss://192.168.1.110:3002/App/";
+
+
+                    //var { Query, User } = AV;
+                    //AV.init('L5JmLMmR5SgbGBBuKz98s6fR-gzGzoHsz', 'UKv9q7UAqc7ierPPPAMAp4SQ');
+                    //// 实时消息服务
+                    //var { Realtime, TextMessage, Event } = AV;
+                    //var realtime = new AV.Realtime({
+                    //    appId: 'L5JmLMmR5SgbGBBuKz98s6fR-gzGzoHsz',
+                    //    appKey: 'UKv9q7UAqc7ierPPPAMAp4SQ',
+                    //});
+                    var isnewed = false;
+                    var OrderCountt = 0;
+                    var UnreadUpdatet = 0;
+                    if (plus.webview.getWebviewById("BBIM") != null) {
+                        plus.webview.getWebviewById("BBIM").close();
+                    }
+                    var bbimw = plus.webview.create("Partition/BBIMPage.html", "BBIM", { "cachemode": "noCache", "popGesture": "none", "userSelect": true, "render": "always" });
+
+
+                    getsett();
+                   var bbimot =  function () {
+                       if (typeof (BBIM) == 'undefined') {
+                           setTimeout(bbimot,50)
+                         //   bbimot();
+                            return;
+                        }
+                        bbim = new BBIM(imurl, Server_Token, function (ev2) {
+                            if (isnewed)
+                                return;
+
+                            isnewed = true;
+                            bbim.on("OrderCount", function (ev) {
+                                //  console.dir("oc")
+                                $("#boxordercount").text(ev);
+                                OrderCountt = ev;
+                                if (ev == 0) {
+                                    $("#boxordercount").hide()
+                                } else {
+                                    $("#boxordercount").show()
+                                }
+                                if (UnreadUpdatet + OrderCountt == 0) {
+                                    Bridge.clearBadge();
+                                    $("#notreadmsg").hide();
+                                } else {
+
+                                    $("#notreadmsg").text(UnreadUpdatet + OrderCountt);
+                                    $("#notreadmsg").show();
+                                    if (plus.webview.all()[plus.webview.all().length - 1] == plus.webview.getLaunchWebview()) {
+                                        Bridge.getRoot(function (url) {
+                                            //console.log(url);
+                                            var p = plus.audio.createPlayer(url + "audio/dido/1.mp3");
+                                            p.play();
+                                        })
+
+                                    }
+
+                                }
+                            });
+                            bbim.on("UnreadUpdate", function (ev) {
+                                var allc = 0;
+                                $("#chatlist [chatid] span").hide()
+                                for (var msgac = 0; msgac < ev.length; msgac++) {
+                                    allc += ev[msgac]["count"];
+                                    $("#chatlist [chatid=" + ev[msgac]["memberid"] + "] p").text(ev[msgac]["lastmsg"]);
+                                    $("#chatlist [chatid=" + ev[msgac]["memberid"] + "] span").text(ev[msgac]["count"]);
+                                    if (ev[msgac]["count"] > 0) {
+                                        $("#chatlist [chatid=" + ev[msgac]["memberid"] + "] span").show()
+                                    }
+
+                                }
+                                UnreadUpdatet = allc;
+                                if (UnreadUpdatet + OrderCountt == 0) {
+                                    $("#notreadmsg").hide();
+                                } else {
+
+                                    $("#notreadmsg").text(UnreadUpdatet + OrderCountt);
+                                    $("#notreadmsg").show();
+                                    if (plus.webview.all()[plus.webview.all().length - 1] == plus.webview.getLaunchWebview()) {
+                                        Bridge.getRoot(function (url) {
+                                            //console.log(url);
+                                            var p = plus.audio.createPlayer(url + "audio/dido/1.mp3");
+                                            p.play();
+                                        })
+
+                                    }
+
+                                }
+                            })
+                            var allc = 0;
+                            for (var msgac = 0; msgac < ev2.result_content.msg.length; msgac++) {
+                                allc += ev2.result_content.msg[msgac]["count"];
+                            }
+                            UnreadUpdatet = allc;
+                            OrderCountt = ev2.result_content.order;
+                            GInfo.AnnouncementLast = ev2.result_content.AnnouncementLast;
+                            Bridge.getData("SeeAnnouncementLast", function (seeAnnouncementLast) {
+                                if (seeAnnouncementLast != "")
+                                    GInfo.SeeAnnouncementLast = seeAnnouncementLast;
+                                else
+                                    GInfo.SeeAnnouncementLast = new Date(0).toLocaleString();
+                            })
+
+                            if (UnreadUpdatet + OrderCountt == 0) {
+                                $("#notreadmsg").hide();
+                            } else {
+
+                                $("#notreadmsg").text(UnreadUpdatet + OrderCountt);
+                                $("#notreadmsg").show();
+                                if (plus.webview.all()[plus.webview.all().length - 1] == plus.webview.getLaunchWebview()) {
+                                    Bridge.getRoot(function (url) {
+                                        //console.log(url);
+                                        var p = plus.audio.createPlayer(url + "audio/dido/1.mp3");
+                                        p.play();
+                                    })
+
+                                }
+
+                            }
+
+                        })
+                    }
+                    // setTimeout(bbimot, 50)
+
+                } else {
+                    $("#notreadmsg").hide();
+                    getsett();
+
+                }
+               // getsett();
+
+
+            }
+            // console.dir("a")
+            //alert(7);
+            // console.dir(plus.android.importClass('tw.com.sevencplay.core.Bridge'));
+            Bridge.getData("APIUrl", function (apiurl) {
+                // alert(apiurl);
+                ajaxurl = apiurl;
+                Bridge.getData("Server_Token",
+                    function (tok) {
+                        console.dir("tok")
+                        console.dir(tok)
+                        if (tok) {
+                            var odata = JSON.parse(tok);
+                            var data = {};
+                            data["Email"] = odata.Email;
+                            data["VCode"] = odata.Pw;
+                            data["Pw"] = odata["oPw"];
+                            data["mobile"] = plus.os.name;
+                            data["language"] = plus.os.language;
+                            data["osvendor"] = plus.os.vendor;
+                            data["osversion"] = plus.os.version;
+                            data["mobilemodel"] = plus.device.model;
+                            data["mobilevendor"] = plus.device.vendor;
+                            Server_Token = tok;
+                            if (data["isnew"] == true) {
+                               // alert("恭喜您獲得了一張體驗券！體驗券請於72小時內完成使用，逾期將會失效");
+                                plus.nativeUI.confirm("現在綁定手機將會發送一張30元體驗券，是否前往榜定", function (e) {
+                                        console.log("Close confirm: " + e.index);
+
+                                        if (e.index == 1) {
+                                            // goind("")
+                                        } else {
+                                            // goind("Setting");
+                                            $('<a btag="ProfileEdit" onclick="hovernav(this, \'id\')"></a>').click()
+                                        }
+                                    },
+                                        {
+                                            "title": "是否綁定手機",
+                                            "buttons": ["前往綁定", "再等等"],
+
+                                        }
+                                    );
+                            }
+                            var isalerted = false;
+                            GInfo = new Vue({
+                                data: {
+                                    // MyInfo: r.result_content
+                                    AnnouncementLast: new Date(0).toLocaleString(),
+                                    SeeAnnouncementLast: new Date(0).toLocaleString(),
+                                    MyInfo: {},
+                                    MyCert: {},
+                                    KindList: (plus.storage.getItem("GInfoKindList") == null ? [] : JSON.parse(plus.storage.getItem("GInfoKindList")))
+                                },
+                                watch: {
+                                    KindList: function (val) {
+                                        plus.storage.setItem("GInfoKindList", JSON.stringify(val));
+                                    },
+                                    MyInfo: function (val) {
+                                        if (isalerted == false) {
+                                            isalerted = true;
+                                            var firstin = plus.storage.getItem("firstin");
+                                            if ((val.Phone || "") == "" && firstin == null) {
+                                                //plus.nativeUI.confirm("為保障您的帳號安全，建議您增加手機號碼綁定；若是您要加入陪玩師，則必須完成手機號碼綁定。", function (e) {
+                                                //    console.log("Close confirm: " + e.index);
+                                                //    plus.storage.setItem("firstin", "1");
+                                                //    if (e.index == 1) {
+                                                //        // goind("")
+                                                //    } else {
+                                                //        // goind("Setting");
+                                                //        $('<a btag="ProfileEdit" onclick="hovernav(this, \'id\')"></a>').click()
+                                                //    }
+                                                //},
+                                                //    {
+                                                //        "title": "是否綁定手機",
+                                                //        "buttons": ["前往綁定", "再等等"],
+
+                                                //    }
+                                                //);
+                                            }
+                                            //getsett()
+                                        }
+
+                                    }
+                                },
+                                methods: {
+                                    unblock: function (id, name, closeorreload) {
+                                        plus.nativeUI.confirm("解除後，您將可繼續收到對方的任何消息，對方也會看見您的動態", function (e) {
+                                            if (e.index == 0) {
+                                                plus.nativeUI.showWaiting()
+                                                $.ajax({
+                                                    url: ajaxurl + "Block/",
+                                                    type: 'post',
+                                                    data: { targetid: id, block: false },
+                                                    headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                                                    timeout: 30000,
+                                                    success: function (r) {
+                                                        if (r.result_status) {
+                                                            alert("解除成功");
+                                                            if (closeorreload == 'close')
+                                                                plus.webview.currentWebview().close('auto');
+                                                            else
+                                                                plus.webview.currentWebview().reload();
+                                                        } else {
+                                                            console.error(r.result_message);
+                                                        }
+                                                        plus.nativeUI.closeWaiting()
+                                                    },
+                                                    error: function (jqXHR, textStatus, errorThrown) {
+                                                        plus.nativeUI.closeWaiting()
+                                                    }
+                                                });
+
+
+                                            }
+
+                                        }, {
+                                                "title": "你確定要解除 " + name + " 嗎?",
+                                                "buttons": ["解除", "取消"],
+                                                "verticalAlign": "bottom"
+                                            });
+                                    },
+                                    block: function (id, name, closeorreload) {
+                                        plus.nativeUI.confirm("封鎖後，您將不再收到對方的任何消息，對方也會看不到您的動態", function (e) {
+                                            if (e.index == 0) {
+                                                plus.nativeUI.showWaiting()
+                                                $.ajax({
+                                                    url: ajaxurl + "Block/",
+                                                    type: 'post',
+                                                    data: { targetid: id, block: true },
+                                                    headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                                                    timeout: 30000,
+                                                    success: function (r) {
+                                                        if (r.result_status) {
+                                                            alert("封鎖成功");
+                                                            if (closeorreload == 'reload')
+                                                                plus.webview.currentWebview().reload();
+                                                            else
+                                                                plus.webview.currentWebview().close('auto');
+
+                                                        } else {
+                                                            console.error(r.result_message);
+                                                        }
+                                                        plus.nativeUI.closeWaiting()
+                                                    },
+                                                    error: function (jqXHR, textStatus, errorThrown) {
+                                                        plus.nativeUI.closeWaiting()
+                                                    }
+                                                });
+
+
+                                            }
+
+                                        }, {
+                                                "title": "你確定要封鎖 " + name + " 嗎?",
+                                                "buttons": ["封鎖", "取消"],
+                                                "verticalAlign": "bottom"
+                                            });
+                                    }
+                                }
+                            })
+                            console.dir("tok2")
+                            $.ajax({
+                                url: ajaxurl + "Login",
+                                type: 'post',
+                                data: data,
+                                timeout: 30000,
+                                success: function (r) {
+                                    if (r.result_status) {
+                                        if ((r.result_message || "") != "") {
+                                            alert(r.result_message);
+                                        }
+                                        Server_Token = JSON.stringify(r.result_content);
+
+                                        conf.hidenews = JSON.parse(JSON.stringify(r.result_content)).hidenews;
+                                        //conf.hidenews = false;
+                                        conf.review()
+                                        var params = {};
+                                        params['Member_ID'] = r.result_content.Member_ID;
+                                       // FB.AppEvents.logEvent('LoginApp', null, params);
+
+                                        console.dir("setJPushAlias")
+                                        Bridge.setData("Server_Token", Server_Token, function () {
+                                            try {
+                                                Bridge.setJPushAlias(function () {
+                                                    // alldata();
+                                                }, r.result_content.Member_ID.replace(/-/g, ""))
+                                            } catch (e) {
+
+                                            }
+
+
+                                        });
+                                    } else {
+
+                                        alert(r.result_message);
+                                        //  alldata();
+                                    }
+                                    console.dir("tok3")
+                                },
+                                onerror: function () {
+                                    console.dir("tok4")
+                                    // alldata();
+                                },
+                                complete: function () {
+
+                                }
+                            });
+                            alldata();
+                        } else {
+                            console.dir("tok5")
+                            alldata();
+                        }
+
+                    }
+                )
+
+
+            })
+            //alert(8);
+            $(document).on('click', '.btn_click', function (e) {
+                if ($(this).attr("disabled") == "disabled") {
+                    return;
+                }
+                if ($(this).attr("visibility") == "hidden") {
+                    return;
+                }
+
+                //if (!$(this).is('.nosound'))
+                //    audiocontrol.ClickPlay()
+
+            })
+            // alert(9);
+            $(document).on('click', '.btn_click_org', function (e) {
+                if ($(this).attr("disabled") == "disabled") {
+                    return;
+                }
+                if ($(this).attr("visibility") == "hidden") {
+                    return;
+                }
+
+                //if (!$(this).is('.nosound'))
+                // audiocontrol.ClickPlay()
+
+            })
+            //alert(10);
+            function initWebUX() {
+                switch (plus.os.name) {
+                    case "Android":
+                        // Android平台: plus.android.*
+                        break;
+                    case "iOS":
+                        // iOS平台: plus.ios.*
+                        //取消長按事件
+                        document.body.style.webkitTouchCallout = "none";
+                        //取消拖曳事件
+                        document.body.setAttribute("ondragstart", "return false");
+                        break;
+                    default:
+                        // 其它平台
+                        break;
+                }
+            }
+            initWebUX();
+
+        }
+
+        //  $("#loadingToast").show();
+        document.addEventListener('plusready', function () {
+            if (plus.webview.getWebviewById("loading") == null) {
+                plus.webview.create('Partition/loading.html', "loading", {
+                    top: "0px",
+                    bottom: "0px"
+                });
+            }
+            var chkversion = function () {
+                var start = function (entry) {
+                    entry.file(function (file) {
+                        var fileReader = new plus.io.FileReader();
+
+                        fileReader.readAsText(file, 'utf-8');
+                        fileReader.onloadend = function (evt) {
+
+                            var CJV = JSON.parse(evt.target.result);
+                            var xhr = new plus.net.XMLHttpRequest();
+                            xhr.onreadystatechange = function () {
+                                switch (xhr.readyState) {
+
+                                    case 4:
+                                        if (xhr.status == 200) {
+                                            var JV = JSON.parse(xhr.responseText);
+                                            console.dir(JV.Version)
+                                            console.dir(CJV.Version)
+                                            if (JV.Version > CJV.Version) {
+                                                if (plus.os.name == "Android") {
+                                                    plus.android.importClass('tw.com.sevencplay.core.Bridge').appUpdate();
+                                                    //    else {
+                                                    //    plus.nativeUI.alert("語音通話功能已經完成優化，煩請到Google Play下載更新", function () {
+                                                    //        var Intent = plus.android.importClass("android.content.Intent");
+                                                    //        var Uri = plus.android.importClass("android.net.Uri");
+                                                    //        var main = plus.android.runtimeMainActivity();
+                                                    //        var intent = new Intent(Intent.ACTION_VIEW);
+                                                    //        var uri = Uri.parse("market://details?id=tw.com.sevencplay&hl=zh-TW");
+                                                    //        intent.setData(uri);
+                                                    //        main.startActivity(intent);
+                                                    //    }, "強制更新", "前往更新");
+                                                    //}
+
+                                                } else if (plus.os.name == "iOS") {
+                                                    plus.ios.importClass('_cplay.WebUtil').appUpdate();
+                                                    //pready = true;
+                                                    //indexready();
+                                                }
+
+                                            } else {
+                                                if (plus.os.name == "Android") {
+                                                    //if (plus.runtime.version == "1.0.13") {
+                                                    //    plus.webview.getWebviewById("loading").show();
+                                                    //    pready = true;
+                                                    //    indexready();
+                                                    //} else {
+                                                    //    plus.nativeUI.alert("語音通話功能已經完成優化，煩請到Google Play下載更新", function () {
+                                                    //        var Intent = plus.android.importClass("android.content.Intent");
+                                                    //        var Uri = plus.android.importClass("android.net.Uri");
+                                                    //        var main = plus.android.runtimeMainActivity();
+                                                    //        var intent = new Intent(Intent.ACTION_VIEW);
+                                                    //        var uri = Uri.parse("market://details?id=tw.com.sevencplay&hl=zh-TW");
+                                                    //        intent.setData(uri);
+                                                    //        main.startActivity(intent);
+                                                    //    }, "強制更新", "前往更新");
+                                                    //}
+                                                    //plus.webview.getWebviewById("loading").show();
+                                                    pready = true;
+                                                    indexready();
+
+                                                } else if (plus.os.name == "iOS") {
+                                                   // plus.webview.getWebviewById("loading").show();
+                                                    pready = true;
+                                                    indexready();
+                                                }
+
+                                            }
+
+
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                            xhr.open("GET", CJV.JSON_Url);
+                            xhr.send();
+
+
+                        }
+
+                    });
+                }
+                plus.io.resolveLocalFileSystemURL("_www/Version.json", function (entry) {
+                    // 可通过entry对象操作test.html文件
+                    start(entry)
+                }, function (e) {
+
+
+                });
+
+
+            }
+            chkversion();
+            //  hoverwindow = plus.webview.create("", { "cachemode": "noCache", "background": "#84D8ff", "backgroundColorTop": "#84D8ff", "backgroundColorBottom": "#84D8ff", "popGesture": "close" });
+
+            //alert("pready")
+            alert = function (e, cb) {
+                plus.nativeUI.alert(e, function () {
+                    if (cb) {
+                        cb()
+                    }
+                }, "訊息", "確定");
+            }
+
+            plus.navigator.setFullscreen(true)
+            plus.navigator.setFullscreen(false)
+            var winH = $(window).height();
+            $("body").height(winH);
+            //if (plus.navigator.hasNotchInScreen()) {
+            //   // plus.navigator.setFullscreen(false)
+
+            //    var winH = $(window).height() - plus.navigator.getStatusbarHeight();
+
+            //    $("body").height(winH);
+            //} else {
+            //   // plus.navigator.setFullscreen(true)
+            //    var winH = $(window).height();
+            //    $("body").height(winH);
+            //}
+
+            //plus.webview.getWebviewById("loading").show();
+            //plus.push.addEventListener("click", function (msg) {
+            //    // 分析msg.payload处理业务逻辑
+            //  //  var event = document.createEvent('HTMLEvents')
+            //   // //event.initEvent("jpush.receiveMessage", true, true)
+            //   // event.eventType = 'message'
+            //   // event.arguments = msg;
+            //   // document.dispatchEvent(event)
+            //    console.dir(msg);
+            //}, false);
+            //plus.push.addEventListener("receive", function (msg) {
+            //    // 分析msg.payload处理业务逻辑
+            //  //  var event = document.createEvent('HTMLEvents')
+            //   // event.initEvent("jpush.receiveMessage", true, true)
+            //  //  event.eventType = 'message'
+            //  //  event.arguments = msg;
+            //  //  document.dispatchEvent(event)
+            //    console.dir(msg);
+            //}, false);
+
+
+        }, false);
+        //document.addEventListener("jpush.receiveMessage", function (msg) {
+
+        //    if (msg.arguments.type == "click") {
+        //        //console.dir(msg.arguments.payload.PageMoveTo);
+        //        var str = msg.arguments.payload.PageMoveTo;
+        //        var page = str.split("|")[0];
+        //        if (page == "msg") {
+        //            var op = plus.webview.getWebviewById("MessagePage");
+        //            if (op)
+        //                op.close();
+        //            var html = "<a onclick='hovernav(this,\"" + str.split("|")[1] + "\")' btag=\"MessagePage\"></a>"
+        //            //console.dir(html)
+        //            $(html).click();
+        //        }
+        //    }
+        //    if (msg.arguments.type == "receive") {
+        //        //console.dir(msg.arguments.payload.PageMoveTo);
+        //        var str = msg.arguments.payload.PageMoveTo;
+        //        var page = str.split("|")[0];
+        //        if (page == "order") {
+
+        //        }
+        //    }
+
+        //}, false);
+        var OrderCountt = 0;
+        var UnreadUpdatet = 0;
+        var infodot = new Vue({
+            el:"#notreadmsg",
+            data: {
+                OrderCountt: 0,
+                UnreadUpdatet: 0,
+                NewerCount:0,
+                totalcount: 0,
+                NewerTicks:null,
+            },
+            watch: {
+                OrderCountt: function (val) {
+                    var self = this;
+                    this.$nextTick(function () {
+                        self.refreshdot()
+                    })
+                },
+                UnreadUpdatet: function (val) {
+                    var self = this;
+                    this.$nextTick(function () {
+                        self.refreshdot()
+                    })
+                },
+                NewerCount: function (val) {
+                    var self = this;
+                    this.$nextTick(function () {
+                        self.refreshdot()
+                    })
+                },
+                totalcount: function (val) {
+                    if (val > 0) {
+                        if (plus.webview.all()[plus.webview.all().length - 1] == plus.webview.getLaunchWebview()) {
+                            Bridge.getRoot(function (url) {
+
+                                var p = plus.audio.createPlayer(url + "audio/dido/1.mp3");
+                                p.play();
+                            })
+
+                        }
+                    }
+
+                }
+            },
+            methods: {
+                setTick: function () {
+                    plus.storage.setItem("NewerTicks", (this.NewerTicks||'0'))
+                },
+                refreshdot: function () {
+                    this.totalcount = this.UnreadUpdatet + this.OrderCountt + this.NewerCount
+                }
+            },
+            mounted: function () {
+                this.totalcount = this.UnreadUpdatet + this.OrderCountt + this.NewerCount
+            }
+        })
+        var isfirsttimeinidx = true;
+        function bbimfn(ev2) {
+            if (isfirsttimeinidx == false)
+                return;
+
+            isfirsttimeinidx = false;
+            var allc = 0;
+            for (var msgac = 0; msgac < ev2.result_content.msg.length; msgac++) {
+                allc += ev2.result_content.msg[msgac]["count"];
+            }
+            infodot.UnreadUpdatet = allc;
+            infodot.OrderCountt = ev2.result_content.order;
+            GInfo.AnnouncementLast = ev2.result_content.AnnouncementLast;
+            Bridge.getData("SeeAnnouncementLast", function (seeAnnouncementLast) {
+                if (seeAnnouncementLast != "")
+                    GInfo.SeeAnnouncementLast = seeAnnouncementLast;
+                else
+                    GInfo.SeeAnnouncementLast = new Date(0).toLocaleString();
+            })
+
+            //if (infodot.UnreadUpdatet + infodot.OrderCountt == 0) {
+            //    $("#notreadmsg").hide();
+            //} else {
+
+            //    $("#notreadmsg").text(infodot.UnreadUpdatet + infodot.OrderCountt);
+            //    $("#notreadmsg").show();
+            //    if (plus.webview.all()[plus.webview.all().length - 1] == plus.webview.getLaunchWebview()) {
+            //        Bridge.getRoot(function (url) {
+            //            //console.log(url);
+            //            var p = plus.audio.createPlayer(url + "audio/dido/1.mp3");
+            //            p.play();
+            //        })
+
+            //    }
+
+            //}
+           // getsett();
+        }
+        function UnreadUpdatefn(ev) {
+            var allc = 0;
+            $("#chatlist [chatid] span").hide()
+            for (var msgac = 0; msgac < ev.length; msgac++) {
+                allc += ev[msgac]["count"];
+                $("#chatlist [chatid=" + ev[msgac]["memberid"] + "] p").text(ev[msgac]["lastmsg"]);
+                $("#chatlist [chatid=" + ev[msgac]["memberid"] + "] span").text(ev[msgac]["count"]);
+                if (ev[msgac]["count"] > 0) {
+                    $("#chatlist [chatid=" + ev[msgac]["memberid"] + "] span").show()
+                }
+
+            }
+            infodot.UnreadUpdatet = allc;
+            //if (infodot.UnreadUpdatet + infodot.OrderCountt == 0) {
+            //    $("#notreadmsg").hide();
+            //} else {
+
+            //    $("#notreadmsg").text(infodot.UnreadUpdatet + infodot.OrderCountt);
+            //    $("#notreadmsg").show();
+            //    if (plus.webview.all()[plus.webview.all().length - 1] == plus.webview.getLaunchWebview()) {
+            //        Bridge.getRoot(function (url) {
+            //            //console.log(url);
+            //            var p = plus.audio.createPlayer(url + "audio/dido/1.mp3");
+            //            p.play();
+            //        })
+
+            //    }
+
+            //}
+        }
+        function OrderCountfn(ev) {
+            $("#boxordercount").text(ev);
+            infodot.OrderCountt = ev;
+            if (ev == 0) {
+                $("#boxordercount").hide()
+            } else {
+                $("#boxordercount").show()
+            }
+            //if (infodot.UnreadUpdatet + infodot.OrderCountt == 0) {
+            //    Bridge.clearBadge();
+            //    $("#notreadmsg").hide();
+            //} else {
+
+            //    $("#notreadmsg").text(infodot.UnreadUpdatet + infodot.OrderCountt);
+            //    $("#notreadmsg").show();
+            //    if (plus.webview.all()[plus.webview.all().length - 1] == plus.webview.getLaunchWebview()) {
+            //        Bridge.getRoot(function (url) {
+            //            //console.log(url);
+            //            var p = plus.audio.createPlayer(url + "audio/dido/1.mp3");
+            //            p.play();
+            //        })
+
+            //    }
+
+            //}
+        }
+        $(function () {
+            $ready = true;
+            //alert("$ready")
+
+
+            indexready();
+
+            var $iosActionsheet = $('#iosActionsheet');
+            var $iosMask = $('#iosMask');
+
+            function hideActionSheet() {
+                $iosActionsheet.removeClass('weui-actionsheet_toggle');
+
+                $iosMask.hide();
+
+            }
+
+            $iosMask.on('click', hideActionSheet);
+            $('#iosActionsheetCancel').on('click', hideActionSheet);
+        })
+
+        function logout() {
+
+            Bridge.ClearData(function () {
+                Bridge.LogOut(function () {
+                    // location.href = "Login.html";
+                })
+
+            })
+
+        }
+        function getimdata(fnname, param, cccb) {
+            var puuid = plus.webview.currentWebview().__uuid__;
+            var eventname = "ev" + (new Date().getTime()) + "" + (Math.random() * 10000000);
+
+            var param = JSON.stringify(param);
+
+            window.addEventListener(eventname, function (ev) {
+                var r = ev.detail;
+
+                cccb(r)
+            });
+            //getWebviewById
+            plus.webview.getWebviewById("BBIM").evalJS("bbim.p_get('" + puuid + "','" + eventname + "','" + fnname + "'," + param + ")")
+            // plus.webview.getLaunchWebview().evalJS("bbim.p_get('" + puuid + "','" + eventname + "','" + fnname + "'," + param + ")")
+        }
+        function eventpage() {
+            $.ajax({
+                url: ajaxurl + "GetEgg",
+                type: 'get',
+                headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                success: function (r) {
+                    if (r.result_status) {
+                        var cw;
+                        var view = new plus.nativeObj.View('mask', { top: '0px', left: '0px', height: '100%', width: '100%' });
+                        // 绘制矩形
+                        view.drawRect({ color: 'rgba(0,0,0,0.3)' }, { top: '0px', left: '0px', width: '100%', height: '100%' });
+                        view.addEventListener("click", function () { cw.close(); view.close() })
+                        //  view.show();
+
+                        plus.webview.currentWebview().append(view)
+                        if (JSON.parse(Server_Token).Status == "管理員") {
+                            cw = plus.webview.create(debugurl + "event/goldEgg2/index.html", "eventpage", { "cachemode": "noCache", "background": "transparent", "popGesture": "none", "height": "70%", "margin": "auto", "width": "80%", "userSelect": false }, { data: r.result_content});
+                        }
+                        else {
+                            cw = plus.webview.create('event/goldEgg2/index.html', "eventpage", { "cachemode": "noCache", "background": "transparent", "popGesture": "none", "height": "70%", "margin": "auto", "width": "80%", "userSelect": false }, { data: r.result_content });
+                        }
+
+                        //cw.onclose = function () {
+
+                        //    var sendobj = { OffSource: GInfo.MyInfo.Member_ID, OffTarget: "{{sheinfo.Member_ID}}", Event: "Off" };
+                        //    bbim.callphone(JSON.stringify(sendobj));
+
+                        //    cw = null;
+                        //}
+                        cw.show();
+                    } else {
+                        console.error(r.result_message);
+                    }
+                },
+                complete: function () {
+
+                }
+            });
+
+        }
+    </script>
+</body>
+
+</html>

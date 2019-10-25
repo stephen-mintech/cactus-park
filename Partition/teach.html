@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="../js/vue.min.js"></script>
+    <script src="../js/weui/jquery-2.1.4.js"></script>
+    <script src="../js/weui/jquery-weui.js"></script>
+    <link href="../css/swiper/swiper.min.css" rel="stylesheet" />
+    <link href="../css/weui/weui.min.css?1" rel="stylesheet" />
+    <link href="../css/style/style1.css" rel="stylesheet" />
+    <script src="../js/swiper/swiper.min.js"></script>
+    <meta http-equiv="cache-control" content="private">
+    <meta http-equiv="pragma" content="private">
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <script>
+        window.onerror = function (message, source, lineno, colno, error) {
+            alert(error);
+        };
+        onerror = function (message, source, lineno, colno, error) {
+            alert(error);
+        };
+    </script>
+    <style>
+    </style>
+</head>
+<body style="width:100%;height:100%;position:fixed;background-color:black   ">
+    <!--<div class="weui-mask" onclick="plus.webview.close(plus.webview.currentWebview())"></div>-->
+
+    <div class="swiper-container" style="width:100%;height:100%;">
+        <div class="swiper-wrapper" style="width:100%;height:100%;">
+
+            <div class="swiper-slide" style="position:relative;width:100%;height:100%;">
+                <img src="../img/teach/01.jpg" class="imgteach" style="width:100%;height:100%;object-fit:scale-down;object-position:center" />
+            </div>
+            <div class="swiper-slide" style="position:relative;width:100%;height:100%;">
+                <img src="../img/teach/02.jpg" class="imgteach" style="width:100%;height:100%;object-fit:scale-down;object-position:center" />
+            </div>
+            <div class="swiper-slide" style="position:relative;width:100%;height:100%;">
+                <img src="../img/teach/03.jpg" class="imgteach" style="width:100%;height:100%;object-fit:scale-down;object-position:center" />
+            </div>
+            <div class="swiper-slide" style="position:relative;width:100%;height:100%;">
+                <img src="../img/teach/04.jpg" class="imgteach" style="width:100%;height:100%;object-fit:scale-down;object-position:center" />
+            </div>
+            <div class="swiper-slide" style="position:relative;width:100%;height:100%;">
+                <img src="../img/teach/05.jpg" onclick="plus.storage.setItem('firstinhome', '1');plus.webview.close(plus.webview.currentWebview())" style="width:100%;height:100%;object-fit:scale-down;object-position:center" />
+            </div>
+            <!--<div class="swiper-slide" style="position:relative;background-image: url('img/banner/banner2.jpg');width:100%;height:100%;background-repeat:no-repeat;-webkit-background-size:auto 100% ;background-position:center;"></div>
+    <div class="swiper-slide" style="position:relative;background-image: url('img/banner/banner3.jpg');width:100%;height:100%;background-repeat:no-repeat;-webkit-background-size:auto 100% ;background-position:center;"></div>-->
+
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+        <!-- Add Arrows -->
+
+    </div>
+
+    <script>
+        var Bridge;
+        var $ready;
+        var pready;
+
+        var init = function () {
+            if (!pready)
+                return;
+            if (!$ready)
+                return;
+            var swiper = new Swiper('.swiper-container', {
+                spaceBetween: 30,
+                centeredSlides: true,
+                autoplay: false,
+                effect: 'fade',
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+           
+            });
+            $('.imgteach').click(function () {
+                swiper.slideNext();
+            })
+        }
+        document.addEventListener('plusready', function () {
+            pready = true;
+            init();
+        }, false);
+
+        $(function () {
+            $ready = true;
+            init();
+        })
+
+    </script>
+</body>
+
+</html>

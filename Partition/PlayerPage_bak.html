@@ -1,0 +1,341 @@
+﻿<div id="addorderbtn" class="btn_click" onclick="downtobottom()" style="position:absolute;right:5%;bottom:10%;z-index:500;background-color:white;width:50px;height:50px;border-style:solid;border-width:1px;border-color:lightblue;margin:0 auto">
+    <i class="fa fa-angle-down "  style="font-size:50px;color:lightblue;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"> </i>
+</div>
+<div class="playerpage page bdbg" style="background-color:white">
+    <style>
+        .weui-media-box__desc2 {
+            padding-top: 5px;
+            color: #808080;
+            font-size: 14px;
+            line-height: 1.2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 8;
+        }
+
+        .swiper-slide1 {
+            display: inline-block;
+            margin-left: 5px;
+            position: relative;
+            width: 100px;
+            height: 100%;
+            background-position: center;
+            background-size: 100% auto;
+            background-repeat: no-repeat;
+        }
+    </style>
+
+
+    <div class="page__hd " style="height:10%;padding:0;margin:0;">
+
+
+    </div>
+    <div class="page__bd" style="">
+
+        <div class="weui-panel weui-panel_access" style="height:300px">
+            <!--<div class="weui-panel__hd" style="font-size:18px">上線狀態:<span style="color:green">正在線上</span></div>-->
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    徽章保留條
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    Lv.{{data.LV}}
+                </div>
+                <div class="weui-cell__bd">
+                    <div class="weui-progress" style="position:relative;left:20%;width:60%">
+                        <div class="weui-progress__bar">
+                            <div class="weui-progress__inner-bar js_progress" bi-width="{{data.Exp}}/{{data.NextExp}}*100" style="width: 60%;"></div>
+                            <div class="" style="width: 100%;text-align:center;color:darkgray"><span bint="{{data.Exp}}"></span>/<span bint="{{data.NextExp}}"></span></div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="weui-panel__bd" style="height:80%">
+                <div href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg" style="height:90%;">
+                    <div class="weui-media-box__hd" onerror="this.onerror=null;this.src='img/icon/noimage_person.png';" style="width:45%;position:relative;background-image: url({{data.Img}}),url('img/icon/noimage_person.png');height:100%;background-repeat:no-repeat;-webkit-background-size:auto 100%  ;background-position:center;">
+                    </div>
+                    <div class="weui-media-box__bd" style="height:100%;">
+                        <h4 class="" style="position:relative;top:0;padding-top:0;">{{data.Status}}</h4>
+                        <h4 class="" style="position:relative;">
+                            <i alt="" class="fa fa-2x fa-star" style="font-size:18px;color:gold"></i>
+                            <i alt="" class="fa fa-2x fa-star" style="font-size:18px;color:gold"></i>
+                            <i alt="" class="fa fa-2x fa-star" style="font-size:18px;color:gold"></i>
+                            <i alt="" class="fa fa-2x fa-star-half-o" style="font-size:18px;color:gold"></i>
+                            <i alt="" class="fa fa-2x fa-star-o" style="font-size:18px;color:gold"></i>
+                            (3.8)
+                        </h4>
+                        <h4 class="" style="">測試:123</h4>
+                        <h4 class="" style="">測試2:123</h4>
+                        <h4 class="" style="">測試3:123</h4>
+                        <h4 class="" style="">測試4:123</h4>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+        <br>
+        <div class="swiper-container1" style="background-color:black;width:100%;height:120px">
+            <div class="swiper-wrapper1" style="height:95%;overflow-x:auto;overflow-y:hidden;white-space: nowrap;width:auto" id="piclist">
+
+            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+
+        </div>
+        <br>
+        <pre style="position:relative;width:90%;word-wrap: break-word;left:5%">{{data.Description}}</pre>
+        <br>
+        <div class="weui-grids" style="">
+            <a id="sendgift" class="weui-grid">
+                <div class="weui-grid__icon">
+                    <i alt="" class="fa fa-2x fa-gift" style="font-size:32px;color:lawngreen"></i>
+                </div>
+                <p class="weui-grid__label">送禮</p>
+            </a>
+            <a id="" class="weui-grid" onclick="setFollow('{{data.Member_ID}}')">
+                <div class="weui-grid__icon">
+                    <i alt="" class="fa fa-2x {{follow}} followicon" style="font-size:32px;color:red"></i>
+                </div>
+                <p class="weui-grid__label">追蹤</p>
+            </a>
+            <a href="javascript:;" class="weui-grid">
+                <div class="weui-grid__icon">
+                    <i alt="" class="fa fa-2x fa-calendar" style="font-size:32px;color:blue"></i>
+                </div>
+                <p class="weui-grid__label">訂單清單<span style="color:red">({{data.OrderCount}})</span></p>
+            </a>
+            <a class="weui-grid">
+                <div class="weui-grid__icon">
+                    <i alt="" class="fa fa-2x fa-trophy" style="font-size:32px;color:goldenrod"></i>
+                </div>
+                <p class="weui-grid__label">排行榜</p>
+            </a>
+            <a id="" class="weui-grid">
+                <div class="weui-grid__icon">
+                    <i alt="" class="fa fa-2x fa-comments-o" style="font-size:32px;color:forestgreen"></i>
+                </div>
+                <p class="weui-grid__label">所有評論</p>
+            </a>
+            <!--<a href="javascript:;" class="weui-grid">
+                <div class="weui-grid__icon">
+                    <i alt="" class="fa fa-2x fa-calendar" style="font-size:32px;color:blue"></i>
+                </div>
+                <p class="weui-grid__label">預留</p>
+            </a>-->
+        </div>
+        <!--<div class="weui-cells__title">本月乾爹排行</div>
+        <div class="weui-cells">
+            <div class="weui-cell">
+                <div class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+                    <img src="images/pic_160.png" style="width: 20px;display: block">
+                </div>
+                <div class="weui-cell__bd" style="text-align:right;color:black">
+                    test
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+                    <img src="images/pic_160.png" style="width: 20px;display: block">
+                </div>
+                <div class="weui-cell__bd" style="text-align:right;color:black">
+                    test
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+                    <img src="images/pic_160.png" style="width: 20px;display: block">
+                </div>
+                <div class="weui-cell__bd" style="text-align:right;color:black">
+                    test
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+                    <img src="images/pic_160.png" style="width: 20px;display: block">
+                </div>
+                <div class="weui-cell__bd" style="text-align:right;color:black">
+                    test
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+                    <img src="images/pic_160.png" style="width: 20px;display: block">
+                </div>
+                <div class="weui-cell__bd" style="text-align:right;color:black">
+                    test
+                </div>
+            </div>
+        </div>
+        <div class="weui-cells__title">乾爹總排行</div>
+        <div class="weui-cells">
+            <div class="weui-cell">
+                <div class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+                    <img src="images/pic_160.png" style="width: 20px;display: block">
+                </div>
+                <div class="weui-cell__bd" style="text-align:right;color:black">
+                    test
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+                    <img src="images/pic_160.png" style="width: 20px;display: block">
+                </div>
+                <div class="weui-cell__bd" style="text-align:right;color:black">
+                    test
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+                    <img src="images/pic_160.png" style="width: 20px;display: block">
+                </div>
+                <div class="weui-cell__bd" style="text-align:right;color:black">
+                    test
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+                    <img src="images/pic_160.png" style="width: 20px;display: block">
+                </div>
+                <div class="weui-cell__bd" style="text-align:right;color:black">
+                    test
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+                    <img src="images/pic_160.png" style="width: 20px;display: block">
+                </div>
+                <div class="weui-cell__bd" style="text-align:right;color:black">
+                    test
+                </div>
+            </div>
+        </div>-->
+    </div>
+    <div class="page__ft ">
+        <div id="followsuccess" style="display: none;">
+            <div class="weui-mask_transparent"></div>
+            <div class="weui-toast">
+                <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+                <p class="weui-toast__content"></p>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/html" id="giftaction">
+
+        <a class="weui-grid">
+            <div class="weui-grid__icon">
+                <i alt="" class="fa fa-2x fa-money" style="font-size:32px;color:lawngreen"></i>
+            </div>
+            <p class="weui-grid__label">gift</p>
+        </a>
+
+
+    </script>
+    <script>
+        function downtobottom() {
+            var scrollHeight = $('.playerpage').prop("scrollHeight");
+            $('.playerpage').animate({ scrollTop: scrollHeight }, 400);
+            
+        }
+        function setFollow(id) {
+            //alert(id);
+
+            if (Server_Token == "") {
+                $("#NoLogin").show();
+                return false;
+            } else {
+                $.ajax({
+                    url: ajaxurl + "Follow",
+                    type: 'post',
+                    data: { id: id},
+                    headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                    timeout: 30000,
+                    success: function (r) {
+                        if (r.result_status) {
+                            //followsuccess
+                            if (r.result_content == "InFollow") {
+                                $("#followsuccess p").text("追隨成功")
+                                $(".followicon").removeClass("fa-heart-o").addClass("fa-heart");
+                                //fa-heart-o followicon
+                            } else {
+                                $("#followsuccess p").text("取消追蹤")
+                                $(".followicon").removeClass("fa-heart").addClass("fa-heart-o");
+                            }
+                            $("#followsuccess").fadeIn(200);
+                            setTimeout(function () {
+                                $("#followsuccess").hide();
+
+                            }, 1500)
+                        } else {
+                            alert(r.result_message);
+
+                        }
+                    },
+                    error: function () {
+                        alert("網路錯誤");
+
+                    }
+                });
+            }
+        }
+        $(function () {
+            $("[bint]").each(function (e, el) {
+                $(el).text(publicTools.AddCommas($(el).attr("bint")));
+            })
+            $(".weui-navbar").show();
+            $("#BackBtn").attr("btag", "{{backdata}}");
+            $("#NavTitle").text("{{data.Name}}");
+            $("#BackBtn").css("visibility", "visible");
+            $("#BackBtn").removeAttr("disabled")
+
+            $(".weui-progress__inner-bar.js_progress").css("width", eval($(".weui-progress__inner-bar.js_progress").attr("bi-width")) + "%");
+            var playerinfo = JSON.parse("{{data}}");
+
+            var $html = $($("#giftaction").html());
+            var h = "";
+            for (var i = 0; i < 15; i++) {
+                h += '<a class="weui-grid">' +
+                    '<div class="weui-grid__icon">' +
+                    '<i alt="" class="fa fa-2x fa-money" style="font-size:32px;color:lawngreen"></i>' +
+                    '</div>' +
+                    '<p class="weui-grid__label">gift'+i+'</p>' +
+                    '</a>';
+
+            }
+            $html.html('<div class="weui-grids" style="" id="giftlist">'+h+'</div>');
+            $("#ActionMenu").html($html.html());
+            $("#ActionTitle").text("禮物清單");
+
+
+            var $iosActionsheet = $('#iosActionsheet');
+            var $iosMask = $('#iosMask');
+            $("#sendgift").off("click");
+            $("#sendgift").on("click", function () {
+                $iosActionsheet.addClass('weui-actionsheet_toggle');
+                $iosMask.show();
+            });
+            var pichtml = "";
+            for (var i = 1; i < 9; i++) {
+                //piclist
+
+                if (i == 8) {
+                    pichtml += '<div class="swiper-slide1" style="background-image:url(http://lorempixel.com/600/600/nature/' + i + ')"></div>'
+                } else {
+                    pichtml += '<div class="swiper-slide1" style="background-image:url(http://lorempixel.com/600/600/nature/' + i + ')"></div>'
+                }
+            }
+            $("#piclist").html(pichtml);
+        })
+
+    </script>
+</div>

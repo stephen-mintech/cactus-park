@@ -1,0 +1,705 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="../js/vue.min.js"></script>
+   
+    <link href="../css/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <script src="../js/weui/jquery-2.1.4.js"></script>
+    <script src="../js/weui/jquery-weui.js"></script>
+    <link href="../css/weui/weui.min.css?1" rel="stylesheet" />
+    <link href="../css/style/style1.css" rel="stylesheet" />
+    <script src="../js/BridgeClass.js?15"></script>
+    <link href="../css/ionicons/ionicons.min.css" rel="stylesheet" />
+    <meta http-equiv="cache-control" content="private">
+    <meta http-equiv="pragma" content="private">
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <script>
+        window.onerror = function (message, source, lineno, colno, error) {
+            alert(error);
+        };
+        onerror = function (message, source, lineno, colno, error) {
+            alert(error);
+        };
+    </script>
+    <style>
+        /* Template for logo only button (height independent). */
+        /* HTML */
+
+        /* CSS */
+        @supports (-webkit-appearance: -apple-pay-button) {
+            .apple-pay-button {
+                display: inline-block;
+                -webkit-appearance: -apple-pay-button;
+            }
+
+            .apple-pay-button-black {
+                -apple-pay-button-style: black;
+            }
+
+            .apple-pay-button-white {
+                -apple-pay-button-style: white;
+            }
+
+            .apple-pay-button-white-with-line {
+                -apple-pay-button-style: white-outline;
+            }
+        }
+
+        @supports not (-webkit-appearance: -apple-pay-button) {
+            .apple-pay-button {
+                display: inline-block;
+                background-size: 100% 60%;
+                background-repeat: no-repeat;
+                background-position: 50% 50%;
+                border-radius: 5px;
+                padding: 0px;
+                box-sizing: border-box;
+                min-width: 200px;
+                min-height: 32px;
+                max-height: 64px;
+            }
+
+            .apple-pay-button-black {
+                background-image: -webkit-named-image(apple-pay-logo-white);
+                background-color: black;
+            }
+
+            .apple-pay-button-white {
+                background-image: -webkit-named-image(apple-pay-logo-black);
+                background-color: white;
+            }
+
+            .apple-pay-button-white-with-line {
+                background-image: -webkit-named-image(apple-pay-logo-black);
+                background-color: white;
+                border: .5px solid black;
+            }
+        }
+    </style>
+</head>
+<body style="width:100%;height:100%;display:none;position:fixed">
+    <div class="weui-mask" onclick="plus.webview.close(plus.webview.currentWebview())"></div>
+
+    <div class="" id="vueview" style="width:80%;height:80%;left:10%;top:10%;border-radius:0.8em;margin:0 0 auto;position:relative;background-color: #FFFFFF;text-align: center;z-index:5000">
+        <div onclick="plus.webview.close(plus.webview.currentWebview())" style="font-size:30px;line-height:30px;width:30px;height:30px;top:-15px;right:-15px;border-radius:999em;background-color:rgba(150,150,150,0.6);color:white;position:absolute;vertical-align:middle;z-index:15">
+            <i class="ion-ios-close-outline " style=""></i>
+        </div>
+
+
+        <div class="" style="text-align:left;width:95%;height:100%;left:2.5%;position:relative;overflow-y:hidden" v-if="step==1">
+            <div @click="chkinv" style="text-align:center;font-size:30px;line-height:30px;width:50px;height:30px;bottom:5px;right:0px;border:1px solid #dc2873;border-radius:999em;background-color:rgba(255,255,255,1);color:#dc2873;position:absolute;vertical-align:middle;z-index:10">
+                <i class="ion-arrow-right-a "></i>
+            </div>
+            <div class="page js_show" style="height:100%;overflow-y:auto">
+                <div class="page__hd">
+                    <h4 class="page__title" style="text-align:center;line-height:50px">統一發票寄送資料</h4>
+                </div>
+                <div class="page__bd">
+
+                    <div class="weui-cells__title">基本資料</div>
+                    <div class="weui-cells weui-cells_form">
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class="weui-label">姓名</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="text" v-model="postdata.BuyerName" placeholder="購買人姓名">
+                            </div>
+                        </div>
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class="weui-label">地址</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="text" v-model="postdata.BuyerAddress" placeholder="購買人地址">
+                            </div>
+                        </div>
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd"><label class="weui-label">Email</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="email" v-model="postdata.BuyerEmail" placeholder="購買人Email">
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="weui-cells__title">發票捐贈</div>
+                    <div class="weui-cells weui-cells_radio">
+                        <label class="weui-cell weui-check__label" for="x11">
+                            <div class="weui-cell__bd">
+                                <p>不捐贈發票</p>
+                            </div>
+                            <div class="weui-cell__ft">
+                                <input type="radio" class="weui-check" v-model="postdata.isLove" :value="false" name="radio1" id="x11" checked="checked">
+                                <span class="weui-icon-checked"></span>
+                            </div>
+                        </label>
+                        <label class="weui-cell weui-check__label" for="x12">
+
+                            <div class="weui-cell__bd">
+                                <p>捐贈發票</p>
+                            </div>
+                            <div class="weui-cell__ft">
+                                <input type="radio" name="radio1" v-model="postdata.isLove" :value="true" class="weui-check" id="x12">
+                                <span class="weui-icon-checked"></span>
+                            </div>
+                        </label>
+
+                    </div>
+                    <div class="weui-cells weui-cells_form" v-show="(postdata.isLove == true)">
+                        <div class="weui-cell weui-cell_select weui-cell_select-after">
+                            <div class="weui-cell__hd">
+                                <label for="" class="weui-label">捐贈單位</label>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <select class="weui-select" name="select2" v-model.number="postdata.defLoveCode">
+                                    <option :value="919">創世社會福利基金會</option>
+                                    <option :value="7000">台灣世界展望會</option>
+                                    <option :value="25885">伊甸社會福利基金會</option>
+                                    <option :value="0">自行輸入</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="weui-cell" v-show="postdata.defLoveCode == 0">
+                            <div class="weui-cell__hd"><label class="weui-label">自行輸入</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="number" v-model.number="postdata.LoveCode" placeholder="愛心碼">
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="weui-cells weui-cells_form" v-show="(postdata.isLove == false)">
+                        <div class="weui-cell weui-cell_select weui-cell_select-after">
+                            <div class="weui-cell__hd" style="padding-right:10px">
+                                <label for="" class="">載具</label>
+                            </div>
+                            <div class="weui-cell__bd" style="text-align:center">
+                                <select class="weui-select" name="select2" v-model="postdata.CarrierType ">
+                                    <option value="">不使用載具</option>
+                                    <option value="0">手機條碼</option>
+                                    <option value="1">自然人憑證</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="weui-cell" style="padding:0;" v-show="postdata.CarrierType != ''">
+                            <div class="weui-cell weui-cell_vcode">
+                                <div class="weui-cell__hd" style="padding-right:10px">
+                                    <label class="">號碼</label>
+                                </div>
+                                <div class="weui-cell__bd">
+                                    <input class="weui-input" type="text" v-model="postdata.CarrierNum" placeholder="">
+                                </div>
+                                <div class="weui-cell__ft">
+                                    <button class="weui-vcode-btn" @click="scanbarcode">
+                                        <i class="ion-ios-camera fa-2x text-inverse"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="weui-cells__title">索取發票</div>
+                    <div class="weui-cells weui-cells_radio">
+                        <label class="weui-cell weui-check__label" for="ax11">
+                            <div class="weui-cell__bd">
+                                <p>索取紙本發票</p>
+                            </div>
+                            <div class="weui-cell__ft">
+                                <input type="radio" class="weui-check" v-model="postdata.PrintFlag" :value="'Y'" name="radio2" id="ax11">
+                                <span class="weui-icon-checked"></span>
+                            </div>
+                        </label>
+                        <label class="weui-cell weui-check__label" for="ax12">
+
+                            <div class="weui-cell__bd">
+                                <p>不索取紙本發票</p>
+                            </div>
+                            <div class="weui-cell__ft">
+                                <input type="radio" name="radio2" v-model="postdata.PrintFlag" :value="'N'" class="weui-check" id="ax12" checked="checked">
+                                <span class="weui-icon-checked"></span>
+                            </div>
+                        </label>
+
+                    </div>
+                    <label for="weuiAgree" class="weui-agree">
+                        <input id="weuiAgree" type="checkbox" v-model="savetostorage" :value="true" class="weui-agree__checkbox">
+                        <span class="weui-agree__text">
+                            保存此次設定
+                        </span>
+                    </label>
+
+                    <div style="height:20px">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <div v-if="step==2" class="weui-cells" style="overflow-y:auto;border-radius:0.8em;height:100%;width:100%;margin-top:0;position:relative">
+            <!--<div class="weui-cell weui-cell_access">
+        <div class="weui-cell__bd" style="text-align:left" @click="step=1">編輯統一發票寄送資訊</div>
+        <div class="weui-cell__ft" style="font-size: 0">
+            <span style="vertical-align:middle; font-size: 17px;"></span>
+        </div>
+    </div>-->
+            <div class="weui-grids" v-show="io!='iOS'" style="width:80%;height:100px;border-radius:0.8em;position:fixed;z-index:10;background-color:white">
+
+                <a style="height:100%" v-for="(item, index) in paymentlist" @click="choosepay(item)" class="weui-grid" v-bind:class="{active:(choose==item)}">
+                    <!--<div class="weui-grid__icon">
+            </div>-->
+                    <div style="width:100%;height:100%" v-if="(item!='GooglePay'&&item!='信用卡')">
+                        <i class="fa fa-2x " style="color:black" v-bind:class='{"fa-apple":(item=="ApplePay"),"fa-google":(item=="GooglePay"),"fa-credit-card":(item=="信用卡"),"fa-barcode":(item=="超商代碼")}'></i>
+
+                        <p class="weui-grid__label">{{item}}</p>
+                    </div>
+
+                    <div style="width:100%;height:100%">
+                        <img v-if="item=='GooglePay'" src="../img/icon/GooglePay_mark_800_gray.png" style="width:auto;height:auto;max-height:100%;max-width:100%" />
+                        <img v-if="item=='信用卡'" src="../img/icon/mastercard-curved-64px.png" style="width:auto;height:auto;max-height:100%;max-width:100%" />
+
+                    </div>
+                </a>
+
+            </div>
+            <div v-show="io!='iOS'" style="height:100px"></div>
+            <div v-show="io=='iOS'" style="height:20px"></div>
+            <div class="weui-cell " v-for="(item, index) in nowlist">
+
+                <div class="weui-cell__bd" style="text-align:left">
+                    <div class="weui-media-box weui-media-box_text">
+                        <h4 class="weui-media-box__title">{{item.Coin}}傾心幣</h4>
+                        <p class="weui-media-box__desc">加值{{item.Coin}}傾心幣,{{(item.AddValue==0)?"免手續費":("手續費"+item.AddValue+"元")}}</p>
+
+                    </div>
+                </div>
+                <div class="weui-cell__ft">
+                    <a href="javascript:;" @click="pay(item.PaymentCoin_ID,item.TotalPay)" class="weui-btn weui-btn_primary">NTD{{item.TotalPay}}</a>
+                    <!--<a v-if="io!='iOS'|| choose!='ApplePay'" href="javascript:;" @click="pay(item.PaymentCoin_ID,item.TotalPay)" class="weui-btn weui-btn_primary">NTD{{item.TotalPay}}</a>-->
+                    <!--  <div v-if="io=='iOS' && choose=='ApplePay'" @click="pay(item.PaymentCoin_ID,item.TotalPay)" class="apple-pay-button apple-pay-button-white"></div>-->
+                </div>
+            </div>
+            <div v-show="io!='iOS'" style="height:50px"></div>
+        </div>
+
+
+    </div>
+    <script>
+        var Bridge;
+        var $ready;
+        var pready;
+        var ajaxurl;
+        var test
+        var barcode;
+        var startpage = function () {
+            Array.prototype.remove = function (val) {
+                var index = this.indexOf(val);
+                if (index > -1) {
+                    this.splice(index, 1);
+                }
+            };
+            plus.nativeUI.closeWaiting();
+            var paylist = plus.webview.currentWebview().paylist.result_content;
+            var payment = Object.keys(paylist.map(e => e.Name).reduce((e, i) => { e[i] = 1; return e; }, {}));
+            if (plus.os.name == "Android") {
+                payment.remove('ApplePay');
+            } else if (plus.os.name == "iOS") {
+                payment.remove('GooglePay');
+                payment.remove('信用卡');
+                payment.remove('超商代碼');
+            }
+
+            test = new Vue({
+                el: '#vueview',
+                data: {
+                    savetostorage: true,
+                    step: 2,
+                    list: paylist.sort(function (a, b) {
+                        return a.TotalPay > b.TotalPay ? 1 : -1;
+                    }),
+                    barcodetime: 0,
+                    postdata: {
+                        isLove: false,
+                        BuyerName: "",
+                        BuyerAddress: "",
+                        BuyerEmail: "",
+                        CarrierType: "",
+                        CarrierNum: "",
+                        defLoveCode: 919,
+                        LoveCode: 919,
+                        PrintFlag: "Y"
+                    },
+                    paymentlist: payment,
+                    choose: payment[0],
+                    nowlist: null,
+                    io: plus.os.name
+                },
+                watch: {
+                    'postdata.defLoveCode': function (val) {
+                        if (val != 0) {
+                            this.postdata.LoveCode = val;
+                        }
+                    },
+                    'postdata.PrintFlag': function (val) {
+                        if (val == 'N') {
+                            if (this.postdata.CarrierType == "" && this.postdata.isLove == false) {
+                                var self = this;
+                                alert("財政部規定沒有載具或愛心碼必須強制索取發票");
+                                setTimeout(function () {
+                                    self.postdata.PrintFlag = "Y";
+                                }, 50)
+
+                            }
+                        }
+                    }
+                },
+                methods: {
+                    chkinv: function () {
+                        var data = this.postdata;
+                        if (data.BuyerName == "") {
+                            alert("購買人姓名必填!");
+                            return;
+                        }
+                        if (data.BuyerAddress == "") {
+                            alert("購買人地址必填!");
+                            return;
+                        }
+                        if (data.BuyerEmail == "") {
+                            alert("購買人Email必填!");
+                            return;
+                        }
+                        if (this.$Check.Email(data.BuyerEmail) == false) {
+                            alert("購買人Email格式有誤!");
+                            return;
+                        }
+                        if (data.CarrierType == "" && data.isLove == false && data.PrintFlag == 'N') {
+                            alert("財政部規定沒有載具或愛心碼必須強制索取發票");
+                            return;
+                        }
+                        if (data.CarrierType == "0" && this.$Check.CarrierPhone(data.CarrierNum)) {
+                            alert("載具格式錯誤");
+                            return;
+                        }
+                        if (data.CarrierType == "1" && this.$Check.CarrierPhone(data.CarrierCard)) {
+                            alert("載具格式錯誤");
+                            return;
+                        }
+                        if (data.isLove == true && (data.LoveCode == 0 || data.LoveCode == null)) {
+
+                            alert("愛心碼格式錯誤");
+                            return;
+                        }
+                        if (this.savetostorage == true) {
+                            plus.storage.setItem('InvInfo', JSON.stringify(this.postdata));
+                        }
+                        this.step = 2;
+                    },
+
+                    onmarked: function (type, result) {
+                        var self = this;
+                        clearTimeout(this.barcodetime);
+                        var text = '未知: ';
+                        switch (type) {
+                            case plus.barcode.QR:
+                                text = 'QR: ';
+                                break;
+                            case plus.barcode.EAN13:
+                                text = 'EAN13: ';
+                                break;
+                            case plus.barcode.CODE39:
+                                text = '手機條碼';
+                                //result
+                                self.postdata.CarrierNum = result;
+                                break;
+                            case plus.barcode.CODE128:
+                                text = 'CODE128: ';
+                                self.postdata.CarrierNum = result;
+                                break;
+                        }
+                        if (barcode) {
+                            barcode.close()
+                            barcode = null;
+                        }
+                        //  alert(text + result);
+                    },
+                    scanbarcode: function () {
+                        if (!barcode) {
+                            code = plus.barcode.CODE39;
+                            if (this.postdata.CarrierType == "0") {
+                                code = plus.barcode.CODE39;
+                            } else if (this.postdata.CarrierType == "1") {
+                                code = plus.barcode.CODE128;
+                            }
+                            barcode = plus.barcode.create('barcode', [code], {
+                                top: /*($("body").height()/2)-50 +'px'*/'0px',
+                                left: '0px',
+                                width: '100%',
+                                height: '150px',
+                                position: 'static',
+                                frameColor: 'green',
+                                scanbarColor: 'green',
+                            });
+                            barcode.onmarked = this.onmarked;
+                            plus.webview.currentWebview().append(barcode);
+                            this.barcodetime = setTimeout(function () {
+                                if (barcode) {
+                                    barcode.close()
+                                    barcode = null;
+                                    alert("操作逾時");
+                                }
+
+                            }, 10000)
+                        }
+                        barcode.start();
+                    },
+                    choosepay: function (name) {
+                        this.choose = name;
+                        this.nowlist = this.list.filter(e => e.Name == name);
+                    },
+                    pay: function (id, amt) {
+                        //var lasttimesave = plus.storage.getItem("InvInfo");
+                        //if (lasttimesave == null) {
+                        //    alert("請先完善發票寄送資訊!")
+                        //    this.step = 1;
+                        //    return;
+                        //}
+                        var self = this;
+                        if (this.choose == 'ApplePay') {
+                           
+                            var ids = ['7CPlayCoin_' + amt];
+                            plus.payment.getChannels(function (s) {
+                               
+                                var iap = s.find(e => e.id ='appleiap');
+                                console.dir(iap);
+                                plus.nativeUI.showWaiting('檢測環境...');
+                                iap.requestOrder(ids, function (e) {
+                                    plus.nativeUI.closeWaiting();
+                                    console.log('requestOrder success: ' + JSON.stringify(e));
+                                    plus.nativeUI.showWaiting('儲值中...');
+                                    plus.payment.request(iap, { productid: '7CPlayCoin_' + amt }, function (result) {
+                                      
+                                     
+                                        $.ajax({
+                                            url: ajaxurl + "/IAP",
+                                            type: 'post',
+                                            data: result,
+                                            headers: { "Server_Token": encodeURIComponent(Server_Token) },
+
+                                            success: function (r) {
+                                                if (r.result_status) {
+                                                    plus.nativeUI.closeWaiting();
+                                                    alert("儲值成功");
+
+                                                } else {
+                                                    alert(r.result_message);
+                                                }
+                                                plus.nativeUI.closeWaiting();
+                                            },
+                                            error: function (jqXHR, textStatus, errorThrown) {
+
+                                            }
+                                        });
+                                    }, function (e) {
+                                        plus.nativeUI.closeWaiting();
+                                        plus.nativeUI.alert("錯誤：" + e.message, null, "付款失敗：" + e.code);
+                                    });
+                                }, function (e) {
+                                    console.log('requestOrder failed: ' + JSON.stringify(e));
+                                    plus.nativeUI.closeWaiting();
+                                    plus.nativeUI.confirm("錯誤：" + JSON.stringify(e), function (e) {
+                                        if (e.index == 0) {
+                                            requestOrder();
+                                        } else {
+                                           
+                                        }
+                                    }, '重新請求', ['確定', '取消']);
+                                });
+                            }, function (e) {
+                                alert("IAP失敗：" + e.message);
+                            });
+                            return;
+                        }
+                        if ((this.choose == 'ApplePay') || (this.choose == 'GooglePay')) {
+                            console.dir("amt:" + amt);
+                            if (amt) {
+
+                                Bridge.setpaymentTokenCallback(function (token) {
+                                    // alert("token:" + token);
+                                    console.dir("ajaxurl:" + ajaxurl.replace('/api', '/Pay/index'));
+                                    xhr = new plus.net.XMLHttpRequest();
+                                    xhr.onreadystatechange = function (r) {
+                                        if (xhr.readyState == 1) {
+                                            console.dir(r);
+                                        }
+
+                                    }
+                                    var data = self.postdata;
+                                    data["id"] = encodeURI(JSON.parse(Server_Token).Member_ID);
+                                    data["productid"] = id;
+                                    if (self.choose == 'ApplePay') {
+                                        // var testjson = JSON.parse(atob(token));
+                                        data["token"] = JSON.stringify(token);
+                                        //   data = { id: encodeURI(JSON.parse(Server_Token).Member_ID), productid: id, token: JSON.stringify(token) };
+                                    } else {
+                                        data["token"] = (token);
+                                        // data = { id: encodeURI(JSON.parse(Server_Token).Member_ID), productid: id, token: (token) };
+                                    }
+                                    // var datast = "id=" + encodeURI(JSON.parse(Server_Token).Member_ID) + "&productid=" + id + "&token=" + (token)
+                                    xhr.open("Post", ajaxurl.replace('/api/', '/Pay/index/'));
+                                    xhr.setRequestHeader('Content-Type', 'application/json');
+                                    //alert("PostTo:" + ajaxurl.replace('/api/', '/Pay/index/'));
+                                    // alert("Data:" + JSON.stringify(data));
+
+                                    xhr.send(JSON.stringify(data));
+
+                                    // console.dir(ajaxurl.replace('/api/', '/Pay/index/') + datast);
+                                    //$.ajax({
+                                    //    url: ajaxurl.replace('/api', '/Pay/index'),
+                                    //    type: 'post',
+                                    //    data: { id: encodeURI(JSON.parse(Server_Token).Member_ID), productid: id, token: token },
+                                    //    success: function (r) {
+                                    //        console.dir(r)
+                                    //    },
+                                    //    onerror: function () {
+
+                                    //    },
+                                    //    complete: function () {
+
+                                    //    }
+                                    //});
+                                })
+                                Bridge.getPaymentToken("傾心陪玩娛樂費用", amt)
+                            }
+
+
+                        } else {
+                            var data = self.postdata;
+                         
+                            var url = Object.keys(data).map(function (k) {
+                                return encodeURIComponent(k) + '=' + encodeURIComponent(data[k])
+                            }).join('&')
+                         
+                            plus.runtime.openURL(ajaxurl.replace('/api/', '/Pay/index/') + encodeURI(JSON.parse(Server_Token).Member_ID) + "?productid=" + id + "&" + url);
+
+                        }
+                        // plus.nativeUI.showWaiting('检测支付环境...');
+                        // var w = plus.webview.create(ajaxurl.replace('/api', '/Pay/index/') + encodeURI(JSON.parse(Server_Token).Member_ID) + "?productid=" + id, { "cachemode": "noCache", "backButtonAutoControl": "close", "background": "transparent", "popGesture": "close", "top": "10%", "bottom": "10%", "left": "5%", "right": "5%", "margin": "auto" });
+                        // plus.webview.currentWebview().append(w)  //w.show("slide-in-right");
+                    }
+                },
+                created: function () {
+                  
+                },
+                mounted() {
+                    var lasttimesave = plus.storage.getItem("InvInfo");
+                    if (lasttimesave != null) {
+                        this.postdata = JSON.parse(lasttimesave);
+                    }
+                    this.choosepay(payment[0])
+
+                }
+            })
+        }
+        var init = function () {
+            if (!pready)
+                return;
+            if (!$ready)
+                return;
+            switch (plus.os.name) {
+                case "Android":
+                    // Android平台: plus.android.*
+                    break;
+                case "iOS":
+                    // iOS平台: plus.ios.*
+                    //取消長按事件
+                    document.body.style.webkitTouchCallout = "none";
+                    //取消拖曳事件
+                    document.body.setAttribute("ondragstart", "return false");
+                    break;
+                default:
+                    // 其它平台
+                    break;
+            }
+            alert = function (e, cb) {
+                plus.nativeUI.alert(e, function () {
+                    if (cb) {
+                        cb()
+                    }
+                }, "訊息", "確定");
+            }
+            Bridge = new BridgeClass();
+
+            Bridge.getData("APIUrl", function (apiurl) {
+                // alert(apiurl);
+                ajaxurl = apiurl;
+                Bridge.getData("Server_Token",
+                    function (tok) {
+
+                        if (tok) {
+                            var data = JSON.parse(tok);
+                            data["VCode"] = JSON.parse(tok).Pw;
+                            data["Pw"] = data["oPw"];
+                            Server_Token = tok;
+                            if (JSON.parse(Server_Token).Status == "管理員")
+                                ajaxurl = "http://192.168.1.110:8900/api/"
+                            $("body").show();
+                            startpage();
+                            plus.nativeUI.closeWaiting();
+
+                            //$.ajax({
+                            //    url: ajaxurl + "Login",
+                            //    type: 'post',
+                            //    data: data,
+                            //    timeout: 30000,
+                            //    success: function (r) {
+                            //        if (r.result_status) {
+                            //            Server_Token = JSON.stringify(r.result_content);
+
+                            //            Bridge.setData("Server_Token", Server_Token, function () {
+                            //                if (JSON.parse(Server_Token).Status == "管理員")
+                            //                    ajaxurl = "http://192.168.1.110:8900/api/"
+
+                            //                $("body").show();
+                            //                startpage();
+                            //                //   alldata();
+                            //            });
+                            //        } else {
+
+                            //            alert(r.result_message);
+                            //            //  alldata();
+                            //        }
+                            //    },
+                            //    onerror: function () {
+
+                            //        //  alldata();
+                            //    },
+                            //    complete: function () {
+                            //        plus.nativeUI.closeWaiting();
+                            //    }
+                            //});
+
+                        } else {
+
+                        }
+
+                    }
+                )
+
+
+            })
+        }
+        document.addEventListener('plusready', function () {
+            pready = true;
+            init();
+        }, false);
+
+        $(function () {
+            $ready = true;
+            init();
+        })
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,187 @@
+﻿<style>
+    a.weui-media-box:active {
+        background-color: #ECECEC;
+    }
+</style>
+<div class=" " @click.stop id="getmoneybd" v-show="isdone" style="display:none;background-color:white;width:100%;position:absolute;bottom:0">
+
+
+    <div class="page__bd" style="padding-top:0px">
+        <div class="weui-cells__title">設定約單條件</div>
+        <div class="weui-cells">
+            <div class="weui-cell weui-cell_select weui-cell_select-after">
+                <div class="weui-cell__hd">
+                    <label for="" class="weui-label">技能</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select" v-model="postdata.Kind_ID">
+                        <option v-for="(item) in Kind" :value="item.ID">{{item.Name}}</option>
+
+                    </select>
+                </div>
+
+            </div>
+            <div class="weui-cell weui-cell_select weui-cell_select-after">
+                <div class="weui-cell__hd">
+                    <label for="" class="weui-label">性別</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select" v-model="postdata.Gender">
+                        <option :value="'N'">不限制</option>
+                        <option :value="'B'">帥哥</option>
+                        <option :value="'G'">美女</option>
+
+
+                    </select>
+                </div>
+
+            </div>
+            <div class="weui-cell ">
+                <div class="weui-cell__hd">
+                    <label for="" class="weui-label">出價</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" v-model="postdata.Fee" type="number" min="20" max="5000" placeholder="20~5000">
+                </div>
+
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">補充條件</label></div>
+                <div class="weui-cell__bd">
+                    <textarea class="weui-textarea" maxlength="100" placeholder="最多100字" rows="5" name="Description" v-model="postdata.Description" style="background-color: rgba(255, 255, 255, 0);user-select: all;-webkit-user-select: all;"></textarea>
+                </div>
+            </div>
+
+        </div>
+        <a href="javascript:;" @click="sendPaiDan" class="weui-btn weui-btn_primary">發起約單</a>
+    </div>
+
+    <script>
+        var ws = plus.webview.currentWebview();
+     
+        $("#getmoneybd").parent().removeClass("page").removeClass("bdbg").removeClass("layers").removeClass("js_show")
+        $("body").css("background-color", "transparent")
+        $("#container").on("click", function () {
+            plus.webview.currentWebview().close()
+        })
+        $("#container").css("top", '')
+        //$(".layers").css("background-color", "transparent")
+        //ws.addEventListener('close', function () {
+        //    if (plus.webview.getWebviewById("PaiDanPage"))
+        //        plus.webview.getWebviewById("PaiDanPage").setStyle({ mask: 'none' });
+
+        //}, false);
+        //$("body").on("click", function () {
+           
+        //    if (plus.webview.getWebviewById("PaiDanPage"))
+        //        plus.webview.getWebviewById("PaiDanPage").setStyle({ mask: 'none' });
+        //    ws.close();
+         
+        //})
+       var chk =  setTimeout(function () {
+            if (GInfo.KindList.length > 0) {
+                var test = new Vue({
+                    el: "#getmoneybd",
+                    data: {
+                        isdone:false,
+                        Org: GInfo.KindList,
+                        Kind: [],
+                        postdata: {
+                            Kind_ID: 0,
+                            Gender: 'N',
+                            Fee: 100,
+                            Description:""
+                        }
+                    },
+                    watch: {
+                        'postdata.Fee': function (val) {
+                            var self = this;
+                            if (val < 20) {
+                                plus.nativeUI.toast("最小為20元");
+                                
+                                this.$nextTick(function () {
+                                    self.postdata.Fee = 20;
+                                })
+                                return false;
+                            } else if (val >5000) {
+                                plus.nativeUI.toast("最大為5000元");
+
+                                this.$nextTick(function () {
+                                    self.postdata.Fee = 5000;
+                                })
+                                return false;
+                            }
+                        }
+                    },
+                    created: function () {
+                        for (var i = 0; i < GInfo.KindList.length; i++) {
+                            for (var j = 0; j < GInfo.KindList[i].Detail.length; j++) {
+                                this.Kind.push(GInfo.KindList[i].Detail[j]);
+                            }
+                        }
+                     
+                         
+                      //  ws.setStyle({ softinputMode:"adjustResize" })
+                       // ws.setStyle({ height: $("#getmoneybd").height() + "px", top: plus.screen.resolutionHeight - plus.navigator.getStatusbarHeight() - $("#getmoneybd").height() + "px", bottom: "0px" });
+                     
+                    },
+                    mounted: function () {
+                        this.postdata.Kind_ID = this.Kind[0].ID
+                        this.isdone = true;
+                        console.dir($("#getmoneybd").height())
+                        $("body").height($("#getmoneybd").height())
+                        //ws.setStyle({ position: "dock", dock: "bottom", height: Math.min($("#getmoneybd").height() * (plus.screen.width / plus.screen.resolutionWidth), plus.screen.resolutionHeight) + "px" });
+                        if (plus.os.name == 'Android') {
+                            ws.setStyle({ position: "dock", dock: "bottom", height: $("#getmoneybd").height() * (plus.screen.width / plus.screen.resolutionWidth) + "px" });
+
+                        } else {
+                            ws.setStyle({ position: "dock", dock: "bottom", height: plus.screen.resolutionHeight - plus.navigator.getStatusbarHeight() + "px" });
+
+                        }
+                      
+                        ws.show("slide-in-bottom");
+                       
+                    },
+                    methods: {
+                        sendPaiDan: function () {
+                            var self = this;
+                            if ((self.postdata.Description || "") == "") {
+                                alert("請填寫一些補充條件")
+                                return;
+                            }
+                            plus.nativeUI.showWaiting();
+                            $.ajax({
+                                url: ajaxurl + "PaiDan",
+                                type: 'post',
+                                data: self.postdata,
+                                headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                                success: function (r) {
+                                    if (r.result_status) {
+                                        
+                                        alert("派單完成,此單將會存在1小時,亦可自行結/棄單")
+                                        plus.webview.getWebviewById("PaiDanPage").evalJS("regetdata()");
+                                        if (plus.webview.getWebviewById("PaiDanPage"))
+                                            plus.webview.getWebviewById("PaiDanPage").setStyle({ mask: 'none' });
+                                        plus.nativeUI.closeWaiting()
+                                        ws.close();
+                                    } else {
+                                        alert(r.result_message);
+                                        plus.nativeUI.closeWaiting()
+                                    }
+                                },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    plus.nativeUI.closeWaiting()
+                                 
+                                }
+                            });
+                        }
+
+                    }
+                })
+            } else {
+                chk()
+            }
+        },100)
+        
+    </script>
+</div>

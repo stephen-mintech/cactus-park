@@ -1,0 +1,196 @@
+﻿<div class="flexbar navbg" style="position:fixed;top:0;left:0;height:60px;z-index:300;width:100%;overflow:hidden">
+    <div class="memberinfo1" style="width: 10%;height:60px;position:relative;float:left;z-index:301; ">
+        <div id="backSetting" class="backb" onclick="plus.webview.close(plus.webview.currentWebview())" style="width:30px;height:60px;border-radius: 999em;color:white">
+            <i class="fa fa-angle-left" style="font-size:30px;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"> </i>
+        </div>
+    </div>
+    <h4 class="" style="z-index:300;color:white;width:90%;line-height:60px;font-size:24px;position:relative;text-align:center">設定</h4>
+</div>
+<div class="paramPage page bdbg" style="  ">
+    <style>
+    </style>
+    <div class="page__hd">
+    </div>
+    <div class="page__bd" id="stylechkbox">
+        <div class="weui-cells__title" style="">上線狀態</div>
+        <div class="weui-cells weui-cells_form" style="">
+            <div class="weui-cell weui-cell_switch">
+                <div class="weui-cell__bd">下線</div>
+                <div class="weui-cell__ft">
+                    <input class="weui-switch" type="checkbox" v-model="OnlineStatus">
+                </div>
+            </div>
+
+        </div>
+        <div class="weui-cells__title" style="">隱身榜單</div>
+        <div class="weui-cells weui-cells_form" style="">
+            <div class="weui-cell weui-cell_switch">
+                <div class="weui-cell__bd">隱身</div>
+                <div class="weui-cell__ft">
+                    <input class="weui-switch" type="checkbox" v-model="iamhide">
+                </div>
+            </div>
+
+        </div>
+        <!--<div class="weui-cells__title">通知</div>
+    <div class="weui-cells weui-cells_form">
+
+        <div class="weui-cell weui-cell_switch">
+            <div class="weui-cell__bd">訂單狀態變更通知</div>
+            <div class="weui-cell__ft">
+                <input class="weui-switch" type="checkbox" checked>
+            </div>
+        </div>
+        <div class="weui-cell weui-cell_switch">
+            <div class="weui-cell__bd">聊天訊息通知</div>
+            <div class="weui-cell__ft">
+                <input class="weui-switch" type="checkbox" checked>
+            </div>
+        </div>
+    </div>-->
+        <!--<div class="weui-cells__title">修改密碼</div>
+    <div class="weui-cells weui-cells_form">
+        <div class="weui-cell weui-cell_access"  btag="ChangePW" onclick="hovernav(this,'id')">
+
+            <div class="weui-cell__bd">修改密碼</div>
+            <div class="weui-cell__ft" style="font-size: 0">
+
+            </div>
+        </div>
+
+    </div>-->
+
+
+        <div class="weui-cells__title">選擇版面樣式</div>
+        <div class="weui-cells weui-cells_checkbox">
+            <label v-for="(item,idx) in List " class="weui-cell weui-check__label" :for="'sty'+item.Key">
+                <div class="weui-cell__hd">
+                    <input type="radio" class="weui-check" name="checkbox1" :id="'sty'+item.Key" :value="item.Key" v-model="GetStyle">
+                    <i class="weui-icon-checked"></i>
+                </div>
+                <div class="weui-cell__bd">
+                    <p>{{item.Value}}</p>
+                </div>
+            </label>
+
+
+        </div>
+        <div class="weui-cells__title">系統</div>
+        <div class="weui-cells ">
+            <div class="weui-cell weui-cell_access" @click="clearca">
+
+                <div class="weui-cell__bd">清除快取</div>
+                <div class="weui-cell__ft" style="">
+                    {{(cachesize/1024/1024).toFixed(2)}}MB
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    版本號
+                </div>
+                <div class="weui-cell__ft">{{ver}}</div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+    <div class="page__ft ">
+
+    </div>
+
+    <script>
+        function testfn(t) {
+            console.dir(t)
+        }
+        $(function () {
+            var parave = new Vue({
+                el: "#stylechkbox",
+                data: {
+                    List: [
+                        { Key: "1", Value: "桃紅版面" },
+                        { Key: "2", Value: "天藍版面" }
+                    ],
+                    GetStyle: "0",
+                    cachesize: 0,
+                    ver: "0",
+                    OnlineStatus: (top["OnlineStatus"] == 1 ? false : true),
+                    iamhide: top["iamhide"],
+                },
+                methods: {
+                    clearca: function () {
+                        var self = this;
+                        plus.nativeUI.confirm("你確定要清除快取嗎?(不影響程式運行)", function (e) {
+                            if (e.index == 0) {
+                                plus.cache.clear(function () {
+                                    plus.cache.calculate(function (size) {
+                                        self.cachesize = size;
+                                    });
+                                    alert("清除完成");
+                                })
+
+                            }
+
+                        }, {
+                                "title": "清除確認",
+                                "buttons": ["清除", "取消"],
+                                "verticalAlign": "center"
+                            });
+                    }
+                },
+                watch: {
+                    GetStyle: function (val, oldVal) {
+                        Bridge.setData("GetStyle", val);
+                        //refreshstyle
+                        var wvs = plus.webview.all();
+                        for (var i = 0; i < wvs.length; i++) {
+                            wvs[i].evalJS("refreshstyle('" + val + "')")
+                        }
+
+                    },
+                    OnlineStatus: function (v) {
+                        $.ajax({
+                            url: ajaxurl + "OnlineStatus_new",
+                            type: 'post',
+                            data: { online:v},
+                            headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                            success: function (r) {
+                               
+                            },
+                           
+                        });
+                    },
+                    iamhide: function (v) {
+                        $.ajax({
+                            url: ajaxurl + "OnlineStatus_new",
+                            type: 'post',
+                            data: { iamhide: v },
+                            headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                            success: function (r) {
+
+                            },
+
+                        });
+                    }
+                },
+                
+            })
+            plus.cache.calculate(function (size) {
+                parave.cachesize = size;
+            });
+            Bridge.getData("GetStyle", function (s) {
+                if (s == "") {
+                    s = "1";
+                }
+                parave.GetStyle = s;
+            })
+         
+            Bridge.getData("Version", function (s) {
+                parave.ver = s;
+            
+            })
+        })
+
+    </script>
+</div>

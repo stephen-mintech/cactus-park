@@ -1,0 +1,160 @@
+﻿<div class="grouppage page bdbg" style="background-color:white">
+    <style>
+        .barcolor2 {
+            /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#e2e2e2+0,dbdbdb+50,d1d1d1+51,fefefe+100;Grey+Gloss+%231 */
+            background: #e2e2e2; /* Old browsers */
+            background: -moz-linear-gradient(top, #e2e2e2 0%, #dbdbdb 50%, #d1d1d1 51%, #fefefe 100%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(top, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to bottom, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', endColorstr='#fefefe',GradientType=0 ); /* IE6-9 */
+        }
+
+        .barcolor {
+            /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#e4f5fc+0,bfe8f9+26,70c6ea+74,c4e1ed+100 */
+            background: rgb(228,245,252); /* Old browsers */
+            background: -moz-linear-gradient(top, rgba(228,245,252,1) 0%, rgba(191,232,249,1) 26%, rgba(112,198,234,1) 74%, rgba(196,225,237,1) 100%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(top, rgba(228,245,252,1) 0%,rgba(191,232,249,1) 26%,rgba(112,198,234,1) 74%,rgba(196,225,237,1) 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to bottom, rgba(228,245,252,1) 0%,rgba(191,232,249,1) 26%,rgba(112,198,234,1) 74%,rgba(196,225,237,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e4f5fc', endColorstr='#c4e1ed',GradientType=0 ); /* IE6-9 */
+        }
+
+        .weui-grid2 {
+            margin-bottom: 10px;
+            /* 防止多列布局，分页媒体和多区域上下文中的意外中断 */
+            break-inside: avoid;
+            background: #fff;
+        }
+
+            .weui-grid2 p {
+                padding: 5px 10px;
+            }
+
+            .weui-grid2 div {
+                padding-bottom: 10px
+            }
+
+        .weui-grid__label2 {
+            text-align: left;
+            color: #000000;
+            font-size: 14px;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .weui-flex__item img{
+            width:80px;
+            height:80px;
+            border-radius:999em;
+        }
+    </style>
+    <!--<div class="page__hd " style="">
+      
+
+    </div>-->
+    <div class="page__bd">
+        <div class="weui-tab">
+            <div class="weui-navbar">
+                <div class="weui-navbar__item weui-bar__item_on">
+                    群组總覽
+                </div>
+                <div class="weui-navbar__item">
+                    我加入的
+                </div>
+                <div class="weui-navbar__item">
+                    我創建的
+                </div>
+            </div>
+            <div class="weui-tab__panel">
+                <div class="weui-flex" style="overflow-x:auto;width:100%;padding:15px 0 ">
+                    <div class="weui-flex__item">
+                        <img src="img/icon/game/lol.png" />
+                    </div>
+                    <div class="weui-flex__item">
+                        <img src="img/icon/game/aol.png" />
+                    </div>
+                    <div class="weui-flex__item">
+                        <img src="img/icon/game/pubg.png" />
+                    </div>
+                    <div class="weui-flex__item">
+                        <img src="img/icon/game/lol.png" />
+                    </div>
+                    <div class="weui-flex__item">
+                        <img src="img/icon/game/aol.png" />
+                    </div>
+                    <div class="weui-flex__item">
+                        <img src="img/icon/game/pubg.png" />
+                    </div>
+                </div>
+                <div class='weui-grids'>
+                    <div class="weui-grids2" id='GroupList'>
+
+
+                    </div>
+                </div>
+                <div id="infolist"></div>
+            </div>
+        </div>
+    
+
+        
+
+
+    </div>
+    <div class="page__ft ">
+
+    </div>
+    <script type="text/html" id="groupinfo">
+        <div class="weui-grid2" style="padding-bottom:30px">
+            <!--onclick="hovernav(this,'id')" btag="NewsPage"-->
+            <div style="width:100%;height:20px;padding:20px 10px;color:gray;">
+                <span style="padding-left:10px;font-size:20px;width:40%;float:left;color:black">
+                    <img style="width:20px;height:20px;border-radius:999em;" src="img/icon/game/lol.png" />
+                    測試工會名稱
+                </span>
+                <span style="padding-left:10px;padding-right:10px;font-size:12px;float:right">萌王♥神神💗</span>
+                <img style=" padding-left:10px;border-radius: 0.3em;width:20px;height:20px;float:right" src="https://f.gxx.garenanow.com/download/f799cda559ef067aac48bf11b0b4e184040301000000af1a000000000201007c" alt="">
+
+            </div>
+
+            
+            <div style="filter: blur(10px);width:100%;height:0px;padding:20px 10px;color:gray;background-image:url('img/test/g1.jpg');background-size:100% 100%">
+                <div style="background-color:rgba(100,100,100,0.5);width:100%;height:100%"> </div>
+                </div>
+                <img style="position:relative;margin:auto;width:auto;max-width:100%;height:auto;max-height:300px;transform:translate(-50%,-110%);left:50%;top:50%" class="groupimg" onload="$(this).prev().css('background-image', 'url(' + $(this).attr('src') + ')'); $(this).prev().height($(this).height()); $(this).css('margin-bottom', -$(this).height());" src="img/test/g1.jpg" alt="">
+
+           
+            <p class="weui-grid__label2">
+                這是工會標題標題這是工會標題標題這是工會標題標題這是工會標題標題這是工會標題標題這是工會標題標題這是工會標題標題這是工會標題標題這是工會標題標題這是工會標題標題這是工會標題標題這是工會標題標題
+
+            </p>
+            <div style="color:gray;font-size:12px;padding-right:10px;position:relative;float:right">
+                房間人數:99/100
+            </div>
+            <div style="clear:both"></div>
+            <a href="javascript:;" onclick="hovernav(this,'id')" btag="ChatRoom" style="width:90%;padding-left:5%" class="weui-btn weui-btn_primary">進入頻道</a>
+
+        </div>
+    </script>
+   
+    <script>
+        $(function () {
+        
+           // var data = JSON.parse("{{data}}");
+          
+            for (var i = 1; i < 6; i++) {
+             
+                var $tmp = $($("#groupinfo").html());
+                $tmp.find(".groupimg").attr("src","img/test/g"+i+".jpg")
+                $("#GroupList").append($tmp);
+            }
+
+
+      
+
+
+        })
+
+    </script>
+</div>

@@ -1,0 +1,359 @@
+﻿<div class="flexbar navbg" style="position:fixed;top:0;left:0;height:60px;z-index:300;width:100%;overflow:hidden">
+    <div class="memberinfo1" style="width: 10%;height:60px;position:relative;float:left;z-index:301; ">
+        <div id="backSetting" class="backb" onclick="plus.webview.close(plus.webview.currentWebview())" style="width:30px;height:60px;border-radius: 999em;color:white">
+            <i class="fa fa-angle-left" style="font-size:30px;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"> </i>
+        </div>
+    </div>
+    <h4 class="" style="z-index:300;color:white;width:90%;line-height:60px;font-size:24px;position:relative;text-align:center">銀行帳戶</h4>
+</div>
+<div class="BankInfo page bdbg" style="" id="BankInfo">
+    <style>
+        a.weui-media-box:active {
+            background-color: #FFF;
+        }
+    </style>
+
+    <div class="page__hd " style="">
+
+
+    </div>
+   
+    <div class="page__bd " v-if="ManagerInfo" v-bind:style="{display:MCanShow}" style="display:none">
+        <p  style="text-align:left">目前所屬經紀公司:</p>
+ 
+        <p style="text-align:left">{{ManagerInfo.Name}}</p>
+    </div>
+    <div class="page__bd " v-bind:style="{display:true}" style="display:none">
+        <div style="float:right;margin-right:15px" class="weui-btn weui-btn_mini weui-btn_primary" @click="showbankform">新增銀行帳戶</div>
+        <div style="clear:both"></div>
+        <div class="weui-panel weui-panel_access">
+            <div class="weui-panel__hd">綁定銀行列表</div>
+            <div class="weui-panel__bd">
+
+                <a v-for="(item,idx) in MyBankInfo" href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg" style="flex-wrap:wrap">
+                    <p class="weui-media-box__desc" style="color:black;flex:0 0 100%">{{item.BankCodeName}} - {{item.Branch}}</p>
+                    <div class="weui-media-box__hd">
+                        <img class="weui-media-box__thumb" style="position:relative;top:50%;transform:translateY(-50%)" :src="item.Img" alt="">
+                    </div>
+                    <div class="weui-media-box__bd">
+                        <h4 class="weui-media-box__title">{{item.Name}}</h4>
+                        <p class="weui-media-box__desc">{{item.Number}}</p>
+                    </div>
+
+                    <div class="weui-media-box__ft" v-if="(item.isDefault == true)">
+                        <div class="weui-btn weui-btn_disabled  weui-btn_mini weui-btn_default">預設領款帳戶</div>
+
+                    </div>
+                    <div class="weui-media-box__ft" v-if="(item.isPass == false)">
+                        <div class="weui-btn weui-btn_disabled  weui-btn_mini weui-btn_warn">審查中</div>
+
+                        <div style="position:absolute;top:-5px;right:15px">
+                            <i class="ion-ios-close-empty fa-2x text-inverse"></i>
+                        </div>
+                        <!--<div style="float:right " class="weui-btn weui-btn_mini weui-btn_warn" @click="setDelete(item.BankInfo_ID)">刪除</div>-->
+                    </div>
+                    <div class="weui-media-box__ft" v-if="(item.isDefault == false && item.isPass==true )">
+                        <div style="float:right " class="weui-btn weui-btn_mini weui-btn_primary" @click="setDefault(item.BankInfo_ID)">設成預設</div>
+                        <div style="position:absolute;top:-5px;right:15px" @click="setDelete(item.BankInfo_ID)">
+                            <i class="ion-ios-close-empty fa-2x text-inverse"></i>
+                        </div>
+                        <!--<br>
+        <div style="float:right " class="weui-btn weui-btn_mini weui-btn_warn" @click="setDelete(item.BankInfo_ID)">刪除</div>-->
+                    </div>
+                </a>
+
+            </div>
+
+        </div>
+        <div class="js_dialog" id="newpo" style="display:none">
+            <div class="weui-mask"></div>
+            <div class="weui-dialog">
+                <div class="weui-dialog__hd"><strong class="weui-dialog__title">新增銀行帳戶</strong></div>
+                <div class="weui-dialog__bd" style="padding:0 5px;height:400px;overflow-y:auto">
+                    <div class="weui-cells">
+
+
+                        <div class="weui-cell weui-cell_select weui-cell_select-after">
+                            <div class="weui-cell__hd" style="flex:0 0 20%">
+                                <label for="">銀行</label>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <select class="weui-select" name="Code" v-model="postdata.Code">
+                                    <option v-for="(item,idx) in BankCode" :value="''+item.code">{{item.code}} {{item.name}}</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd" style="flex:0 0 20%"><label class="">分行</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="text" name="Branch" v-model="postdata.Branch" placeholder="分行(中文)">
+                            </div>
+                        </div>
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd" style="flex:0 0 20%"><label class="">戶名</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="text" name="Name" v-model="postdata.Name" placeholder="輸入戶名">
+                            </div>
+                        </div>
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd" style="flex:0 0 20%"><label class="">帳號</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="text" name="Number" v-model="postdata.Number" placeholder="郵局請填局號+帳號">
+                            </div>
+                        </div>
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd" style="flex:0 0 20%"><label class="">手機</label></div>
+                            <div class="weui-cell__bd" style="color:green">
+                                {{'+'+GInfo.MyInfo.Phone_Area_Code+' ' + GInfo.MyInfo.Phone}}
+                            </div>
+                        </div>
+                        <div class="weui-cell ">
+                            <div class="weui-cell__hd">
+                                <label class="weui-label " style="font-size:12px;word-break:keep-all;">
+
+                                    <a class="weui-btn weui-btn_mini weui-btn_primary" v-bind:class="{'weui-btn_disabled' : (waitthead!=0)}" @click="sendvode()">{{waitthead==0?'發驗證碼':'等待'+waittime+'秒'}}</a>
+                                </label>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" v-model="postdata.VCode" type="text" pattern="[0-9]*" maxlength="6" placeholder="請輸入驗證碼">
+                            </div>
+
+                        </div>
+                        <div class="weui-cells__title" style="text-align:left">存摺封面圖</div>
+                        <div class="weui-cell" @click="testimg">
+                            <img :src="postdata.Img" onerror="this.src='img/nopic.png'"  style="max-width:100%;height:150px;width:auto;height:auto;opacity:0.3" />
+                        </div>
+                    </div>
+                </div>
+                <div class="weui-dialog__ft">
+                    <a onclick="$('#newpo').hide()" class="weui-dialog__btn weui-dialog__btn_default">取消</a>
+
+                    <a @click="postnew" class="weui-dialog__btn weui-dialog__btn_primary">送出</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page__ft " style="">
+        <br>
+
+    </div>
+
+    <script>
+        var infovue;
+        plus.nativeUI.showWaiting("載入中...");
+        new (function () {
+           
+            bbim.getBankInfo("", function (r) {
+                if (r.result_status) {
+                    var newdata = r.result_content;
+                    newdata["postdata"] = {
+                        Code: "00000", Img: "", Branch: "", Name: "", Number: "",
+                     
+                        VCode: "",
+                    };
+                    newdata["BankCode"].sort((a, b) => { return a.code > b.code ? 1 : -1 })
+                    newdata["waitthead"] = 0;
+                    newdata["waittime"] = 0;
+                    $("#newpo").hide();
+                    if (!(infovue)) {
+                        infovue = new Vue({
+                            el: '#BankInfo',
+                            data: newdata,
+                            watch: {
+                                waittime: function (val) {
+                                    if (val <= 0) {
+                                        clearInterval(this.waitthead)
+                                        this.waitthead = 0;
+                                    } else {
+                                        if (this.waitthead == 0) {
+                                            var self = this;
+                                            this.waitthead = setInterval(function () {
+                                                self.waittime--;
+                                            }, 1000)
+                                        }
+                                    }
+                                }
+                            },
+                            methods: {
+                                sendvode: function () {
+                                 
+                                    if (this.waittime <= 0) {
+                                        this.waittime = 30;
+                                        var self = this;
+                                        $.ajax({
+                                            url: ajaxurl + "VCode/?phone=&AreaCode=&code=NewBank",
+                                            type: 'get',
+                                            headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                                            timeout: 30000,
+                                            success: function (r) {
+                                                if (r.result_status) {
+                                                    alert("發送成功,驗證碼5分鐘內有效");
+                                                } else {
+                                                    alert(r.result_message);
+                                                }
+                                            },
+                                            onerror: function () {
+
+                                            },
+                                            complete: function () {
+
+                                            }
+                                        });
+                                    }
+
+                                },
+                                setDefault: function (id) {
+                                    var initdata = {};
+                                    initdata["cmd"] = "BankInfoSetDefault";
+                                    initdata["param"] = id;
+                                    bbim.send(initdata);
+                                },
+                                setDelete: function (id) {
+                                    plus.nativeUI.confirm("即將刪除此銀行帳戶", function (e) {
+                                        console.log("Close confirm: " + e.index);
+                                        if (e.index == 0) {
+                                            var initdata = {};
+                                            initdata["cmd"] = "BankInfoSetDelete";
+                                            initdata["param"] = id;
+                                            bbim.send(initdata);
+                                        }
+                                    }, {
+
+                                            "buttons": ["確定刪除", "取消"],
+
+                                        });
+                                   
+                                },
+                                showbankform: function () {
+                                    if ((GInfo.MyInfo.Phone || "") == "") {
+                                        alert("請先進行手機認證")
+                                        $('<a btag="ProfileEdit" onclick="hovernav(this,\'id\')"></a>').click();
+                                        plus.webview.currentWebview().close();
+                                        return;
+                                    }
+                                 
+                                    $("#newpo").show()
+                                },
+                                testimg: function () {
+                                    if ((GInfo.MyInfo.Phone || "") == "") {
+                                        alert("請先進行手機認證")
+                                        $('<a btag="ProfileEdit" onclick="hovernav(this,\'id\')"></a>').click();
+                                        plus.webview.currentWebview().close();
+                                        return;
+                                    }
+                                    var self = this;
+                                    var t = { id: "BankImg" };
+                                    var cb = function (imgId, imgkey, id, src) {
+
+
+                                        var wa = plus.nativeUI.showWaiting();
+                                        //alert(ajaxurl + "UpdateTitleImg");
+                                        var task = plus.uploader.createUpload(ajaxurl + "UpdateBankImg", {
+                                            method: "POST", timeout: 0, blocksize: 0
+                                        },
+                                            function (t, status) {
+                                                console.dir(t.responseText);
+                                                var r = JSON.parse(t.responseText);
+                                                if (r.result_status) {
+                                                    wa.close();
+                                                    self.postdata.Img = r.result_content;
+
+                                                }
+                                                else {
+                                                    alert(r.result_message);
+                                                    wa.close();
+                                                }
+                                            }
+                                        );
+                                        task.addFile(src, { key: "file"});
+                                        //task.addData("user", Server_Token);
+                                        task.setRequestHeader("Server_Token", encodeURIComponent(Server_Token))
+                                        task.start();
+                                    }
+                                    publicTools.ShowActionSheet({ id: "BankImg" }, cb, true, true);
+
+                                    //publicTools.ShowActionSheet(t, function (imgId, imgkey, id, src) {
+                                      
+                                    //    plus.io.resolveLocalFileSystemURL(src, function (entry) {
+                                    //        var reader = new plus.io.FileReader();
+                                    //        entry.file(function (file) {
+                                    //            reader.onloadend = function (e) {
+                                                    
+                                    //                var org = e.target.result.split(",")[0];
+                                    //                self.postdata.Img = e.target.result;
+                                    //                //self.postdata.Code = "";
+                                    //                self.postdata.Number = "";
+                                    //                self.postdata.Name = "";
+                                    //              //  $("#newpo").show()
+                                                  
+                                    //            };
+                                    //            reader.readAsDataURL(file);
+                                    //        });
+
+                                    //    })
+                                    //}, true, true);
+                                },
+                                postnew: function () {
+                                    if (this.postdata.Img == "") {
+                                        alert("請先上傳照片")
+                                        return;
+                                    }
+                                  
+                                    if (this.postdata.Name == "") {
+                                        alert("請先填寫戶名")
+                                        return;
+                                    }
+                                    if (this.postdata.Number == "") {
+                                        alert("請先填寫銀行帳號")
+                                        return;
+                                    }
+                                    if (this.postdata.Branch == "") {
+                                        alert("請先填寫銀行分行")
+                                        return;
+                                    }
+
+                                    var initdata = {};
+                                    initdata["cmd"] = "BankInfoPostNew";
+                                    initdata["param"] = JSON.stringify(this.postdata);
+                                    bbim.send(initdata);
+                                }
+                            },
+                            beforeCreate() {
+                                this.CanShow = "none";
+                                this.MCanShow = "none";
+                            },
+                            created() {
+                                if (this.ManagerInfo) {
+                                    this.CanShow = "none";
+                                    this.MCanShow = "block";
+                                } else {
+                                    this.CanShow = "block";
+                                }
+
+                                plus.nativeUI.closeWaiting();
+                            }
+
+                        })
+                    } else {
+                        infovue.MyBankInfo = r.result_content.MyBankInfo
+
+                        if (infovue.MyBankInfo.length > 0) {
+                            if (plus.webview.getWebviewById("CertSkill")) {
+                                plus.webview.getWebviewById("CertSkill").evalJS("ckvue.havebank=true")
+                            }
+                        }
+                    }
+                } else {
+                    alert(r.result_message)
+                    console.error(r.result_message);
+                }
+            })
+            addBackEvent(function () {
+                $('#backSetting').click();
+
+            });
+        })
+    </script>
+</div>

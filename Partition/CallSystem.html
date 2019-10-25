@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="../js/weui/jquery-2.1.4.js"></script>
+    <script src="../js/weui/jquery-weui.js"></script>
+    <link href="../css/weui/weui.min.css?1" rel="stylesheet" />
+    <script src="../js/BridgeClass.js?15"></script>
+    <meta http-equiv="cache-control" content="private">
+    <meta http-equiv="pragma" content="private">
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <script>
+        window.onerror = function (message, source, lineno, colno, error) {
+            alert(error);
+        };
+        onerror = function (message, source, lineno, colno, error) {
+            alert(error);
+        };
+    </script>
+</head>
+<body style="width:100%;height:100%;display:none">
+    <div class="weui-mask" onclick="plus.webview.close(plus.webview.currentWebview())"></div>
+    <div class="weui-dialog">
+        <div class="weui-dialog__hd" style="text-align:left"><strong class="weui-dialog__title">問題回報</strong></div>
+        <div class="weui-dialog__bd">
+            <div class="weui-cells__title" style="width:100%;text-align:left">請輸入問題內容</div>
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell" style="border-left: 1px solid #e5e5e5;border-right: 1px solid #e5e5e5;">
+                    <div class="weui-cell__bd">
+                        <textarea class="weui-textarea" rows="8" name="Content" style="user-select: all;-webkit-user-select: all;background-color: rgba(255, 255, 255, 0);"></textarea>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="weui-dialog__ft">
+            <a href="javascript:;" btn="0" class="weui-dialog__btn weui-dialog__btn_default" onclick="plus.webview.close(plus.webview.currentWebview())">取消</a>
+            <a href="javascript:;" btn="1" class="weui-dialog__btn weui-dialog__btn_primary" onclick="sendmsg()">回報</a>
+        </div>
+    </div>
+    <script>
+        var Bridge;
+        var $ready;
+        var pready;
+        var ajaxurl;
+        var init = function () {
+            if (!pready)
+                return;
+            if (!$ready)
+                return;
+            alert = function (e, cb) {
+                plus.nativeUI.alert(e, function () {
+                    if (cb) {
+                        cb()
+                    }
+                }, "訊息", "確定");
+            }
+            Bridge = new BridgeClass();
+
+            Bridge.getData("APIUrl", function (apiurl) {
+                // alert(apiurl);
+                ajaxurl = apiurl;
+                Bridge.getData("Server_Token",
+                    function (tok) {
+
+                        if (tok) {
+                            var data = JSON.parse(tok);
+                            data["VCode"] = JSON.parse(tok).Pw;
+                            data["Pw"] = data["oPw"];
+                            Server_Token = tok;
+                            if (JSON.parse(Server_Token).Status == "管理員")
+                                ajaxurl = "http://192.168.1.110:8900/api/"
+                            $("body").show();
+                           // startpage();
+                            plus.nativeUI.closeWaiting();
+                        //    $.ajax({
+                        //        url: ajaxurl + "Login",
+                        //        type: 'post',
+                        //        data: data,
+                        //        timeout: 30000,
+                        //        success: function (r) {
+                        //            if (r.result_status) {
+                        //                Server_Token = JSON.stringify(r.result_content);
+
+                        //                Bridge.setData("Server_Token", Server_Token, function () {
+                        //                    if (JSON.parse(Server_Token).Status == "管理員")
+                        //                        ajaxurl = "http://192.168.1.110:8900/api/"
+
+                        //                    $("body").show();
+                        //                    //   alldata();
+                        //                });
+                        //            } else {
+
+                        //                alert(r.result_message);
+                        //                //  alldata();
+                        //            }
+                        //        },
+                        //        onerror: function () {
+
+                        //            //  alldata();
+                        //        },
+                        //        complete: function () {
+                        //            plus.nativeUI.closeWaiting();
+                        //        }
+                        //    });
+
+                        //} else {
+
+                        //}
+
+                    }
+                )
+
+
+            })
+        }
+        document.addEventListener('plusready', function () {
+            pready = true;
+            init();
+        }, false);
+
+        $(function () {
+            $ready = true;
+            init();
+        })
+        function sendmsg() {
+            var callmsg = $("textarea[name=Content]").val();
+            if (callmsg.length < 10) {
+                alert("請詳細描述問題(至少10個字)");
+            } else {
+                Bridge.getData("Version", function (version) {
+                    $.ajax({
+                        url: ajaxurl + "ReturnSys",
+                        type: 'post',
+                        data: { msg: callmsg, model: plus.device.model, vendor: plus.device.vendor, version: version },
+                        headers: { "Server_Token": encodeURIComponent(Server_Token) },
+
+                        success: function (r) {
+                            if (r.result_status) {
+                                $("#callpost textarea").val("");
+                                
+                                alert("謝謝您的回報，我們會將問題處理進度隨時更新至您的信箱(" + r.result_content+")")
+                                plus.webview.close(plus.webview.currentWebview());
+                               
+                            } else {
+
+                                alert(r.result_message);
+
+                            }
+                        },
+                        error: function () {
+
+                            alert("網路錯誤");
+
+                        }
+                    });
+                })
+
+
+            }
+        }
+</script>
+</body>
+
+</html>

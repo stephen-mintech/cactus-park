@@ -1,0 +1,93 @@
+﻿<div class="flexbar navbg" style="position:fixed;top:0;left:0;height:60px;z-index:300;width:100%;padding-bottom:10px;overflow:hidden">
+    <div class="memberinfo1" style="width: 10%;height:60px;position:relative;margin:20px 0px auto;float:left;z-index:301; ">
+        <div id="backSetting" class="backb" onclick="plus.webview.close(plus.webview.currentWebview())" style="width:30px;height:30px;border-radius: 999em;color:white">
+            <i class="fa fa-angle-left" style="font-size:30px;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"> </i>
+        </div>
+    </div>
+    <h4 class="" style="z-index:300;color:white;width:90%;line-height:60px;font-size:24px;position:relative;text-align:center">訂單信息</h4>
+</div>
+<div class="" style="position:fixed;bottom:0;left:0;z-index:300;width:100%;overflow:hidden">
+    <a href="javascript:;" class="weui-btn weui-btn_primary" onclick='$("#createchat").click()' btag="MessagePage">前往聊天視窗</a>
+</div>
+<div class="orderpage page bdbg" id="order" :el="order" style="">
+    <div class="page__hd " style=""></div>
+    <button style="display:none" id="createchat" @click='createchat'>123</button>
+    <div id="orderlist" class="page__bd" style="">
+        <span style="float:left">訂單{{order.StatusName}}:</span>
+
+        <div style="clear:both"></div>
+        <div style="background-color:#c3ecff;width:70%;position:relative;left:15%;border-radius:0.8em">
+            <p style="color:blue;width:70%;position:relative;left:15%;">訂單單號:{{order.OrderNo}}</p>
+            <p style="color:blue;width:70%;position:relative;left:15%;">技能:{{order.GameName}}</p>
+            <p style="color:blue;width:70%;position:relative;left:15%;">費用:{{JSON.parse(order.Member_Certification_History).Fee*order.Times}}幣/{{order.Times}}{{JSON.parse(order.Member_Certification_History).Unit}}</p>
+        </div>
+        <br>
+        <div style="width:80%;position:relative;left:10%">
+
+            <div v-if="order.Order_Status == 8" style="width:100%;height:100%;background-color:rgba(0,0,0,0.3)">
+                交易申請取消中
+
+            </div>
+            <div v-if="order.Order_Status == 7" style="width:100%;height:100%;background-color:rgba(0,0,0,0.3)">
+                客服調解中
+
+            </div>
+
+        </div>
+        <div style="clear:both"></div>
+
+        <div class="weui-cells" style="">
+            <div class="weui-cell" v-for="(item, index) in order.Step">
+
+                <div class="weui-cell__bd">
+                    <p>#{{order.Step.length-index}} {{item.Name}}</p>
+                    <p style="font-size: 13px;color: #888888;">{{item.CancelSelect}}</p>
+                </div>
+                <div class="weui-cell__ft" style="font-size: 12px;">
+                    {{item.ChangeTime}}<br>{{item.Memo}}
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="page__ft "></div>
+    <script>
+        addBackEvent(function () {
+            plus.webview.close(plus.webview.currentWebview())
+        });
+        new Vue({
+            el: '#order',
+            data: {
+                order: top["DataBase"]["Partition"],
+
+            },
+            methods: {
+                createchat: function () {
+                    var html = "<a onclick='hovernav(this,\"" + this.order.Member_ID + "\",\"needim\")' btag=\"MessagePage\"></a>"
+                    $(html).click();
+                }
+            },
+            mounted() {
+            
+                if ((this.order.Order_Status != 5) && (this.order.Order_Status != 6)) {
+                    var w = plus.webview.currentWebview();
+                    var html = "<a onclick='hovernav(this,\"" + this.order.Member_ID + "\",\"needim\")' btag=\"MessagePage\"></a>"
+                    $(html).click();
+                    w.close();
+                } else {
+                    $("#loadingToast").hide();
+                }
+            },
+            updated: function () {
+
+                if (this.order) {
+
+
+                }
+
+            }
+        })
+
+    </script>
+</div>

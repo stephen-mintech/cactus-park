@@ -1,0 +1,777 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="../js/vue.min.js"></script>
+    <link href="../css/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <script src="../js/weui/jquery-2.1.4.js"></script>
+    <script src="../js/weui/jquery-weui.js"></script>
+    <link href="../css/weui/weui.min.css?1" rel="stylesheet" />
+    <script src="../js/html5plus/common.js?4"></script>
+    <link href="../css/ionicons/ionicons.min.css" rel="stylesheet" />
+    <script src="../js/BBIM.js"></script>
+    <script src="../js/BridgeClass.js"></script>
+    <meta http-equiv="cache-control" content="private">
+    <meta http-equiv="pragma" content="private">
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <script>
+        window.onerror = function (message, source, lineno, colno, error) {
+            alert(error);
+        };
+        onerror = function (message, source, lineno, colno, error) {
+            alert(error);
+        };
+    </script>
+    <style>
+        .go {
+            -webkit-animation: spin 1s linear infinite;
+            -moz-animation: spin 1s linear infinite;
+            animation: spin 1s linear infinite;
+        }
+
+
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            2% {
+                -webkit-transform: rotate(-15deg);
+            }
+
+            4% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            6% {
+                -webkit-transform: rotate(15deg);
+            }
+
+            8% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            10% {
+                -webkit-transform: rotate(-15deg);
+            }
+
+            12% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            14% {
+                -webkit-transform: rotate(15deg);
+            }
+
+            16% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            18% {
+                -webkit-transform: rotate(-15deg);
+            }
+
+            20% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            22% {
+                -webkit-transform: rotate(15deg);
+            }
+
+            24% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(0deg);
+            }
+        }
+
+        .bdbg {
+            /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#dc2873+0,8a2786+99 */
+            background: rgb(217,39,113); /* Old browsers */
+            background: -moz-linear-gradient(top, rgba(217,39,113,1) 0%, rgb(138, 40, 130) 99%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(top, rgba(217,39,113,1) 0%,rgb(138, 40, 130) 99%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to bottom, rgba(217,39,113,1) 0%,rgba(138, 40, 130,1) 99%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        }
+
+        .handonbg {
+            /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#dc2873+0,8a2786+99 */
+            background: rgb(252, 154, 171); /* Old browsers */
+            background: -moz-linear-gradient(top, rgb(252, 154, 171) 0%, rgb(255, 64, 157) 99%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(top, rgba(252, 154, 171,1) 0%,rgb(255, 64, 157) 99%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to bottom, rgba(252, 154, 171,1) 0%,rgba(255, 64, 157,1) 99%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            border: 3px solid rgb(255, 106, 179);
+            transform: rotate(135deg)
+        }
+
+        .handoffbg {
+            /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#dc2873+0,8a2786+99 */
+            background: rgb(163, 252, 154); /* Old browsers */
+            background: -moz-linear-gradient(top, rgb(163, 252, 154) 0%, rgb(60, 182, 37) 99%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(top, rgba(163, 252, 154,1) 0%,rgb(60, 182, 37) 99%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to bottom, rgba(163, 252, 154,1) 0%,rgba(60, 182, 37,1) 99%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            border: 3px solid rgb(163, 252, 154);
+        }
+
+        .offbg {
+            /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#dc2873+0,8a2786+99 */
+            background: rgb(0, 115, 255); /* Old browsers */
+            background: -moz-radial-gradient(center, ellipse cover, rgba(0, 115, 255, 0.70) 0%, rgba(1, 38, 147, 0.70) 99%); /* FF3.6-15 */
+            background: -webkit-radial-gradient(center, ellipse cover, rgba(0, 115, 255, 0.70) 0%, rgba(1, 38, 147, 0.70) 99%); /* Chrome10-25,Safari5.1-6 */
+            background: radial-gradient(ellipse at center, rgba(0, 115, 255, 0.70) 0%, rgba(1, 38, 147, 0.70) 99%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            border: 3px solid rgb(87, 130, 255);
+        }
+
+        .snowDown {
+            animation: snowDown 3s linear infinite normal;
+            -webkit-animation: snowDown 3s linear infinite normal;
+            position: relative;
+        }
+
+        @keyframes snowDown {
+            from {
+                opacity: 1;
+                top: 0;
+            }
+
+            to {
+                opacity: 0;
+                top: 30em;
+            }
+        }
+
+        .starFlick {
+            animation: starFlick 5s ease-out infinite;
+            -webkit-animation: starFlick 5s ease-out infinite;
+            border-radius: 999em;
+        }
+
+        @keyframes starFlick {
+            0% {
+                opacity: 0;
+            }
+
+            33% {
+                opacity: 1;
+            }
+
+            66% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .peopleImg {
+            animation: peopleImg 1.5s linear infinite;
+        }
+
+        @keyframes peopleImg {
+            0% {
+                transform: skewY(0deg);
+                -webkit-transform: skewY(0deg);
+            }
+
+            25% {
+                transform: skewY(1deg);
+                -webkit-transform: skewY(1deg);
+            }
+
+            50% {
+                transform: skewY(0deg);
+                -webkit-transform: skewY(0deg);
+            }
+
+            100% {
+                transform: skewY(-1deg);
+                -webkit-transform: skewY(-1deg);
+            }
+        }
+    </style>
+</head>
+<body style="width:100%;height:100%;">
+    <div id="starlist">
+        <div v-for="item in starcount" class="starFlickb" style="position:fixed;width:2px;height:2px;background-color:wheat;opacity:0" v-bind:style="{top:gettop(),left:getleft()}"></div>
+    </div>
+    <div class="bdbg " id="callid" style="display: none;width:100%;height:100%;">
+        <div id="mask" style="position:absolute;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.70);z-index:3000;display:none"></div>
+
+        <div style="display:none">
+            <a href="javascript:;" @click="getcall" class="weui-btn weui-btn_primary">{{ishandon?"掛掉":"接聽"}}</a>
+            <a href="javascript:;" @click="speakeron" class="weui-btn weui-btn_primary">{{isspeaker?"關避免持":"開啟免持"}}</a>
+            <a href="javascript:;" @click="speakermute" class="weui-btn weui-btn_primary">{{isvoice?"喇叭靜音":"喇叭開啟"}}</a>
+            <a href="javascript:;" @click="micmute" class="weui-btn weui-btn_primary">{{ismic?"麥克風靜音":"麥克風啟動"}}</a>
+        </div>
+
+        <div style="width:100%;height:70%;display:flex;flex-wrap:wrap;color:white;position:relative;top:0%">
+            <!--<div style="flex:0 0 50%;">
+            <img style="border:3px solid mediumspringgreen;width:80px;height:80px;border-radius:999em;object-fit:cover;position:relative;left:50%;transform:translateX(-50%)" :src="meinfo.Img + '_s'" />
+
+        </div>-->
+            <div style="flex:0 0 100%;height:50%">
+                <img style="width:100%;height:100%;object-fit:cover;object-position:center;position:relative;" :src="herinfo.Img" />
+            </div>
+            <div style="flex:0 0 100%;height:10px">
+            </div>
+            <!--<div style="flex:0 0 50%;text-align:center;">
+            <p>{{meinfo.Name}}</p>
+        </div>-->
+            <div style="flex:0 0 100%;text-align:center;font-size:28px;">
+                <p>{{herinfo.Name}}</p>
+            </div>
+            <div style="flex:0 0 100%;height:50px;text-align:center;line-height:50px;vertical-align:bottom">
+                <p>{{calltimer!=0?"通話中":(callbegin?"等待接聽":"通話時間設定")}}</p>
+            </div>
+            <div style="flex:0 0 100%;height:30px;text-align:center;line-height:30px;vertical-align:bottom" v-if="calltimer!=0">
+                <p>接聽時間 {{padLeft(''+((calltimer-(calltimer%60))/60),2)}}:{{padLeft(''+(calltimer%60),2)}}</p>
+            </div>
+            <div class="weui-cell" style="width:100%" v-if="calltimer==0">
+                <div class="weui-cell__hd"><label class="weui-label" style="text-align:left">預計通話</label></div>
+                <div class="weui-cell__bd" style="display: flex;height:30px">
+                    <div style="flex:1;">
+                        <div class="offbg" @click="addmin(-1)" style="border-radius:999em;position:relative;width:30px;height:30px;line-height:30px;text-align:center">-</div>
+                    </div>
+                    <!--<div href="javascript:;" class="weui-btn weui-btn_mini weui-btn_default" style="flex: 0 0 20%;font-size:20px;padding:0;text-align:center" @click="distimes">-</div>-->
+                    <div style="flex: 1;text-align:center;"><span style="position:relative;top:25%;">{{cutmin}}</span></div>
+                    <!--<input class="weui-input" type="number" min="1" max="999" v-model.number="postdata.OrderTimes" number>-->
+                    <!--<div href="javascript:;" class="weui-btn weui-btn_mini weui-btn_default" style="flex: 0 0 20%;font-size:20px;padding:0;text-align:center" @click="addtimes">+</div>-->
+                    <div style="flex:1;">
+                        <div class="offbg" @click="addmin(1)" style="border-radius:999em;position:relative;width:30px;height:30px;line-height:30px;text-align:center">+</div>
+                    </div>
+                </div>
+                <div class="weui-cell__ft"><label class="weui-label" style="color:white;text-align:center">分鐘</label></div>
+            </div>
+            <div style="flex:0 0 100%;" v-if="calltimer==0">
+                <div class="weui-cell weui-cell_switch">
+                    <div class="weui-cell__hd"><label class="weui-label" style="text-align:left">是否強制掛斷</label></div>
+                    <div class="weui-cell__bd" style="text-align:center;">
+                        <input class="weui-switch" v-model="needcut" type="checkbox">
+                    </div>
+                    <div class="weui-cell__ft"><label class="weui-label" style="color:white;text-align:center"></label></div>
+                </div>
+            </div>
+            <!--<div style="flex:0 0 100%;height:30px;text-align:center;line-height:30px;vertical-align:bottom" v-if="calltimer!=0">
+            <a href="javascript:;" @click="playbgm(4)" class="weui-btn weui-btn_mini weui-btn_primary">男变女</a>
+            <a href="javascript:;" @click="playbgm(5)" class="weui-btn weui-btn_mini weui-btn_primary">女变男</a>
+            <a href="javascript:;" @click="playbgm(7)" class="weui-btn weui-btn_mini weui-btn_primary">papi酱</a>
+            <a href="javascript:;" @click="playbgm(6)" class="weui-btn weui-btn_mini weui-btn_primary">醉酒</a>
+            <a href="javascript:;" @click="playbgm(2)" class="weui-btn weui-btn_mini weui-btn_primary">地狱</a>
+            <a href="javascript:;" @click="playbgm(0)" class="weui-btn weui-btn_mini weui-btn_primary">教堂</a>
+            <a href="javascript:;" @click="playbgm(1)" class="weui-btn weui-btn_mini weui-btn_primary">剧院</a>
+            <a href="javascript:;" @click="playbgm(8)" class="weui-btn weui-btn_mini weui-btn_primary">松鼠</a>
+            <a href="javascript:;" @click="playbgm(9)" class="weui-btn weui-btn_mini weui-btn_primary">還原</a>
+        </div>-->
+        </div>
+        <div class="weui-cell" style="margin:0;padding:0;height:30%">
+            <div style="width:100%;position:fixed;display:flex;font-size:40px;color:white;line-height:60px" v-if="((!callbegin)&&(callbyme!=''))">
+                <div @click="startcall" style="height:40px;width:100px;border-radius:999em;position:relative;margin:0 auto;font-size:20px;line-height:40px;text-align:center" class="handoffbg">
+                    撥出
+                </div>
+                <div @click="beout" style="height:40px;width:100px;border-radius:999em;position:relative;margin:0 auto;font-size:20px;line-height:40px;text-align:center;transform:rotate(0deg)" class="handonbg">
+                    取消
+                </div>
+
+            </div>
+            <div style="width:100%;position:fixed;display:flex;font-size:40px;color:white;line-height:60px" v-if="((callbegin))">
+                <div style="flex:0 0 33%;text-align:center;position:relative">
+                    <div style="width:60px;height:60px;border-radius:999em;position:absolute;right:0" @click="micmute" v-bind:style="{color:(ismic)?'white':'gray'}" v-if="calltimer!=0" class="offbg">
+                        <i class=" text-inverse" v-bind:class="{'ion-ios-mic-off':(!ismic),'ion-ios-mic':(ismic)}"></i>
+                    </div>
+                    <div @click="getcall" style="width:60px;height:60px;border-radius:999em;position:relative;margin:0 auto;position:absolute;right:0" v-bind:class="{handoffbg:true,go:true}" v-if="!ishandon">
+                        <i class="ion-ios-telephone text-inverse"></i>
+                    </div>
+                </div>
+                <div style="flex:0 0 33%;text-align:center">
+                    <div @click="getcall" style="width:60px;height:60px;border-radius:999em;position:relative;margin:0 auto" v-bind:class="{handonbg:ishandon,handoffbg:(!ishandon),go:(!ishandon)}" v-if="ishandon">
+                        <i class="ion-ios-telephone text-inverse"></i>
+                    </div>
+                </div>
+                <div style="flex:0 0 33%;text-align:center;position:relative">
+                    <div @click="beout" style="width:60px;height:60px;border-radius:999em;position:relative;margin:0 auto;position:absolute;left:0" v-bind:class="{handonbg:true}" v-if="!ishandon">
+                        <i class="ion-ios-telephone text-inverse"></i>
+                    </div>
+                    <div style="width:60px;height:60px;border-radius:999em;position:absolute;left:0" @click="speakeron" v-bind:style="{color:(isspeaker)?'yellow':'white'}" v-if="calltimer!=0" class="offbg">
+                        <i class="ion-ios-volume-high text-inverse"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+       
+    </div>
+        <script>
+            var GCloudVoiceEngineInstance = null;
+            var GCloudVoicePoll = 0;
+            var Speakerhis = "off";
+            var GInfo;
+
+            function callevent(data) {
+
+
+                var j = JSON.parse(decodeURIComponent(data));
+                console.dir(decodeURIComponent(data));
+                if (j.name.toUpperCase() == "OnJoinRoom".toUpperCase()) {
+                    if (plus.os.name == "Android") {
+                        GCloudVoiceEngineInstance.OpenMic();
+                        GCloudVoiceEngineInstance.OpenSpeaker();
+                    } else {
+                        GCloudVoiceEngineInstance.openMic();
+                        GCloudVoiceEngineInstance.openSpeaker();
+                    }
+
+
+                }
+                else if (j.name.toUpperCase() == "OnEvent".toUpperCase()) {
+
+                    if (Speakerhis == "on") {
+                        if (plus.os.name == "Android")
+                            GCloudVoiceEngineInstance.EnableSpeakerOn(true);
+                        else
+                            GCloudVoiceEngineInstance.enableSpeakerOn(true);
+                    } else {
+                        if (plus.os.name == "Android")
+                            GCloudVoiceEngineInstance.EnableSpeakerOn(false);
+                        else
+                            GCloudVoiceEngineInstance.enableSpeakerOn(false);
+                    }
+
+                } else if (j.name.toUpperCase() == "OnMemberVoice".toUpperCase()) {
+
+
+                }
+            }
+            var p;
+            var callvue;
+            var nohondupthead;
+            var Server_Token;
+            var bbim;
+            var Bridge;
+            var alldata = function () {
+                var imurl = "wss://wss.7cplay.com:2053/App/";
+                if (JSON.parse(Server_Token).Status == "管理員")
+                    imurl = "wss://192.168.1.110:3002/App/";
+
+                bbim = new BBIM(imurl, Server_Token, function (ev) {
+
+
+                    var roomid = plus.webview.currentWebview().roomid;
+                    var memid = plus.webview.currentWebview().memid;
+                    var callbyme = plus.webview.currentWebview().callbyme;
+                    var meinfo = JSON.parse(plus.webview.currentWebview().meimg);
+                    var herinfo = JSON.parse(plus.webview.currentWebview().herimg);
+                    bbim.setcallphonecb(function (jdata) {
+
+                        console.dir(jdata);
+                        console.dir(herinfo.Member_ID);
+                        if (jdata.Event == "CallEvent" && jdata.TargetID == herinfo.Member_ID) {
+                            roomid = jdata.RoomID;
+                            callvue.getcall(true);
+                        } else if (jdata.Event == "BeOff" && jdata.OffSource == herinfo.Member_ID) {
+                            callvue.beout()
+                        } else if (jdata.Event == "Join" && jdata.TargetID == herinfo.Member_ID) {
+                            callvue.herjoin = true;
+                            callvue.chkalljoin()
+                        }
+                    })
+                    new Vue({
+                        el: "#starlist",
+                        data: {
+                            starcount: 200,
+                        },
+                        mounted: function () {
+                            for (var i = 0; i < $(".starFlickb").length; i++) {
+                                var rndsize = (Math.random() * 3);
+                                setTimeout('$($(".starFlickb")[' + i + ']).addClass("starFlick").css("width","' + rndsize + '").css("height","' + rndsize + '")', 5000 * Math.random())
+
+                            }
+                        },
+                        methods: {
+                            gettop: function () {
+                                var winH = $(window).height();
+                                return parseInt(Math.random() * winH) + "px";
+                            },
+                            getleft: function () {
+                                var winW = $(window).width();
+                                return parseInt(Math.random() * winW) + "px";
+                            },
+                        }
+                    })
+                    callvue = new Vue({
+                        el: "#callid",
+                        data: {
+                            isspeaker: false,
+                            ismic: true,
+                            isvoice: true,
+                            ishandon: false,
+                            meinfo: meinfo,
+                            herinfo: herinfo,
+                            calltimer: 0,
+                            cutmin: 5,
+                            needcut: false,
+                            callbegin: (callbyme == "" ? true : false),
+                            callbyme: callbyme,
+                            mejoin: false,
+                            herjoin: false
+                        },
+                        mounted: function () {
+                            var GCloudVoiceEngine;
+                            if (plus.os.name == "Android") {
+                                GCloudVoiceEngine = plus.android.importClass("com.tencent.gcloud.voice.GCloudVoiceEngine");
+                                var activity = plus.android.runtimeMainActivity()
+                                GCloudVoiceEngineInstance = GCloudVoiceEngine.getInstance()
+                                GCloudVoiceEngineInstance.init(activity.getApplicationContext(), activity)
+                                // GCloudVoiceEngineInstance.SetServerInfo("udp://tw.voice.gcloudcs.com:8700");
+                                GCloudVoiceEngineInstance.SetAppInfo('1069760063', '29f84e2ca267ef95687b5fab81237dde', memid);
+
+
+                            } else {
+                                GCloudVoiceEngine = plus.ios.importClass("GVGCloudVoice");
+                                GCloudVoiceEngineInstance = GCloudVoiceEngine.sharedInstance();
+                                // GCloudVoiceEngineInstance.setServerInfo("udp://tw.voice.gcloudcs.com:8700");
+                                plus.ios.importClass("_cplay.WebUtil").setGVoiceAppInfo(GCloudVoiceEngineInstance, "1069760063", "29f84e2ca267ef95687b5fab81237dde", memid);
+
+                                //  plus.ios.importClass("_cplay.WebUtil").setGVoiceAppInfo(GCloudVoiceEngineInstance, "1069760063", "29f84e2ca267ef95687b5fab81237dde", memid);
+
+
+                                //plus.ios.importClass("_cplay.WebUtil").setGVoiceAppInfo(GCloudVoiceEngineInstance, "1596174010", "95aaba4ff4d22c78daafffb4a7c17d21", memid);
+
+                            }
+
+
+
+                            var self = this;
+                            var winH = $(window).height();
+                            $("#callid").height(winH);
+                            console.dir("callbyme")
+                            console.dir(callbyme)
+
+                            if (callbyme == "") {
+                                if (plus.os.name == "Android") {
+                                    var context = plus.android.runtimeMainActivity();
+                                    var RingtoneManager = plus.android.importClass('android.media.RingtoneManager');
+                                    var uri = RingtoneManager.getActualDefaultRingtoneUri(context, RingtoneManager.TYPE_RINGTONE);
+                                    plus.android.importClass(uri)
+                                    p = plus.audio.createPlayer(uri.toString());
+                                    p.setRoute(plus.audio.ROUTE_SPEAKER);
+                                    var pp = function () {
+                                        p.play(function () {
+                                            p.stop();
+                                            p = plus.audio.createPlayer(uri.toString());
+                                            pp();
+                                        }, function (e) {
+
+                                        });
+                                    }
+                                    pp();
+                                } else {
+                                    var root = plus.ios.importClass("_cplay.WebUtil").getRoot();
+                                    p = plus.audio.createPlayer(root + "audio/call/marimba.mp3");
+                                    var pp = function () {
+                                        p.play(function () {
+                                            p.stop();
+                                            p = plus.audio.createPlayer(root + "audio/call/marimba.mp3");
+                                            pp();
+                                        }, function (e) {
+
+                                        });
+                                    }
+                                    pp();
+                                }
+
+
+                                nohondupthead = setTimeout(function () {
+                                    self.beout()
+                                }, 30000)
+                            } else {
+
+
+                            }
+
+                            $("#callid").show()
+
+                            // if (handoffbg)
+                        },
+                        watch: {
+                            calltimer: function (value) {
+                                console.dir(value)
+                                var totalsec = this.cutmin * 60;
+                                if ((totalsec - 60) == value) {
+                                    //放提示
+                                    var root;
+                                    if (plus.os.name == "Android") {
+                                        root = plus.android.importClass("tw.com.sevencplay.core.Bridge").getRoot();
+                                    } else {
+                                        root = plus.ios.importClass("_cplay.WebUtil").getRoot();
+                                    }
+
+
+                                    var ale = plus.audio.createPlayer(root + "audio/call/alerm.mp3");
+                                    ale.play(function () {
+                                        ale.stop();
+                                    });
+
+                                } else if (totalsec <= value) {
+                                    if (this.needcut) {
+                                        this.needcut = false;
+                                        this.beout()
+                                    }
+                                }
+                            }
+                        },
+                        methods: {
+                            imjoin: function () {
+                                if (callbyme == "") {
+                                    var sendobj = { CallTarget: herinfo.Member_ID, Event: "Join" };
+                                    bbim.callphone(JSON.stringify(sendobj));
+
+                                }
+
+                            },
+                            startcall: function () {
+                                var self = this;
+
+                                var root;
+                                if (plus.os.name == "Android") {
+                                    root = plus.android.importClass("tw.com.sevencplay.core.Bridge").getRoot();
+                                } else {
+                                    root = plus.ios.importClass("_cplay.WebUtil").getRoot();
+                                }
+                                p = plus.audio.createPlayer(root + "audio/call/1.mp3");
+                                p.setRoute(plus.audio.ROUTE_EARPIECE);
+                                var pp = function () {
+                                    p.play(function () {
+                                        p.stop();
+                                        p = plus.audio.createPlayer(root + "audio/call/1.mp3");
+                                        pp();
+                                    }, function (e) {
+
+                                    });
+                                }
+                                pp();
+                                this.callbegin = true;
+
+                                var sendobj = { CallTarget: this.herinfo.Member_ID, Event: "Call" };
+                                bbim.callphone(JSON.stringify(sendobj));
+                            },
+                            addmin: function (i) {
+                                if (i > 0) {
+                                    this.cutmin += 5;
+                                } else {
+                                    if (this.cutmin <= 5) {
+                                        plus.nativeUI.toast("最小提醒時間為5分鐘");
+                                        return;
+                                    }
+                                    this.cutmin -= 5;
+                                }
+                            },
+                            playbgm: function (id) {
+                                if (GCloudVoiceEngineInstance) {
+                                    if (plus.os.name == "Android")
+                                        GCloudVoiceEngineInstance.SetVoiceEffects(id);
+                                    else
+                                        GCloudVoiceEngineInstance.setVoiceEffects(id);
+                                }
+
+                            },
+                            padLeft: function (str, lenght) {
+                                if (str.length >= lenght)
+                                    return str;
+                                else
+                                    return this.padLeft("0" + str, lenght);
+                            },
+
+                            beout: function () {
+                                var sendobj = { OffSource: GInfo.MyInfo.Member_ID, OffTarget: this.herinfo.Member_ID, Event: "Off" };
+                                bbim.callphone(JSON.stringify(sendobj));
+                                clearInterval(GCloudVoicePoll);
+                                $("#mask").fadeIn(200, function () {
+                                    if (GCloudVoiceEngineInstance) {
+                                        if (plus.os.name == "Android") {
+
+                                            GCloudVoiceEngineInstance.QuitRoom(roomid, 10 * 1000)
+                                            GCloudVoiceEngineInstance.CloseMic();
+                                            GCloudVoiceEngineInstance.CloseSpeaker();
+                                        } else {
+                                            plus.ios.importClass("_cplay.WebUtil").quitRoom(GCloudVoiceEngineInstance, roomid, 10 * 1000);
+
+                                            GCloudVoiceEngineInstance.closeMic();
+                                            GCloudVoiceEngineInstance.closeSpeaker();
+                                        }
+                                        if (plus.os.name == "Android")
+                                            GCloudVoiceEngineInstance.EnableSpeakerOn(false);
+                                        else
+                                            GCloudVoiceEngineInstance.enableSpeakerOn(false);
+
+                                    }
+                                    setTimeout(function () {
+
+                                       
+                                        plus.webview.currentWebview().close('auto');
+                                    }, 200)
+                                });
+                            },
+                            getcall: function (keepring) {
+
+                                if (this.ishandon == false) {
+                                    this.ishandon = true;
+                                    if (!(keepring)) {
+                                        if (p)
+                                            p.stop();
+                                    }
+                                    var waitback = -1;
+                                    if (plus.os.name == "Android")
+                                        waitback = GCloudVoiceEngineInstance.Init();
+                                    else
+                                        waitback = GCloudVoiceEngineInstance.initEngine();
+
+                                    if (waitback == 0) {
+                                        var delegate;
+                                        if (plus.os.name == "Android") {
+                                            delegate = plus.android.importClass("tw.com.sevencplay.core.Bridge").getGVoiceNotify(plus.webview.currentWebview().id, "callevent")
+                                            GCloudVoiceEngineInstance.SetNotify(delegate)
+                                            GCloudVoiceEngineInstance.SetMode(0)
+                                            GCloudVoicePoll = setInterval(function () { GCloudVoiceEngineInstance.Poll() }, 100)
+                                            GCloudVoiceEngineInstance.SetMicVolume(100);
+                                            GCloudVoiceEngineInstance.EnableSpeakerOn(false);
+                                            GCloudVoiceEngineInstance.JoinTeamRoom(roomid, 10 * 1000)
+                                        } else {
+                                            delegate = plus.ios.importClass("_cplay.WebUtil").getGVoiceNotify(plus.webview.currentWebview().id, "callevent");
+                                            GCloudVoiceEngineInstance.setDelegate(delegate);
+                                            GCloudVoiceEngineInstance.setMode(0);
+                                            GCloudVoicePoll = setInterval(function () { GCloudVoiceEngineInstance.poll() }, 100)
+                                            GCloudVoiceEngineInstance.setMicVolume(100);
+                                            GCloudVoiceEngineInstance.enableSpeakerOn(false);
+                                            plus.ios.importClass("_cplay.WebUtil").joinTeamRoom(GCloudVoiceEngineInstance, roomid, 10 * 1000);
+
+                                        }
+
+
+
+
+                                        if (callbyme == "") {
+                                            this.herjoin = true;
+                                        }
+                                        this.mejoin = true;
+                                        this.imjoin();
+                                        this.chkalljoin();
+                                    }
+
+                                } else {
+                                    //plus.webview.getLaunchWebview().evalJS("bbim.callphone('" + herinfo.Member_ID + "','" + roomid + "')")
+
+                                    this.beout();
+
+
+                                }
+
+                            },
+                            chkalljoin: function () {
+                                var self = this;
+                                if (self.herjoin && self.mejoin) {
+                                    if (p)
+                                        p.stop();
+                                    if (self.calltimer == 0) {
+                                        clearTimeout(nohondupthead);
+                                        self.calltimer += 1;
+                                        setInterval(function () {
+                                            self.calltimer += 1;
+                                        }, 1000)
+                                    }
+                                }
+                            },
+                            speakeron: function () {
+                                if (this.ishandon) {
+                                    if (this.isspeaker) {
+                                        this.isspeaker = false;
+                                        if (plus.os.name == "Android")
+                                            GCloudVoiceEngineInstance.EnableSpeakerOn(false);
+                                        else
+                                            GCloudVoiceEngineInstance.enableSpeakerOn(false);
+                                        Speakerhis = "off";
+
+                                    } else {
+                                        this.isspeaker = true;
+                                        if (plus.os.name == "Android")
+                                            GCloudVoiceEngineInstance.EnableSpeakerOn(true);
+                                        else
+                                            GCloudVoiceEngineInstance.enableSpeakerOn(true);
+
+                                        Speakerhis = "on";
+
+                                    }
+                                }
+                            },
+                            speakermute: function () {
+                                if (this.ishandon) {
+                                    if (this.isvoice) {
+                                        this.isvoice = false;
+                                        if (plus.os.name == "Android")
+                                            GCloudVoiceEngineInstance.SetSpeakerVolume(0);
+                                        else
+                                            GCloudVoiceEngineInstance.setSpeakerVolume(0);
+
+
+                                    } else {
+                                        this.isvoice = true;
+                                        if (plus.os.name == "Android")
+                                            GCloudVoiceEngineInstance.SetSpeakerVolume(100);
+                                        else
+                                            GCloudVoiceEngineInstance.setSpeakerVolume(100);
+
+
+                                    }
+                                }
+                            },
+                            micmute: function () {
+                                if (this.ishandon) {
+                                    if (this.ismic) {
+                                        this.ismic = false;
+                                        if (plus.os.name == "Android")
+                                            GCloudVoiceEngineInstance.SetMicVolume(0);
+                                        else
+                                            GCloudVoiceEngineInstance.setMicVolume(0);
+                                    } else {
+                                        this.ismic = true;
+                                        if (plus.os.name == "Android")
+                                            GCloudVoiceEngineInstance.SetMicVolume(100);
+                                        else
+                                            GCloudVoiceEngineInstance.setMicVolume(100);
+
+                                    }
+                                }
+                            }
+                        }
+                    })
+
+                }, function () {
+
+                })
+            }
+            document.addEventListener('plusready', function () {
+                plus.key.addEventListener('backbutton', function () {
+
+                }, false);
+                Bridge = new BridgeClass();
+                Bridge.getData("Server_Token",
+                    function (tok) {
+                        Server_Token = tok;
+                        GInfo = new Vue({
+                            data: {
+                                MyInfo: JSON.parse(tok),
+                                MyCert: {},
+                                KindList: {}
+                            },
+                        })
+                        alldata();
+
+                    }
+                )
+
+            }, false);
+        </script>
+</body>
+
+</html>

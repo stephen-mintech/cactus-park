@@ -1,0 +1,144 @@
+﻿<div class="GiftPage page bdbg js_show" id="GiftPagebd" style="overflow-y:hidden;display:none">
+   
+    <!--<div class="page__hd navbg" style="padding:0;margin:0;height:60px;position:relative">
+        <h4 class="" style="color:white;width:100%;line-height:60px;font-size:24px;position:absolute;text-align:center">{{data.Zuzu_Kind_Name + (top['DataBase']['Free'] == true?' 免費體驗':' 官方嚴選')}}</h4>
+
+        <div id="backSetting" class="backb" onclick="plus.webview.close(plus.webview.currentWebview())" style="width:30px;height:60px;border-radius: 999em;color:white">
+            <i class="fa fa-angle-left" style="font-size:30px;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"> </i>
+        </div>
+
+
+    </div>-->
+   
+
+    <div class="page__bd" style="height:100%;padding-top:0px;position:relative;">
+        <div class="weui-cells__title" style="height:10%">
+            <span>擁有紅利 {{GInfo.MyInfo.R}} 點 </span>
+            <span v-for="item in pointlist">{{item.Name}} x{{item.Points}}  </span>
+        </div>
+
+        <div class="weui-grids" style="overflow-y:auto;height:90%">
+            <a href="javascript:;" class="weui-grid" v-for="item in giftlist" @click="sendgift(item.GiftList_ID,item.Name)">
+                <div class="weui-grid__icon">
+                    <img :src="'img/emoji/'+item.Img" alt="">
+                </div>
+                <p class="weui-grid__label">{{item.Name}}</p>
+                <p class="weui-grid__label">{{item.SellPoints}}點{{item.PointsType}}</p>
+            </a>
+           
+        </div>
+    </div>
+    <script>
+     
+        getimdata("getGiftList2", "", function (r) {
+            if (r.result_status) {
+                var giftlist = r.result_content.giftlist;
+                var pointlist = r.result_content.pointlist;
+                new Vue({
+                    el: "#GiftPagebd",
+                    data: {
+                        giftlist: giftlist,
+                        pointlist: pointlist,
+                    },
+                    methods: {
+                        sendgift: function (id, name) {
+                            var self = this;
+                            plus.nativeUI.prompt("請輸入" + name+"數量:", function (e) {
+                                console.log(((e.index == 0) ? "OK: " : "Cancel") + e.value);
+                                if (e.index == 0) {
+                                    var regPos = /^\d+$/;
+                                  
+                                    if (e.value == "") {
+                                      
+                                        alert("數量不可為空!");
+                                        return;
+                                    }
+                                    if (!regPos.test(e.value)) {
+                                      
+                                        alert("數量格式錯誤!");
+                                        return;
+                                    }
+                                    plus.nativeUI.showWaiting("送禮中...")
+                                    getimdata("sendGift", { memberid: plus.webview.currentWebview().param, giftid: id, count: e.value }, function (r) {
+                                        if (r.result_status) {
+                                            getimdata("getGiftList2", "", function (r2) {
+                                                if (r2.result_status) {
+                                                    self.giftlist = r2.result_content.giftlist;
+                                                    self.pointlist = r2.result_content.pointlist;
+                                                }
+                                            })
+                                            // $("#ActionTitle").text("禮物清單 (目前擁有台幣:" + r.result_content + "元)");
+                                            alert("送禮成功")
+                                           
+                                        } else {
+                                            if (r.result_content == "go") {
+                                                plus.nativeUI.confirm(r.result_message + "，是否前往轉換？", function (e) {
+
+                                                    if (e.index == 0) {
+                                                        // goind("")
+                                                        plus.webview.getLaunchWebview().evalJS('$(\'<a btag="Wallet" onclick="hovernav(this)"></a>\').click()')
+                                                    }
+                                                },
+                                                    {
+                                                        "title": "是否轉換紅利",
+                                                        "buttons": ["前往轉換", "再等等"],
+
+                                                    }
+                                                );
+                                            } else {
+                                                alert(r.result_message);
+                                            }
+
+                                        }
+                                        plus.nativeUI.closeWaiting()
+                                    })
+
+                                }
+
+                            }, "", "數量", ["贈送", "取消"]);
+
+                            //plus.nativeUI.confirm("你確定要送禮 " + name + " 嗎?", function (e) {
+                            //    if (e.index == 0) {
+                            //        getimdata("sendGift", { memberid: plus.webview.currentWebview().param, giftid: id }, function (r) {
+                            //            if (r.result_status) {
+                            //                // $("#ActionTitle").text("禮物清單 (目前擁有台幣:" + r.result_content + "元)");
+                            //                alert("送禮成功")
+                            //            } else {
+                            //                if (r.result_content == "go") {
+                            //                    plus.nativeUI.confirm(r.result_message + "，是否前往轉換？", function (e) {
+
+                            //                        if (e.index == 0) {
+                            //                            // goind("")
+                            //                            plus.webview.getLaunchWebview().evalJS('$(\'<a btag="Wallet" onclick="hovernav(this)"></a>\').click()')
+                            //                        }
+                            //                    },
+                            //                        {
+                            //                            "title": "是否轉換紅利",
+                            //                            "buttons": ["前往轉換", "再等等"],
+
+                            //                        }
+                            //                    );
+                            //                } else {
+                            //                    alert(r.result_message);
+                            //                }
+
+                            //            }
+                            //        })
+
+
+                            //    }
+                            //});
+                        }
+                    },
+                    mounted: function () {
+                        $("#GiftPagebd").show();
+                    }
+                })
+             
+                console.dir(giftlist)
+            } else {
+                console.error(r.result_message);
+            }
+        })
+    </script>
+</div>

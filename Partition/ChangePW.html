@@ -1,0 +1,112 @@
+﻿<div class="ChangePW page bdbg" id="ChangePW" style="  ">
+    <style>
+    </style>
+    <div class="flexbar navbg" style="display: flex;position:fixed;top:0;left:0;height:60px;z-index:300;width:100%;padding-bottom:10px;overflow:hidden">
+        <div class="memberinfo1" style="width: 10%;height:60px;position:relative; flex: 0 0 50%;margin:20px 0px 20px 0px ; ">
+            <div id="backSetting" class="backb" onclick="plus.webview.close(plus.webview.currentWebview())" style="width:30px;height:30px;border-radius: 999em;color:white">
+                <i class="fa fa-angle-left" style="font-size:30px;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"> </i>
+            </div>
+        </div>
+        <div class="" style="height:60px;position:relative;top:0px;flex: 0 0 50%;">
+            <div style="font-size:24px;text-align: left;position:absolute;top:50%;left:0;color:white;transform:translate(-50%,-50%);">修改密碼</div>
+        </div>
+    </div>
+    <div class="page__hd">
+    </div>
+    <div class="page__bd" id="stylechkbox">
+        <div class="weui-cells__title">舊密碼</div>
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="password" v-model="opw" placeholder="請輸入舊密碼">
+                </div>
+            </div>
+
+        </div>
+        <div class="weui-cells__title">新密碼</div>
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="password" v-model="npw" placeholder="請輸入新密碼">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="password" v-model="npw2" placeholder="再次輸入新密碼">
+                </div>
+            </div>
+        </div>
+        <div class="weui-btn-area">
+            <a class="weui-btn weui-btn_primary" href="javascript:;" @click="chgpw" id="">確定修改</a>
+        </div>
+    </div>
+    <div class="page__ft ">
+
+    </div>
+
+    <script>
+       
+        $(function () {
+            new Vue({
+                el: "#ChangePW",
+                data: {
+                    opw: "",
+                    npw: "",
+                    npw2:"",
+                },
+                methods: {
+                    chgpw: function () {
+                        var self = this;
+                        plus.nativeUI.confirm("你確定要修改密碼嗎?", function (e) {
+                            if (e.index == 0) {
+                                plus.nativeUI.showWaiting("載入中...", {back:"none"})
+                                $.ajax({
+                                    url: ajaxurl + "ChangePW",
+                                    type: 'post',
+                                    headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                                    data: self.$data,
+                                    timeout: 30000,
+                                    success: function (r) {
+                                        if (r.result_status) {
+                                            alert("修改成功!請用新密碼重新登入!");
+                                            Server_Token = "";
+                                            Bridge.signOut();
+                                           
+                                            Bridge.setData("Server_Token", "", function () {
+                                                var li = plus.webview.all().filter(e => e != plus.webview.getLaunchWebview());
+                                                for (var i = 0; i < li.length; i++) { li[i].close() }
+                                            
+                                                Bridge.LogOut();
+                                               
+                                            });
+                                        } else {
+                                            alert(r.result_message);
+                                        }
+                                        plus.nativeUI.closeWaiting();
+                                    },
+                                    error: function (jqXHR, textStatus, errorThrown) {
+                                     
+                                    },
+                                   
+                                });
+
+
+                            }
+
+                        }, {
+                                "title": "確認修改",
+                                "buttons": ["確認", "取消"],
+                                "verticalAlign": "center"
+                            });
+                    }
+                },
+                watch: {
+                  
+                },
+                
+            })
+           
+        })
+
+    </script>
+</div>

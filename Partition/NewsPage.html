@@ -1,0 +1,769 @@
+﻿<div class="newspage page bdbg" style="overflow-y:hidden">
+    <style>
+
+
+
+        .memberinfo {
+            width: 90%;
+            text-align: center;
+            height: 100px
+        }
+
+        .weui-media-box__hd2 {
+            margin-right: .2em;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+        }
+    </style>
+    <!--<div id="loadingToastnews" style="z-index:5000">
+        <div class="weui-mask" style="background-color:black"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">載入中</p>
+        </div>
+    </div>-->
+    <div class="flexbar " style="display: flex;position:fixed;top:0;left:0;height:60px;z-index:300;width:100%;padding-bottom:10px;overflow:hidden;color:white">
+
+        <div class="memberinfo1" style="width: 10%;height:70px;position:relative; flex: 0 0 10%; ">
+            <div id="backSetting" class="backb" onclick="plus.webview.close(plus.webview.currentWebview())" style="text-align:center;position:relative;top:50%;left:50%;transform:translate(-50%,-50%);width:30px;height:30px;border-radius: 999em;">
+                <i class="fa fa-angle-left" style="font-size:30px;position:relative;line-height:30px"> </i>
+            </div>
+
+        </div>
+
+
+        <div class="memberinfo" style="height:60px;position:relative;top:60px;flex: 0 0 80%;">
+            <a href="javascript:void(0);" style="padding:10px 10px" class="weui-media-box weui-media-box_appmsg" >
+                <!--<div class="weui-media-box__hd2" style="float:right">
+
+            <img class="weui-media-box__thumb" style="object-fit:cover;border-radius:999em" src="{{data.Member.Img}}" alt="">
+        </div>-->
+                <div class="weui-media-box__bd">
+                    <h4 class="weui-media-box__title" style="color:white">{{data.Member.Name}}</h4>
+
+                </div>
+                <div class="weui-media-box__ft" style="padding-right:5px;padding-top:5px">
+                    <div style="border-color:deepskyblue" onclick="setFollow('{{data.Member.Member_ID}}')" class="weui-btn weui-btn_mini weui-btn_notfollow">關注</div>
+                </div>
+                <img class="weui-media-box__thumb" style="object-fit:cover;border-radius:999em;width:50px;height:50px" src="{{data.Member.Img}}" onerror="this.src='img/icon/noimage_person.png'" alt="">
+            </a>
+        </div>
+        <div class="memberinfo1" style="width: 10%;height:70px;position:relative; flex: 0 0 10%; ">
+
+            <div id="" class="backb moreicon" style="width:30px;height:30px;border-radius: 999em;text-align:center;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)">
+                <i class="ion-ios-more text-inverse" style="font-size:30px;line-height:30px;position:relative;"> </i>
+            </div>
+        </div>
+    </div>
+    <!--<div class="flexbar " style="display: flex;position:fixed;top:0;left:0;height:60px;z-index:300;width:100%;background-color:white;padding-bottom:10px;overflow:hidden">
+
+        <div class="memberinfo1" style="width: 10%;height:60px;position:relative; flex: 0 0 10%;margin:20px 10px auto; ">
+     
+            <div id="backSetting" class="backb" onclick="plus.webview.currentWebview().close();" style="width:30px;height:30px;border-radius: 999em;">
+                <i class="fa fa-angle-left" style="font-size:30px;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"> </i>
+            </div>
+        </div>
+        <div class="memberinfo" style="height:60px;position:relative;top:60px;flex: 0 0 90%;">
+            <a href="javascript:void(0);" style="" class="weui-media-box weui-media-box_appmsg">
+          
+                <div class="weui-media-box__bd">
+                    <h4 class="weui-media-box__title" style="color:white">{{data.Member.Name}}</h4>
+
+                </div>
+                <div class="weui-media-box__ft" style="padding-right:5px">
+                    <div style="border-color:deepskyblue" onclick="setFollow('{{data.Member.Member_ID}}')" class="weui-btn weui-btn_mini weui-btn_notfollow">關注</div>
+                </div>
+                <img class="weui-media-box__thumb" style="margin-right:10px;object-fit:cover;border-radius:999em;width:50px;height:50px" src="{{data.Member.Img}}" onerror="this.src='img/icon/noimage_person.png'" alt="">
+            </a>
+        </div>
+     
+    </div>-->
+
+    <div class="weui-tabbar hov tabbg" id="newstab">
+        <!--<a id="sendgift" class="weui-tabbar__item">
+            <div style="height:50px;">
+                <i alt="" class="fa fa-1x fa-gift" style="font-size:14px;color:white;transform:translateY(-50%);position:relative;top:50%"> 送禮</i>
+            </div>
+
+        </a>-->
+
+        <a id="" class="weui-tabbar__item" onclick="setLike('{{data.Member_News_ID}}')">
+            <div style="height:50px;">
+                <i alt="" class="fa fa-1x fa-heart-o" liketag="{{data.Liked}}" binfo="likecount2" style="font-size:14px;transform:translateY(-50%);position:relative;top:50%"> 讚 ({{data.LikeCount}})</i>
+            </div>
+            <!--<div class="weui-grid__icon">
+                <i alt="" class="fa fa-2x fa-heart-o" liketag="{{data.Liked}}" style="font-size:32px;color:red"></i>
+            </div>
+            <p class="weui-grid__label">讚</p>-->
+        </a>
+        <a id="" class="weui-tabbar__item" onclick="$('#searchText').click()">
+            <div style="height:50px;">
+                <i alt="" class="fa fa-1x fa-comment-o" style="font-size:14px;transform:translateY(-50%);position:relative;top:50%"> 留言 ({{data.CommentCount}})</i>
+            </div>
+            <!--<div class="weui-grid__icon">
+                <i alt="" class="fa fa-2x fa-comment-o" style="font-size:32px;color:gray"></i>
+            </div>
+            <p class="weui-grid__label">留言</p>-->
+        </a>
+    </div>
+    <div class="newsdiv" style="overflow-y:auto;height:100%">
+        <div class="page__hd newspich" style="padding:0">
+            <div id="ActionDiv" style="display:none">
+                <div class="weui-mask" id="iosMask" style="" onclick="$('#ActionDiv').hide(); $('#iosActionsheet').removeClass('weui-actionsheet_toggle');"></div>
+                <div class="weui-actionsheet " id="iosActionsheet" style="overflow-y:auto; -webkit-overflow-scrolling: touch;height:50%">
+                    <div class="weui-actionsheet__title">
+                        <p class="weui-actionsheet__title-text" style="position:relative;width:100%;text-align:left" id="ActionTitle">禮物清單 (目前擁有紅利: {{GInfo.MyInfo.R}} 點)</p>
+                    </div>
+                    <div class="weui-actionsheet__menu" id="ActionMenu">
+
+                    </div>
+                    <div class="weui-actionsheet__action">
+                        <div class="weui-actionsheet__cell" onclick="$('#ActionDiv').hide(); $('#iosActionsheet').removeClass('weui-actionsheet_toggle');" id="iosActionsheetCancel">取消</div>
+                    </div>
+                </div>
+
+            </div>
+            <video class="demovideo" data-setup='{}' style="width:auto;height:auto;max-width:100%;max-height:70%;display:none" src="" preload="metadata" muted playsinline webkit-playsinline>
+                <source src='' type='video/mp4'>
+            </video>
+
+            <img class="demoimg" style="width:auto;height:auto;max-width:100%;max-height:70%;display:none" alt="">
+            <div class="swiper-container" style="">
+                <div class="swiper-wrapper">
+
+                </div>
+                <!-- Add Pagination -->
+                <div class="swiper-pagination"></div>
+                <!-- Add Arrows -->
+
+            </div>
+
+
+        </div>
+
+        <div class="page__bd " style="">
+
+            <div class="weui-panel weui-panel_access profileinfo">
+
+                <div class="weui-panel__bd">
+                    <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
+                        <div class="weui-media-box__hd" onclick="hovernavc(this,'{{data.Member.Member_ID}}')" btag="PlayerPage">
+                            <img class="weui-media-box__thumb" style="object-fit:cover;border-radius:999em;width:50px;height:50px" src="{{data.Member.Img}}" onerror="this.src='img/icon/noimage_person.png'" alt="">
+                        </div>
+                        <div class="weui-media-box__hd" style="position:absolute" onclick="hovernavc(this,'{{data.Member.Member_ID}}')" btag="PlayerPage">
+
+                            <img class="weui-media-box__thumb" style="object-fit:cover;width:54px;height:54px;position:relative;top:-2px" src="img/header/{{data.Member.header}}_C.png" alt="">
+
+                        </div>
+                        <div class="weui-media-box__bd" style="height:60px" onclick="hovernavc(this,'{{data.Member.Member_ID}}')"  btag="PlayerPage">
+                            <h4 id="onlinevue" class="weui-media-box__title" v-bind:style="{color:(('{{data.Member.color}}'||'black')=='black'?'black':'{{data.Member.color}}')}">{{data.Member.Name}} <span style="font-size:12px" v-bind:style='{"color":(online?"lightgreen":"darkgray")}'>{{timest}}</span></h4>
+                            <p class="weui-media-box__desc">
+                                <span id="genderlab" v-bind:class='{"ganlabel_g":(gander=="G"),"ganlabel_b":(gander=="B"),"ganlabel_n":(gander=="N")}' class="">{{data.Member.Age}}</span>
+                            </p>
+                        </div>
+                        <div class="weui-media-box__ft">
+                            <div style="border-color:deepskyblue" class="weui-btn weui-btn_mini weui-btn_notfollow" onclick="setFollow('{{data.Member.Member_ID}}')">關注</div>
+                        </div>
+                    </a>
+
+                </div>
+
+            </div>
+            <article class="weui-article" style="background-color:white">
+
+                <p>{{data.Content}}</p>
+                <p class="page__desc" style="min-height: 14px">{{data.CreateTime}}</p>
+                <div class="" id="postlist" style="white-space: nowrap;width: auto;list-style: none;display: flex;margin:10px 0px 20px 0px; padding: 10px 15px;">
+
+                    <div style="width:100%;box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5);margin-right:20px">
+
+                        <a href="javascript:void(0);" onclick="hovernav(this,'id')" btag="Skill" class="weui-media-box weui-media-box_appmsg skillinfo">
+
+                            <div class="weui-media-box__hd">
+                                <img class="weui-media-box__thumb" style="position:relative;top:50%;left:50%;transform:translate(-50%,-50%);width:auto;height:auto;max-width:100%;max-height:100%;padding-right:5px" src="http://p5.img.cctvpic.com/nettv/newgame/2012/0821/20120821061520782.jpg" alt="">
+                            </div>
+                            <div class="weui-media-box__bd">
+                                <h6 class="weui-media-box__title gamename">英雄聯盟</h6>
+                                <p class="weui-media-box__desc gamefee" style="color:red">200元/1小時</p>
+                            </div>
+                            <div style="position:relative;right:0;display: flex;text-align:center;padding: 15px; border-left: 1px solid #E5E5E5;margin-left:10px">
+                                <p class="weui-media-box__desc OrderTimes" style=" ">接單999次</p>
+
+                            </div>
+                        </a>
+
+
+                    </div>
+                </div>
+            </article>
+            <div class="weui-panel weui-panel_access">
+
+                <div class="weui-panel__bd">
+                    <a href="javascript:void(0);" class="weui-cell weui-cell_access">
+
+                        <div class="weui-media-box__bd">
+                            <p class="weui-media-box__desc" binfo="likecount">讚 {{data.LikeCount}}</p>
+                            <br>
+                            <p class="weui-media-box__desc" binfo="likelist">{{data.LikeTop20}}&nbsp;</p>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+            </div>
+            <div class="weui-panel weui-panel_access">
+                <div class="weui-panel__hd">留言 {{data.CommentCount}}</div>
+                <div class="weui-search-bar" id="searchBar" onclick="gotag()">
+                    <form class="weui-search-bar__form" id="commentform" onsubmit="sendcomment($('#commentInput').val()); return false;">
+                        <div class="weui-search-bar__box">
+
+                            <input type="text" class="weui-search-bar__input" id="commentInput" placeholder="留點什麼吧" required="">
+                            <a href="javascript:" class="weui-icon-clear" id=""></a>
+                        </div>
+                        <label class="weui-search-bar__label" onclick="gotag()" id="searchText" style="font-weight:300;padding-left: 30px;transform-origin: 0px 0px; opacity: 1; transform: scale(1, 1);text-align:left">
+
+                            <span>留點什麼吧</span>
+                        </label>
+                    </form>
+                    <a href="javascript:" class="weui-search-bar__cancel-btn" onclick="sendcomment($('#commentInput').val())" id="">發送</a>
+                    <a href="javascript:" class="weui-search-bar__cancel-btn" id="">取消</a>
+                </div>
+                <div class="weui-panel__bd commentlist">
+
+                </div>
+
+            </div>
+        </div>
+        <div class="page__ft " style="">
+            <br>
+            <div id="followsuccess" style="display: none;">
+                <div class="weui-mask_transparent"></div>
+                <div class="weui-toast">
+                    <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+                    <p class="weui-toast__content"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/html" id="commentcard">
+
+        <div class="weui-media-box weui-media-box_appmsg weui-media-box_text">
+            <div class="weui-media-box__hd" onclick="hovernav_new(this,'{{Member_ID}}',{titleText:'{{Member_Name}}',img:'{{Member_Img}}',moreinfo: true,type: 'transparent'})" btag="PlayerPage">
+                <img class="weui-media-box__thumb" src="{{Member_Img}}_s" style="object-fit:cover;border-radius:999em;width:50px;height:50px" onerror="this.src='img/icon/noimage_person.png'" alt="">
+
+                <!--<img class="weui-media-box__thumb" src="{{Member_Img}}" alt="">-->
+            </div>
+            <div class="weui-media-box__bd">
+                <h4 class="weui-media-box__title">{{Member_Name}}</h4>
+                <p class="weui-media-box__desc">{{Content}}</p>
+                <ul class="weui-media-box__info">
+                    <li class="weui-media-box__info__meta">{{Member_Status}}</li>
+                    <li class="weui-media-box__info__meta">{{CreateTime}}</li>
+
+                </ul>
+            </div>
+
+        </div>
+    </script>
+    <script type="text/html" id="giftaction">
+
+        <a class="weui-grid">
+            <div class="weui-grid__icon">
+                <i alt="" class="fa fa-2x fa-money" style="font-size:32px;color:lawngreen"></i>
+            </div>
+            <p class="weui-grid__label">gift</p>
+        </a>
+
+
+    </script>
+    <script type="text/html" id="swli">
+        <div class="swiper-slide" style="position:relative;width:100%;height:100%;overflow: hidden; ">
+            <img class="swimg" style="position:absolute;top:0;left:0;filter: blur(10px);width:100%;height:100%;z-index:1" src="" alt="">
+            <img class="swimg" style="width:auto;height:auto;max-width:100%;max-height:100%;z-index:2" src="" alt="">
+
+            <!-- 真正波的 -->
+            <div onclick="togglesound()" class="togglesound" style="z-index:500;position:absolute;left:2%;bottom:40px;background: rgba(0, 0, 0, 0.3); margin-left: auto;margin-right: auto;padding-left: 14px;padding-right: 14px;border-radius: 99em;color:white">
+                <i class="ion-android-volume-off fa-1x text-inverse"></i>
+
+            </div>
+            <video class="swimg" id="swimgvideo" style="width:auto;height:auto;max-width:100%;max-height:100%" preload="auto" autoplay loop playsinline webkit-playsinline>
+                <source src='' type='video/mp4'>
+
+            </video>
+
+        </div>
+    </script>
+    <script>
+        var bottomEl = $("#newstab");
+        bottomEl.css("bottom", false)
+        bottomEl.css("top", document.documentElement.clientHeight - $(bottomEl).height() + 'px')
+        function gotag() {
+            $('<a href="#searchBar"></a>').click();
+
+
+        }
+        var data = JSON.parse("{{data}}");
+        function hovernavc(el) {
+            hovernav_new(el, data.Member.Member_ID,
+                {
+                    titleText: data.Member.Name,
+                    img: data.Member.Img,
+                    moreinfo: true,
+                    type: 'transparent'
+                })
+
+        }
+        var isBlock = data.isBlock;
+        if (isBlock == true) {
+            alert("你已經封鎖此用戶");
+            plus.webview.currentWebview().close();
+       
+        }
+        $(".moreicon").on("click", function () {
+            plus.nativeUI.actionSheet(
+                {
+                    title: "更多操作",
+                    cancel: "取消",
+                    buttons: [
+                        {
+                            title: "檢舉這則動態",
+                            color: "#dd7299"
+                        },
+                        {
+                            title: "封鎖此人",
+                            color: "#dd7299"
+                        }
+                    ]
+                },
+                function (e) {
+                    console.log("User pressed: " + e.index);
+                    console.dir(data)
+                    if (e.index == 1) {
+                        var cw;
+                        if (JSON.parse(Server_Token).Status == "管理員") {
+                            cw = plus.webview.create(debugurl + "Partition/TrashMsg.html", "callcr", { "cachemode": "noCache", "background": "transparent", "popGesture": "close", "height": "100%", "margin": "auto", "width": "100%" }, { mid: data.Member_News_ID, type: "News" });
+                        }
+                        else {
+                            cw = plus.webview.create('Partition/TrashMsg.html', "callcr", { "cachemode": "noCache", "background": "transparent", "popGesture": "close", "height": "100%", "margin": "auto", "width": "100%" }, { mid: data.Member_News_ID, type: "News" });
+                        }
+                        cw.addEventListener('close', function (e) {
+                            //plus.nativeUI.closeWaiting();
+                        }, false);
+                        plus.nativeUI.showWaiting("載入中");
+                        plus.webview.currentWebview().append(cw)
+                    } else if (e.index == 2) {
+                        GInfo.block(data.Member.Member_ID, data.Member.Name, 'reload');
+                    }
+                }
+            );
+        })
+        var giftlist ;
+        new Vue({
+            el: "#genderlab",
+            data: {
+                gander: data.Member.Gender
+            }
+        })
+
+        new Vue({
+            el: "#onlinevue",
+            data: {
+                orgst: "{{data.Member.isOnline}}",
+                online: true,
+                days: 0,
+                hours: 0,
+                mins: 0,
+                timest: "正在線上"
+            },
+            created: function () {
+                var self = this;
+                var tic = function () {
+                    if (self.orgst) {
+                        self.online = false;
+                        var diff = Date.now() - new Date("{{data.Member.isOnline}}")
+
+                        var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                        diff -= days * (1000 * 60 * 60 * 24);
+
+                        var hours = Math.floor(diff / (1000 * 60 * 60));
+                        diff -= hours * (1000 * 60 * 60);
+
+                        var mins = Math.floor(diff / (1000 * 60));
+                        diff -= mins * (1000 * 60);
+
+                        var seconds = Math.floor(diff / (1000));
+                        diff -= seconds * (1000);
+                        self.days = days;
+                        self.hours = hours;
+                        self.mins = mins;
+                        if (days > 7) {
+                            self.timest = "7天前"
+                        } else if (days > 0) {
+                            self.timest = days + "天前"
+                        } else if (hours > 0) {
+                            self.timest = hours + "小時前"
+                        } else if (mins > 0) {
+                            self.timest = mins + "分前"
+                        } else {
+                            self.timest = "1分前"
+                        }
+                    } else {
+
+                        self.online = true;
+                        self.timest = "正在線上"
+                    }
+
+                }
+                tic();
+                setInterval(tic, 60000)
+
+            }
+
+        })
+        var ImgList = JSON.parse(data.ImgList)
+        var isonsubmit = false;
+        function sendcomment(st) {
+            if (isonsubmit)
+                return;
+            if (st == "") {
+                alert("請輸入內容");
+            } else {
+                isonsubmit = true;
+                $.ajax({
+                    url: ajaxurl + "NewsComment",
+                    type: 'post',
+                    data: { st: st, id: data.Member_News_ID },
+                    headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                    timeout: 30000,
+                    success: function (r) {
+                        if (r.result_status) {
+                            var $html = $(publicTools.BBVue($("#commentcard").html(), r.result_content));
+                            $(".commentlist").prepend($html);
+
+                        } else {
+                            alert(r.result_message);
+
+                        }
+                        $('#commentInput').val("");
+                        isonsubmit = false;
+                    },
+                    error: function () {
+                        alert("網路錯誤");
+                        isonsubmit = false;
+                    }
+                });
+            }
+        }
+        function togglesound() {
+            if ($(".swiper-container .swiper-wrapper video")[0].volume == 0.0) {
+                $(".swiper-container .swiper-wrapper video")[0].volume = 1.0;
+                $(".swiper-container .swiper-wrapper div i").removeClass("ion-android-volume-off").addClass("ion-android-volume-up")
+            } else {
+                $(".swiper-container .swiper-wrapper video")[0].volume = 0.0;
+                $(".swiper-container .swiper-wrapper div i").removeClass("ion-android-volume-up").addClass("ion-android-volume-off")
+            }
+
+
+        }
+        function democomp() {
+            //alert("c")
+            $(".swiper-container").height($(".swiper-container").prev().height());
+            if (ImgList.Video != "") {
+                var $html = $($("#swli").html());
+                $html.find("video.swimg")[0].src = ImgList.Video;
+                $html.find("img.swimg").remove();
+
+                $(".swiper-container .swiper-wrapper").append($html)
+                $html.find("video.swimg")[0].volume = 0.0;
+                $html.find("video.swimg")[0].play();
+                //var oV = videojs('#swimgvideo');
+                //alert(ImgList.Video)
+                //oV.src ='http://static.qiakr.com/movie/0080108.mp4'// ImgList.Video;
+                //oV.load();
+
+                //oV.play();
+
+            }
+            for (var i = 0; i < ImgList.Img.length; i++) {
+
+                var $html = $($("#swli").html());
+              //  $html.css("background-image", "url('" + ImgList.Img[i] + "')");
+                $html.find("img.swimg")[0].src = ImgList.Img[i];
+                $html.find("img.swimg")[1].src = ImgList.Img[i];
+
+                $html.find("video.swimg").remove();
+                $html.find(".togglesound").remove();
+                $(".swiper-container .swiper-wrapper").append($html)
+            }
+
+            var swiper = new Swiper('.swiper-container', {
+                spaceBetween: 30,
+                centeredSlides: true,
+                autoplay: false,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+
+            });
+          //  $("#loadingToastnews").hide();
+        }
+
+        function setLike(id) {
+            //alert(id);
+
+            if (Server_Token == "") {
+                $("#NoLogin").show();
+                return false;
+            } else {
+                $.ajax({
+                    url: ajaxurl + "NewsLike",
+                    type: 'post',
+                    data: { id: id },
+                    headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                    timeout: 30000,
+                    success: function (r) {
+                        if (r.result_status) {
+                            //followsuccess
+                            $("#followsuccess p").text("已給讚")
+                            if (r.result_content != "") {
+                                $("[liketag]").each(function (e, el) {
+                                    $(el).removeClass("fa-heart-o")
+                                    $(el).addClass("fa-heart")
+
+                                })
+                                $("[binfo=likecount2]").text("讚 (" + (parseInt("{{data.LikeCount}}") + 1)+")");
+                                $("[binfo=likecount]").text("讚 " + (parseInt("{{data.LikeCount}}") + 1));
+                                if ("{{data.LikeTop20}}" == "") {
+                                    $("[binfo=likelist]").text( r.result_content);
+                                } else {
+                                    $("[binfo=likelist]").text("{{data.LikeTop20}}" + "," + r.result_content);
+                                }
+                                plus.webview.getLaunchWebview().evalJS(" if (cardlist.newslist.find(e => e.Member_News_ID == '" + id + "')) { cardlist.newslist.find(e => e.Member_News_ID == '" + id + "').Liked = true; cardlist.newslist.find(e => e.Member_News_ID == '" + id +"').LikeCount ++;}")
+
+                            }
+
+                            $("#followsuccess").fadeIn(200);
+                            setTimeout(function () {
+                                $("#followsuccess").hide();
+
+                            }, 1500)
+                        } else {
+                            alert(r.result_message);
+
+                        }
+                    },
+                    error: function () {
+                        alert("網路錯誤");
+
+                    }
+                });
+            }
+        }
+        function setFollow(id) {
+            //alert(id);
+
+            if (Server_Token == "") {
+                $("#NoLogin").show();
+                return false;
+            } else {
+                $.ajax({
+                    url: ajaxurl + "Follow",
+                    type: 'post',
+                    data: { id: id },
+                    headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                    timeout: 30000,
+                    success: function (r) {
+                        if (r.result_status) {
+                            //followsuccess
+                            if (r.result_content == "InFollow") {
+                                $("#followsuccess p").text("關注成功")
+                                $(".weui-btn_notfollow").text("關注中");
+                                $(".weui-btn_notfollow").removeClass("weui-btn_notfollow").addClass("weui-btn_follow");
+
+                            } else {
+                                $("#followsuccess p").text("取消關注")
+                                $(".weui-btn_follow").text("關注");
+                                $(".weui-btn_follow").removeClass("weui-btn_follow").addClass("weui-btn_notfollow");
+                            }
+                            $("#followsuccess").fadeIn(200);
+                            setTimeout(function () {
+                                $("#followsuccess").hide();
+
+                            }, 1500)
+                        } else {
+                            alert(r.result_message);
+
+                        }
+                    },
+                    error: function () {
+                        alert("網路錯誤");
+
+                    }
+                });
+            } 
+        }
+        function sendgift(id, name) {
+            return;
+            plus.nativeUI.confirm("你確定要送禮 " + name +" 嗎?", function (e) {
+                if (e.index == 0) {
+                    //確定打賞
+                    getimdata("sendGift", { memberid: "{{data.Member.Member_ID}}", giftid: id }, function (r) {
+                        if (r.result_status) {
+                            // $("#ActionTitle").text("禮物清單 (目前擁有台幣:" + r.result_content + "元)");
+                            alert("送禮成功")
+                        } else {
+                            alert(r.result_message);
+                        }
+                    })
+
+                  
+
+                }
+            });
+        }
+        $(function () {
+
+            new Vue({
+                el:"#ActionTitle",
+            })
+
+            getimdata("getGiftList", "", function (r) {
+                if (r.result_status) {
+
+                    giftlist = r.result_content;
+                    for (var i = 0; i < giftlist.length; i++) {
+                        var item = giftlist[i];
+                        h += '<a class="weui-grid" onclick="sendgift(' + item.GiftList_ID + ',\'' + item.Name + '\')">' +
+                            '<div class="weui-grid__icon">' +
+                            '<img src="img/emoji/' + item.Img + '"/>' +
+                            '</div>' +
+                            '<p class="weui-grid__label">' + item.Name + '</p>' +
+                            '<p class="weui-grid__label">' + item.SellPoints + item.PointsType + '</p>' +
+                            '</a>';
+
+                    }
+                    $html.html('<div class="weui-grids" style="" id="giftlist">' + h + '</div>');
+                    $("#ActionMenu").html($html.html());
+                    if ("{{r}}".split("|").length > 1) {
+                        //$("#sendgift").click();
+                    }
+                } else {
+                    console.error(r.result_message);
+                }
+
+                self.isloadingpa = false;
+                $("#loadmore").hide();
+            })
+            
+            $("video").each(function () {
+                this.volume =1;
+            });
+            for (var i = 0;i < data.CommentList.length ;i++) {
+                var $html = $(publicTools.BBVue($("#commentcard").html(), data.CommentList[i]));
+                $(".commentlist").append($html);
+
+            }
+            if (data.Member.isFollow) {
+                $(".weui-btn_notfollow").text("關注中");
+                $(".weui-btn_notfollow").removeClass("weui-btn_notfollow").addClass("weui-btn_follow");
+            }
+            //postlist
+            if (data.SkillInfo) {
+                if (data.SkillInfo.isEnable) {
+                    $(".skillinfo").attr("onclick", "hovernav(this,'" + data.SkillInfo.Member_Certification_ID + "')")
+                    $(".skillinfo img")[0].src = data.SkillInfo.GameImg;
+                    $(".skillinfo .gamename").text(data.SkillInfo.Name);
+                    $(".skillinfo .gamefee").text(data.SkillInfo.Fee + "幣/" + data.SkillInfo.Unit);
+                    $(".skillinfo .OrderTimes").text("接單" + (data.SkillInfo.OrderTimes||0) + "次");
+                } else {
+                    $("#postlist").hide();
+                }
+
+            } else {
+                $("#postlist").hide();
+            }
+
+            $("[liketag]").each(function (e, el) {
+                if ($(el).attr("liketag") == "true") {
+                    $(el).removeClass("fa-heart-o")
+                    $(el).addClass("fa-heart")
+                }
+
+            })
+            addBackEvent(function () {
+               // alert(1);
+                $('#backSetting').click();
+               // alert(2);
+            });
+
+           //$('.weui-tabbar:not(.hov)').hide();
+            // alert($(".newspich").height());
+
+            $(".newspage .newsdiv").scroll(function () {
+
+
+                var op = $(this).scrollTop() * 1.0 / $(".newspich").height();
+                $(".newspage .flexbar div.backb").css("background-color", "rgba(221,114,153," + (1 - op) + ")");
+                var co = Math.floor((1 - op) * 255);
+               // $(".newspage .flexbar div.backb").css("color", "rgb(" + co + "," + co + "," + co + ")");
+                $(".newspage .flexbar").css("background-color", "rgba(221,114,153," + op + ")");
+                var hidehiegth = 60 - (($(this).scrollTop() * 1.0 - $(".newspich").height() + ($(".newspage .profileinfo").height() * 0.6)) / ($(".newspage .profileinfo").height()) * 60);
+                if (hidehiegth > 60)
+                    hidehiegth = 60;
+                if (hidehiegth < 0)
+                    hidehiegth = 0;
+                $(".newspage .memberinfo").css("top", hidehiegth + "px");
+            });
+           // $(".newspage .newsdiv").scroll();
+            $(".newspage .flexbar div.backb").css("background-color", "rgba(221,114,153,1)");
+            $(".newspage .flexbar div.backb").css("color", "rgb(255,255,255)");
+            $(".newspage .flexbar").css("background-color", "rgba(221,114,153,0)");
+            $(".newspage .memberinfo").css("top", "60px");
+            var $html = $($("#giftaction").html());
+            var h = "";
+            //禮物
+
+
+           // $("#ActionTitle").text("禮物清單 (目前擁有台幣:" + wallet.P + "元)");
+
+
+            var $iosActionsheet = $('#iosActionsheet');
+            var $iosMask = $('#ActionDiv');
+            $("#sendgift").off("click");
+            $("#sendgift").on("click", function () {
+                $iosActionsheet.addClass('weui-actionsheet_toggle');
+                $iosMask.show();
+            });
+
+            if (ImgList.Video != "") {
+                $(".demoimg").remove();
+                //$(".demovideo").attr("loadeddata", "democomp()");
+                //$(".demovideo")[0].src = ImgList.Video;
+                //$(".demovideo")[0].play();
+                $(".demovideo").attr("onloadedmetadata", "democomp()");
+                $(".demovideo").attr("onerror", "democomp()");
+                $(".demovideo").attr("src", ImgList.Video);
+               // $("#loadingToast").hide();
+               // $(".demovideo")[0].play();
+            } else if (ImgList.Img.length != 0) {
+                $(".demoimg").attr("onload", "democomp()");
+                $(".demoimg")[0].src = ImgList.Img[0];
+            } else {
+                $(".swiper-container").prev().hide();
+                $(".swiper-container").hide();
+               // $("#loadingToastnews").hide();
+            }
+            //plus.nativeUI.closeWaiting();
+            //plus.webview.currentWebview().show("slide-in-right");
+        });
+
+
+
+    </script>
+</div>

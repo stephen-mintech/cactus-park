@@ -1,0 +1,423 @@
+﻿<div class="OrderCheckPage page bdbg" id="OrderCheckPage" style="position:absolute;overflow-y:hidden;height:100%">
+    <style>
+    </style>
+    <div class="flexbar navbg" style="display: flex;position:fixed;top:0;left:0;height:60px;z-index:300;width:100%;padding-bottom:10px;overflow:hidden">
+        <div class="memberinfo1" style="width: 10%;height:60px;position:relative; flex: 0 0 50%;margin:20px 0px 20px 0px ; ">
+            <div id="backSetting" class="backb" onclick="plus.webview.close(plus.webview.currentWebview())" style="width:30px;height:30px;border-radius: 999em;color:white">
+                <i class="fa fa-angle-left" style="font-size:30px;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"> </i>
+            </div>
+        </div>
+        <div class="" style="height:60px;position:relative;top:0px;flex: 0 0 50%;">
+            <div style="font-size:24px;text-align: left;position:absolute;top:50%;left:0;color:white;transform:translate(-50%,-50%);">下單確認</div>
+        </div>
+    </div>
+
+    <div class="page__bd" id="" style="overflow-y:auto;padding-top:70px" v-if="canshow">
+        <div class="weui-cells__title">選擇訂單</div>
+        <div class="weui-cells">
+
+            <div class="weui-cell weui-cell_select weui-cell_select-after">
+                <div class="weui-cell__hd">
+                    <label for="" class="weui-label">技能</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select" v-model="postdata.Member_Certification_ID">
+                        <option v-for="(item) in r" :value="item.Member_Certification_ID">{{item.Name}}</option>
+
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    <label for="" class="weui-label">選擇方案</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <a href="javascript:;" @click="isshoworder=true" class="weui-btn weui-btn_block weui-btn_default">{{selectname}}</a>
+                    <!--<a href="javascript:;" @click="isshoworder=true" class="weui-btn weui-btn_mini weui-btn_primary">按钮</a>-->
+                </div>
+
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">下單數量</label></div>
+                <div class="weui-cell__bd" style="display: flex;">
+                    <div href="javascript:;" class="weui-btn weui-btn_mini weui-btn_default" style="flex: 0 0 20%;font-size:20px;padding:0;text-align:center" @click="distimes">-</div>
+                    <div style="flex: 0 0 60%;text-align:center;"><span style="position:relative;top:25%;">{{postdata.OrderTimes}}</span></div>
+                    <!--<input class="weui-input" type="number" min="1" max="999" v-model.number="postdata.OrderTimes" number>-->
+                    <div href="javascript:;" class="weui-btn weui-btn_mini weui-btn_default" style="flex: 0 0 20%;font-size:20px;padding:0;text-align:center" @click="addtimes">+</div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="weui-cells__title">預約時段</div>
+        <div class="weui-cells weui-cells_radio">
+            <label class="weui-cell weui-check__label" for="x11">
+                <div class="weui-cell__bd">
+                    <p>現在</p>
+                </div>
+                <div class="weui-cell__ft">
+                    <input type="radio" class="weui-check" name="radio1" v-model.number="postdata.predatetype" value="0" id="x11">
+                    <span class="weui-icon-checked"></span>
+                </div>
+            </label>
+            <label class="weui-cell weui-check__label" for="x12">
+                <div class="weui-cell__bd">
+                    <p>自訂</p>
+                </div>
+                <div class="weui-cell__ft">
+                    <input type="radio" class="weui-check" name="radio1" id="x12" v-model.number="postdata.predatetype" value="1">
+                    <span class="weui-icon-checked"></span>
+                </div>
+            </label>
+            <div class="weui-cell" v-if="postdata.predatetype==1">
+                <div class="weui-cell__hd"><label class="weui-label">選擇時間</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="datetime-local" name="" v-model="postdata.predate">
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="weui-cells__title">是否使用紅利</div>
+        <div class="weui-cells weui-cells_radio">
+            <label class="weui-cell weui-check__label" for="xp11">
+                <div class="weui-cell__bd">
+                    <p>使用</p>
+                </div>
+                <div class="weui-cell__ft">
+                    <input type="radio" class="weui-check" name="radio1" v-model.number="postdata.usepoint2" value="0" id="xp11">
+                    <span class="weui-icon-checked"></span>
+                </div>
+            </label>
+            <label class="weui-cell weui-check__label" for="xp12">
+                <div class="weui-cell__bd">
+                    <p>不使用</p>
+                </div>
+                <div class="weui-cell__ft">
+                    <input type="radio" class="weui-check" name="radio1" id="xp12" v-model.number="postdata.usepoint2" value="1">
+                    <span class="weui-icon-checked"></span>
+                </div>
+            </label>
+          
+        </div>
+        <br>
+        <div v-if="postdata.Member_Certification_Detail_ID ">
+            <div v-if="isFree==false">
+                <div class="weui-cells__title">
+                    訂單預覽
+                    (剩餘:金額
+                    {{GInfo.MyInfo.P - ((r.find(e=>e.Member_Certification_ID == postdata.Member_Certification_ID).Detail.find(e=>e.Member_Certification_Detail_ID==postdata.Member_Certification_Detail_ID).Fee * postdata.OrderTimes) - parseInt(Math.min(r.find(e=>e.Member_Certification_ID == postdata.Member_Certification_ID).Detail.find(e=>e.Member_Certification_Detail_ID==postdata.Member_Certification_Detail_ID).Fee * postdata.OrderTimes *(postdata.usepoint2==0? 0.2:0),GInfo.MyInfo.R)))}}
+                    幣,紅利
+                    {{GInfo.MyInfo.R - parseInt(Math.min(r.find(e=>e.Member_Certification_ID == postdata.Member_Certification_ID).Detail.find(e=>e.Member_Certification_Detail_ID==postdata.Member_Certification_Detail_ID).Fee * postdata.OrderTimes *(postdata.usepoint2==0? 0.2:0),GInfo.MyInfo.R))}}
+                    點)
+                </div>
+                <div class="weui-form-preview">
+                    <div class="weui-form-preview__hd">
+                        <div class="weui-form-preview__item">
+                            <label class="weui-form-preview__label">應付金額</label>
+                            <em class="weui-form-preview__value">{{(r.find(e=>e.Member_Certification_ID == postdata.Member_Certification_ID).Detail.find(e=>e.Member_Certification_Detail_ID==postdata.Member_Certification_Detail_ID).Fee * postdata.OrderTimes)}} 幣</em>
+                            <label class="weui-form-preview__label">紅利折抵</label>
+                            <em class="weui-form-preview__value">-{{parseInt(Math.min(r.find(e=>e.Member_Certification_ID == postdata.Member_Certification_ID).Detail.find(e=>e.Member_Certification_Detail_ID==postdata.Member_Certification_Detail_ID).Fee * postdata.OrderTimes *(postdata.usepoint2==0? 0.2:0),GInfo.MyInfo.R))}} 點</em>
+                            <label class="weui-form-preview__label">實際付款</label>
+                            <em class="weui-form-preview__value">{{(r.find(e=>e.Member_Certification_ID == postdata.Member_Certification_ID).Detail.find(e=>e.Member_Certification_Detail_ID==postdata.Member_Certification_Detail_ID).Fee * postdata.OrderTimes) - parseInt((Math.min(r.find(e=>e.Member_Certification_ID == postdata.Member_Certification_ID).Detail.find(e=>e.Member_Certification_Detail_ID==postdata.Member_Certification_Detail_ID).Fee * postdata.OrderTimes *(postdata.usepoint2==0? 0.2:0),GInfo.MyInfo.R)))}} 幣</em>
+
+                        </div>
+                    </div>
+                    <div class="weui-form-preview__bd">
+                        <div class="weui-form-preview__item">
+                            <label class="weui-form-preview__label">商品</label>
+                            <span class="weui-form-preview__value">{{r.find(e=>e.Member_Certification_ID == postdata.Member_Certification_ID).Name}}-{{r.find(e=>e.Member_Certification_ID == postdata.Member_Certification_ID).Detail.find(e=>e.Member_Certification_Detail_ID==postdata.Member_Certification_Detail_ID).Title}}</span>
+                        </div>
+                        <div class="weui-form-preview__item">
+                            <label class="weui-form-preview__label">單數</label>
+                            <span class="weui-form-preview__value">{{postdata.OrderTimes}}{{r.find(e=>e.Member_Certification_ID == postdata.Member_Certification_ID).Detail.find(e=>e.Member_Certification_Detail_ID==postdata.Member_Certification_Detail_ID).Unit}}</span>
+                        </div>
+
+                    </div>
+
+                    <div class="weui-form-preview__ft">
+                        <a class="weui-form-preview__btn weui-form-preview__btn_primary" @click="buyorder" href="javascript:">買單</a>
+                    </div>
+                </div>
+            </div>
+            <div v-if="isFree==true">
+                <div class="weui-cells__title">
+                    30元體驗券尚有 {{GInfo.MyInfo.Coupon}} 張
+                    {{GInfo.MyInfo.Coupon>0 ?'使用後剩餘'+(GInfo.MyInfo.Coupon-1)+'張':'' }}
+                    <a href="javascript:;" style="float:right" @click="buycoupon" class="weui-btn weui-btn_mini weui-btn_default">30幣買1張體驗券</a>
+                </div>
+                <div style="clear:both"></div>
+                <div class="weui-form-preview">
+
+                    <div class="weui-form-preview__bd">
+                        <div class="weui-form-preview__item">
+                            <label class="weui-form-preview__label">商品</label>
+                            <span class="weui-form-preview__value">30元體驗單</span>
+                        </div>
+                        <div class="weui-form-preview__item">
+                            <label class="weui-form-preview__label">單數</label>
+                            <span class="weui-form-preview__value">30元體驗單/1局</span>
+                        </div>
+
+                    </div>
+
+                    <div class="weui-form-preview__ft" v-if="GInfo.MyInfo.Coupon>0">
+                        <a class="weui-form-preview__btn weui-form-preview__btn_primary" @click="buyorder" href="javascript:">買單</a>
+                    </div>
+                    <div class="weui-form-preview__ft" v-if="GInfo.MyInfo.Coupon<=0" style="color:red">
+                        <p style="text-align:center;width:100%">30元體驗券不足</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div style="height:50px"></div>
+        <div>
+            <div class="weui-mask" id="" @click="isshoworder=false" v-bind:style="{display:(isshoworder?'block':'none')}"></div>
+            <div class="weui-actionsheet" v-bind:style="{visibility:(isshoworder?'visible':'hidden')}" v-bind:class="{'weui-actionsheet_toggle':isshoworder}" id="iosActionsheet">
+                <div class="weui-actionsheet__title">
+                    <p class="weui-actionsheet__title-text">選擇方案</p>
+                </div>
+                <div class="weui-actionsheet__menu">
+                    <div class="weui-actionsheet__cell" v-if="r.find(e=>e.Member_Certification_ID==postdata.Member_Certification_ID).CanFree && (r.find(e=>e.Member_Certification_ID==postdata.Member_Certification_ID).FreeTimesPreMonth-r.find(e=>e.Member_Certification_ID==postdata.Member_Certification_ID).NowFreeTimes >0)" @click="choosedetail('freeorder')">
+
+                        <div class="weui-cell weui-cell_access">
+                            <div class="weui-cell__bd" style="text-align:left">
+                                <p style="font-size:14px;">30元體驗單</p>
+                                <p style="font-size:12px;color:gray">下單後將消耗一張30元體驗券</p>
+                            </div>
+
+                            <div class="weui-cell__ft" style="color:red">30元體驗單/1局</div>
+                        </div>
+                    </div>
+                    <div class="weui-actionsheet__cell" @click="choosedetail(item.Member_Certification_Detail_ID)" v-for="(item) in r.find(e=>e.Member_Certification_ID==postdata.Member_Certification_ID).Detail">
+
+                        <div class="weui-cell weui-cell_access">
+                            <div class="weui-cell__bd" style="text-align:left">
+                                <p style="font-size:14px;">{{item.Title}}</p>
+                                <p style="font-size:12px;color:gray">{{item.Memo}}</p>
+                            </div>
+                            <div v-if="item.Fee>0" class="weui-cell__ft" style="color:red">{{item.Fee}}幣/{{item.Unit}}</div>
+                            <div v-if="item.Fee==0" class="weui-cell__ft" style="color:red">30元體驗單/{{item.Unit}}</div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="weui-actionsheet__action">
+                    <div class="weui-actionsheet__cell" @click="isshoworder=false">取消</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="page__ft ">
+
+    </div>
+
+    <script>
+        plus.nativeUI.showWaiting("載入中...");
+       var test= new Vue({
+            el: "#OrderCheckPage",
+           data: {
+                isshoworder:false,
+                canshow: false,
+               org: JSON.parse(decodeURIComponent("{{param}}")),
+                r: null,
+               selectname: "選擇",
+                isFree:false,
+                postdata: {
+                    Member_Certification_Detail_ID:null,
+                    Member_Certification_ID: null,
+                    OrderTimes: 0,
+                    predatetype: 0,
+                    predate: moment().format('YYYY-MM-DDTHH:mm'),
+                    usepoint2:0
+                }
+           },
+           watch: {
+               'postdata.Member_Certification_ID': function (val) {
+                   this.postdata.Member_Certification_Detail_ID = null;
+                   this.postdata.OrderTimes = 0;
+                   this.postdata.predatetype = 0;
+                   this.selectname = "選擇";
+                      
+               },
+               'postdata.usepoint2': function (val) {
+                   var self = this;
+                   if (GInfo.MyInfo.P -
+                       ((self.r.find(e => e.Member_Certification_ID == self.postdata.Member_Certification_ID)
+                           .Detail.find(e => e.Member_Certification_Detail_ID == self.postdata.Member_Certification_Detail_ID).Fee
+                           * (self.postdata.OrderTimes + 1)) -
+                           parseInt(Math.min(self.r.find(e => e.Member_Certification_ID == self.postdata.Member_Certification_ID)
+                               .Detail.find(e => e.Member_Certification_Detail_ID == self.postdata.Member_Certification_Detail_ID).Fee
+                       * (self.postdata.OrderTimes + 1) * (val == 0 ? 0.2 : 0), GInfo.MyInfo.R))) >= 0) {
+                  
+                   } else {
+                       if (val == 1) {
+                           plus.nativeUI.toast("餘額不足,無法變更");
+                           setTimeout(function () {
+                               self.postdata.usepoint2 = 0;
+                           }, 10)
+                       }
+                          
+                   }
+               }
+
+           },
+            created: function () {
+                var self = this;
+                $("#OrderCheckPage .page__bd").height($("#OrderCheckPage").height() - 70);
+                bbim.getPlayerInfo(this.org.M, function (r) {
+                    if (r.result_status) {
+                        self.r = r.result_content.SkillInfo.filter(e=>e.isEnable);
+                        self.postdata.Member_Certification_ID = self.org.C || self.r[0].Member_Certification_ID || 0;
+                    }
+
+                    plus.nativeUI.closeWaiting();
+                   // self.addtimes();
+                    self.canshow = true;
+                })
+
+            },
+           methods: {
+               buycoupon: function () {
+                   plus.nativeUI.confirm("你確定要花30傾心幣購買1張體驗券嗎?", function (e) {
+                       if (e.index == 0) {
+                           
+                           plus.nativeUI.showWaiting("購買中...")
+                           $.ajax({
+                               url: ajaxurl + "Coupon",
+                               type: 'post',
+                               data: { c: 1 },
+                               headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                               success: function (r) {
+                                   if (r.result_status) {
+                                       alert("購買成功");
+                                   } else {
+                                       alert(r.result_message);
+                                   }
+                                   plus.nativeUI.closeWaiting()
+                               },
+                               error: function (jqXHR, textStatus, errorThrown) {
+                                   plus.nativeUI.closeWaiting()
+                               }
+                           });
+
+                       }
+
+                   }, {
+                           "title": "購買確認",
+                           "buttons": ["購買", "取消"],
+                       });
+                   
+               },
+               choosedetail: function (id) {
+                   this.postdata.OrderTimes = 0;
+                   this.postdata.Member_Certification_Detail_ID = id;
+                   if (id == 'freeorder') {
+                       this.selectname = '30元體驗單'
+                       this.isFree = true;
+                   } else {
+                       this.selectname =
+                           this.r.find(e => e.Member_Certification_ID == this.postdata.Member_Certification_ID)
+                               .Detail.find(e => e.Member_Certification_Detail_ID == this.postdata.Member_Certification_Detail_ID).Title
+                       this.isFree = false;
+                   }
+                  
+                   this.isshoworder = false;
+                   this.addtimes();
+
+               },
+               distimes: function () {
+                   if (this.isFree == true) {
+                       plus.nativeUI.toast("30元體驗單一次只能下1單");
+                       this.postdata.OrderTimes = 1;
+                       return;
+                   }
+                   if (this.postdata.OrderTimes > 1) {
+                       this.postdata.OrderTimes -= 1;
+                   } else {
+                       plus.nativeUI.toast("最小要1單");
+                       this.postdata.OrderTimes = 1;
+                   }
+
+               },
+               addtimes: function () {
+                   if (this.isFree == true  ) {
+                       if (this.postdata.OrderTimes > 0) {
+                           plus.nativeUI.toast("30元體驗單一次只能下1單");
+                       }
+                     
+                       this.postdata.OrderTimes = 1;
+                       return;
+                   }
+                   var self = this;
+                   console.dir(2)
+                   console.dir(this.isFree)
+                   console.dir(this.postdata.OrderTimes)
+                   if (GInfo.MyInfo.P -
+                       ((self.r.find(e => e.Member_Certification_ID == self.postdata.Member_Certification_ID)
+                           .Detail.find(e => e.Member_Certification_Detail_ID == self.postdata.Member_Certification_Detail_ID).Fee
+                           * (self.postdata.OrderTimes + 1)) -
+                       parseInt(Math.min(self.r.find(e => e.Member_Certification_ID == self.postdata.Member_Certification_ID)
+                           .Detail.find(e => e.Member_Certification_Detail_ID == self.postdata.Member_Certification_Detail_ID).Fee
+                       * (self.postdata.OrderTimes + 1) * (self.postdata.usepoint2 == 0 ? 0.2 : 0), GInfo.MyInfo.R))) >= 0) {
+                       if (this.postdata.OrderTimes < 99) {
+                           this.postdata.OrderTimes += 1;
+                       } else {
+                           this.postdata.OrderTimes = 99;
+                           plus.nativeUI.toast("最多只能99單");
+                       }
+                   } else {
+                       plus.nativeUI.toast("餘額不足");
+                   }
+
+               },
+                buyorder: function () {
+                    var self = this;
+                    if (this.postdata.OrderTimes <= 0) {
+                        plus.nativeUI.toast("最小要1單");
+                        return false;
+                    }
+                    plus.nativeUI.confirm("你確定要買單嗎?", function (e) {
+                        if (e.index == 0) {
+                            $("#loadingToast").show();
+
+                            bbim.buyOrder(JSON.stringify(self.postdata), function (r) {
+                                if (r.result_status) {
+                                    $("#loadingToast").hide();
+                                    alert("下單成功");
+                                    self.createchat(self.org.M);
+                                } else {
+                                    $("#loadingToast").hide();
+
+                                    alert(r.result_message);
+                                }
+                            })
+
+
+                        }
+
+                    }, {
+                            "title": "重複確認",
+                            "buttons": ["確認", "取消"],
+                            "verticalAlign": "bottom"
+                        });
+
+                },
+                createchat:function(id) {
+                    if (JSON.parse(Server_Token).Member_ID == id) {
+                        alert("自己不能跟自己聊天");
+                        return;
+                    }
+                    $("#loadingToast").show();
+
+                    var html = "<a onclick='hovernav(this,\"" + id + "\",\"needim\")' btag=\"MessagePage\"></a>"
+                    $(html).click();
+                    $("#loadingToast").hide();
+                }
+            }
+        })
+    </script>
+</div>

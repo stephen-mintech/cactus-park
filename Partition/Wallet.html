@@ -1,0 +1,279 @@
+﻿<div class="wallet page bdbg" v-if="GInfo.MyInfo" id="wallet" style="">
+    <style>
+    </style>
+    <div class="page__hd hdbg" style="height:20%;position:relative">
+        <div id="backSetting" onclick="plus.webview.close(plus.webview.currentWebview())" style="position:absolute;top:0;left:0;width:50px;height:50px;margin:0 auto">
+            <i class="fa fa-angle-left" style="font-size:30px;color:white;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"> </i>
+
+        </div>
+        <div style="position:absolute;top:0;right:0;width:50px;height:50px;vertical-align:middle;text-align:center">
+            <i class="ion-ios-help-outline " style="font-weight:bold;font-size:30px;color:white;position:relative;line-height:50px" @click="info"></i>
+
+        </div>
+
+        <div class="" style="height:20%">
+
+        </div>
+        <div class="weui-flex" style="text-align:center;height:80%;color:white;">
+            <div class="weui-flex__item">
+                <div style="width:100%;height:50%;background-image: url('img/icon/coin.png');background-repeat:no-repeat;-webkit-background-size: auto 100%;background-position:center">
+
+                </div>
+
+                <div class="">
+                    擁有傾心幣
+                    <br>
+                    <span>{{GInfo.MyInfo.P}}</span>幣
+                </div>
+              
+            </div>
+            <div  v-if="!conf.hidenews" class="weui-flex__item" style="flex:0 0 10%" @click="chgpoint">
+                <div style="position:relative;top:50%;transform:translateY(-50%);color:limegreen;background-color:rgba(255,255,255,0.4);padding:3px 5px;border:2px solid rgba(255,255,255,0.6);border-radius:10px"><i class="fa fa-2x fa-repeat"></i></div>
+           
+            </div>
+            <div class="weui-flex__item">
+
+                <div style="width:100%;height:50%;background-image: url('img/icon/diamond.png');background-repeat:no-repeat;-webkit-background-size: auto 100%;background-position:center">
+
+                </div>
+                <div class="">
+                    擁有紅利
+
+                    <br>
+                    <span>{{GInfo.MyInfo.R}}</span>點
+                    <br>
+                    <!--<span style="font-size:10px">消費10元送1張</span>-->
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="page__bd " style="">
+        <div class="weui-cells" v-if="(GInfo.MyCert.length?GInfo.MyCert:[]).filter(e=>e.isPass).length>0">
+            <div class="weui-cell">
+                <div class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+                    <img src="img/icon/coin.png" style="width: 40px;display: block">
+                </div>
+                <div class="weui-cell__bd">
+                    <p>預估傾心幣收益</p>
+                    <p style="font-size: 13px;color: #888888;">本月預估傾心幣收益</p>
+                </div>
+                <div class="weui-cell__ft" style="color:deepskyblue">
+
+                    <p> <span>{{GInfo.MyInfo.PS}}</span>幣</p>
+
+                </div>
+            </div>
+            <!--<div class="weui-cell">
+                <div class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+                    <img src="img/icon/diamond.png" style="width: 40px;display: block">
+                </div>
+                <div class="weui-cell__bd">
+                    <p>預估紅利收益</p>
+                    <p style="font-size: 13px;color: #888888;">本月預估紅利收益</p>
+                </div>
+                <div class="weui-cell__ft" style="color:deepskyblue">
+                    <p><span>{{GInfo.MyInfo.RS}}</span>點</p>
+
+                </div>
+            </div>-->
+         
+
+        </div>
+
+        <div class="weui-cells" style="">
+            <div class="weui-cell weui-cell_access"  v-if="!conf.hidenews" onclick="hovernav(this,'id')" btag="GiftList">
+                <div class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+                    <img src="img/icon/giftlist.png" style="width: 40px;display: block">
+                </div>
+                <div class="weui-cell__bd">收禮清單</div>
+                <div class="weui-cell__ft" style="font-size: 0">
+
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_access" onclick="hovernav(this,'id')" btag="Coupon">
+                <div class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+                    <img src="img/icon/ticket.png" style="width: 40px;display: block">
+                </div>
+                <div class="weui-cell__bd">我的體驗券</div>
+                <div class="weui-cell__ft" style="font-size: 0">
+
+                    <span class="weui-badge" v-if="cpcount != 0" style="margin-left: 5px;margin-right: 5px;">{{cpcount}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="weui-cells">
+            <div class="weui-cell weui-cell_access" onclick="payclick()">
+                <div class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+                    <img src="img/icon/treasure.png" style="width: 40px;display: block">
+                </div>
+                <div class="weui-cell__bd">儲值</div>
+                <div class="weui-cell__ft" style="font-size: 0">
+
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_access" btag="GetMoney" onclick="hovernav(this,'id')" v-if="(GInfo.MyCert.length?GInfo.MyCert:[]).filter(e=>e.isPass).length>0">
+                <!--<div class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+        <i alt="" class="fa fa-2x fa-money" style="width: 40px;font-size:40px;color:lawngreen"></i>
+    </div>-->
+                <div class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+                    <img src="img/icon/gold2.png" style="width: 40px;display: block">
+                </div>
+                <div class="weui-cell__bd">提款</div>
+                <div class="weui-cell__ft" style="font-size: 0">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page__ft " style="">
+        <br>
+
+    </div>
+
+    <script>
+
+        function payclick() {
+            if (plus.os.name == "Android") {
+
+            } else if (plus.os.name == "iOS") {
+                // PayIAP()
+            }
+            LXPay();
+        }
+        function LXPay() {
+            plus.nativeUI.showWaiting("載入中...");
+            getimdata("getPaymentList", "", function (r) {
+                if (r.result_status) {
+                    var cw;
+                    if (JSON.parse(Server_Token).Status == "管理員") {
+                        cw = plus.webview.create(debugurl + "Partition/LXPay.html", "LXPay", { "cachemode": "noCache", "backButtonAutoControl": "close", "background": "transparent", "popGesture": "close", "height": "100%", "margin": "auto", "width": "100%", "userSelect": false }, { paylist: r });
+                    }
+                    else {
+                        cw = plus.webview.create('Partition/LXPay.html', "LXPay", { "cachemode": "noCache", "backButtonAutoControl": "close", "background": "transparent", "popGesture": "close", "height": "100%", "margin": "auto", "width": "100%", "userSelect": false }, { paylist: r });
+                    }
+                    //cw.show("slide-in-right");
+                    plus.webview.currentWebview().append(cw)
+                } else {
+                    plus.nativeUI.closeWaiting();
+                    alert(r.result_message);
+                }
+            })
+
+
+        }
+        function PayIAP() {
+            var iap;
+            var IAPOrders = [
+                'Apple_30',
+                'Apple_150',
+                'Apple_450',
+                'Apple_990',
+                'Apple_1490',
+                'Apple_2990'
+            ];
+
+            plus.payment.getChannels(function (channels) {
+                console.dir(channels)
+                for (var i in channels) {
+                    var channel = channels[i];
+                    if (channel.id === 'appleiap') {
+                        iap = channel;
+                    }
+                }
+                plus.nativeUI.showWaiting('检测支付环境...');
+                iap.requestOrder(IAPOrders, function (e) {
+                    plus.nativeUI.closeWaiting();
+                    console.log('requestOrder success: ' + JSON.stringify(e));
+                    var cw;
+                    if (JSON.parse(Server_Token).Status == "管理員") {
+                        cw = plus.webview.create(debugurl + "Partition/ApplePay.html", "callc", { "cachemode": "noCache", "background": "transparent", "popGesture": "close", "height": "100%", "margin": "auto", "width": "100%", "userSelect": false }, { data: e, iap: channel, IAPOrders: IAPOrders });
+                    }
+                    else {
+                        cw = plus.webview.create('Partition/ApplePay.html', "callc", { "cachemode": "noCache", "background": "transparent", "popGesture": "close", "height": "100%", "margin": "auto", "width": "100%", "userSelect": false }, { data: e, iap: channel, IAPOrders: IAPOrders });
+                    }
+                    plus.webview.currentWebview().append(cw)
+                }, function (e) {
+                    console.log('requestOrder failed: ' + JSON.stringify(e));
+                    plus.nativeUI.closeWaiting();
+                    plus.nativeUI.confirm("错误信息：" + JSON.stringify(e), function (e) {
+                        if (e.index == 0) {
+                            requestOrder();
+                        } else {
+                            back();
+                        }
+                    }, '重新请求支付', ['确定', '取消']);
+                });
+            }, function (e) {
+                console.log("获取支付通道失败：" + e.message);
+            });
+        }
+        $("#loadingToast").show();
+        new Vue({
+            el: '#wallet',
+            data: {
+                cpcount: 0
+            },
+            methods: {
+                chgpoint: function () {
+                    var self = this;
+                    plus.nativeUI.prompt("點數轉紅利(1:1):", function (e) {
+                        console.log(((e.index == 0) ? "OK: " : "Cancel") + e.value);
+                        if (e.index == 0) {
+                            plus.nativeUI.showWaiting("轉換中...")
+                            getimdata("chgpoint", e.value, function (r) {
+                                plus.nativeUI.closeWaiting();
+                                alert(r);
+                                plus.webview.currentWebview().reload()
+                            })
+
+                        }
+
+                    }, "", "請輸入要轉換的點數", ["確定", "取消"]);
+                },
+                info: function () {
+                    //plus.nativeUI.alert("紅利是從官方活動獲取，或是從推薦分紅而來。玩家若是擁有紅利，可以在消費過中進行折抵，折抵上限為該筆交易金額的20%。\r\n\r\n陪玩師若擁有紅利，可以連同收益在隔月進行提現，紅利與新台幣的兌換比例為1:1。", function () {
+
+                    //    }, "", "我知道了");
+                    if (plus.os.name == "iOS") {
+                        plus.nativeUI.alert("紅利是從官方活動獲取。玩家若是擁有紅利，可以在消費過程中進行折抵，折抵上限為該筆交易金額的20%。", function () {
+
+                        }, "", "我知道了");
+                    } else {
+                        plus.nativeUI.alert("紅利是從官方活動獲取，或是用傾心幣轉換。玩家若是擁有紅利，可以購買禮物送給對方，或是可以在消費過程中進行折抵，折抵上限為該筆交易金額的20%。陪練師若擁有紅利，可以連同收益在隔月進行提現，紅利與新台幣的兌換比例為1:1。", function () {
+
+                        }, "", "我知道了");
+                    }
+                 
+                }
+            },
+            mounted() {
+                var self = this;
+                $.ajax({
+                    url: ajaxurl + "Coupon",
+                    type: 'get',
+                    headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                    success: function (r) {
+                        self.cpcount = r.result_content.filter(e => e.UseTime == null && e.isDead == false).length;
+                        console.dir(self.cpcount)
+                        $("#loadingToast").hide();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $("#loadingToast").hide();
+                    }
+                });
+
+            },
+
+        })
+        addBackEvent(function () {
+            $('#backSetting').click();
+
+        });
+
+
+
+    </script>
+</div>

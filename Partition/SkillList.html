@@ -1,0 +1,585 @@
+﻿<style>
+    .T_R {
+        position: absolute;
+        top: 5px;
+        right: -15px;
+        /* 擺放位置 */
+        width: 50px;
+        height: 10px;
+        background-color: #4084f6;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        /* 尺寸大小、顏色、陰影 */
+        color: #fff;
+        line-height: 10px;
+        text-align: center;
+        font-size: 8px;
+        letter-spacing: 1.5px;
+        /* 文字設定 */
+        transform: rotate(45deg); /* 轉45度 */
+    }
+
+        .T_R:after {
+            content: "推薦";
+        }
+
+    .T_T {
+        position: absolute;
+        top: 5px;
+        right: -15px;
+        /* 擺放位置 */
+        width: 50px;
+        height: 10px;
+        background-color: #E53935;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        /* 尺寸大小、顏色、陰影 */
+        color: #fff;
+        line-height: 10px;
+        text-align: center;
+        font-size: 8px;
+        letter-spacing: 1.5px;
+        /* 文字設定 */
+        transform: rotate(45deg); /* 轉45度 */
+    }
+
+        .T_T:after {
+            content: "置頂";
+        }
+
+    .T_Free1 {
+        position: absolute;
+        top: 0px;
+        left: -15px;
+        /* 擺放位置 */
+        width: 50px;
+        height: 20px;
+        background-color: #e32fc0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        /* 尺寸大小、顏色、陰影 */
+        color: #fff;
+        line-height: 28px;
+        vertical-align: bottom;
+        text-align: center;
+        font-size: 8px;
+        letter-spacing: 1.5px;
+        /* 文字設定 */
+        transform: rotate(-45deg); /* 轉45度 */
+    }
+
+        .T_Free1:after {
+            content: "可體驗";
+        }
+
+    .weui-select {
+        height: 35px !important;
+        line-height: 35px !important;
+    }
+
+    .weui-cell_select .weui-cell__bd:after {
+        content: " ";
+        display: inline-block;
+        height: 6px;
+        width: 6px;
+        border-width: 2px 2px 0 0;
+        border-color: #C8C8CD;
+        border-style: solid;
+        transform: rotateZ(135deg) !important;
+        position: relative;
+        top: -2px;
+        position: absolute;
+        top: 50%;
+        right: 15px;
+        margin-top: -4px;
+    }
+
+    .ordersort:after {
+        content: " ";
+        display: inline-block;
+        height: 6px;
+        width: 6px;
+        border-width: 2px 2px 0 0;
+        border-color: #C8C8CD;
+        border-style: solid;
+        transform: rotateZ(135deg) !important;
+        position: relative;
+        top: -2px;
+        position: absolute;
+        top: 50%;
+        right: 15px;
+        margin-top: -4px;
+    }
+</style>
+<div class="skilllist  bdbg" id="skillpagebd" style="overflow-y:hidden">
+    <style>
+    </style>
+
+    <div class="page__hd " style="padding:0;margin:0;">
+
+        <!--<div class="page__hd navbg" style="padding:0;margin:0;height:60px;position:relative">
+            <h4 class="" style="color:white;width:100%;line-height:60px;font-size:24px;position:absolute;text-align:center">條件搜尋</h4>
+
+            <div id="backSetting" class="backb" onclick="plus.webview.close(plus.webview.currentWebview())" style="width:30px;height:60px;border-radius: 999em;color:white">
+                <i class="fa fa-angle-left" style="font-size:30px;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"> </i>
+            </div>
+
+
+        </div>-->
+        <div class="">
+            <div class="">
+                <div class="weui-search-bar" id="searchBar" style="display:block;padding:0">
+                    <div class="weui-flex" style="margin-bottom:0px;padding:5px 5px">
+
+                        <div class="weui-flex__item" style="padding:0 5px 0 5px;flex:0 0 35%">
+
+                            <div class="weui-cell weui-cell_select weui-btn_follow tabbg" style="border-radius:999em;color:black;font-size:4vw; box-shadow: 0px 0px 1px rgba(80,80,80,0.4);">
+                                <div class="weui-cell__bd ">
+                                    <select class="weui-select " name="kindid" @change="chgtag" v-model="KindID" style="color:black">
+                                        <option v-for="(option, index) in kindlist" v-bind:value="option.Zuzu_Kind_ID">
+                                            {{option.Name}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="weui-flex__item" style="padding:0 5px 0 5px">
+
+                            <form style="position:relative;top:50%;transform:translateY(-50%)" class="weui-search-bar__form" @submit="function(){chgtag();return false;}" onsubmit="return false">
+                                <div class="weui-search-bar__box">
+                                    <i class="weui-icon-search"></i>
+                                    <input type="search" v-model="KeyWord" value="" class="weui-search-bar__input" id="searchInput" placeholder="搜尋">
+                                    <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
+                                </div>
+                                <label class="weui-search-bar__label" id="searchText">
+                                    <i class="weui-icon-search"></i>
+                                    <span style="position:relative;top:50%;transform:translateY(-50%)">請輸入想找的關鍵字</span>
+                                </label>
+                            </form>
+
+                        </div>
+                    </div>
+
+                    <!--<div style="display:flex;text-align:center;font-size:4vw">
+                        <div style="flex:1">
+                            <div class="weui-cell">
+                                <div class="weui-cell__bd">
+                                    篩選
+                                </div>
+                            </div>
+                        </div>
+                        <div style="flex:1">
+                            <a href="javascript:;" style="position:relative;top:50%;transform:translateY(-50%)" class="weui-btn weui-btn_mini " v-bind:class="{'weui-btn_default':!filtertype.B,'weui-btn_primary':filtertype.B}" @click="setFilter('B')">男生</a>
+
+                        </div>
+                        <div style="flex:1">
+                            <a href="javascript:;" style="position:relative;top:50%;transform:translateY(-50%)" class="weui-btn weui-btn_mini " v-bind:class="{'weui-btn_default':!filtertype.G,'weui-btn_primary':filtertype.G}" @click="setFilter('G')">女生</a>
+
+                        </div>
+
+                    </div>-->
+                </div>
+                <!--<div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">關鍵字</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" v-model="KeyWord" value="" type="text" placeholder="請輸入關鍵字">
+                    </div>
+                </div>-->
+            </div>
+            <!--<div style="margin:0px 10px 0px 0px"><a href="javascript:;" @click="chgtag" style="top:50%;left:50%;position:relative;transform:translate(-50%,-50%)" class="weui-btn weui-btn_mini weui-btn_primary">搜尋</a></div>-->
+
+            <div style="display:flex;text-align:center;font-size:4vw;border-top: 0.5px solid #E5E5E5;background-color:white">
+                <div style="flex:1">
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd">
+                            排序/篩選
+                        </div>
+                    </div>
+                </div>
+                <div style="flex:1">
+                    <div class="weui-cell tabbg" style="width:100%;border-radius: 999em; color: black; font-size: 4vw; top:50%;transform:translateY(-50%);box-shadow: rgba(80, 80, 80, 0) 0px 0px 0px;background:transparent;padding:0">
+                        <div class="weui-cell__bd" style="width:70%">
+                            <select class="weui-select" name="OrderBy" @change="chgtag" v-model="OrderBy" style="color:#dd7299;text-align:center">
+                                <option v-for="(option, index) in OrderByList" v-bind:value="option.value">
+                                    {{option.text}}
+                                </option>
+                            </select>
+
+                        </div>
+                        <div class="weui-cell__ft" style="position:relative;width:30%;height:35px" @click="((AescDesc=='Aecs')?(AescDesc='Desc'):(AescDesc='Aecs'))">
+                            <i class="fa fa-sort-asc" v-bind:style="{color:(AescDesc=='Aecs'?'#dd7299':'#808080')}" style="position:absolute;top:50%;transform:translate(-50%,-50%);left:50%"></i>
+                            <i class="fa fa-sort-desc" v-bind:style="{color:(AescDesc=='Desc'?'#dd7299':'#808080')}" style="position:absolute;top:50%;transform:translate(-50%,-50%);left:50%"></i>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div style="flex:1" @click="slidediv" v-if="!conf.hidenews">
+                    <div class="weui-cell tabbg" style="width:100%;border-radius: 999em; color: black; font-size: 4vw; top:50%;transform:translateY(-50%);box-shadow: rgba(80, 80, 80, 0) 0px 0px 0px;background:transparent;padding:0">
+                        <div class="weui-cell__bd" style="width:70%">
+                            篩選
+                        </div>
+                        <div class="weui-cell__ft" style="position:relative;width:30%;height:35px">
+                            <i class="fa fa-sort-desc" style="position:absolute;top:50%;transform:translate(-50%,-50%);left:50%"></i>
+                        </div>
+                    </div>
+                </div>
+                <!--<div style="flex:1">
+                    <div class="weui-cell weui-cell_select weui-btn_follow tabbg" style="border-radius: 999em; color: black; font-size: 4vw; top:50%;transform:translateY(-50%);box-shadow: rgba(80, 80, 80, 0) 0px 0px 0px;background:transparent">
+                        <div class="weui-cell__bd">
+                            <select class="weui-select" name="OrderBy" @change="chgtag" v-model="OrderBy" style="color:black">
+                                <option v-for="(option, index) in OrderByList" v-bind:value="option.value">
+                                    {{option.text}}
+                                </option>
+                            </select>
+
+                        </div>
+                    </div>
+                </div>-->
+                <!--<div style="flex:1">
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd ordersort" @click="((AescDesc=='Aecs')?(AescDesc='Desc'):(AescDesc='Aecs'))">
+                            <i v-if="AescDesc=='Aecs'" class="fa fa-sort-amount-asc"></i>
+                            <i v-if="AescDesc=='Desc'" class="fa fa-sort-amount-desc"></i>
+
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+
+        </div>
+    </div>
+
+    <div class="page__bd" style="overflow-y:auto;height:85%;padding-top:0px">
+        <div id="filtermask" @click.stop="slidediv" style="width:100%;height:100%;position:absolute;top:0;z-index:10;background-color:rgba(0, 0, 0, 0.38);display:none"></div>
+        <div id="filterdiv" class="bdbg" style="width:100%;position:absolute;top:0;z-index:20;box-shadow:5px 5px 2px rgba(0,0,0,0.6);padding:15px 0;display:none">
+            <div style="display:flex;text-align:center;font-size:4vw">
+                <div style="flex:1">
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd">
+                            篩選
+                        </div>
+                    </div>
+                </div>
+                <div style="flex:1">
+                    <a href="javascript:;" style="position:relative;top:50%;transform:translateY(-50%)" class="weui-btn weui-btn_mini " v-bind:class="{'weui-btn_default':!filtertype.A,'weui-btn_primary':filtertype.A}" @click="setFilter('A')">全部</a>
+
+                </div>
+                <div style="flex:1">
+                    <a href="javascript:;" style="position:relative;top:50%;transform:translateY(-50%)" class="weui-btn weui-btn_mini " v-bind:class="{'weui-btn_default':!filtertype.B,'weui-btn_primary':filtertype.B}" @click="setFilter('B')">只看男</a>
+
+                </div>
+                <div style="flex:1">
+                    <a href="javascript:;" style="position:relative;top:50%;transform:translateY(-50%)" class="weui-btn weui-btn_mini " v-bind:class="{'weui-btn_default':!filtertype.G,'weui-btn_primary':filtertype.G}" @click="setFilter('G')">只看女</a>
+
+                </div>
+            </div>
+            <div style="display:flex;text-align:center;font-size:4vw">
+                <div style="flex:0 0 25%">
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd">
+                            分類
+                        </div>
+                    </div>
+                </div>
+                <div style="flex:0 0 75%;display:flex;flex-wrap:wrap;margin-top:10px">
+                    <div style="flex:0 0 33.33%">
+                        <a href="javascript:;" style="position:relative;top:50%;transform:translateY(-50%)" class="weui-btn weui-btn_mini " v-bind:class="{'weui-btn_default':(filtertype.skilltype!=null),'weui-btn_primary':(filtertype.skilltype==null)}" @click="setSkillType(null)">全部</a>
+                    </div>
+                    <div style="flex:0 0 33.33%" v-for="skilltype in kindlist.find(e=>e.Zuzu_Kind_ID == KindID).Type">
+                        <a href="javascript:;" style="position:relative;top:50%;transform:translateY(-50%)" class="weui-btn weui-btn_mini " v-bind:class="{'weui-btn_default':(filtertype.skilltype!=skilltype.Zuzu_Kind_Type_ID),'weui-btn_primary':(filtertype.skilltype==skilltype.Zuzu_Kind_Type_ID)}" @click="setSkillType(skilltype.Zuzu_Kind_Type_ID)">{{skilltype.Name}}</a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="weui-panel weui-panel_access" style="margin-top:0px">
+            <div class="weui-panel__bd" id="skilllist">
+
+                <div id="loadmore" class="weui-loadmore">
+                    <i class="weui-loading"></i>
+                    <span class="weui-loadmore__tips">正在讀取資料</span>
+                </div>
+                <a href="javascript:void(0);" v-for="(item, index) in newslist" style="overflow:hidden;" @click="hovernav(index,item.Member_Certification_ID)" ref="child" btag="Skill" class="weui-media-box weui-media-box_appmsg mitem">
+                    <div v-bind:class="((item.R.isRecommand==true)?{T_R:true}:((item.R.isTop==true)?{T_T:true}:{}))" class=""></div>
+                    <div v-bind:class="((item.CanFee>0)?{T_Free:true}:{})" class=""></div>
+                  
+                    <div class="weui-media-box__hd" style="">
+                        <img class="weui-media-box__thumb lazy" style="position:relative;width:50px;height:50px;object-fit:cover;border-radius:5px" :src="item.Img+'_s'" onerror="this.src='img/icon/noimage_person.png'" alt="">
+
+
+                    </div>
+                    <div class="weui-media-box__hd" style="position:absolute">
+                        <img class="weui-media-box__thumb lazy" style="position:relative;width:54px;height:54px;object-fit:cover;top:-2px" v-if="item.header!=''" :src="'img/header/'+item.header+'_S.png'" alt="">
+                    </div>
+                    <div class="weui-media-box__bd">
+                        <p class="weui-media-box__desc" v-if="!conf.hidenews" style="position:absolute;top:10px;text-align:left;z-index:2">
+                            <span v-for="d in item.Detail.filter(e=>e.Zuzu_Kind_Type_ID != null)" style="color: white; font-size: 8px; padding: 3px;margin-right:3px; border-radius: 6px; display: inline-block; background-color: rgb(236, 157, 201);">{{d.Name}}</span>
+                        </p>
+                        <h6 class="weui-media-box__title">
+                            <span v-bind:style="{color:(item.color||'black')}" v-bind:class="{nameshadow:(item.color||'black' != 'black')}">{{item.Name}}</span>
+
+                            <i alt="" class="fa fa-1x fa-star" style="font-size:12px;color:gold"></i><span style="font-size:12px;color:gray">{{(item.ScoreAvg||0).toFixed(1)}}</span>
+                        </h6>
+                        <p class="weui-media-box__desc">
+                            {{item.KindName}}
+                            <span v-if="filtertype.skilltype == null" style="color:red">{{item.Fee}}幣/{{item.Unit}}</span>
+                            <span v-if="filtertype.skilltype != null" style="color:red">{{item.Detail.find(e=>e.Zuzu_Kind_Type_ID == filtertype.skilltype).Fee}}幣/{{item.Detail.find(e=>e.Zuzu_Kind_Type_ID == filtertype.skilltype).Unit}}</span>
+                        </p>
+                    </div>
+                    <div style="position:relative;right:0;display: flex;text-align:center;padding: 15px; border-left: 1px solid #E5E5E5;margin-left:10px;width:25%">
+                        <p class="weui-media-box__desc" style=" ">接單{{item.OrderCount||0}}次</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <br><br><br>
+    </div>
+    <script>
+        var data = top["DataBase"]["SkillList"];
+        var nowdata = [];
+        var isfirsttime = true;
+        var cardlist2interval;
+        var kindlist = top["DataBase"]["KindList"];
+        var kindlistparam = "" + top["DataBase"]["SkillListParam"];
+        kindlist.splice(0, 0, {
+            "Name": "全部",
+            "Zuzu_Kind_ID": 0
+        });
+
+        $(function () {
+            var subpage = 1;
+            var nDivHight = $(".skilllist.page").height();
+            $(".skilllist.page").scroll(function () {
+                var nScrollHight = $(this)[0].scrollHeight;
+                var nScrollTop = $(this)[0].scrollTop;
+                if (nScrollTop + nDivHight + 200 >= nScrollHight) {
+                    subpage++;
+                    nowdata = Enumerable.from(data).take(subpage * 30).toArray();
+                    cardlist2.newslist = nowdata;
+                }
+            });
+
+            if (!(cardlist2interval)) {
+                cardlist2interval = setInterval(function () {
+                    nDivHight = $(".skilllist.page").height();
+                }, 500)
+            }
+
+            var cardlist2 = new Vue({
+                el: '#skillpagebd',
+                data: {
+                    filtertype: {
+                        A: true,
+                        G: false,
+                        B: false,
+                        isRecommand: false,
+                        skilltype: null
+                    },
+                    newslist: nowdata,
+                    kindlist: kindlist,
+                    KindID: "0",
+                    OrderBy: "ScoreAvg",
+                    AescDesc: "Desc",
+                    KeyWord: "",
+                    OrderByList: [{ value: "Fee", text: "價格" }, { value: "OrderCount", text: "接單數" }, { value: "ScoreAvg", text: "評價" }],
+                    AescDescList: [{ value: "Aesc", text: "由低到高" }, { value: "Desc", text: "由高到低" }],
+                    isslideDown: false
+                },
+                watch: {
+                    AescDesc: function () {
+                        this.chgtag();
+                    }
+                },
+                methods: {
+                    slidediv: function () {
+                        if (this.isslideDown == false) {
+                            $('#filterdiv').slideDown(200);
+                            $('#filtermask').fadeIn(200);
+                            this.isslideDown = true;
+                        } else {
+                            $('#filterdiv').slideUp(200);
+                            $('#filtermask').fadeOut(200);
+                            this.isslideDown = false;
+                        }
+
+                    },
+                    setSkillType: function (id) {
+                        var fdata = JSON.parse(JSON.stringify(data));
+                        this.filtertype.skilltype = id;
+                        if (this.filtertype.A) {
+                        } else if (this.filtertype.G) {
+                            fdata = fdata.filter(e => e.Gender == 'G');
+                        } else if (this.filtertype.B) {
+                            fdata = fdata.filter(e => e.Gender == 'B');
+                        }
+                        if (this.filtertype.skilltype != null) {
+                            fdata = fdata.filter(e => e.Detail.find(f => f.Zuzu_Kind_Type_ID == this.filtertype.skilltype) != null);
+                        }
+                        subpage = 1;
+
+                        nowdata = Enumerable.from(fdata).take(subpage * 30).toArray();
+                        this.newslist = nowdata;
+                        //this.slidediv();
+
+                    },
+                    setFilter: function (type) {
+
+                        console.dir(this.filtertype[type]);
+                        //Gender
+                        var fdata = JSON.parse(JSON.stringify(data));
+                        this.filtertype.G = false;
+                        this.filtertype.B = false;
+                        this.filtertype.A = false;
+                        if (type == "A") {
+
+                        } else if (type == "G") {
+
+                            fdata = fdata.filter(e => e.Gender == 'G');
+                        } else if (type == "B") {
+                            fdata = fdata.filter(e => e.Gender == 'B');
+                        }
+                        if (this.filtertype[type] != undefined)
+                            this.filtertype[type] = !this.filtertype[type]
+
+                        if (this.filtertype.skilltype != null) {
+                            fdata = fdata.filter(e => e.Detail.find(f => f.Zuzu_Kind_Type_ID == this.filtertype.skilltype) != null);
+                        }
+
+                        //if (this.filtertype.CanFree == true && this.filtertype.isRecommand == true) {
+                        //    fdata = fdata.filter(e => e.CanFee > 0 || e.R.isRecommand == true);
+                        //} else if (this.filtertype.CanFree == true) {
+                        //    fdata = fdata.filter(e => e.CanFee > 0);
+                        //} else if (this.filtertype.isRecommand == true) {
+                        //    fdata = fdata.filter(e => e.R.isRecommand == true);
+                        //}
+                        console.dir(type);
+                        subpage = 1;
+
+                        nowdata = Enumerable.from(fdata).take(subpage * 30).toArray();
+                        this.newslist = nowdata;
+                        // this.slidediv();
+                    },
+                    hovernav: function (idx, id) {
+                        hovernav(this.$refs["child"][idx], id)
+                    },
+                    chgtag: function () {
+                        $("#loadmore").show();
+                        console.dir(this.$data)
+                        var urlparam = "SkillList";
+                        var self = this;
+                        nowdata = [];
+                        this.newslist = nowdata;
+                        Object.assign(this.$data.newslist, nowdata);
+
+                        Object.assign(this.$data.kindlist, []);
+                        var self = this;
+                        this.filtertype.G = false;
+                        this.filtertype.B = false;
+                        this.filtertype.A = true;
+                        this.filtertype.skilltype = null;
+
+                        getimdata("getSkillList", self.$data, function (r) {
+                            if (r.result_status) {
+                                subpage = 1;
+                                data = r.result_content.data;
+                                nowdata = Enumerable.from(data).take(subpage * 30).toArray();
+                                self.newslist = nowdata;
+                                kindlist = r.result_content.KindList;
+                                kindlist.splice(0, 0, {
+                                    "Name": "全部",
+                                    "Zuzu_Kind_ID": 0
+                                });
+                                Object.assign(self.$data.kindlist, kindlist);
+                            } else {
+                                console.error(r.result_message);
+                            }
+
+                            $("#loadmore").hide();
+
+                        })
+                    
+
+                    }
+                },
+                mounted: function () {
+                    this.KindID = kindlistparam;
+                    this.chgtag();
+                    var ws = plus.webview.currentWebview();
+                    try {
+                        ws.setTitleNViewButtonStyle(0, { onclick: function () { ws.close() } }); ws.setTitleNViewButtonStyle(1, { onclick: function () { moreclick() } })
+                        var wsv = ws.getSubNViews();
+                        if (wsv) {
+                            if (wsv.length > 0) {
+                                var subNViews = ws.getSubNViews().find(e => e.__id__ == 'loadingsub');
+                                if (subNViews) {
+                                    subNViews.close()
+                                }
+                            }
+                        }
+
+                    } catch (e) {
+
+                    }
+                },
+                updated: function () {
+                    //$("img").lazyload({
+                    //    effect: "fadeIn"
+                    //});
+                }
+
+            })
+
+            nowdata = Enumerable.from(data).take(subpage * 30).toArray();
+
+
+            cardlist2.newslist = Object.assign({}, cardlist2.newslist, nowdata)
+
+            $(function () {
+                var $searchBar = $('#searchBar'),
+                    $searchResult = $('#searchResult'),
+                    $searchText = $('#searchText'),
+                    $searchInput = $('#searchInput'),
+                    $searchClear = $('#searchClear'),
+                    $searchCancel = $('#searchCancel');
+
+                function hideSearchResult() {
+                    $searchResult.hide();
+                    $searchInput.val('');
+                }
+                function cancelSearch() {
+                    hideSearchResult();
+                    $searchBar.removeClass('weui-search-bar_focusing');
+                    $searchText.show();
+                }
+
+                $searchText.on('click', function () {
+                    $searchBar.addClass('weui-search-bar_focusing');
+                    $searchInput.focus();
+                });
+                $searchInput
+                    .on('blur', function () {
+                        if (!this.value.length) cancelSearch();
+                    })
+                    .on('input', function () {
+                        if (this.value.length) {
+                            $searchResult.show();
+                        } else {
+                            $searchResult.hide();
+                        }
+                    })
+                    ;
+                $searchClear.on('click', function () {
+                    hideSearchResult();
+                    $searchInput.focus();
+                });
+                $searchCancel.on('click', function () {
+                    cancelSearch();
+                    $searchInput.blur();
+                });
+            });
+        })
+
+    </script>
+</div>

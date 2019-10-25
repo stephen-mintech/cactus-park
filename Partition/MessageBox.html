@@ -1,0 +1,169 @@
+﻿<div id="messageBox" class="messageBox page bdbg" style="  ">
+    <style>
+    </style>
+
+    <div class="page__bd">
+        <div class="weui-panel">
+            <div class="weui-panel__hd">重要訊息</div>
+            <div class="weui-panel__bd">
+                <div class="weui-media-box weui-media-box_small-appmsg">
+                    <div class="weui-cells">
+                        <div class="weui-cell weui-cell_access" onclick="hovernav(this,'id')" btag="OrderList">
+                            <div class="weui-cell__hd" style="position: relative;margin-right: 10px;text-align:center">
+                                <i alt="" class="fa fa-2x ion-ios-list-outline" style="width: 60px;font-size:30px;color:#dc2873"></i>
+                            </div>
+                            <div class="weui-cell__bd">訂單中心</div>
+                            <div class="weui-cell__ft" style="font-size: 0">
+
+                                <span class="weui-badge" id="boxordercount" v-if="GInfo.MyInfo.OrderCount>0" style="margin-left: 5px;">{{GInfo.MyInfo.OrderCount}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="weui-media-box weui-media-box_small-appmsg">
+                    <div class="weui-cells">
+                        <div class="weui-cell weui-cell_access" onclick="hovernav(this,'id')" @click="setAnnTime" btag="Announcement">
+                            <div class="weui-cell__hd" style="position: relative;margin-right: 10px;text-align:center">
+                                <i alt="" class="fa fa-2x ion-ios-bell-outline" style="width: 60px;font-size:30px;color:#dc2873"></i>
+                            </div>
+                            <div class="weui-cell__bd">官方公告</div>
+                            <div class="weui-cell__ft" style="font-size: 0">
+                              
+                                <!--<span class="weui-badge weui-badge_dot" id="boxordercount" v-if="new Date(GInfo.AnnouncementLast).getTime()>new Date(GInfo.SeeAnnouncementLast).getTime()" style="margin-left: 5px;"></span>-->
+                                <!--<span class="weui-badge weui-badge_dot" id="boxordercount" style="margin-left: 5px;"></span>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="weui-media-box weui-media-box_small-appmsg"  v-if="(GInfo.MyCert.length?GInfo.MyCert:[]).filter(e=>e.isPass).length>0">
+                    <div class="weui-cells">
+                        <div class="weui-cell weui-cell_access" onclick="hovernav_new(this, 'id', {titleText:'新進用戶'})" btag="NewPlayer">
+                            <div class="weui-cell__hd" style="position: relative;margin-right: 10px;text-align:center">
+                                <i alt="" class="fa fa-2x ion-ios-personadd-outline" style="width: 60px;font-size:30px;color:#dc2873"></i>
+                            </div>
+                            <div class="weui-cell__bd">新進用戶 <span v-if="(conf.hidenews)?false:true" style="background-color:#6c06ff;color:white;font-size: 10px;display: inline-block;padding: 0px 3px;border-radius: 10px;">VIP功能</span></div>
+                            <div class="weui-cell__ft" style="font-size: 0">
+                                <span class="weui-badge" v-bind:style="{'display':(infodot.NewerCount==0?'none':'inline')}">{{infodot.NewerCount}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="weui-panel">
+            <div class="weui-panel__hd" style="position:relative">
+
+                <a href="javascript:;" id="groupsend" style="right:10px;position:absolute;top:50%;transform:translateY(-50%);display:none" class="weui-btn weui-btn_mini weui-btn_default"  onclick="hovernav(this,'admin','needim')" btag="MessagePage">群發</a>
+                交談訊息
+            </div>
+            <div class="weui-panel__bd">
+                <div class="weui-media-box weui-media-box_small-appmsg">
+                    <div id="loadmore" class="weui-loadmore">
+                        <i class="weui-loading"></i>
+                        <span class="weui-loadmore__tips">正在讀取聊天歷史資料</span>
+                    </div>
+                    <div class="weui-cells" id="chatlist">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="page__ft ">
+
+    </div>
+    <script type="text/html" id="chatcard">
+        <div class="weui-cell weui-cell_access" onclick="hovernav(this,'id','needim')" btag="MessagePage">
+            <div class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+                <img src="" style="width:50px;height:50px;object-fit:cover;border-radius:999em;float:left" onerror="this.src='img/icon/noimage_person.png'" />
+            </div>
+            <div class="weui-cell__bd">
+                <h4 class="weui-media-box__title">萌王♥神神💗</h4>
+                <p class="weui-media-box__desc">這行是歷史訊息這行是歷史訊息這行是歷史訊息這行是歷史訊息這行是歷史訊息這行是歷史訊息這行是歷史訊息這行是歷史訊息這行是歷史訊息</p>
+            </div>
+            <div class="weui-cell__ft" style="font-size: 0">
+                <span class="weui-badge" style="margin-left: 5px;">99</span>
+            </div>
+        </div>
+    </script>
+    <script>
+        function htmldecode(s) {
+            var div = document.createElement('div');
+            div.innerHTML = s;
+            return div.innerText || div.textContent;
+        }
+        new Vue({
+            el: "#messageBox",
+            methods: {
+                setAnnTime: function () {
+                    GInfo.SeeAnnouncementLast = new Date().toLocaleString();
+
+                    Bridge.setData("SeeAnnouncementLast", GInfo.SeeAnnouncementLast)
+                }
+            }
+        })
+        function test() {
+            alert("test")
+
+        }
+        var reloadmsgbox = function () {
+            console.dir("getHistoryList")
+            getimdata("getHistoryList", {count:0,member:""}, function (ee) {
+                console.dir("getHistoryList2")
+                var searchmemberlist = [];
+                for (var i = 0; i < ee.length; i++) {
+                    searchmemberlist.push(ee[i].memberid);
+                   
+                }
+                if (ee.length > 0) {
+                    if (!(ee[0].memberid)) {
+                        return;
+                    }
+                }
+                $("#chatlist").empty();
+
+                for (var i = 0; i < ee.length; i++) {
+
+                    var $html = $($("#chatcard").html());
+                    $html.attr("onclick", "hovernav(this,'" + ee[i].memberid + "','needim')");
+                    $html.attr("chatid", ee[i].memberid);
+                    var etcmem = ee[i].memberid;
+
+                    if (ee[i].lastmsg) {
+                        $html.find("p").text(htmldecode(ee[i].lastmsg));
+                    } else {
+                        $html.find("p").text("");
+                    }
+
+                    $html.find("h4").text(ee[i].Name);
+                    $html.find("h4").css("color", (ee[i].color || 'black'))
+                    $html.find("img").attr("src", ee[i].Img + '_s');
+                    if (ee[i].count > 0) {
+                        $html.find("span").text(ee[i].count)
+                    } else {
+                        $html.find("span").text(0)
+                        $html.find("span").hide();
+                    }
+
+                    $("#chatlist").append($html);
+
+                }
+                $("#loadmore").hide();
+            })
+            //bbim.getHistoryList(function (ee) {
+
+            //})
+        }
+        $(function () {
+            $("#loadmore").show();
+            if (GInfo.MyInfo.isAdmin == true) {
+                $("#groupsend").show()
+            }
+            reloadmsgbox();
+        })
+
+    </script>
+</div>

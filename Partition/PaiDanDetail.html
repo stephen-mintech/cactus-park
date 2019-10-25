@@ -1,0 +1,277 @@
+﻿<style>
+    a.weui-media-box:active {
+        background-color: #ECECEC;
+    }
+</style>
+<div class=" " @click.stop id="getmoneybd" style="background-color:white;width:100%;position:absolute;bottom:0">
+
+
+    <div class="page__bd" style="padding-top:0px">
+        <div v-if="JSON.parse(Server_Token).Member_ID != info.Member.Member_ID" class="weui-cells__title">老闆需求條件</div>
+        <div v-if="JSON.parse(Server_Token).Member_ID == info.Member.Member_ID" class="weui-cells__title">設定約單條件</div>
+        <div class="weui-cells">
+            <div class="weui-cell ">
+                <div class="weui-cell__hd">
+                    <label for="" class="weui-label">技能</label>
+                </div>
+                <div class="weui-cell__bd">
+                    {{GInfo.KindList.find(e=>e.Detail.find(f=>f.ID == info.Kind_ID)).Detail.find(e=>e.ID == info.Kind_ID).Name}}
+                </div>
+
+            </div>
+            <div class="weui-cell ">
+                <div class="weui-cell__hd">
+                    <label for="" class="weui-label">要求性別</label>
+                </div>
+                <div class="weui-cell__bd">
+                    {{info.Gender=='G'?'女':(info.Gender=='B'?'男':"不限")}}
+                </div>
+
+            </div>
+            <div class="weui-cell ">
+                <div class="weui-cell__hd">
+                    <label for="" class="weui-label">預算</label>
+                </div>
+                <div class="weui-cell__bd">
+                    {{info.Fee}}幣
+                </div>
+
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">補充條件</label></div>
+                <div class="weui-cell__bd">
+                    {{info.Description}}
+                </div>
+            </div>
+
+        </div>
+
+        <div v-if="JSON.parse(Server_Token).Member_ID == info.Member.Member_ID" style="width:100%;">
+            <div class="weui-cells__title">申請者</div>
+            <div v-if="info.List.length>0" class="weui-grids">
+                <a href="javascript:;" v-for="li in info.List" class="weui-grid" style="padding:10px 5px">
+                    <div class="weui-grid__icon" style="width:60px;height:60px" :onclick="'menupapa(\''+ li.Member_ID+'\','+info.Kind_ID+')'" :onclick2="'createchat(\''+ li.Member_ID+'\')'">
+                        <img :src="li.Img+'_s'" style="width:60px;height:60px;border-radius:999em;object-fit:cover;object-position:top" alt="">
+                    </div>
+                    <p class="weui-grid__label">{{li.Name}}</p>
+                </a>
+
+            </div>
+            <div v-if="info.List.length==0" class="weui-loadmore weui-loadmore_line">
+                <span class="weui-loadmore__tips " style="background-color:transparent">目前還沒有申請的陪陪</span>
+            </div>
+            <div style="height:50px"></div>
+        </div>
+        <div v-if="JSON.parse(Server_Token).Member_ID != info.Member.Member_ID" style="width:100%;display:flex">
+            <a href="javascript:;" style="flex:1" :onclick="'createchat(\''+ info.Member.Member_ID+'\',\''+ info.Kind_ID+'\')'" class="weui-btn weui-btn_default">聊一聊</a>
+            <a href="javascript:;" style="flex:1;margin: 0;" @click="sendPaiDan(info.PaiDanList_ID,info.Kind_ID)" class="weui-btn weui-btn_primary">申請接單</a>
+        </div>
+        <div v-if="JSON.parse(Server_Token).Member_ID == info.Member.Member_ID" style="width:100%;position:fixed;bottom:0">
+            <a href="javascript:;" style="margin: 0;" @click="delPaiDan(info.PaiDanList_ID)" class="weui-btn weui-btn_primary">收單</a>
+        </div>
+    </div>
+
+    <script>
+        $("#container").on("click", function () {
+            plus.webview.currentWebview().close()
+        })
+        function menupapa(id,kid) {
+            var actionbuttons = [{ title: "聊一聊" }, { title: "確認開單" }];
+            var actionstyle = { title: "選擇動作", cancel: "取消", buttons: actionbuttons };
+            plus.nativeUI.actionSheet(actionstyle, function (e) {
+                console.log("User pressed: " + e.index);
+                if (e.index == 1) {
+                    createchat(id)
+                } else if (e.index == 2) {
+                    plus.nativeUI.prompt("請輸入約定後最終金額", function (e2) {
+                        if (e2.index == 0) {
+                            if (parseInt(e2.value).toString() == "NaN") {
+                                alert("請輸入數字");
+                                return false;
+                            } else {
+                                if (parseInt(e2.value) < 20) {
+                                    alert("金額過小(不可小於20)");
+                                    return false;
+                                }
+                                if (parseInt(e2.value) > 5000) {
+                                    alert("金額過大(不可大於5000)");
+                                    return false;
+                                }
+                                console.dir(parseInt(e2.value))
+                                plus.nativeUI.showWaiting()
+                                var sendobj = {
+                                    MemberID: id,
+                                    KindID: kid,
+                                    Fee: parseInt(e2.value)
+                                };
+                                getimdata("buyOrderQuick", sendobj, function (r) {
+                                    plus.nativeUI.closeWaiting()
+                                    if (r.result_status) {
+
+                                        alert("下單成功");
+                                        createchat(id);
+                                    } else {
+
+
+                                        alert(r.result_message);
+                                    }
+                                })
+
+                            } 
+                        }
+                        
+                    }, "", "約定金額", ["確定", "取消"]);
+                }
+            });
+        }
+        function createchat(id, kid) {
+            if (kid) {
+                if (GInfo.MyCert.find(e => e.KindID == kid) == null) {
+                    alert("您沒有開通這項技能可以接單唷");
+                    return;
+                }
+            }
+         
+            if (JSON.parse(Server_Token).Member_ID == id) {
+                alert("自己不能跟自己聊天");
+                return;
+            }
+          
+          
+
+            var html = "<a onclick='hovernav(this,\"" + id + "\",\"needim\")' btag=\"MessagePage\"></a>"
+            $(html).click();
+         
+
+        }
+        var ws = plus.webview.currentWebview();
+      
+        $("#getmoneybd").css("max-height", ((plus.screen.resolutionHeight - plus.navigator.getStatusbarHeight()) * 0.8) + 'px')
+        $("#getmoneybd").parent().removeClass("page").removeClass("bdbg").removeClass("layers").removeClass("js_show")
+        $("body").css("background-color", "transparent")
+        $("#container").css("top", '')
+        //$(".layers").css("background-color", "transparent")
+        //ws.addEventListener('close', function () {
+        //    if (plus.webview.getWebviewById("PaiDanPage"))
+        //        plus.webview.getWebviewById("PaiDanPage").setStyle({ mask: 'none' });
+
+        //}, false);
+        //$("body").on("click", function () {
+          
+        //    if (plus.webview.getWebviewById("PaiDanPage"))
+        //        plus.webview.getWebviewById("PaiDanPage").setStyle({ mask: 'none' });
+        //    ws.close();
+        //})
+        var test;
+        $.ajax({
+            url: ajaxurl + "PaiDan",
+            type: 'get',
+            headers: { "Server_Token": encodeURIComponent(Server_Token) },
+            success: function (rs) {
+                if (rs.result_status) {
+                    var chkdata = rs.result_content.find(e => e.PaiDanList_ID == ws.PreloadData.PaiDanList_ID);
+                    if (chkdata) {
+                        test = new Vue({
+
+                            el: "#getmoneybd",
+                            data: {
+                                info: chkdata
+                            },
+                            watch: {
+
+                            },
+                            created: function () {
+                               
+                            },
+                            mounted: function () {
+                                $("body").height($("#getmoneybd").height())
+                             //  ws.setStyle({ position: "dock", dock: "bottom", height: $("#getmoneybd").height() * Math.max((plus.screen.width / plus.screen.resolutionWidth),3) + "px" });
+                                if (plus.os.name == 'Android') {
+                                    ws.setStyle({ position: "dock", dock: "bottom", height: $("#getmoneybd").height() * (plus.screen.width / plus.screen.resolutionWidth) + "px" });
+
+                                } else {
+                                    ws.setStyle({ position: "dock", dock: "bottom", height: plus.screen.resolutionHeight - plus.navigator.getStatusbarHeight() + "px" });
+
+                                }
+                                ws.show("slide-in-bottom");
+                            },
+                            methods: {
+                                delPaiDan: function (id) {
+                                    plus.nativeUI.showWaiting();
+                                    $.ajax({
+                                        url: ajaxurl + "PaiDan",
+                                        type: 'delete',
+                                        data: { id: id },
+                                        headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                                        success: function (rs) {
+                                            if (rs.result_status) {
+                                                alert("收單完成")
+
+                                                plus.webview.getWebviewById("PaiDanPage").evalJS("regetdata()");
+                                                if (plus.webview.getWebviewById("PaiDanPage"))
+                                                    plus.webview.getWebviewById("PaiDanPage").setStyle({ mask: 'none' });
+
+                                                plus.nativeUI.closeWaiting()
+                                                ws.close();
+
+                                            } else {
+                                                plus.nativeUI.closeWaiting()
+                                                alert(rs.result_message);
+                                            }
+                                        },
+
+                                    });
+                                },
+                                sendPaiDan: function (id, kid) {
+                                    if (GInfo.MyCert.find(e => e.KindID == kid) == null) {
+                                        alert("您沒有開通這項技能可以接單唷");
+                                        return;
+                                    }
+                                    plus.nativeUI.showWaiting();
+                                    $.ajax({
+                                        url: ajaxurl + "PaiDan/" + id,
+                                        type: 'get',
+                                        headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                                        success: function (rs) {
+                                            if (rs.result_status) {
+                                                alert("申請完成,請等待老闆最後選擇")
+                                                plus.nativeUI.closeWaiting()
+                                                if (plus.webview.getWebviewById("PaiDanPage"))
+                                                    plus.webview.getWebviewById("PaiDanPage").setStyle({ mask: 'none' });
+                                                ws.close();
+
+                                            } else {
+                                                plus.nativeUI.closeWaiting()
+                                                alert(rs.result_message);
+                                            }
+                                        },
+
+                                    });
+                                }
+                            }
+                        })
+                    } else {
+                        alert("此訂單已關閉")
+
+                        plus.webview.getWebviewById("PaiDanPage").evalJS("regetdata()");
+                        if (plus.webview.getWebviewById("PaiDanPage"))
+                            plus.webview.getWebviewById("PaiDanPage").setStyle({ mask: 'none' });
+
+                       
+                        ws.close();
+                    }
+                }
+                
+            }
+        })
+       
+       //var chk =  setTimeout(function () {
+       //     if (GInfo.KindList.length > 0) {
+                
+       //     } else {
+       //         chk()
+       //     }
+       // },100)
+        
+    </script>
+</div>

@@ -1,0 +1,48 @@
+﻿
+<head>
+    <script src="../js/vue.min.js"></script>
+    <meta charset="utf-8" name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=5,user-scalable=1" />
+</head>
+<body  style="background-color:black">
+    <div id="gbd" style="height:100%;width:100%;padding:0;margin:0" @click="closeme">
+        <img v-if="img.split('.')[img.split('.').length-1] != 'mp4'" :src="img" style="width:auto;height:auto;max-height:100%;max-width:100%;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)" />
+        <!--<video v-if="img.split('.')[img.split('.').length-1] == 'mp4'" :src="img" style="object-fit: fill;width:auto;height:auto;max-height:100%;max-width:100%;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)" preload="auto" autoplay loop playsinline webkit-playsinline controls controlsList=" nodownload" />-->
+
+
+    </div>
+    <script>
+        document.addEventListener('plusready', function () {
+            console.dir("plusready")
+            new Vue({
+                el: "#gbd",
+                data: {
+                    img: plus.webview.currentWebview().Img
+                },
+                methods: {
+                    closeme: function () {
+                        plus.webview.currentWebview().close();
+                    }
+                },
+                created: function () {
+                    var self = this;
+                    console.dir(self.img);
+                    if (self.img.split('.')[self.img.split('.').length - 1] == 'mp4') {
+                       var player = plus.video.createVideoPlayer('videoplayer', {
+                            src: self.img,
+                            top: '0px',
+                            left: '0px',
+                            width: '100%',
+                            height: '100%',
+                            position: 'static'
+                        });
+                        plus.webview.currentWebview().append(player);
+                        player.play();
+                    }
+                 
+                }
+            })
+
+        }, false);
+
+    </script>
+</body>

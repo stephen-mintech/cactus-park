@@ -1,0 +1,70 @@
+﻿<div class="orderdetail page bdbg" style="background-color:white">
+    <div class="page__hd" style="" id="">
+
+    </div>
+    <div class="page__bd" style="" id="">
+        <div class="weui-form-preview">
+            <div class="weui-form-preview__hd">
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">標題</label>
+                    <em class="weui-form-preview__value" name="Title">{{data.Title}}</em>
+                </div>
+            </div>
+            <div class="weui-form-preview__bd">
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">瀏覽/下訂數</label>
+                    <span class="weui-form-preview__value" name=""><span bint="{{data.ViewCount}}"></span>瀏覽/<span bint="99"></span>下訂</span>
+                </div>
+                <div class="weui-form-preview__item" style="color:red">
+                    <label class="weui-form-preview__label">價錢</label>
+                    <span class="weui-form-preview__value" name="Fee"><span bint="{{data.Fee}}"></span>幣/{{data.Unit}}</span>
+                </div>
+                <div class="weui-form-preview__item" style="color:blue">
+                    <label class="weui-form-preview__label">類別</label>
+                    <span class="weui-form-preview__value" name="Kind">{{data.Kind_Name}}</span>
+                </div>
+                <div class="weui-form-preview__item" style="color:blue">
+                    <label class="weui-form-preview__label">介紹</label>
+                  
+                </div>
+                <div class="weui-form-preview__item" style="font-size:1.2em;line-height: 1.3em;text-align:center">
+                    <pre style="position:relative;width:100%;word-wrap: break-word;left:0%">{{data.Context}}</pre>
+                </div>
+            </div>
+            <div class="weui-form-preview__ft">
+                <!--<a class="weui-form-preview__btn weui-form-preview__btn_primary " style="" href="javascript:">我要下單</a>-->
+                <a class="weui-btn weui-btn_primary " style="padding:0;margin:0;width:90%;left:5%" href="javascript:" onclick="neworder();">我要下單</a>
+                <a class="weui-btn weui-btn_primary weui-btn_loading " style="padding:0;margin:0;width:90%;left:5%;display:none" href="javascript:"><i class="weui-loading"></i>我要下單</a>
+
+            </div>
+            <br>
+        </div>
+    </div>
+    <div class="page__ft" style="">
+
+    </div>
+
+
+    <script>
+        var data = JSON.parse("{{data}}");
+
+        $(function () {
+          
+            addBackEvent(function () {
+                $("#BackBtn").click();
+            });
+
+            $(".weui-navbar").show();
+            $("#BackBtn").attr("btag", "{{backdata}}");
+            $("#NavTitle").text("{{data.Title}}");
+            $("#BackBtn").css("visibility", "visible");
+            $("#BackBtn").removeAttr("disabled")
+            $("[bint]").each(function (e, el) {
+                $(el).text(publicTools.AddCommas($(el).attr("bint")));
+            })
+
+        })
+
+    </script>
+</div>
+

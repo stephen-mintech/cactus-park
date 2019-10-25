@@ -1,0 +1,295 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="../js/vue.min.js"></script>
+    <link href="../css/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <script src="../js/weui/jquery-2.1.4.js"></script>
+    <script src="../js/weui/jquery-weui.js"></script>
+    <link href="../css/weui/weui.min.css?1" rel="stylesheet" />
+    <link href="../css/style/style1.css" rel="stylesheet" />
+    <script src="../js/BridgeClass.js?15"></script>
+    <link href="../css/ionicons/ionicons.min.css" rel="stylesheet" />
+    <meta http-equiv="cache-control" content="private">
+    <meta http-equiv="pragma" content="private">
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <script>
+        window.onerror = function (message, source, lineno, colno, error) {
+            alert(error);
+        };
+        onerror = function (message, source, lineno, colno, error) {
+            alert(error);
+        };
+    </script>
+    <style>
+    </style>
+</head>
+<body style="width:100%;height:100%;display:none;position:fixed">
+    <div class="weui-mask" onclick="plus.webview.close(plus.webview.currentWebview())"></div>
+
+    <div class="" id="vueview" style="width:80%;left:10%;top:50%;transform:translateY(-50%);border-radius:0.8em;margin:0 0 auto;position:relative;background-color: #FFFFFF;text-align: center;z-index:5000">
+        <div onclick="plus.webview.close(plus.webview.currentWebview())" style="font-size:30px;line-height:30px;width:30px;height:30px;top:-15px;right:-15px;border-radius:999em;background-color:rgba(150,150,150,0.6);color:white;position:absolute;vertical-align:middle;z-index:15">
+            <i class="ion-ios-close-outline " style=""></i>
+        </div>
+
+        <div class="" style="text-align:left;width:95%;height:100%;left:2.5%;position:relative;overflow-y:auto">
+
+            <div class="page js_show">
+                <div class="page__hd">
+                    <h4 class="page__title" style="text-align:center;line-height:50px">手機認證</h4>
+                </div>
+                <div class="page__bd">
+                    <div class="weui-cells weui-cells_form">
+                        <div class="weui-cell weui-cell_select weui-cell_select-after">
+                            <div class="weui-cell__hd">
+                                <label for="" class="weui-label">國碼</label>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <select class="weui-select" name="select2" v-model="AreaCode">
+                                    <option v-for="item in area" :value="item.AreaCode">+{{item.AreaCode}} {{item.Name}}</option>
+                                  
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="weui-cell">
+                            <div class="weui-cell__hd">
+                                <label class="weui-label">手機號碼</label>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="tel" v-model="phone" placeholder="輸入手機號碼">
+                            </div>
+
+                        </div>
+
+                        <div class="weui-cell ">
+                            <div class="weui-cell__hd">
+                                <label class="weui-label " style="font-size:12px;word-break:keep-all;">
+
+                                    <a class="weui-btn weui-btn_mini weui-btn_primary" v-bind:class="{'weui-btn_disabled' : (waitthead!=0)}" @click="sendvode()">{{waitthead==0?'發驗證碼':'等待'+waittime+'秒'}}</a>
+                                </label>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" v-model="VCode" type="text" pattern="[0-9]*" maxlength="6" placeholder="請輸入驗證碼">
+                            </div>
+
+                        </div>
+                    </div>
+                    <div style="height:20px">
+
+                    </div>
+                    <div class="weui-btn-area">
+                        <a class="weui-btn weui-btn_primary" href="javascript:" @click="newphone" id="showTooltips">進行認證</a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </div>
+    <script>
+        var Bridge;
+        var $ready;
+        var pready;
+        var ajaxurl;
+        var test
+        var barcode;
+        var startpage = function () {
+            Array.prototype.remove = function (val) {
+                var index = this.indexOf(val);
+                if (index > -1) {
+                    this.splice(index, 1);
+                }
+            };
+            plus.nativeUI.closeWaiting();
+            var phone = plus.webview.currentWebview().phone;
+
+            test = new Vue({
+                el: '#vueview',
+                data: {
+                    org_phone: plus.webview.currentWebview().phone,
+                    phone: null,
+                    waittime: 0,
+                    waitthead: 0,
+                    AreaCode: 886,
+                    VCode: "",
+                    area: top["Area"]
+                },
+                watch: {
+                    waittime: function (val) {
+                        if (val <= 0) {
+                            clearInterval(this.waitthead)
+                            this.waitthead = 0;
+                        } else {
+                            if (this.waitthead == 0) {
+                                var self = this;
+                                this.waitthead = setInterval(function () {
+                                    self.waittime--;
+                                }, 1000)
+                            }
+                        }
+                    }
+                },
+                methods: {
+                    newphone: function () {
+                        var self = this;
+                        if ((this.phone || "") == "") {
+                            alert("手機號碼不可為空!");
+                            return;
+                        }
+                        $.ajax({
+                            url: ajaxurl + "VCode",
+                            type: 'post',
+                            data: self.$data,
+                            headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                            timeout: 30000,
+                            success: function (r) {
+                                if (r.result_status) {
+                                    alert("綁定完成,獲得一張30元體驗券")
+                                    plus.webview.currentWebview().close()
+                                } else {
+                                    alert(r.result_message);
+                                }
+                            },
+                            onerror: function () {
+
+                            },
+                            complete: function () {
+
+                            }
+                        });
+                    },
+                    sendvode: function () {
+                        console.dir(this.phone);
+                        if ((this.phone || "") == "") {
+                            alert("手機號碼不可為空!");
+                            return;
+                        }
+                        if (this.waittime <= 0) {
+                            this.waittime = 30;
+                            var self = this;
+                            $.ajax({
+                                url: ajaxurl + "VCode/?phone=" + self.phone + "&AreaCode=" + self.AreaCode,
+                                type: 'get',
+                                headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                                timeout: 30000,
+                                success: function (r) {
+                                    if (r.result_status) {
+                                        alert("發送成功,驗證碼5分鐘內有效");
+                                    } else {
+                                        alert(r.result_message);
+                                    }
+                                },
+                                onerror: function () {
+
+                                },
+                                complete: function () {
+                                 
+                                }
+                            });
+                        }
+                     
+                    }
+                },
+                created: function () {
+
+                },
+                mounted() {
+
+                }
+            })
+        }
+        var init = function () {
+            if (!pready)
+                return;
+            if (!$ready)
+                return;
+            switch (plus.os.name) {
+                case "Android":
+                    // Android平台: plus.android.*
+                    break;
+                case "iOS":
+                    // iOS平台: plus.ios.*
+                    //取消長按事件
+                    document.body.style.webkitTouchCallout = "none";
+                    //取消拖曳事件
+                    document.body.setAttribute("ondragstart", "return false");
+                    break;
+                default:
+                    // 其它平台
+                    break;
+            }
+            alert = function (e, cb) {
+                plus.nativeUI.alert(e, function () {
+                    if (cb) {
+                        cb()
+                    }
+                }, "訊息", "確定");
+            }
+            Bridge = new BridgeClass();
+
+            Bridge.getData("APIUrl", function (apiurl) {
+                // alert(apiurl);
+                ajaxurl = apiurl;
+                Bridge.getData("Server_Token",
+                    function (tok) {
+
+                        if (tok) {
+                            var data = JSON.parse(tok);
+                            data["VCode"] = JSON.parse(tok).Pw;
+                            data["Pw"] = data["oPw"];
+                            Server_Token = tok;
+                            if (JSON.parse(Server_Token).Status == "管理員")
+                                ajaxurl = "http://192.168.1.110:8900/api/"
+                            $.ajax({
+                                url: ajaxurl + "Area",
+                                type: 'get',
+                                timeout: 30000,
+                                success: function (r) {
+                                    if (r.result_status) {
+                                        top["Area"] = r.result_content;
+                                    } else {
+                                        alert(r.result_message);
+                                    }
+                                    $("body").show();
+                                    startpage();
+                                },
+                                onerror: function () {
+
+                                },
+                                complete: function () {
+
+                                }
+                            });
+                           
+                            plus.nativeUI.closeWaiting();
+
+                            
+
+                        } else {
+
+                        }
+
+                    }
+                )
+
+
+            })
+        }
+        document.addEventListener('plusready', function () {
+            pready = true;
+            init();
+        }, false);
+
+        $(function () {
+           
+            $ready = true;
+            init();
+        })
+
+    </script>
+</body>
+
+</html>

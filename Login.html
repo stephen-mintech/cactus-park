@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="js/user.js"></script>
+    <link href="css/weui/weui.min.css" rel="stylesheet" />
+    <script src="js/weui/weui.min.js"></script>
+    <script src="js/weui/jquery-2.1.4.js"></script>
+
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title></title>
+
+</head>
+<body>
+   
+    <div style="top: 30%;left: 50%; width: 70%; height: 50%; margin: 30% auto;">
+        <div class="login-header">
+            <div class="brand">
+                <img src="img/LoginLogo.png" style="width:100%;height:auto;display:block; margin:auto;">
+            </div>
+        </div>
+
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">账号</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" name="ac" type="text" placeholder="请输入账号" />
+                </div>
+                <div class="weui-cell__ft" style="display:none">
+                    <i class="weui-icon-warn"></i>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">密码</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" name="pw" type="password" placeholder="请输入密码" />
+                </div>
+                <div class="weui-cell__ft" style="display:none">
+                    <i class="weui-icon-warn"></i>
+                </div>
+            </div>
+
+        </div>
+        <!--<div id="loadingToast" style="display:none;">
+            <div class="weui-mask_transparent"></div>
+            <div class="weui-toast">
+                <i class="weui-loading weui-icon_toast"></i>
+                <p class="weui-toast__content">数据加载中</p>
+            </div>
+        </div>-->
+        <div class="weui-btn-area">
+            <a class="weui-btn weui-btn_primary" href="javascript:" onclick="login(this)" id="showTooltips">确定</a>
+        </div>
+        <div name="errordiv" style="display:none">
+            <i class="weui-icon-warn" name="msg"></i>
+
+        </div>
+    </div>
+
+
+        <script>
+            function login(btn) {
+                var $ac = $("input[name=ac]");
+                var $pw = $("input[name=pw]");
+                $ac.parents(".weui-cell").removeClass("weui-cell_warn");
+                $pw.parents(".weui-cell").removeClass("weui-cell_warn");
+                $ac.parent().next().hide();
+                $pw.parent().next().hide();
+                if ($ac.val() == "") {
+                    $ac.parents(".weui-cell").addClass("weui-cell_warn");
+                    $ac.parent().next().show();
+                    return;
+                }
+                if ($pw.val() == "") {
+                    $pw.parents(".weui-cell").addClass("weui-cell_warn");
+                    $pw.parent().next().show();
+                    return;
+                }
+                $("div[name=errordiv] [name=msg]").text("");
+                $("div[name=errordiv]").hide();
+                $("#loadingToast").show()
+                $(btn).attr('disabled', true);
+                $.ajax({
+                    url: ajaxurl+"Login",
+                    type: 'post',
+                    data: { ac: $ac.val(), pw: $pw.val()},
+                    success: function (r) {
+
+                        if (r.result_status == false) {
+                            $("div[name=errordiv] [name=msg]").text(r.result_message);
+                            $("div[name=errordiv]").show();
+                            $("#loadingToast").hide()
+                            $(btn).attr('disabled', false);
+                            return;
+                        } else {
+                            Bridge.setData('LoginInfo', r.result_content, function () {
+                                window.location.href = "index.html";
+                            });
+                           
+                        }
+                    },
+                    error: function (r) {
+                        $("#loadingToast").hide()
+                        $(btn).attr('disabled', false);
+                        $("div[name=errordiv] [name=msg]").text("传输错误");
+                        $("div[name=errordiv]").show();
+                    }
+                });
+            }
+        </script>
+</body>
+
+</html>

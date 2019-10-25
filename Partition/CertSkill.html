@@ -1,0 +1,217 @@
+﻿<div class="flexbar navbg" style="position:fixed;top:0;left:0;height:60px;z-index:300;width:100%;overflow:hidden">
+    <div class="memberinfo1" style="width: 10%;height:60px;position:relative;float:left;z-index:301; ">
+        <div id="backSetting" class="backb" onclick="plus.webview.close(plus.webview.currentWebview())" style="width:30px;height:60px;border-radius: 999em;color:white">
+            <i class="fa fa-angle-left" style="font-size:30px;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"> </i>
+        </div>
+    </div>
+    <h4 class="" style="z-index:300;color:white;width:90%;line-height:60px;font-size:24px;position:relative;text-align:center">技能認證</h4>
+</div>
+<div class="certSkill page bdbg" style="">
+    <style>
+        .weui-grids2 {
+            overflow-x: auto;
+            white-space: nowrap;
+            list-style: none;
+        }
+
+        .weui-grid2 {
+            position: relative;
+            display: inline-block;
+            margin-top: 5px;
+            height: 150px;
+        }
+    </style>
+    <div class="page__hd" style="height:60px;margin:0;padding:0">
+    </div>
+    <div id="certSkill" class="page__bd" v-bind:style="{display:CanShow}" style="display:none">
+        <div v-if="havebank==false">
+            <div class="weui-cells__title" style="">請您先綁定手機與銀行帳戶</div>
+            <div class="weui-cells">
+
+                <div class="weui-cell weui-cell_swiped">
+                    <div class="weui-cell__bd" style="transform: translateX(-68px);">
+                        <div class="weui-cell" style="display:block">
+                            <div class="" style="width:68px">
+
+                            </div>
+                            <div class="weui-cell__ft" style="text-align:left;padding-left:68px" v-bind:style="{'color':((GInfo.MyInfo.Phone||'') == '' ? 'red':'black')}">{{(((GInfo.MyInfo.Phone||'') == '') ? '請先綁定手機號碼':'手機號碼已綁定')}}</div>
+                        </div>
+                    </div>
+                    <div class="weui-cell__ft">
+                        <a @click="gobindphone" class="weui-swiped-btn weui-swiped-btn_default" v-bind:style="{'background-color':((GInfo.MyInfo.Phone||'') == '' ? '#dd7299':'rgb(114, 232, 113)')}" style="border-radius:999em" href="javascript:">
+                            {{((GInfo.MyInfo.Phone||'') == '' ? '前往':'完成')}}
+                        </a>
+                    </div>
+                </div>
+                <div class="weui-cell weui-cell_swiped" style="margin-top:10px">
+                    <div class="weui-cell__bd" style="transform: translateX(-68px);">
+                        <div class="weui-cell" style="display:block">
+                            <div class="weui-cell__bd" style="width:68px">
+
+                            </div>
+                            <div class="weui-cell__ft" style="text-align:left;padding-left:68px" v-bind:style="{'color':((havebank==false) ? 'red':'black')}">{{((havebank==false) ? '請先綁定銀行帳戶':'銀行帳戶已綁定')}}</div>
+                        </div>
+                    </div>
+                    <div class="weui-cell__ft">
+                        <a @click="gobindbank" class="weui-swiped-btn weui-swiped-btn_default" v-bind:style="{'background-color':((havebank==false) ? '#dd7299':'rgb(114, 232, 113)')}" style="border-radius:999em" href="javascript:">
+                            {{((havebank==false) ? '前往':'完成')}}
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+      
+      
+        <div v-if="havebank==true">
+            <div class="weui-cells__title" v-if="GInfo.MyCert.filter(e=>e.isPass==true && GInfo.KindList.find(f=>f.Detail.find(g=>g.ID ==e.KindID))).length>0">您目前的技能</div>
+            <div class='weui-grids' id='DoneCSkillList' v-if="GInfo.MyCert.filter(e=>e.isPass==true && GInfo.KindList.find(f=>f.Detail.find(g=>g.ID ==e.KindID))).length>0">
+                <a onclick="hovernav(this)" :bparam="item.Member_Certification_ID" btag="CertSkillEdit" v-for="(item, index) in GInfo.MyCert" v-if="item.isPass && GInfo.KindList.find(e=>e.Detail.find(f=>f.ID ==item.KindID))" href="javascript:;" class="weui-grid2" style="width:20%;padding:0 2.5%">
+                    <div class="weui-grid__icon" v-bind:style='{"background-image": "url(\"img/icon/game/" + GInfo.KindList.find(e=>e.Detail.find(f=>f.ID ==item.KindID)).Detail.find(f=>f.ID ==item.KindID).Img  + "\")" }' style=" width: 100%;padding-bottom:100%;height: 0; border-radius: 999em;background-repeat: no-repeat;background-position: center;-webkit-background-size: auto 100%;background-color:#dd7299" infotag="MemberImg">
+
+                    </div>
+                    <p class="weui-grid__label" infotag="MemberName">{{item.Name}}</p>
+                    <p class="weui-grid__label" v-bind:style="{color:(item.isEnable?'blue':'red')}" infotag="Status">{{(item.isEnable==true?"刊登中":"沒有販售清單")}}</p>
+                    <p class="weui-grid__label" v-bind:style="{color:(item.isEnable?'deeppink':'lightgray')}" infotag="Info">{{(item.isEnable==true?(item.Fee + "幣/" + item.Unit):"沒有販售清單")}}</p>
+                </a>
+            </div>
+            <div class="weui-cells__title" v-if="GInfo.MyCert.filter(e=>e.isPass==false && GInfo.KindList.find(f=>f.Detail.find(g=>g.ID ==e.KindID))).length>0">申請中的技能</div>
+            <div class='weui-grids' id='CSkillList' v-if="GInfo.MyCert.filter(e=>e.isPass==false && GInfo.KindList.find(f=>f.Detail.find(g=>g.ID ==e.KindID))).length>0">
+                <a v-for="(item, index) in GInfo.MyCert" v-if="(!item.isPass)&&GInfo.KindList.find(e=>e.Detail.find(f=>f.ID ==item.KindID))" href="javascript:;" class="weui-grid2" style="width:20%;padding:0 2.5%">
+                    <div class="weui-grid__icon" v-bind:style='{"background-image": "url(\"img/icon/game/" + GInfo.KindList.find(e=>e.Detail.find(f=>f.ID ==item.KindID)).Detail.find(f=>f.ID ==item.KindID).Img  + "\")" }' style=" width: 100%;padding-bottom:100%;height: 0; border-radius: 999em;background-repeat: no-repeat;background-position: center;-webkit-background-size: auto 100%;background-color:#dd7299" infotag="MemberImg">
+
+                    </div>
+                    <p class="weui-grid__label" infotag="MemberName">{{item.Name}}</p>
+                    <p class="weui-grid__label" v-bind:style="{color:'green'}" infotag="Status">認證中</p>
+                </a>
+            </div>
+            <div class="weui-cells__title" v-if="Array.prototype.concat.apply([],GInfo.KindList.map(e=>e.Detail)).length >0">請選擇欲申請的技能</div>
+            <div class="weui-panel" v-if="Array.prototype.concat.apply([],GInfo.KindList.map(e=>e.Detail)).length >0">
+                <div class="weui-panel__bd">
+                    <div class="weui-media-box weui-media-box_small-appmsg">
+                        <div class="weui-cells">
+                            <a class="weui-cell weui-cell_access weui-cell_example" href="javascript:;" :bparam="item.ID+'|'+item.Name" btag="CertUpload" onclick="hovernav(this)" v-for="(item, index) in Array.prototype.concat.apply([],GInfo.KindList.map(e=>e.Detail))" v-if="GInfo.MyCert.find(e=>e.KindID == item.ID)==undefined ">
+                                <div class="weui-cell__hd"><img :src="'img/icon/game/'+item.Img" alt="" style="width: 50px;height:50px;border-radius: 999em;margin-right:16px;object-fit:cover;background-color:#dd7299"></div>
+                                <div class="weui-cell__bd weui-cell_primary">
+                                    <p infotag="MemberName">{{item.Name}}</p>
+                                    <p class="weui-media-box__desc">目前已有{{item.Allguys||0}}位通過技能認證</p>
+                                </div>
+                                <span class="weui-cell__ft"></span>
+                            </a>
+                         
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--<div class='weui-grids' id='UnCSkillList'>
+                <a :bparam="item.ID+'|'+item.Name" btag="CertUpload" onclick="hovernav(this)" v-for="(item, index) in Array.prototype.concat.apply([],GInfo.KindList.map(e=>e.Detail))" v-if="GInfo.MyCert.find(e=>e.KindID == item.ID)==undefined " href="javascript:;" class="weui-grid2" style="width:20%;padding:0 2.5%">
+                    <div class="weui-grid__icon" v-bind:style='{"background-image": "url(\"img/icon/game/" + item.Img  + "\")" }' style=" width: 100%;padding-bottom:100%;height: 0; border-radius: 999em;background-repeat: no-repeat;background-position: center;-webkit-background-size: auto 100%;" infotag="MemberImg">
+
+                    </div>
+                    <p class="weui-grid__label" infotag="MemberName">{{item.Name}}</p>
+
+                </a>
+            </div>-->
+        </div>
+    </div>
+    <div class="page__ft ">
+        <div class="js_dialog" id="servicedia" style="display:none">
+            <div class="weui-mask" onclick='$("#servicedia").hide()'></div>
+            <div class="weui-dialog">
+                <div class="weui-dialog__bd" style="height:300px;overflow-y:auto;text-align:left"></div>
+                <div class="weui-dialog__ft">
+                    <div class="weui-cells weui-cells_checkbox" style="width:60%;height:100%;margin:0">
+                        <label class="weui-cell weui-check__label" style="" for="s11">
+                            <div class="weui-cell__hd">
+                                <input type="checkbox" class="weui-check" name="checkbox1" value="1" id="s11">
+                                <i class="weui-icon-checked"></i>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <p>不再提醒</p>
+                            </div>
+                        </label>
+
+                    </div>
+                    <a onclick='$("#servicedia").hide();Bridge.setData("ReadSkill",$("#s11:checked").val()||"0")' class="weui-dialog__btn weui-dialog__btn_primary">同意</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+       // plus.nativeUI.showWaiting("載入中...");
+        var ckvue;
+        new (function () {
+            Bridge.getData("ReadSkill", function (ReadSkill) {
+                if (ReadSkill != "1") {
+                    seerule();
+                }
+            })
+            getimdata("getMyCert", "", function (rs) {
+           
+                plus.webview.getLaunchWebview().evalJS('GInfo.MyCert=' + JSON.stringify(rs) + ";R_GInfo()")
+            })
+            getimdata("getBankInfo","", function (r) {
+                if (r.result_status) {
+                    var newdata = r.result_content.MyBankInfo;
+
+                    var de = newdata.filter(e => e.isPass == true && e.isDefault == true);
+                    var havebank = false;
+
+                    if ((de.length > 0) || (r.result_content.ManagerInfo)) {
+                        havebank = true;
+                    }
+                    ckvue = new Vue({
+                        el: "#certSkill",
+                        data: {
+                            havebank: havebank
+                        },
+                        methods: {
+                            gobindphone: function () {
+                                if ((GInfo.MyInfo.Phone || '') == '') {
+                                    $('<a btag="ProfileEdit" onclick="hovernav(this, \'id\')"></a>').click()
+                                }
+                            },
+                            gobindbank: function () {
+                                if (this.havebank == false) {
+                                    $('<a btag="BankInfo" onclick="hovernav(this, \'id\')"></a>').click()
+                                }
+
+                            },
+                        },
+                        beforeCreate() {
+                            this.CanShow = "none";
+
+                        },
+                        created() {
+                            this.CanShow = "block";
+                            //plus.nativeUI.closeWaiting();
+                        }
+                    })
+                } else {
+                    console.error(r.result_message);
+                }
+            })
+
+           
+          
+        })
+        function seerule() {
+            Bridge.readFile("Template/skillrule.txt", function (st) {
+                $("#servicedia .weui-dialog__bd").empty();
+                var stline = st.split('\r');
+                for (var i = 0; i < stline.length; i++) {
+                   if( stline[i].trim() != "")
+                        $("#servicedia .weui-dialog__bd").append("<p>" + stline[i] + "</p><br>")
+                }
+
+                $("#servicedia").show();
+
+            });
+        }
+        $(function () {
+           
+        })
+
+    </script>
+</div>

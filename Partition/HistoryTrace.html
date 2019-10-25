@@ -1,0 +1,179 @@
+﻿<div class="flexbar navbg" style="position:fixed;top:0;left:0;height:60px;z-index:300;width:100%;overflow:hidden">
+    <div class="memberinfo1" style="width: 10%;height:60px;position:relative;float:left;z-index:301; ">
+        <div id="backSetting" class="backb" onclick="plus.webview.close(plus.webview.currentWebview())" style="width:30px;height:60px;border-radius: 999em;color:white">
+            <i class="fa fa-angle-left" style="font-size:30px;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"> </i>
+        </div>
+    </div>
+    <h4 class="" style="z-index:300;color:white;width:90%;line-height:60px;font-size:24px;position:relative;text-align:center">最近來訪</h4>
+</div>
+<div class="historyTracepage page bdbg" id="historyTracepage" :el="historyTracepage" style="">
+    <div class=" " style="height:60px"></div>
+    <div id="historyTracelist" class="page__bd">
+        <!--<div class="weui-cells__title">最近30日足跡</div>-->
+        <div class="weui-loadmore weui-loadmore_line" v-if="list.length == 0">
+            <span class="weui-loadmore__tips " style="background-color:transparent">沒有紀錄</span>
+        </div>
+        <div class="weui-cells" v-if="list.length != 0">
+            <div class="weui-cell" v-for="(item, index) in list" v-if="index < 50" ref="child">
+                <div class="weui-cell__hd" :onclick="'hovernav_new(this)'" :nview="JSON.stringify({moreinfo: true,type: 'transparent', titleText: item.Name,img:item.Img})" :bparam="item.Member_ID" btag="PlayerPage" style="position: relative;margin-right: 10px;width:50px;height:50px">
+                    <img class="weui-media-box__thumb" style="object-fit:cover;width:100%;height:100%;border-radius:999em;" :src="item.Img" onerror="this.src='img/icon/noimage_person.png'" alt="">
+                </div>
+                <div class="weui-cell__bd" style="height:50px">
+                    <p :onclick="'hovernav_new(this)'" :nview="JSON.stringify({moreinfo: true,type: 'transparent', titleText: item.Name,img:item.Img})" :bparam="item.Member_ID" btag="PlayerPage">{{item.Name}}</p>
+                    <p v-if="item.Param == 'PlayerInfo'" style="font-size: 13px;color: #888888;">
+                        瀏覽了你的個人頁面
+                    </p>
+                    <p v-if="item.Param == 'Follow'" style="font-size: 13px;color: #888888;">
+                        關注了你
+                    </p>
+                    <p v-if="item.Param == 'UnFollow'" style="font-size: 13px;color: #888888;">
+                        取消關注了你
+                    </p>
+                    <p v-if="item.Param.indexOf('News|')==0" style="font-size: 13px;color: #888888;">
+                        <span class="weui-agree__text">
+                            看了你的 <a href="javascript:void(0);" btag="NewsPage" :bparam="item.Param.split('|')[1]" onclick="hovernav(this)">這篇動態</a>
+                        </span>
+                    </p>
+                    <p v-if="item.Param.indexOf('Skill|')==0" style="font-size: 13px;color: #888888;">
+                        <span class="weui-agree__text">
+                            看了你的 <a href="javascript:void(0);" btag="Skill" :bparam="item.Param.split('|')[1]" onclick="hovernav(this)">{{item.Param.split('|')[2]}}</a> 技能
+                        </span>
+                    </p>
+                    <p v-if="item.Param.indexOf('NewsComment|')==0" style="font-size: 13px;color: #888888;">
+                        <span class="weui-agree__text">
+                            對你的 <a href="javascript:void(0);" btag="NewsPage" :bparam="item.Param.split('|')[1]" onclick="hovernav(this)">這篇動態</a> 留了信息
+                        </span>
+                    </p>
+                </div>
+                <div class="weui-cell__ft" style="font-size: 12px;">
+                    {{moment(item.CreateTime).startOf('second').fromNow()}}
+                </div>
+
+            </div>
+
+        </div>
+        <div class="weui-loadmore weui-loadmore_line" v-if="list.length > 50">
+            <span class="weui-loadmore__tips " style="background-color:transparent">開通VIP可載入更多紀錄</span>
+        </div>
+        <!--<div class="weui-cells__title">本日來訪</div>
+    <div class="weui-loadmore weui-loadmore_line" v-if="todaylist.length == 0">
+        <span class="weui-loadmore__tips " style="background-color:transparent">沒有紀錄</span>
+    </div>
+    <div class="weui-cells" v-if="todaylist.length != 0">
+        <div class="weui-cell" v-for="(item, index) in todaylist" @click="hovernav(index,item.Member_ID)" ref="child" btag="PlayerPage">
+            <div class="weui-cell__hd" style="position: relative;margin-right: 10px;width:50px;height:50px">
+                <img class="weui-media-box__thumb" style="object-fit:cover;width:100%;height:100%;border-radius:999em;" :src="item.Img" onerror="this.src='img/icon/noimage_person.png'" alt="">
+            </div>
+            <div class="weui-cell__bd" style="height:50px">
+                <p>{{item.Name}}</p>
+                <p style="font-size: 13px;color: #888888;">
+                    成交:{{item.BuyMeTimes}}次{{(item.BuyMeTimes==0?"":(" 最後成交紀錄:"+moment(item.LastTimeBuyMe).startOf('second').fromNow()))}}
+                </p>
+            </div>
+            <div class="weui-cell__ft" style="font-size: 12px;">
+            </div>
+            <span style="font-size: 13px;color: #888888;position:absolute;top:10px;right:0">
+                最近:{{moment(item.LastViewMe).startOf('second').fromNow()}}
+                <br>
+                來訪:{{item.ViewMeTimes}}次
+            </span>
+        </div>
+    </div>-->
+        <!--<div class="weui-cells__title">本周來訪</div>
+    <div class="weui-loadmore weui-loadmore_line" v-if="weeklist.length == 0">
+        <span class="weui-loadmore__tips " style="background-color:transparent">沒有紀錄</span>
+    </div>
+    <div class="weui-cells" v-if="weeklist.length != 0">
+        <div class="weui-cell" v-for="(item, index) in weeklist" @click="hovernav(index,item.Member_ID)" ref="child" btag="PlayerPage">
+            <div class="weui-cell__hd" style="position: relative;margin-right: 10px;width:50px;height:50px">
+                <img class="weui-media-box__thumb" style="object-fit:cover;width:100%;height:100%;border-radius:999em" :src="item.Img" onerror="this.src='img/icon/noimage_person.png'" alt="">
+            </div>
+            <div class="weui-cell__bd" style="height:50px">
+                <p>{{item.Name}}</p>
+                <p style="font-size: 13px;color: #888888;">
+                    成交:{{item.BuyMeTimes}}次{{(item.BuyMeTimes==0?"":(" 最後成交紀錄:"+moment(item.LastTimeBuyMe).startOf('second').fromNow()))}}
+                </p>
+            </div>
+            <div class="weui-cell__ft" style="font-size: 12px;">
+            </div>
+            <span style="font-size: 13px;color: #888888;position:absolute;top:10px;right:0">
+                最近:{{moment(item.LastViewMe).startOf('second').fromNow()}}
+                <br>
+                來訪:{{item.ViewMeTimes}}次
+            </span>
+        </div>
+    </div>
+    <div class="weui-cells__title">三十天內來訪</div>
+    <div class="weui-loadmore weui-loadmore_line" v-if="list.length == 0">
+        <span class="weui-loadmore__tips " style="background-color:transparent">沒有紀錄</span>
+    </div>
+    <div class="weui-cells" v-if="list.length != 0">
+        <div class="weui-cell" v-for="(item, index) in list" @click="hovernav(index,item.Member_ID)" ref="child" btag="PlayerPage">
+            <div class="weui-cell__hd" style="position: relative;margin-right: 10px;width:50px;height:50px">
+                <img class="weui-media-box__thumb" style="object-fit:cover;width:100%;height:100%;border-radius:999em" :src="item.Img" onerror="this.src='img/icon/noimage_person.png'" alt="">
+            </div>
+            <div class="weui-cell__bd" style="height:50px">
+                <p>{{item.Name}}</p>
+                <p style="font-size: 13px;color: #888888;">
+
+                    成交:{{item.BuyMeTimes}}次{{(item.BuyMeTimes==0?"":(" 最後成交紀錄:"+moment(item.LastTimeBuyMe).startOf('second').fromNow()))}}
+                </p>
+            </div>
+            <div class="weui-cell__ft" style="font-size: 12px;">
+            </div>
+            <span style="font-size: 13px;color: #888888;position:absolute;top:10px;right:0">
+                最近:{{moment(item.LastViewMe).startOf('second').fromNow()}}
+                <br>
+                來訪:{{item.ViewMeTimes}}次
+            </span>
+        </div>
+    </div>-->
+
+
+    </div>
+    <div class="page__ft "></div>
+    <script>
+       
+           new Vue({
+                el: '#historyTracepage',
+                data: {
+                    list: top["DataBase"]["Partition"],
+                 
+                },
+                methods: {
+                    hovernav: function (idx, id) {
+                        hovernav(this.$refs["child"][idx], id)
+                    },
+                    hovernavp: function (idx, id) {
+                       
+                        hovernav($("<a btag='" + idx + "'></a>"), id)
+                    },
+                },
+                mounted() {
+                 
+                }
+            })
+
+        //new Vue({
+        //    el: '#historyTracepage',
+        //    data: {
+        //        list: top["DataBase"]["Partition"],
+        //        todaylist: top["DataBase"]["Partition"].filter(e => moment(new Date(e.LastViewMe)).format('l') == moment(new Date()).format('l')),
+        //        weeklist: top["DataBase"]["Partition"].filter(e => moment(e.LastViewMe).subtract(((new Date(e.LastViewMe).getDay() - 1 == -1 ? 7 : (new Date(e.LastViewMe).getDay())) - 1), 'days').format('L') == moment().subtract(((new Date().getDay() - 1 == -1 ? 7 : (new Date().getDay())) - 1), 'days').format('L')),
+
+        //    },
+        //    methods: {
+        //        hovernav: function (idx, id) {
+        //            hovernav(this.$refs["child"][idx], id)
+        //        },
+        //        hovernavp: function (idx, id) {
+
+        //            hovernav($("<a btag='" + idx + "'></a>"), id)
+        //        },
+        //    },
+        //    mounted() {
+
+        //    }
+        //})
+    </script>
+</div>

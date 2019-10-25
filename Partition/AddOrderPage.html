@@ -1,0 +1,271 @@
+﻿<div class="addorderpage page bdbg" style="background-color:white">
+    <style>
+        .weui-navbar2 {
+            display: flex;
+            position: absolute;
+            z-index: 500;
+            bottom: 0;
+            width: 100%;
+          
+        }
+
+            .weui-navbar2:after {
+                content: " ";
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                height: 1px;
+              
+                color: #CCCCCC;
+                transform-origin: 0 100%;
+                transform: scaleY(0.5);
+            }
+
+            .weui-navbar2 + .weui-tab__panel {
+                padding-top: 50px;
+                padding-bottom: 0;
+            }
+
+        .weui-navbar__item2 {
+            position: relative;
+            display: block;
+            flex: 1;
+            padding: 13px 0;
+            text-align: center;
+            font-size: 15px;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+
+            .weui-navbar__item2:active {
+                background-color: #ECECEC;
+            }
+
+            .weui-navbar__item2.weui-bar__item_on {
+                background-color: #ECECEC;
+            }
+
+            .weui-navbar__item2:after {
+                content: " ";
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: 1px;
+                bottom: 0;
+            
+                color: #CCCCCC;
+                transform-origin: 100% 0;
+                transform: scaleX(0.5);
+            }
+
+            .weui-navbar__item2:last-child:after {
+                display: none;
+            }
+    </style>
+    <div class="weui-tab">
+        <div class="weui-navbar2" style="bottom:2%">
+            <div class="weui-navbar__item2 regbtn" style="color:white;padding:0;background-color:transparent" ordertag="">
+
+                <a class="weui-btn weui-btn_primary " style="padding:0;margin:0;width:80%;left:10%" href="javascript:" onclick="newpost();">新增</a>
+                <a class="weui-btn weui-btn_primary weui-btn_loading " style="padding:0;margin:0;width:80%;display:none" href="javascript:"><i class="weui-loading"></i>新增</a>
+            </div>
+
+            <div class="weui-navbar__item2 " style="padding:0;background-color:transparent;color:white" ordertag="">
+                <div class="weui-btn weui-btn_warn " style="width:80%;padding:0;margin:0;left:10%" id="newrentclose" href="javascript:" onclick="$('[btag=OrderList]').click();$('.weui-tabbar').show();">關閉</div>
+            </div>
+        </div>
+     
+        <div class="weui-tab__panel">
+            <div class="weui-mask" id="postMask" style="display: none;"></div>
+            <div class="page__bd" style="" id="newpostform">
+                <div class="weui-cells__title">訂單類別</div>
+                <div class="weui-cells">
+                    <div class="weui-cell weui-cell_select">
+                        <div class="weui-cell__bd">
+                            <select class="weui-select" name="Zuzu_Kind_BigID" onchange="chgbig(this)">
+                                <option selected="selected" value="0">請選擇大類</option>
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="weui-cell weui-cell_select">
+                        <div class="weui-cell__bd">
+                            <select class="weui-select" name="Zuzu_Kind_ID">
+                                <option selected="selected" value="0">請選擇小類</option>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="weui-cells__title">訂單內容</div>
+                <div class="weui-cells weui-cells_form">
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">標題</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" name="Title" placeholder="請輸入訂單標題">
+                        </div>
+                    </div>
+                    <div class="weui-cell weui-cell_vcode">
+                        <div class="weui-cell__hd">
+                            <label class="weui-label">金額</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="number" name="Fee" pattern="[0-9]*" placeholder="請輸入金額">
+                        </div>
+                        <div class="weui-cell__ft">
+                            <button class="weui-vcode-btn" style="color:black">幣</button>
+                        </div>
+                    </div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__hd"><label class="weui-label">出售單位</label></div>
+                        <div class="weui-cell__bd">
+                            <input class="weui-input" type="text" name="Unit" maxlength="2" placeholder="次/場/時">
+                        </div>
+                    </div>
+                    <div class="weui-cells__title">詳細說明(200字內)</div>
+                    <div class="weui-cell">
+                        <div class="weui-cell__bd">
+                            <textarea class="weui-textarea" rows="5" name="Context" style="user-select: all;-webkit-user-select: all;"></textarea>
+                            <div class="weui-textarea-counter"><span>0</span>/200</div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div id="dialogs">
+                <div class="js_dialog" id="Reg_Wran" style="display: none;">
+                    <div class="weui-mask"></div>
+                    <div class="weui-dialog">
+                        <div class="weui-dialog__bd" id="Reg_Wran_Msg"></div>
+                        <div class="weui-dialog__ft">
+                            <a href="javascript:;" onclick="$('#Reg_Wran').fadeOut(200)" class="weui-dialog__btn weui-dialog__btn_primary">確認</a>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div id="newrentsuccess" style="display: none;">
+                <div class="weui-mask_transparent"></div>
+                <div class="weui-toast">
+                    <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+                    <p class="weui-toast__content">發布完成</p>
+                </div>
+            </div>
+            <div class="page__ft" style="">
+
+            </div>
+
+        </div>
+    </div>
+ 
+   
+    <script>
+        var data = JSON.parse("{{data}}");
+        function chgbig(e) {
+            var id = $(e).val();
+            var newlist = data.find(function (el) { return el.ID == id }).Detail;
+           
+            $("[name=Zuzu_Kind_ID]").empty();
+            var $html = '<option selected="selected" value="0">請選擇小類</option>';
+            for (var i = 0; i < newlist.length; i++) {
+                $html += '<option value="' + newlist[i].ID + '">' + newlist[i].Name + '</option>';
+                // <option selected="selected" value="0">請選擇大類</option>
+            }
+            $("[name=Zuzu_Kind_ID]").html($html);
+           
+        }
+        function newpost() {
+            var data = {};
+            data["Title"] = $("#newpostform [name=Title]").val();
+            data["Fee"] = $("#newpostform [name=Fee]").val();
+            data["Unit"] = $("#newpostform [name=Unit]").val();
+            data["Context"] = $("#newpostform [name=Context]").val();
+            data["Zuzu_Kind_ID"] = $("#newpostform [name=Zuzu_Kind_ID]").val();
+
+            //alert(JSON.stringify(data));
+            $("#newpostform .weui-cell").removeClass("weui-cell_warn");
+            if (data["Zuzu_Kind_ID"] == "") {
+                $("#newpostform [name=Zuzu_Kind_ID]").parents(".weui-cell").addClass("weui-cell_warn");
+                $("#Reg_Wran_Msg").text("類別不可為空");
+                $("#Reg_Wran").show();
+                return;
+            }
+            if (data["Title"] == "") {
+                $("#newpostform [name=Title]").parents(".weui-cell").addClass("weui-cell_warn");
+                $("#Reg_Wran_Msg").text("標題不可為空");
+                $("#Reg_Wran").show();
+                return;
+            }
+            if (data["Fee"] == "") {
+                $("#newpostform [name=Fee]").parents(".weui-cell").addClass("weui-cell_warn");
+                $("#Reg_Wran_Msg").text("金額不可為空");
+                $("#Reg_Wran").show();
+                return;
+            }
+            if (data["Unit"] == "") {
+                $("#newpostform [name=Unit]").parents(".weui-cell").addClass("weui-cell_warn");
+                $("#Reg_Wran_Msg").text("單位不可為空");
+                $("#Reg_Wran").show();
+                return;
+            }
+            if (data["Context"] == "") {
+                $("#newpostform [name=Context]").parents(".weui-cell").addClass("weui-cell_warn");
+                $("#Reg_Wran_Msg").text("說明不可為空");
+                $("#Reg_Wran").show();
+                return;
+            }
+            
+            $(".regbtn a").toggle();
+            $("#postMask").toggle();
+            $.ajax({
+                url: ajaxurl + "Rent",
+                type: 'post',
+                data: data,
+                headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                timeout: 30000,
+                success: function (r) {
+                    if (r.result_status) {
+
+                        $("#newrentsuccess").fadeIn(200);
+                        setTimeout(function () {
+                            $("#newrentsuccess").hide();
+                            $("#newrentclose").click();
+                        }, 2000)
+
+                    } else {
+                        $("#Reg_Wran_Msg").text(r.result_message);
+                        $("#Reg_Wran").show();
+                        $(".regbtn a").toggle();
+                    }
+                },
+                error: function () {
+                    $("#Reg_Wran_Msg").text("網路錯誤");
+                    $("#Reg_Wran").show();
+                    $(".regbtn a").toggle();
+                    $("#postMask").toggle();
+                }
+            });
+        }
+     
+        $(function () {
+            addBackEvent(function () {
+                $('[btag=OrderList]').click();
+                $('.weui-tabbar').show();
+            });
+            $("[name=Zuzu_Kind_BigID]").empty();
+            var $html = '<option selected="selected" value="0">請選擇大類</option>';
+            for (var i = 0; i < data.length; i++) {
+                $html += '<option value="' + data[i].ID+'">'+data[i].Name+'</option>';
+               // <option selected="selected" value="0">請選擇大類</option>
+            }
+            $("[name=Zuzu_Kind_BigID]").html($html);
+            $('.weui-tabbar').hide();
+
+           
+        })
+     
+    </script>
+</div>
+

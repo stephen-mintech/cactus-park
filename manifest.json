@@ -1,0 +1,148 @@
+{
+  "id": "7cplay",
+  "name": "7cplay",
+  "version": {
+    "name": "1.0.0",
+    "code": "1"
+  },
+  "launch_path": "index.html",
+  "orientation": 
+    "portrait"
+  ,
+  "permissions": {
+    "Accelerometer": {
+      "description": "加速度傳感器"
+    },
+    "Audio": {
+      "description": "音頻錄製與播放"
+    },
+    "Cache": {
+      "description": "緩存管理"
+    },
+    "Camera": {
+      "description": "攝像頭"
+    },
+    "Console": {
+      "description": "調試輸出日誌"
+    },
+    "Contacts": {
+      "description": "系統通訊錄"
+    },
+    "Device": {
+      "description": "設備信息"
+    },
+    "Downloader": {
+      "description": "文件下載"
+    },
+    "Events": {
+      "description": "擴展事件"
+    },
+    "File": {
+      "description": "本地文件系統"
+    },
+    "Gallery": {
+      "description": "系統相冊"
+    },
+    "Geolocation": {
+      "description": "位置信息"
+    },
+    "Invocation": {
+      "description": "Native.js能力"
+    },
+    "Messaging": {
+      "description": "消息通訊"
+    },
+    "Orientation": {
+      "description": "方向傳感器"
+    },
+    "Proximity": {
+      "description": "距離傳感器"
+    },
+    "Storage": {
+      "description": "本地數據存儲"
+    },
+    "Webview": {
+      "description": "窗口管理"
+    },
+    "NativeObj": {
+      "description": "原生控件"
+    },
+    "NativeUI": {
+      "description": "原生UI控件"
+    },
+    "Navigator": {
+      "description": "瀏覽器信息"
+    },
+    "Uploader": {
+      "description": "文件上傳"
+    },
+    "Runtime": {
+      "description": "運行環境"
+    },
+    "XMLHttpRequest": {
+      "description": "跨域網絡請求"
+    },
+    "Zip": {
+      "description": "壓縮與解壓"
+    },
+    "Barcode": {
+      "description": "二維碼掃描"
+    },
+    "Maps": {
+      "description": "地圖"
+    },
+    "OAuth": {
+      "description": "登錄授權"
+    },
+    "Payment": {
+      "description": "支付"
+    },
+    "Share": {
+      "description": "社交分享"
+    },
+    "Speech": {
+      "description": "語音識別"
+    },
+    "Statistic": {
+      "description": "統計"
+    },
+    "plugintest": {
+      "description": "5+和uniapp 插件demo "
+    },
+    "VideoPlayer": {
+      "description": "視頻播放"
+    },
+    "LivePusher": {
+      "description": "直播推流"
+    }
+  },
+  "fullscreen": false,
+  "plus": {
+    "splashscreen": {
+      "autoclose": false,
+      "waiting": true
+    },
+    "allowsInlineMediaPlayback": true,
+    "popGesture": "close",
+    "runmode": "normal",
+    "cache": {
+      "mode": "default"
+    },
+   
+    "distribute": {
+      "plugins": {
+        "audio": {
+          "mp3": {
+            "description": "Android平台錄音支持MP3格式文件"
+          }
+        }
+      },
+      "orientation": [
+        "portrait-primary",
+        "landscape-primary",
+        "portrait-secondary",
+        "landscape-secondary"
+      ]
+    }
+  }
+}

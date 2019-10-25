@@ -1,0 +1,679 @@
+﻿<div id="skillpage" class="skillpage page bdbg" style="overflow-y:hidden;overflow-x:hidden;">
+    <style>
+
+
+
+        .memberinfo {
+            width: 90%;
+            text-align: center;
+            height: 100px
+        }
+
+        .weui-media-box__hd2 {
+            margin-right: .2em;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+        }
+
+        .skillcard {
+            flex: 0 0 30%;
+            box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5);
+            margin-right: 20px;
+            background: no-repeat center center;
+            background-size: cover;
+            text-align: center;
+        }
+    </style>
+
+    <div class="flexbar " style="display: flex;position:fixed;top:0;left:0;height:60px;z-index:300;width:100%;padding-bottom:10px;overflow:hidden;color:white">
+
+        <div class="memberinfo1" style="width: 10%;height:70px;position:relative; flex: 0 0 10%; ">
+            <div id="backSetting" class="backb" onclick="plus.webview.close(plus.webview.currentWebview())" style="text-align:center;position:relative;top:50%;left:50%;transform:translate(-50%,-50%);width:30px;height:30px;border-radius: 999em;">
+                <i class="fa fa-angle-left" style="font-size:30px;position:relative;line-height:30px"> </i>
+            </div>
+
+        </div>
+
+
+        <div class="memberinfo" style="height:60px;position:relative;top:60px;flex: 0 0 80%;">
+            <a href="javascript:void(0);" style="" class="weui-media-box weui-media-box_appmsg">
+                <!--<div class="weui-media-box__hd2" style="float:right">
+
+                    <img class="weui-media-box__thumb" style="object-fit:cover;border-radius:999em" src="{{data.Member.Img}}" alt="">
+                </div>-->
+                <div class="weui-media-box__bd">
+                    <h4 class="weui-media-box__title" style="color:white">{{data.Member.Name}}</h4>
+
+                </div>
+                <div class="weui-media-box__ft" style="padding-right:5px;padding-top:5px">
+                    <div style="border-color:deepskyblue" onclick="setFollow('{{data.Member.Member_ID}}')" class="weui-btn weui-btn_mini weui-btn_notfollow">關注</div>
+                </div>
+                <img class="weui-media-box__thumb" style="object-fit:cover;border-radius:999em;width:50px;height:50px" src="{{data.Member.Img}}" onerror="this.src='img/icon/noimage_person.png'" alt="">
+            </a>
+        </div>
+        <div class="memberinfo1" style="width: 10%;height:70px;position:relative; flex: 0 0 10%; ">
+
+            <div id="" class="backb moreicon" style="width:30px;height:30px;border-radius: 999em;text-align:center;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)">
+                <i class="ion-ios-more text-inverse" style="font-size:30px;line-height:30px;position:relative;"> </i>
+            </div>
+        </div>
+    </div>
+    <div class="weui-tabbar hov tabbg">
+        <div id="" class="weui-tabbar__item" style="flex: 0 0 30%;">
+            <a href="javascript:;" style="margin:0px 7px 5px 7px" class="weui-btn weui-btn_default" onclick="createchat('{{data.Member.Member_ID}}')">聊天</a>
+        </div>
+        <div id="" class="weui-tabbar__item" style="flex: 0 0 70%;">
+            <a href="javascript:;" style="margin:0px 7px 5px 7px" class="weui-btn weui-btn_primary isand" btag="OrderCheckPage" onclick='hovernav(this,"{\"M\":\"{{data.Member.Member_ID}}\",\"C\":\"{{data.SkillInfo.Member_Certification_ID}}\"}")'>我要下單</a>
+            <a href="javascript:;" style="margin:0px 7px 5px 7px" class="weui-btn weui-btn_primary isnotand" btag="OrderCheckPage" onclick='hovernav(this,"{\"M\":\"{{data.Member.Member_ID}}\",\"C\":\"{{data.SkillInfo.Member_Certification_ID}}\"}")'>申請教學</a>
+            <!--  onclick=" $('#ordersd').show();" -->
+        </div>
+    </div>
+    <div class="skilldiv" style="overflow-y:auto;overflow-x:hidden;height:100%">
+        <div class="page__hd skillpich" style="padding:0;overflow-x:hidden;overflow-y:hidden;" onclick="showimg('{{data.SkillInfo.GameImg}}')">
+
+            <div class="skillbg" style=" height:100%;position:static;top:0;left:0; background: no-repeat center center;background-size: cover;background-image:url('{{data.SkillInfo.GameImg}}')">
+
+            </div>
+            <div class="skillbg2 " id="ScoreA" style="">
+                <!--<div style="flex: 0 0 50%;width:50%;transform:translateY(20%);color:white;padding:15px 15px;margin:0 auto ">
+                    <img style="width:100%;height:auto;border-radius: 0.5em;" src="{{data.SkillInfo.GameImg}}"  alt="">
+                </div>-->
+                <div class="playertitlebar" style="display:flex;width:85%;height:60px;color:white;text-align:left;position:relative;bottom:80px;overflow-y:hidden;padding:5px 15px ">
+                    <div style="flex:1">
+                        <p style="text-overflow: ellipsis;overflow: hidden;white-space:nowrap;padding-bottom:5px">{{data.SkillInfo.Name}}  <span class="ganlabel_s" v-if="('{{data.SkillInfo.GameTag}}' != '')">{{data.SkillInfo.GameTag}}</span></p>
+
+                        <h4 class="" style="position:relative;padding-top:0px">
+                            <i v-for="(va,inx) in 5" v-bind:class='{ "fa-star": (ScoreAvg-(inx+1)>=0),"fa-star-half-o": (ScoreAvg-(inx+1)<0&&ScoreAvg-(inx+1)>=-0.5),"fa-star-o": (ScoreAvg-(inx+1)<-0.5) } ' alt="" class="fa fa-2x " style="font-size:18px;color:gold"></i>
+
+                            ({{ScoreAvg}})
+                        </h4>
+                    </div>
+
+                    <div style="flex:1;text-align:right">
+                        <p class="weui-media-box__desc" style="color:white;padding-top:10px;">
+                            接單 {{OrderTimes}} 次
+                        </p>
+                        <p class="" style="color:gold;padding-top:10px;">
+                            {{data.SkillInfo.Fee}}幣/{{data.SkillInfo.Unit}}
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+            <img class="skillbghide" style="width:100%;height:auto;max-height:500px;visibility:hidden" src="{{data.SkillInfo.GameImg}}" alt="">
+
+
+
+        </div>
+
+        <div class="page__bd " style="">
+            <div class="weui-panel weui-panel_access profileinfo">
+
+                <div class="weui-panel__bd">
+                    <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg" style="padding-bottom:5px">
+                        <div class="weui-media-box__hd" style="position:relative" onclick="hovernavc(this,'{{data.Member.Member_ID}}')"  btag="PlayerPage">
+
+                            <img class="weui-media-box__thumb" style="object-fit:cover;border-radius:999em;width:50px;height:50px" src="{{data.Member.Img}}" onerror="this.src='img/icon/noimage_person.png'" alt="">
+                        </div>
+                        <div class="weui-media-box__hd" style="position:absolute" onclick="hovernavc(this,'{{data.Member.Member_ID}}')" btag="PlayerPage">
+
+                            <img class="weui-media-box__thumb" style="object-fit:cover;width:54px;height:54px;position:relative;top:-2px" src="img/header/{{data.Member.header}}_C.png" alt="">
+
+                        </div>
+                        <div class="weui-media-box__bd" onclick="hovernavc(this,'{{data.Member.Member_ID}}')" btag="PlayerPage">
+                            <h4 id="onlinevue" class="weui-media-box__title" v-bind:style="{color:(('{{data.Member.color}}'||'black')=='black'?'black':'{{data.Member.color}}')}">{{data.Member.Name}} <span style="font-size:12px" v-bind:style='{"color":(online?"lightgreen":"darkgray")}'>{{timest}}</span></h4>
+                            <p class="weui-media-box__desc">
+                                <span id="genderlab" v-bind:class='{"ganlabel_g":(gander=="G"),"ganlabel_b":(gander=="B"),"ganlabel_n":(gander=="N")}' class="">{{data.Member.Age}}</span>
+                            </p>
+                        </div>
+                        <div class="weui-media-box__ft">
+                            <div style="border-color:deepskyblue" onclick="setFollow('{{data.Member.Member_ID}}')" class="weui-btn weui-btn_mini weui-btn_notfollow">關注</div>
+                        </div>
+                    </a>
+
+                </div>
+                <div class="weui-panel__hd" style="padding-top:0px">
+                    <div id="timeinfodiv">
+                        <div>
+                            {{(OrderWeek=="1")?"周一至周日":""}}
+                            {{(OrderWeek=="2")?(WeekTemp.find(e=>e.k==OrderWeekFor2Begin).v + "至" +  WeekTemp.find(e=>e.k==OrderWeekFor2End).v + ""):""}}
+                            {{(OrderWeek=="3")?('周' + WeekTemp.filter(function(va){for(var j = 0 ; j < OrderWeekFor3List.length;j++){if(OrderWeekFor3List[j] == va.k){return true;} }  return false; }).map(e=>e.v).join('、').replace(/周/g,'')+'' ):""}}
+                            |
+                            {{(OrderTime=="1")?"全天可接單":""}}
+                            {{(OrderTime=="2")?(OrderTimeFor2BeginSt + ":00至" +  OrderTimeFor2EndSt + ":00可接單"):""}}
+                        </div>
+                        <br />
+                        <div>
+
+                            <p v-for="item in title.replace(/\r/g,'\n').replace(/\n\n/g,'\n&ensp;\n').replace(/ /g,'&ensp;').replace(/　/g,'&emsp;').split('\n')" class="weui-media-box__desc_bak" style="color:black;font-size:14px;line-height:18px">{{item}}</p>
+                        </div>
+                    </div>
+
+
+                    <br>
+                    <div id="skillaudio" v-if="(orga!='')" @click="playaudio" style="height:30px;color:black;border-radius:999em;width:30%;overflow:hidden">
+
+                        <div style="width:100%;height:30px;padding:5px 15px;" v-bind:style="{'background':'linear-gradient(to right, deepskyblue '+(currentTime/duration*100)+'%, skyblue '+(((currentTime/duration))*100)+'%)'}">
+                            <i class=" fa-1x text-inverse" v-bind:class='{"ion-ios-play":(!isplaying),"ion-ios-pause":isplaying}' style="margin:15px 0 auto"></i>
+                            <span style="position:relative;padding-left:5px;border-left:1px solid gray;margin:15px 0 auto">{{padding1(mins,2)}}"{{padding1(seconds,2)}}</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <br>
+            </div>
+
+            <div class="weui-panel weui-panel_access isand" >
+                <div class="weui-panel weui-panel_access">
+                    <div class="weui-panel__hd">動態</div>
+                    <div class="weui-uploader__bd" style="padding:10px 10px">
+
+                        <div class="newslist" style="height:120px;overflow-x:auto;width: auto;list-style: none;display: flex;white-space: nowrap;padding-bottom:15px">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="weui-panel weui-panel_access" id="RateList">
+                <div class="weui-panel__hd">評價 {{list.length>=200?"大於200":list.length}}</div>
+                <div class="weui-panel__bd">
+                    <div v-for="(item,idx) in list" class="weui-media-box weui-media-box_appmsg weui-media-box_text">
+                        <div class="weui-media-box__hd" @click2="gopp(item.Buyer)">
+                            <img class="weui-media-box__thumb" :src="item.Img" style="object-fit:cover;border-radius:999em;width:50px;height:50px" onerror="this.src='img/icon/noimage_person.png'" alt="">
+                        </div>
+                        <div class="weui-media-box__bd">
+                            <h4 class="weui-media-box__title" style=" margin-bottom:3px" @click2="gopp(item.Buyer)">{{item.Name}}</h4>
+                            <p style="float:right" class="weui-media-box__desc">{{item.FinishTime}}</p>
+                            <ul class="weui-media-box__info" style="margin-top:0px">
+
+                                <li class="weui-media-box__info__meta">
+                                    <i v-for="(va,inx) in 5" v-bind:class='{ "fa-star": (item.Rate-(inx+1)>=0),"fa-star-half-o": (item.Rate-(inx+1)<0&&item.Rate-(inx+1)>=-0.5),"fa-star-o": (item.Rate-(inx+1)<-0.5) } ' alt="" class="fa fa-2x " style="font-size:18px;color:gold"></i>
+
+                                    ({{item.Rate}})
+                                </li>
+
+
+                            </ul>
+                            <p style="" class="weui-media-box__desc">{{item.RateMsg}}</p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="page__ft " style="">
+
+            <br>
+            <br>
+            <div id="">
+                <!--BEGIN dialog1-->
+                <div class="js_dialog" id="ordersd" style="display: none;">
+                    <div class="weui-mask"></div>
+                    <div class="weui-dialog">
+                        <div class="weui-dialog__hd" style="text-align:left"><strong class="weui-dialog__title">你確定要下單嗎?</strong></div>
+                        <div class="weui-dialog__bd">
+                            <br>
+                            <p style="color:black">陪陪:{{data.Member.Name}}</p>
+                            <p style="color:blue">技能:{{data.SkillInfo.Name}}</p>
+                            <p style="color:red">費用:{{data.SkillInfo.Fee}}幣/{{data.SkillInfo.Unit}}</p>
+                            <br>
+                        </div>
+                        <div class="weui-dialog__ft">
+                            <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default" onclick="$('#ordersd').fadeOut(200)">取消</a>
+                            <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" onclick="orderconform()">確定下單</a>
+                        </div>
+                    </div>
+                </div>
+                <!--END dialog1-->
+                <div style="display:none" id="audiodiv"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+
+        function showimg(img) {
+            var cw;
+            if (JSON.parse(Server_Token).Status == "管理員") {
+                cw = plus.webview.create(debugurl + "Partition/Gallery.html", "Gallery", { "backButtonAutoControl": "close", "popGesture": "close", "height": "100%", "margin": "auto", "width": "100%", "userSelect": false, "scalable": true }, { Img: img });
+            }
+            else {
+                cw = plus.webview.create('Partition/Gallery.html', "Gallery", { "backButtonAutoControl": "close", "popGesture": "close", "height": "100%", "margin": "auto", "width": "100%", "userSelect": false, "scalable": true }, { Img: img });
+            }
+            //cw.show("slide-in-right");
+            cw.show();
+        }
+        function createchat(id) {
+            if (JSON.parse(Server_Token).Member_ID == id) {
+                alert("自己不能跟自己聊天");
+                return;
+            }
+            $("#loadingToast").show();
+
+            var html = "<a onclick='hovernav(this,\"" + id + "\",\"needim\")' btag=\"MessagePage\"></a>"
+            $(html).click();
+            $("#loadingToast").hide();
+        }
+        function setFollow(id) {
+            //alert(id);
+
+            if (Server_Token == "") {
+                $("#NoLogin").show();
+                return false;
+            } else {
+                $.ajax({
+                    url: ajaxurl + "Follow",
+                    type: 'post',
+                    data: { id: id },
+                    headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                    timeout: 30000,
+                    success: function (r) {
+                        if (r.result_status) {
+                            //followsuccess
+                            if (r.result_content == "InFollow") {
+                                $("#followsuccess p").text("關注成功")
+                                $(".weui-btn_notfollow").text("關注中");
+                                $(".weui-btn_notfollow").removeClass("weui-btn_notfollow").addClass("weui-btn_follow");
+
+                            } else {
+                                $("#followsuccess p").text("取消關注")
+                                $(".weui-btn_follow").text("關注");
+                                $(".weui-btn_follow").removeClass("weui-btn_follow").addClass("weui-btn_notfollow");
+                            }
+                            $("#followsuccess").fadeIn(200);
+                            setTimeout(function () {
+                                $("#followsuccess").hide();
+
+                            }, 1500)
+                        } else {
+                            alert(r.result_message);
+
+                        }
+                    },
+                    error: function () {
+                        alert("網路錯誤"); 
+
+                    }
+                });
+            }
+        }
+        function orderconform() {
+            //$('#ordersd').fadeOut(200);
+            //$("#loadingToast").show();
+          
+            //$.ajax({
+            //    url: ajaxurl + "Order",
+            //    type: 'post',
+            //    data: { id:"{{data.SkillInfo.Member_Certification_ID}}"},
+            //    headers: { "Server_Token": encodeURIComponent(Server_Token) },
+
+            //    success: function (r) {
+            //        if (r.result_status) {
+            //            $("#loadingToast").hide();
+            //            alert("下單成功");
+            //            createchat('{{data.Member.Member_ID}}');
+            //        } else {
+            //            $("#loadingToast").hide();
+
+            //            alert(r.result_message);
+            //        }
+            //    },
+            //    error: function () {
+            //        $("#loadingToast").hide();
+            //       alert("網路錯誤");
+
+            //    }
+            //});
+
+
+        }
+        var data = JSON.parse("{{data.Member}}");
+        function hovernavc(el) {
+            hovernav_new(el, data.Member_ID,
+                {
+                    titleText: data.Name,
+                    img: data.Img,
+                    moreinfo: true,
+                    type: 'transparent'
+                })
+            
+        }
+        $(function () {
+
+            var isBlock = JSON.parse("{{data}}").isBlock;
+
+           
+            var skilllist = JSON.parse("{{data.SkillInfo}}");
+            var newslist = JSON.parse("{{data.NewsInfo}}");
+            var ratelist = JSON.parse("{{data.RateList}}");
+            $(".moreicon").on("click", function () {
+                plus.nativeUI.actionSheet(
+                    {
+                        title: "更多操作",
+                        cancel: "取消",
+                        buttons: [
+                            {
+                                title: "檢舉這則技能",
+                                color: "#dd7299"
+                            },
+                            {
+                                title: (isBlock ? "解除封鎖此人" : "封鎖此人"),
+                                color: "#dd7299"
+                            }
+                        ]
+                    },
+                    function (e) {
+                        console.log("User pressed: " + e.index);
+                        if (e.index == 1) {
+                            var cw;
+                            if (JSON.parse(Server_Token).Status == "管理員") {
+                                cw = plus.webview.create(debugurl + "Partition/TrashMsg.html", "callcr", { "cachemode": "noCache", "background": "transparent", "popGesture": "close", "height": "100%", "margin": "auto", "width": "100%" }, { mid: skilllist.Member_Certification_ID, type: "Skill" });
+                            }
+                            else {
+                                cw = plus.webview.create('Partition/TrashMsg.html', "callcr", { "cachemode": "noCache", "background": "transparent", "popGesture": "close", "height": "100%", "margin": "auto", "width": "100%" }, { mid: skilllist.Member_Certification_ID, type: "Skill" });
+                            }
+                            cw.addEventListener('close', function (e) {
+                                //plus.nativeUI.closeWaiting();
+                            }, false);
+                            plus.nativeUI.showWaiting("載入中");
+                            plus.webview.currentWebview().append(cw)
+                        } else if (e.index == 2) {
+                            if (isBlock)
+                                GInfo.unblock(data.Member_ID, data.Name, 'reload');
+                            else
+                                GInfo.block(data.Member_ID, data.Name, 'reload');
+                        }
+                    }
+                );
+            })
+            var olddata = JSON.parse(top["DataBase"]["Partition"].SkillInfo.TimeInfo || "{}");
+            addBackEvent(function () {
+                $('#backSetting').click();
+
+            });
+
+            //{{data.SkillInfo.ScoreAvg}}
+            new Vue({
+                el: "#timeinfodiv",
+                data: {
+                    title: skilllist.Title,
+                    WeekTemp: [{ k: 1, v: "周一" }, { k: 2, v: "周二" }, { k: 3, v: "周三" }, { k: 4, v: "周四" }, { k: 5, v: "周五" }, { k: 6, v: "周六" }, { k: 7, v: "周日" }],
+                    OrderWeek: olddata["OrderWeek"] || "1",
+                    OrderTime: olddata["OrderTime"] || "1",
+                    OrderWeekFor2Begin: olddata["OrderWeekFor2Begin"] || 1,
+                    OrderWeekFor2End: olddata["OrderWeekFor2End"] || 1,
+                    OrderTimeFor2Begin: olddata["OrderTimeFor2Begin"] || 0,
+                    OrderTimeFor2BeginSt: "",
+                    OrderTimeFor2End: olddata["OrderTimeFor2End"] || 0,
+                    OrderTimeFor2EndSt: "",
+                    OrderWeekFor3List: olddata["OrderWeekFor3List"] || []
+                },
+                methods: {
+                    padding1:function(num, length) {
+                        for (var len = (num + "").length; len < length; len = num.length) {
+                            num = "0" + num;
+                        }
+                        return num;
+                    }
+                },
+                mounted: function(){
+                    this.OrderTimeFor2BeginSt = this.padding1(this.OrderTimeFor2Begin, 2);
+                    this.OrderTimeFor2EndSt = this.padding1(this.OrderTimeFor2End, 2);
+                }
+            })
+            new Vue({
+                el: "#onlinevue",
+                data: {
+                    orgst: "{{data.Member.isOnline}}",
+                    online: true,
+                    days: 0,
+                    hours: 0,
+                    mins: 0,
+                    timest:"正在線上"
+                },
+                created: function () {
+                    var self = this;
+                    var tic = function () {
+                        if (self.orgst) {
+                            self.online = false;
+                            var diff = Date.now() - new Date("{{data.Member.isOnline}}")
+
+                            var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                            diff -= days * (1000 * 60 * 60 * 24);
+
+                            var hours = Math.floor(diff / (1000 * 60 * 60));
+                            diff -= hours * (1000 * 60 * 60);
+
+                            var mins = Math.floor(diff / (1000 * 60));
+                            diff -= mins * (1000 * 60);
+
+                            var seconds = Math.floor(diff / (1000));
+                            diff -= seconds * (1000);
+                            self.days = days;
+                            self.hours = hours;
+                            self.mins = mins;
+                            if (days > 7) {
+                                self.timest = "7天前"
+                            } else if (days > 0) {
+                                self.timest = days + "天前"
+                            } else if (hours > 0) {
+                                self.timest = hours + "小時前"
+                            } else if (mins > 0) {
+                                self.timest = mins + "分前"
+                            } else {
+                                self.timest = "1分前"
+                            }
+                        } else {
+
+                            self.online = true;
+                            self.timest = "正在線上"
+                        }
+
+                    }
+                    tic();
+                    setInterval(tic, 60000)
+
+                }
+
+            })
+            new Vue({
+                el: "#skillaudio",
+                data: {
+                    orga: "",
+                    mins: 0,
+                    seconds: 0,
+                    isplaying: false,
+                    currentTime: 0.0,
+                    audioobj: null,
+                    duration: 1
+                },
+                created: function () {
+                    this.orga = ("{{data.SkillInfo.Audio}}" || "");
+                    if ((this.orga || "") != "") {
+                        var elm = $("<audio src='" + this.orga + "' preload='auto' controls='controls' ></audio>")
+                        var self = this;
+                        $("#audiodiv").empty()
+                        $("#audiodiv").append(elm);
+                        elm.on("loadedmetadata", function () {
+                            console.dir("loadedmetadata")
+                            self.audioobj = this;
+                            var tl = this.duration;
+                            self.duration = this.duration;
+                            self.mins = Math.floor(tl / (60));
+                            tl -= self.mins * (60);
+                            self.seconds = Math.floor(tl / (1));
+                            tl -= self.seconds * (1);
+                            self.currentTime = this.currentTime;
+                        });
+                        elm.on("ended", function () {
+                            self.playaudio();
+                            this.currentTime = 0;
+                        });
+                        //   var elm = $("<audio src='https://apprecorder.blob.core.chinacloudapi.cn/zuzucustom/recored/70fae188-3dda-42ee-970c-7d4546bff7bf/8f76b0fa-4676-4d95-8330-5839fb3df4fe.mp3?0.00791679229955971'></audio>")
+                       //
+                    }
+
+                },
+                methods: {
+                    playaudio: function () {
+                        var self = this;
+                        if (self.audioobj) {
+
+                            var invaupl;
+                            this.isplaying = !this.isplaying;
+                            if (this.isplaying) {
+                                self.audioobj.play();
+                                invaupl = setInterval(function () {
+                                    var tl = self.audioobj.duration - self.audioobj.currentTime;
+                                    self.mins = Math.floor(tl / (60));
+                                    tl -= self.mins * (60);
+                                    self.seconds = Math.floor(tl / (1));
+                                    tl -= self.seconds * (1);
+                                    self.currentTime = self.audioobj.currentTime;
+                                }, 50)
+                            } else {
+                                self.audioobj.pause();
+                                clearInterval(invaupl);
+                            }
+                        }
+
+                    },
+                    padding1: function (num, length) {
+                        for (var len = (num + "").length; len < length; len = num.length) {
+                            num = "0" + num;
+                        }
+                        return num;
+                    }
+                },
+            })
+           new Vue({
+                el: "#ScoreA",
+                data: {
+                    ScoreAvg: (skilllist.ScoreAvg || 0),
+                    OrderTimes: (skilllist.OrderTimes || 0)
+                }
+            })
+            new Vue({
+                el: "#RateList",
+                data: {
+                    list: ratelist
+                },
+                method: {
+                    gopp: function (id) {
+                        $('<a btag="PlayerPage" onclick=\'hovernav(this,"' + id + '")\'></a>').click();
+                    }
+                }
+            })
+            new Vue({
+                el: "#genderlab",
+                data: {
+                    gander: data.Gender
+                }
+            })
+            $("#loadingToast").show();
+            $('.skillbghide').imagesLoaded(function () {
+                if (data.isFollow) {
+                    $(".weui-btn_notfollow").text("關注中");
+                    $(".weui-btn_notfollow").removeClass("weui-btn_notfollow").addClass("weui-btn_follow");
+                }
+
+                //$('.weui-tabbar:not(.hov)').hide();
+                // alert($(".skillpich").height());
+
+                $(".skillpage .skilldiv").scroll(function () {
+
+
+
+                    var op = $(this).scrollTop() * 1.0 / ($(".skillbg").height() + ($(".skillpage .profileinfo").height() * 0.6));
+
+                    var co = Math.floor((1 - op) * 255);
+
+
+                    var canshow = 0;
+                    if (op >= 0.5)
+                        canshow = 1;
+                    else
+                        canshow = 0;
+                   // $(".skillpage .flexbar div.backb").css("color", "rgb(" + ((1 - canshow) * 255) + "," + ((1 - canshow) * 255) + "," + ((1 - canshow) * 255) + ")");
+                    $(".skillpage .flexbar div.backb").css("background-color", "rgba(221,114,153," + (1 - canshow) + ")");
+                    $(".skillpage .flexbar").css("background-color", "rgba(221,114,153," + canshow + ")");
+                    $(".skillpage .memberinfo").css("top", ((1 - canshow) * 60) + "px");
+                });
+                $('#skillpage').imagesLoaded(function () {
+                    setTimeout(function () {
+                        $(".skillpage .skillbg").height($(".skillbghide").height());
+                        $(".skillpage .skillbg2").height($(".skillbghide").height());
+                        $(".skillpage .skillbg2").css("top", -1 * $(".skillbghide").height());
+                        $(".skillpage .skillbg2").css("margin-bottom", -1 * $(".skillbghide").height());
+                        $(".skillpage .skillbghide").hide();
+                        $(".skillpage .skilldiv").scroll();
+                    }, 50)
+                })
+
+
+
+                var newso = '<div class="skillcard"  btag="NewsPage" style="width:150px" ></div>';
+                for (var i = 0; i < newslist.length; i++) {
+                    var item = newslist[i];
+                    var pic = JSON.parse(item.ImgList);
+                    var $html = $(newso);
+                    $html.attr('idx', i);
+                    //$html.on("click", function () {
+                    //    hovernav(this, newslist[$(this).attr('idx')]);
+                    //})
+                    $html.attr("onclick", "hovernav(this,'" + item.Member_News_ID + "')")
+                    //if (pic.GIF != "") {
+                    //     var imgtag = "<video src='" + pic.Video + "' style='padding-top:2%;padding-left:2%;vertical-align:middle;width:auto;height:96%;max-width:96%;' onplaying='this.pause()' autoplay loop muted playsinline webkit-playsinline />";
+                    //    //var imgtag = "<img src='" + pic.GIF + "' style='padding-top:2%;padding-left:2%;vertical-align:middle;width:auto;height:auto;max-height:96%;max-width:96%;' />";
+
+                    //    $html.append(imgtag);
+                    //} else if (pic.Img.length > 0) {
+                    //    var imgtag = "<img src='" + pic.Img[0] + "' style='padding-top:2%;padding-left:2%;vertical-align:middle;width:auto;height:auto;max-height:96%;max-width:96%;' />";
+                    //    $html.append(imgtag);
+                    //} else {
+
+                    //}
+                    ////  var nnew = newso.replace("#url", item.);
+
+                    //// $html.attr("onclick", "hovernav(this,'" + item.Member_Certification_ID + "')");
+                    //$(".skillpage .newslist").append($html);
+                    if (pic.GIF != "") {
+                        var imgtag = "<img src='" + pic.GIF + "' onplay='this.pause()' style='padding-top:2%;padding-left:2%;vertical-align:middle;width:auto;height:100px;object-fit:contain;max-height:100px;max-width:96%;' preload='auto' autoplay  muted playsinline webkit-playsinline />";
+                        var texttag = $('<p style="position:relative;bottom:0;height:20px;overflow:hidden;white-space: nowrap;text-overflow: ellipsis;font-size:13px;color:#808080" class=""></p>');
+                        texttag.text(item.Content);
+                        $html.append(imgtag);
+                        $html.append(texttag);
+                    } else if (pic.Img.length > 0) {
+                        var imgtag = "<img src='" + pic.Img[0] + "' style='padding-top:2%;padding-left:2%;vertical-align:middle;width:auto;height:100px;max-height:100px;object-fit:contain;max-width:96%;' />";
+                        var texttag = $('<p style="position:relative;bottom:0;height:20px;overflow:hidden;white-space: nowrap;text-overflow: ellipsis;font-size:13px;color:#808080" class=""></p>');
+                        texttag.text(item.Content);
+                        $html.append(imgtag);
+                        $html.append(texttag);
+                    } else {
+                        var texttag = $('<p style="position:relative;bottom:0;height:120px;line-height:120px;overflow:hidden;white-space: nowrap;text-overflow: ellipsis;font-size:13px;color:#808080" class=""></p>');
+                        texttag.text(item.Content);
+
+                        $html.append(texttag);
+                    }
+                    $(".skillpage .newslist").append($html);
+                }
+                $("#loadingToast").hide();
+            })
+
+        });
+
+
+
+    </script>
+</div>

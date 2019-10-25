@@ -1,0 +1,146 @@
+﻿<div class="skillpage page bdbg" style="background-color:white">
+    <style>
+        .weui-grids2 {
+            overflow-x: auto;
+            white-space: nowrap;
+            width: auto;
+            list-style: none;
+        }
+    </style>
+    <div class="page__hd " style="">
+
+    </div>
+
+    <div class="page__bd " style="">
+
+        <div class="weui-cells__title" style="">
+            訂單內容
+
+        </div>
+
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">接單時段</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" name="CanOrderTime" placeholder="全天可接單" value="全天可接單" readonly>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">優勢介紹</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" name="Hint" maxlength="20" placeholder="請輸入20字內" value="沒有優勢">
+                </div>
+                <div class="weui-cell__ft">
+                    <i alt="" class="weui-tabbar__icon shadow_icon fa fa-2x fa-pencil" style="color:gray"></i>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">簡短錄音</label></div>
+                <div class="weui-cell__bd">
+                   沒有錄音檔
+                </div>
+                <div class="weui-cell__ft">
+                    <i alt="" class="weui-tabbar__icon shadow_icon fa fa-2x fa-pencil" style="color:gray"></i>
+                </div>
+            </div>
+            <div class="weui-cell ">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">收費</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="number" name="Fee" pattern="[0-9]*" placeholder="請輸入金額">
+                </div>
+                <div class="weui-cell__ft">
+                    
+                    <i alt="" class="weui-tabbar__icon shadow_icon fa fa-2x fa-pencil" style="color:gray"></i>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">出售單位</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" name="Unit" maxlength="2" placeholder="次/場/時">
+                </div>
+                <div class="weui-cell__ft">
+                    <i alt="" class="weui-tabbar__icon shadow_icon fa fa-2x fa-pencil" style="color:gray"></i>
+                </div>
+            </div>
+            <div class="weui-cells__title">詳細說明(200字內)</div>
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <textarea class="weui-textarea" rows="5" name="Context" style="user-select: all;-webkit-user-select: all;"></textarea>
+                    <div class="weui-textarea-counter">
+                        <span>0</span>/200
+                        <i alt="" class="weui-tabbar__icon shadow_icon fa fa-2x fa-pencil" style="color:gray"></i>
+                    </div>
+                   
+                </div>
+            </div>
+
+        </div>
+        <div class="weui-cells">
+            <div class="weui-cell weui-cell_access">
+
+                <div class="weui-cell__bd">動態(99)</div>
+                <div class="weui-cell__ft" style="">
+                    <p style="">瀏覽全部</p>
+                </div>
+            </div>
+            <div class=" weui-grids2" id="postlist" style="display: flex;margin:10px 0px 20px 0px; padding: 10px 15px;">
+
+
+            </div>
+
+        </div>
+    </div>
+    <div class="page__ft " style="">
+        <br>
+
+    </div>
+    <script type="text/html" id="postcard">
+        <div style="width:80%;box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5);margin-right:20px">
+            <div style="position:relative;top:0;width:100%;display: flex;text-align:left;">
+                <p class="weui-media-box__desc" style="padding: 15px;">2019-01-01</p>
+
+            </div>
+            <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
+
+                <div class="weui-media-box__hd">
+                    <img class="weui-media-box__thumb" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB4CAMAAAAOusbgAAAAeFBMVEUAwAD///+U5ZTc9twOww7G8MYwzDCH4YcfyR9x23Hw+/DY9dhm2WZG0kbT9NP0/PTL8sux7LFe115T1VM+zz7i+OIXxhes6qxr2mvA8MCe6J6M4oz6/frr+us5zjn2/fa67rqB4IF13XWn6ad83nxa1loqyirn+eccHxx4AAAC/klEQVRo3u2W2ZKiQBBF8wpCNSCyLwri7v//4bRIFVXoTBBB+DAReV5sG6lTXDITiGEYhmEYhmEYhmEYhmEY5v9i5fsZGRx9PyGDne8f6K9cfd+mKXe1yNG/0CcqYE86AkBMBh66f20deBc7wA/1WFiTwvSEpBMA2JJOBsSLxe/4QEEaJRrASP8EVF8Q74GbmevKg0saa0B8QbwBdjRyADYxIhqxAZ++IKYtciPXLQVG+imw+oo4Bu56rjEJ4GYsvPmKOAB+xlz7L5aevqUXuePWVhvWJ4eWiwUQ67mK51qPj4dFDMlRLBZTqF3SDvmr4BwtkECu5gHWPkmDfQh02WLxXuvbvC8ku8F57GsI5e0CmUwLz1kq3kD17R1In5816rGvQ5VMk5FEtIiWislTffuDpl/k/PzscdQsv8r9qWq4LRWX6tQYtTxvI3XyrwdyQxChXioOngH3dLgOFjk0all56XRi/wDFQrGQU3Os5t0wJu1GNtNKHdPqYaGYQuRDfbfDf26AGLYSyGS3ZAK4S8XuoAlxGSdYMKwqZKM9XJMtyqXi7HX/CiAZS6d8bSVUz5J36mEMFDTlAFQzxOT1dzLRljjB6+++ejFqka+mXIe6F59mw22OuOw1F4T6lg/9VjL1rLDoI9Xzl1MSYDNHnPQnt3D1EE7PrXjye/3pVpr1Z45hMUdcACc5NVQI0bOdS1WA0wuz73e7/5TNqBPhQXPEFGJNV2zNqWI7QKBd2Gn6AiBko02zuAOXeWIXjV0jNqdKegaE/kJQ6Bfs4aju04lMLkA2T5wBSYPKDGF3RKhFYEa6A1L1LG2yacmsaZ6YPOSAMKNsO+N5dNTfkc5Aqe26uxHpx7ZirvgCwJpWq/lmX1hA7LyabQ34tt5RiJKXSwQ+0KU0V5xg+hZrd4Bn1n4EID+WkQdgLfRNtvil9SPfwy+WQ7PFBWQz6dGWZBLkeJFXZGCfLUjCgGgqXo5TuSu3cugdcTv/HjqnBTEMwzAMwzAMwzAMwzAMw/zf/AFbXiOA6frlMAAAAABJRU5ErkJggg==" alt="">
+                </div>
+                <div class="weui-media-box__bd">
+                    <p class="weui-media-box__desc" style="-webkit-line-clamp:3">由各种物质组成的巨型球状天体，叫做星球。星球有一定的形状，有自己的运行轨道。</p>
+                </div>
+
+            </a>
+
+            <div style="position:relative;bottom:0;display: flex;text-align:center;padding: 15px; border-top: 1px solid #E5E5E5;">
+                <p class="weui-media-box__desc" style=" flex: 1;width:33%">送禮(99)</p>
+                <p class="weui-media-box__desc" style=" flex: 1;width:33%">留言(99)</p>
+                <p class="weui-media-box__desc" style=" flex: 1;width:33%">讚(99)</p>
+            </div>
+        </div>
+    </script>
+    <script>
+
+        $(function () {
+            addBackEvent(function () {
+                $("#BackBtn").click();
+            });
+
+            $(".weui-navbar").show();
+            $("#BackBtn").attr("btag", "Skill");
+            $("#NavTitle").text("陪打-英雄聯盟");
+            $("#BackBtn").css("visibility", "visible");
+            $("#BackBtn").removeAttr("disabled")
+
+            for (var i = 0; i < 10; i++) {
+                var $html = $($("#postcard").html());
+                $("#postlist").append($html)
+            }
+
+        })
+
+
+    </script>
+</div>
+

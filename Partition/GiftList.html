@@ -1,0 +1,73 @@
+﻿<style>
+  
+</style>
+<div class="giftList page bdbg" id="GiftListbd" style="overflow-y:hidden">
+
+
+    <div class="page__hd navbg" style="padding:0;margin:0;height:60px;position:relative">
+        <h4 class="" style="color:white;width:100%;line-height:60px;font-size:24px;position:absolute;text-align:center">收禮清單</h4>
+
+        <div id="backSetting" class="backb" onclick="plus.webview.close(plus.webview.currentWebview())" style="width:30px;height:60px;border-radius: 999em;color:white">
+            <i class="fa fa-angle-left" style="font-size:30px;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"> </i>
+        </div>
+        <div style="position:absolute;top:0;right:0;width:60px;height:60px;vertical-align:middle;text-align:center">
+            <i class="ion-ios-help-outline " style="font-weight:bold;font-size:30px;color:white;position:relative;line-height:60px" @click="info"></i>
+
+        </div>
+    </div>
+
+    <div class="page__bd" style="overflow-y:auto;height:0%;padding-top:0px">
+        <div style="height:5px"></div>
+        <div class="weui-panel weui-panel_access">
+            <div class="weui-panel__bd">
+                <div class="weui-media-box weui-media-box_text" v-for="item in list">
+                    <div style="display:flex">
+                        <div style="flex:0 0 60px">
+                            <img :src="item.Member.Img+'_s'" onerror="this.src='img/icon/noimage_person.png'" style="width:40px;height:40px;object-fit:cover;border-radius:999em;position:relative;top:0%;left:40%;transform:translate(-50%,10%)">
+
+                        </div>
+                        <div style="flex:1">
+                            <p>{{item.Member.Name}}</p>
+                            <p style="font-size: 13px;color: #888888;">送禮總額:{{item.Points}}點</p>
+
+                        </div>
+                       
+                    </div>
+                  
+                    <ul class="weui-media-box__info">
+                        <li class="weui-media-box__info__meta" style="height:40px;line-height:40px;color:dimgray;">禮物清單</li>
+                        <li class="weui-media-box__info__meta weui-media-box__info__meta_extra"  style="height:40px;line-height:40px;color:dimgray;"> </li>
+                        <li class="weui-media-box__info__meta" style="height:40px;" v-for="g in item.Gift">
+                            <img :src="'img/emoji/' + g.Img" style="width:20px;height:20px;object-fit:scale-down;object-position:center" />
+                            <div style="color:dimgray;height:20px;line-height:20px">x{{g.Count}}</div>
+                        </li>
+
+
+                    </ul>
+                </div>
+              
+            </div>
+        </div>
+    </div>
+   
+    <script>
+        
+        new Vue({
+            el: "#GiftListbd",
+            data: {
+               list : top["DataBase"]["Partition"]
+            },
+            methods: {
+                info: function () {
+               
+                    plus.nativeUI.alert("您收禮的當下，我們就將禮物點數幫您轉換成傾心幣，存在您的預估傾心幣收益內；禮物點數兌換傾心幣的比例為1:0.7。收到非紅利點數，僅能增加禮物榜的能量，無法兌換成傾心幣。", function () {
+
+                    }, "", "我知道了");
+                }
+            }
+        })
+        $(function () {
+            $("#GiftListbd .page__bd").height($(document).height() - 106)
+        })
+    </script>
+</div>

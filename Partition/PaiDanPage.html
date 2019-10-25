@@ -1,0 +1,168 @@
+﻿<!--<div class="flexbar navbg" style="position:fixed;top:0;left:0;height:60px;z-index:300;width:100%;padding-bottom:10px;overflow:hidden">
+    <div class="memberinfo1" style="width: 10%;height:60px;position:relative;margin:20px 0px auto;float:left;z-index:301; ">
+        <div id="backSetting" class="backb" onclick="plus.webview.close(plus.webview.currentWebview())" style="width:30px;height:30px;border-radius: 999em;color:white">
+            <i class="fa fa-angle-left" style="font-size:30px;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"> </i>
+        </div>
+    </div>
+    <h4 class="" style="z-index:300;color:white;width:90%;line-height:60px;font-size:24px;position:relative;text-align:center">新進用戶</h4>
+</div>-->
+<style>
+    .spanmsg {
+        letter-spacing: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+    }
+</style>
+<div class="announcement  bdbg" id="announcement">
+    <div class="page__hd " style="padding:0;height:0px"></div>
+    <div class="page__bd">
+
+        <div class="weui-cells" style="display:none">
+
+            <div class="weui-cell weui-cell_access" v-for="(item, index) in list" @click="detailclick(item)">
+                <div class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+                    <img class="" :src="item.Member.Img + '_s'"v-bind:style="{'filter':(item.Member.Member_ID == JSON.parse(Server_Token).Member_ID?'':'blur(3px)')}" style="object-fit:cover;border-radius:999em;width:50px;height:50px" onerror="this.src='img/icon/noimage_person.png'" alt="">
+
+                </div>
+                <div class="weui-cell__bd">
+                    <p class="weui-media-box__desc" style="overflow:hidden; white-space:nowrap; text-overflow:ellipsis;font-size: 17px;color:black">{{GInfo.KindList.find(e=>e.Detail.find(f=>f.ID == item.Kind_ID)).Detail.find(e=>e.ID == item.Kind_ID).Name}} - <span v-bind:style="{'filter':(item.Member.Member_ID == JSON.parse(Server_Token).Member_ID?'':'blur(3px)')}" style="display: inline;">{{item.Member.Name}}</span></p>
+                    <p class="weui-media-box__desc" style="font-size: 13px;color:darkgray;">
+                        要求性別:{{item.Gender=='G'?'女':(item.Gender=='B'?'男':"不限")}} 預算:{{item.Fee}}幣
+                    </p>
+                </div>
+                <div class="weui-cell__ft" style="">
+
+                </div>
+
+            </div>
+        </div>
+
+
+
+    </div>
+    <div class="page__ft "></div>
+    <script>
+
+        function moreclick() {
+            var ws = plus.webview.currentWebview();
+            ws.setStyle({ mask: 'rgba(0,0,0,0.5)' });
+            ws.addEventListener('maskClick', function () {
+                if (plus.webview.getWebviewById("PaiDanAdd"))
+                    plus.webview.getWebviewById("PaiDanAdd").close();
+               
+
+            }, false);
+
+
+
+            if (JSON.parse(Server_Token).Status == "管理員") {
+                var w = plus.webview.create(debugurl + 'layout.html?needim=false&p=PaiDanAdd', 'PaiDanAdd', { position: "dock", dock: "bottom","height": "0%", "cachemode": "default", "popGesture": "close", "userSelect": true, plusrequire: "ahead", background: "transparent" }, { PreloadData: null, param: "", newneedim: false });
+
+            }
+            else {
+                var w = plus.webview.create('layout.html?needim=false&p=PaiDanAdd', 'PaiDanAdd', { position: "dock", dock: "bottom","height":"0%", "cachemode": "default", "popGesture": "close", "userSelect": true, plusrequire: "ahead", background: "transparent" }, { PreloadData: null, param: "", newneedim: false });
+
+            }
+
+            w.addEventListener("close", function () {
+                ws.setStyle({ mask: 'none' });
+            })
+        }
+        var vued;
+        var regetdata = function () {
+            $.ajax({
+                url: ajaxurl + "PaiDan",
+                type: 'get',
+                headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                success: function (rs) {
+                    if (rs.result_status) {
+                        vued.list= rs.result_content;
+
+                    } else {
+                        alert(rs.result_message);
+                    }
+                },
+
+            });
+        }
+       
+        $.ajax({
+            url: ajaxurl + "PaiDan",
+            type: 'get',
+            headers: { "Server_Token": encodeURIComponent(Server_Token) },
+            success: function (rs) {
+                if (rs.result_status) {
+                    vued= new Vue({
+                        el: '#announcement',
+                        data: {
+                            list: rs.result_content,
+
+                        },
+                        methods: {
+                            detailclick: function (item) {
+                                var ws = plus.webview.currentWebview();
+                                ws.setStyle({ mask: 'rgba(0,0,0,0.5)' });
+                                ws.addEventListener('maskClick', function () {
+                                    if (plus.webview.getWebviewById("PaiDanDetail"))
+                                        plus.webview.getWebviewById("PaiDanDetail").close();
+                                 
+                                }, false);
+
+
+
+                                if (JSON.parse(Server_Token).Status == "管理員") {
+                                    var w = plus.webview.create(debugurl + 'layout.html?needim=false&p=PaiDanDetail', 'PaiDanDetail', { position: "dock", dock: "bottom", "height": "0%",  "cachemode": "default", "popGesture": "close", "userSelect": true, plusrequire: "ahead", background: "transparent" }, { PreloadData: item, param: "", newneedim: false });
+
+                                }
+                                else {
+                                    var w = plus.webview.create('layout.html?needim=false&p=PaiDanDetail', 'PaiDanDetail', { position: "dock", dock: "bottom","height": "0%",  "cachemode": "default", "popGesture": "close", "userSelect": true, plusrequire: "ahead", background: "transparent" }, { PreloadData: item, param: "", newneedim: false });
+
+                                }
+                                w.addEventListener("close", function () {
+                                    ws.setStyle({ mask: 'none' });
+                                })
+
+                            }
+                        },
+                        mounted() {
+                            console.dir("list")
+                            console.dir(this.list)
+                            var ws = plus.webview.currentWebview();
+                            try {
+                                ws.setStyle({ titleNView: { buttons: [{ "type": "back", float: "left", colorPressed: "rgba(255,255,255,0.3)" }, { "text": "\uf217", "fontSrc": "css/ionicons/ionicons.ttf", colorPressed: "rgba(255,255,255,0.3)" }] } });
+                                ws.setTitleNViewButtonStyle(0, { onclick: function () { ws.close() } }); ws.setTitleNViewButtonStyle(1, { onclick: function () { moreclick() } })
+                                var wsv = ws.getSubNViews();
+                                if (wsv) {
+                                    if (wsv.length > 0) {
+                                        var subNViews = ws.getSubNViews().find(e => e.__id__ == 'loadingsub');
+                                        if (subNViews) {
+                                            subNViews.close()
+                                        }
+                                    }
+                                }
+
+                            } catch (e) {
+
+                            }
+
+                            $("#announcement .weui-cells").show();
+
+
+
+                        }
+                    })
+
+                } else {
+                    alert(rs.result_message);
+                }
+            },
+
+        });
+
+
+    </script>
+</div>

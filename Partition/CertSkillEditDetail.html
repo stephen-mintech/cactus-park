@@ -1,0 +1,506 @@
+﻿<style>
+      [draggable="true"] {
+          /*
+     To prevent user selecting inside the drag source
+    */
+          user-select: none;
+          -moz-user-select: none;
+          -webkit-user-select: none;
+          -ms-user-select: none;
+      }
+    .dtop {
+    
+        animation-name: oxxo;
+        animation-duration: .5s;
+    }
+    .ddown {
+        animation-name: oxxo2;
+        animation-duration: .5s;
+    }
+    @keyframes oxxo2 {
+        from {
+            transform: translateY(100%);
+        }
+
+        to {
+            transform: translateY(0%);
+        }
+    }
+    @keyframes oxxo {
+        from {
+            transform: translateY(-100%);
+        }
+
+        to {
+            transform: translateY(0%);
+        }
+    }
+</style>
+<div class="flexbar navbg" id="certSkillEditDetailflexbar" style="display: flex;position:fixed;top:0;left:0;height:60px;z-index:300;width:100%;padding-bottom:10px;overflow:hidden">
+    <div class="memberinfo1" style="width: 10%;height:60px;position:relative; flex: 0 0 50%;margin:20px 0px 20px 0px ; ">
+        <div id="backSetting" class="backb" onclick="plus.webview.close(plus.webview.currentWebview())" style="width:30px;height:30px;border-radius: 999em;color:white">
+            <i class="fa fa-angle-left" style="font-size:30px;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"> </i>
+        </div>
+    </div>
+    <div class="" style="height:60px;position:relative;top:0px;flex: 0 0 50%;">
+        <div style="font-size:24px;text-align: left;position:absolute;top:50%;left:0;color:white;transform:translate(-50%,-50%);white-space:nowrap">{{KindName}} 販售列表</div>
+    </div>
+    <script type="text/javascript">
+        var tmp = JSON.parse("{{data}}");
+        var EditVue= new Vue({
+            el: "#certSkillEditDetailflexbar",
+            data: tmp
+        })
+
+
+    </script>
+</div>
+<div class="certSkillEditDetail page bdbg" id="certSkillEditDetail" style="overflow-x:hidden  ">
+    <style>
+    </style>
+
+    <div class="page__hd">
+
+    </div>
+    <div class="page__bd" id="lists" style="width:100%;overflow-x:hidden">
+
+
+        <div class="weui-cells__title">販售列表 ({{list.length}}/10)</div>
+
+        <div class="weui-cells">
+            <a href="javascript:void(0);" @click="newpost" class="weui-cell weui-cell_link">
+                <div class="weui-cell__bd">新增一筆</div>
+            </a>
+          
+            <a class="weui-cell drag" style="flex-wrap:wrap;padding:16px;position:relative" href="javascript:;" :tid="item.Member_Certification_Detail_ID" ref="d" v-for="(item,idx) in list">
+
+                <div class="weui-cell__bd" style="flex:0 0 70%;padding:0;width:70%">
+                    <p style="overflow : hidden;text-overflow : ellipsis;white-space : nowrap;color:black">{{item.Title}}</p>
+                    <p style="overflow : hidden;text-overflow : ellipsis;white-space : nowrap;font-size:12px;color:gray">{{item.Memo}}</p>
+
+                    <div style="flex:0 0 100%">
+
+                        <p v-if="item.CanFree==false" style="font-size:12px;color:blue">
+                            {{item.Fee}}幣/{{item.Unit}}   <span style="font-size:12px" v-bind:style="{'color':(item.isEnable?'red':'gray')}">{{(item.isEnable?'上架中':'已下架')}} </span>
+
+                        </p>
+                        <p v-if="item.CanFree==true" style="font-size:12px;color:blue">
+                            30元體驗單/{{item.Unit}}   <span style="font-size:12px" v-bind:style="{'color':(item.isEnable?'red':'gray')}">{{(item.isEnable?'上架中':'已下架')}} </span>
+
+                        </p>
+                    </div>
+                    <div style="flex:0 0 100%">
+
+
+                        <div href="javascript:;" @click="toggleme(item.Member_Certification_Detail_ID,true)" class="weui-btn weui-btn_mini weui-btn_primary">{{(item.isEnable?'下架':'上架')}}</div>
+                        <div href="javascript:;" @click="if(item.isEnable==false){newpost(item.Member_Certification_Detail_ID)}else{alert('下架後才可修改')}" class="weui-btn weui-btn_mini weui-btn_default">修改</div>
+                        <div href="javascript:;" @click="deleteme(item.Member_Certification_Detail_ID)" class="weui-btn weui-btn_mini weui-btn_default">刪除</div>
+
+                    </div>
+                </div>
+                <div class="weui-cell__ft" style="flex:0 0 30%;padding:0;width:30%">
+                    <div @touchmove="ts(item.Member_Certification_Detail_ID,$event)" @touchend="te(item.Member_Certification_Detail_ID,$event)" style="margin-top:5px;font-size:18px;float:right;color:gray;padding:0 10px;border-radius:3px;">
+                        <i alt="" class="fa fa-1x ion-drag" style=""></i>
+                    </div>
+
+                </div>
+
+
+            </a>
+
+        </div>
+        <div class="weui-loadmore weui-loadmore_line" v-if="list.length == 0">
+            <span class="weui-loadmore__tips" style="background-color:transparent">快點新增一筆吧</span>
+        </div>
+    </div>
+    <div class="page__bd" id="newinput" style="display:none">
+
+        <div class="weui-cells__title"> <a href="javascript:;" @click="newpostback" class="weui-btn weui-btn_mini weui-btn_default">返回</a></div>
+        <div class="weui-cells__title">推薦預設</div>
+        <div style="display:flex;flex-wrap:wrap;width:100%;margin-top:10px">
+            <div v-for="item in Default" style="flex:1 1 33.33%;text-align:center">
+                <a href="javascript:;" @click="selectdf(item)" style="height:30px;" class="weui-btn weui-btn_mini weui-btn_primary">{{item.Title}}</a>
+
+            </div>
+
+        </div>
+        <div class="weui-cells__title">新增項目</div>
+     
+        <div class="weui-cells weui-cells_radio">
+        
+            <div class="weui-cell weui-cell_select weui-cell_select-after">
+                <div class="weui-cell__hd">
+                    <label for="" class="weui-label">類別</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select" v-model="PostData.Kind_Type_ID">
+                        <option v-for="(item,idx) in KindType"  :value="item.Zuzu_Kind_Type_ID">{{item.Name}}</option>
+                     
+                    </select>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">標題</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="text" placeholder="輸入販售標題" v-model="PostData.Title">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">描述</label></div>
+                <div class="weui-cell__bd">
+                    <textarea class="weui-textarea" rows="3" name="Memo" v-model="PostData.Memo" style="background-color: rgba(255, 255, 255, 0);user-select: all;-webkit-user-select: all;"></textarea>
+                </div>
+            </div>
+            <!--<label class="weui-cell weui-check__label" for="x11" @click="PostData.CanFree=true">
+        <div class="weui-cell__bd">
+            <p>體驗單</p>
+        </div>
+        <div class="weui-cell__ft">
+            <input type="radio" class="weui-check" name="radio1" id="x11" v-bind="{checked:PostData.CanFree}" >
+            <span class="weui-icon-checked"></span>
+        </div>
+    </label>
+    <label class="weui-cell weui-check__label" for="x12" @click="PostData.CanFree=false">
+
+        <div class="weui-cell__bd">
+            <p>收費單</p>
+        </div>
+        <div class="weui-cell__ft">
+            <input type="radio" name="radio1" class="weui-check" id="x12" v-bind="{checked:!PostData.CanFree}" >
+            <span class="weui-icon-checked"></span>
+        </div>
+    </label>-->
+
+            <div class="weui-cell weui-cell_vcode">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">收費</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="number" name="Fee" pattern="[0-9]*" placeholder="請輸入收費" v-model.number="PostData.Fee">
+                </div>
+                <div class="weui-cell__ft">
+                    <div class="weui-vcode-btn" style="color:black">幣</div>
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_select weui-cell_select-after" v-show="PostData.CanFree==false" style="">
+                <div class="weui-cell__hd"><label class="weui-label">單位</label></div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select" id="UnitS" name="Unit" v-model="PostData.Unit">
+                        <option v-for="(item,idx) in UnitList" :value="item">{{item}}</option>
+                    </select>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="weui-btn-area">
+            <a class="weui-btn weui-btn_primary" @click="savenew" href="javascript:">{{((PostData.Member_Certification_Detail_ID!=null)?'修改':'新增')}}</a>
+        </div>
+    </div>
+    <div class="page__ft ">
+
+    </div>
+    <script type="text/javascript">
+        var tmp = JSON.parse("{{data}}");
+        var param = "{{r}}";
+    
+        tmp["list"].sort((a, b) => { return a.Sort > b.Sort ? 1 : -1; })
+       // tmp["list"] = JSON.parse(JSON.stringify())
+        tmp['PostData'] = {
+            "Unit": (tmp.UnitList.find(e => e == tmp.Unit) || tmp.UnitList[0] || ""),
+            "Fee": 0,
+            "Sort": 0,
+            "Memo": "",
+            "Title": "",
+            "Kind_Type_ID": (tmp.KindType.length > 0 ? tmp.KindType[0].Zuzu_Kind_Type_ID:null),
+            "CanFree":false,
+            "Member_Certification_ID": "{{r}}",
+            "Member_Certification_Detail_ID":null
+        }
+        tmp["nowmove"] = null;
+        /* 獲取元素的縱座標 */
+        function getTop(e) {
+            var offset = e.offsetTop;
+            if (e.offsetParent != null) {
+                offset += getTop(e.offsetParent);
+            }
+            return offset;
+        }
+        /* 獲取元素的橫座標 */
+        function getLeft(e) {
+            var offset = e.offsetLeft;
+            if (e.offsetParent != null) {
+                offset += getLeft(e.offsetParent);
+            }
+            return offset;
+        }
+        var EditVue= new Vue({
+            el: "#certSkillEditDetail",
+            data: tmp,
+            mounted: function () {
+                $("body").css("overflow-x", "hidden")
+                $("body").css("overflow-y","hidden")
+
+            },
+            methods: {
+                ts: function (idx, ev) {
+                    var idxel = this.$refs.d.find(e=>e.attributes.tid.value==idx);
+                   // console.dir(this.$refs.d[idx])
+                    //console.dir(ev.touches[0].target.offsetTop)
+                   // console.dir(ev.touches[0].clientX)
+                    //console.dir(ev.touches[0].clientY)
+                    for (var i = 0;i < this.$refs.d.length; i++) {
+                        this.$refs.d[i].gettop = getTop(this.$refs.d[i]);
+                        //this.$refs.d[i].hei = $(this.$refs.d[i]).height()
+                        this.$refs.d[i].hei = this.$refs.d[i].clientHeight
+                    }
+
+                    if (this.nowmove == null) {
+                        this.nowmove = $(idxel).clone();
+                        this.nowmove.removeClass("ddown").removeClass("dtop")
+                        this.nowmove.css("position", "absolute");
+                     
+                        this.nowmove.css("z-index", "500");
+                        this.nowmove.css("margin", "0");
+                        this.nowmove.css("background-color", "cornflowerblue");
+                        this.nowmove.css("opacity", "0.3");
+                        this.nowmove.css("left", "0")
+                        this.nowmove.css("width", $(idxel).width()+"px")
+                        this.nowmove.attr("draggable", "true")
+
+                        $("body").prepend(this.nowmove);
+                    }
+                
+                    for (var i = 0; i < this.$refs.d.length; i++) {
+                        if (this.$refs.d[i].gettop <= ev.touches[0].clientY && (this.$refs.d[i].gettop + this.$refs.d[i].hei)>= ev.touches[0].clientY)
+                        {
+                            var self = this;
+                            $(self.$refs.d[i]).css("opacity", "0.1")
+                            if (self.$refs.d[i].gettop < self.$refs.d.find(e => e.attributes.tid.value == idx).gettop) {
+                                $(self.$refs.d[i]).before($(self.$refs.d.find(e => e.attributes.tid.value == idx)))
+                                self.$refs.d[i].gettop = getTop(self.$refs.d[i]);
+
+                                self.$refs.d[i].hei = self.$refs.d[i].clientHeight
+                                if (self.$refs.d[i].attributes.tid.value != idx) {
+                                    $(self.$refs.d[i]).removeClass("ddown").removeClass("dtop")
+                                    $(self.$refs.d[i]).addClass("dtop");
+                                } else {
+                                    $(self.$refs.d[i]).removeClass("ddown").removeClass("dtop")
+                                }
+                                 
+                                //$(self.$refs.d[i]).animate({ transform: "translateY(0%)"}, 300, function () {
+                               
+                                
+                                //})
+                            } else {
+                                $(self.$refs.d[i]).after($(self.$refs.d.find(e => e.attributes.tid.value == idx)))
+
+                                self.$refs.d[i].gettop = getTop(self.$refs.d[i]);
+
+                                self.$refs.d[i].hei = self.$refs.d[i].clientHeight
+                                if (self.$refs.d[i].attributes.tid.value != idx) {
+                                    $(self.$refs.d[i]).removeClass("ddown").removeClass("dtop")
+                                    $(self.$refs.d[i]).addClass("ddown");
+                                } else {
+                                    $(self.$refs.d[i]).removeClass("ddown").removeClass("dtop")
+                                }
+                                 
+                             
+                              
+                                //$(self.$refs.d[i]).animate({
+                                //    top: ("-=" + self.$refs.d[i].hei),
+
+                                //}, {
+                                //        duration: 300,
+
+                                //        complete: function () {
+
+                                         
+                                //        }
+                                //    });
+                               
+                            }
+                          
+
+                        }else
+                            $(this.$refs.d[i]).css("opacity", "1")
+                    }
+                    for (var i = 0; i < this.$refs.d.length; i++) {
+                        this.$refs.d[i].gettop = getTop(this.$refs.d[i]);
+                        //this.$refs.d[i].hei = $(this.$refs.d[i]).height()
+                        this.$refs.d[i].hei = this.$refs.d[i].clientHeight
+                    }
+                    this.nowmove.css("top", ev.touches[0].clientY - ev.touches[0].target.offsetTop)
+
+
+                },
+                te: function () {
+                    if (this.nowmove != null) {
+                        this.nowmove.remove();
+                        this.nowmove = null;
+                    }
+                    for (var i = 0; i < this.$refs.d.length; i++) {
+                        $(this.$refs.d[i]).css("opacity", "1")
+                    }
+                    this.toggleme(this.list[0].Member_Certification_Detail_ID, false)
+                    for (var i = 0; i < this.$refs.d.length; i++) {
+                        this.$refs.d[i].gettop = getTop(this.$refs.d[i]);
+                        //this.$refs.d[i].hei = $(this.$refs.d[i]).height()
+                        this.$refs.d[i].hei = this.$refs.d[i].clientHeight
+                    }
+                },
+                selectdf: function (d) {
+                    this.PostData.Unit = d.Unit;
+                    this.PostData.Fee = d.Fee;
+                    this.PostData.Memo = d.Memo;
+                    this.PostData.Title = d.Title;
+                },
+                toggleme: function (id, ischgenable) {
+                    var me = this.list.find(e => e.Member_Certification_Detail_ID == id);
+                    if (me) {
+                        var tmpref = this.$refs.d.map(e => ({ gettop: e.gettop, Member_Certification_Detail_ID: e.attributes.tid.value,Sort:0 }));
+                        tmpref.sort((a, b) => { return ((a.gettop > b.gettop)?1:-1)})
+                        var sortlist=[];
+                        if (ischgenable) {
+                            me.isEnable = !me.isEnable;
+                        } else {
+                            for (var i = 0; i < tmpref.length; i++) {
+                                sortlist.push({
+                                    Member_Certification_Detail_ID: tmpref[i].Member_Certification_Detail_ID,
+                                    Sort: i
+                                });
+                               
+                            }
+                        }
+                       
+                     
+                        console.dir(this.$refs.d)
+                        var self = this;
+                        this.list.sort((a, b) => { return a.Sort > b.Sort ? 1 : -1; })
+                        //this.list = JSON.parse(JSON.stringify(this.list.sort((a, b) => { return a.Sort > b.Sort ? 1 : -1; })))
+                        $.ajax({
+                            url: ajaxurl + "CertificationDetail/",
+                            type: 'patch',
+                            data: ((ischgenable == true) ? { id: id, isEnable: me.isEnable } : { id: id, sortlist: sortlist }),
+                            headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                            timeout: 30000,
+                            success: function (r) {
+                                if (r.result_status) {
+                                    if (ischgenable)
+                                        plus.webview.getWebviewById('CertSkill').reload(true);
+                                    
+                                }
+                               
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+
+                            }
+                        });
+                    }
+
+                },
+                deleteme: function (id) {
+                    var me = this.list.find(e => e.Member_Certification_Detail_ID == id);
+                    if (me) {
+                        var self = this;
+
+                        self.list.splice(self.list.indexOf(me), 1);
+                        $.ajax({
+                            url: ajaxurl + "CertificationDetail/" + id,
+                            type: 'delete',
+                            headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                            timeout: 30000,
+                            success: function (r) {
+                                plus.webview.getWebviewById('CertSkill').reload(true);
+                                
+                                //self.list = []
+                                //self.list = Object.assign([], self.list, r.result_content)
+                                //self.list.sort((a, b) => { return a.Sort > b.Sort ? 1 : -1; })
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+
+                            }
+                        });
+                    }
+
+                },
+                savenew: function () {
+                    var self = this;
+                    self.list = []
+                    $.ajax({
+                        url: ajaxurl + "CertificationDetail/",
+                        type: 'post',
+                        data: self.PostData,
+                        headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                        timeout: 30000,
+                        success: function (r) {
+                            if (r.result_status) {
+                                console.dir("post")
+                                console.dir(r.result_content)
+                                var ttt = JSON.parse(JSON.stringify(r.result_content))
+                                self.list = ttt;
+                                //self.list = r.result_content
+                              //  self.list.sort((a, b) => { return a.Sort > b.Sort ? 1 : -1; })
+                                
+                                self.newpostback();
+                               // plus.webview.currentWebview().reload();
+                                plus.webview.getWebviewById('CertSkill').reload(true);
+                            } else {
+                               alert(r.result_message);
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+
+                        }
+                    });
+                   // alert(JSON.stringify(this.PostData));
+
+                },
+                newpost: function (id) {
+                    if (id) {
+                        //PostData
+                       var chk= this.list.find(e => e.Member_Certification_Detail_ID == id)
+                        if (chk) {
+                            this.PostData = {
+                                "Unit": chk.Unit,
+                                "Fee": chk.Fee,
+                                "Sort": chk.Sort,
+                                "Memo": chk.Memo,
+                                "Title": chk.Title,
+                                "CanFree": chk.CanFree,
+                                "Kind_Type_ID": chk.Kind_Type_ID,
+                                "Member_Certification_ID": "{{r}}",
+                                "Member_Certification_Detail_ID": chk.Member_Certification_Detail_ID
+                            }
+                          
+                        } else {
+                            this.PostData = {
+                                "Unit": (tmp.UnitList.find(e => e == tmp.Unit) || tmp.UnitList[0] || ""),
+                                "Fee": 0,
+                                "Sort":0,
+                                "Memo": "",
+                                "Title": "",
+                                "CanFree": false,
+                                "Kind_Type_ID": (tmp.KindType.length > 0 ? tmp.KindType[0].Zuzu_Kind_Type_ID : null),
+                                "Member_Certification_ID": "{{r}}",
+                                "Member_Certification_Detail_ID":null
+                            }
+                        }
+                    }
+                    $("#lists").slideUp(150, function () {
+                        $("#newinput").slideDown(150);
+                    });
+
+                },
+                newpostback: function () {
+                    $("#newinput").slideUp(150, function () {
+                        $("#lists").slideDown(150);
+                    });
+                },
+            }
+        })
+
+
+    </script>
+
+</div>

@@ -1,0 +1,69 @@
+﻿<style>
+  
+</style>
+<div class="coupon page bdbg" id="couponbd" style="overflow-y:hidden">
+
+
+    <div class="page__hd navbg" style="padding:0;margin:0;height:60px;position:relative">
+        <h4 class="" style="color:white;width:100%;line-height:60px;font-size:24px;position:absolute;text-align:center">我的30元體驗券</h4>
+
+        <div id="backSetting" class="backb" onclick="plus.webview.close(plus.webview.currentWebview())" style="width:30px;height:60px;border-radius: 999em;color:white">
+            <i class="fa fa-angle-left" style="font-size:30px;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"> </i>
+        </div>
+
+    </div>
+
+    <div class="page__bd" style="overflow-y:auto;height:0%;padding-top:0px">
+        <div style="height:5px"></div>
+        <div class="weui-panel weui-panel_access">
+            <div class="weui-panel__bd">
+                <div class="weui-media-box weui-media-box_text" style=""  v-for="item in list" v-bind:style="{'opacity':(item.UseTime?'0.2':'1')}">
+                    <h4 class="weui-media-box__title">30元體驗券序號: <span style="color:blue">{{item.Code}}</span></h4>
+                    <p class="weui-media-box__desc">請於72小時內盡速使用，逾期無效</p>
+                    <p class="weui-media-box__desc" v-bind:style="(item.UseTime == null ? {color:'red'}:{})">有效期限 {{moment(item.DisableTime).format('l')}} {{moment(item.DisableTime).format('LT')}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <script>
+        Vue.filter('NumFormat', function (value) {
+            if (!value) return '0';
+            value = "" + value
+            /*原来用的是Number(value).toFixed(0)，这样取整时有问题，例如0.51取整之后为1，感谢Nils指正*/
+            var intPart = Number(value) | 0; //获取整数部分
+            var intPartFormat = intPart.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,'); //将整数部分逢三一断
+
+            var floatPart = ""; //预定义小数部分
+            var value2Array = value.split(".");
+
+            //=2表示数据有小数位
+            if (value2Array.length == 2) {
+                floatPart = value2Array[1].toString(); //拿到小数部分
+
+                if (floatPart.length == 1) { //补0,实际上用不着
+                    return intPartFormat + "." + floatPart + '0';
+                } else {
+                    return intPartFormat + "." + floatPart;
+                }
+
+            } else {
+                return intPartFormat + floatPart;
+            }
+
+        })
+      
+        new Vue({
+            el: "#couponbd",
+            data: {
+               list : top["DataBase"]["Partition"]
+            },
+            methods: {
+               
+            }
+        })
+        $(function () {
+            $("#couponbd .page__bd").height($(document).height() - 106)
+        })
+    </script>
+</div>

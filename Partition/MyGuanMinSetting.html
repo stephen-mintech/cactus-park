@@ -1,0 +1,307 @@
+﻿<html>
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <script src="../js/weui/jquery-2.1.4.js"></script>
+    <script src="../js/vue.min.js"></script>
+
+    <link href="../css/weui/weui.min.css" rel="stylesheet" />
+    <link href="../css/ionicons/ionicons.min.css" rel="stylesheet" />
+
+</head>
+<body style="background-color:#f8f8f8;margin:0;">
+    <div id="mybody" style="width:100%;display:none" v-show="loaded">
+        <div style="display:none" ref="newpost">
+            <div class="weui-form-preview">
+                <div class="weui-form-preview__hd">
+                    <div class="weui-form-preview__item">
+                        <label class="weui-form-preview__label">冠類型</label>
+                        <em class="weui-form-preview__value" style="font-size: 1em;line-height:2.5em">
+                            <input style="text-align:right;height:2.5em" class="weui-input" autofocus="" v-model="postdata.Name" type="text" placeholder="請輸入名稱" maxlength="10">
+                        </em>
+                    </div>
+                    <div class="weui-form-preview__item">
+                        <span style="color:red" class="">*日冠/月冠/年冠等等</span>
+                    </div>
+                </div>
+                <div class="weui-form-preview__bd">
+                    <div class="weui-form-preview__item">
+                        <label class="weui-form-preview__label">冠名金額</label>
+                        <span class="weui-form-preview__value">
+                            <input style="text-align:right;" class="weui-input" autofocus="" v-model.number="postdata.Fee" type="number" placeholder="請輸入金額(1,000~100,000)" min="1000" max="100000">
+
+                        </span>
+                    </div>
+                    <div class="weui-form-preview__item">
+                        <span style="color:red" class="">*闆闆冠名要支付的金額</span>
+                    </div>
+                    <!--<div class="weui-form-preview__item">
+                        <label class="weui-form-preview__label">搶冠金額</label>
+                        <span class="weui-form-preview__value"></span>
+                    </div>-->
+                    <div class="weui-form-preview__item">
+                        <label class="weui-form-preview__label">冠名天數</label>
+                        <span class="weui-form-preview__value">
+                            <input style="text-align:right;" class="weui-input" autofocus="" v-model.number="postdata.HaveDay" type="number" placeholder="請輸入天數(1~3650)天" min="1" max="3650">
+
+                        </span>
+                    </div>
+                    <div class="weui-form-preview__item">
+                        <span style="color:red" class="">*系統一律使用天數為基本單位計算</span>
+                    </div>
+                    <div class="weui-form-preview__item">
+                        <label class="weui-form-preview__label">可接訂單</label>
+                        <div class="weui-form-preview__value weui-cells_radio">
+                            <div class="weui-cell weui-check__label" @click="postdata.CanOrderOther=true">
+
+                                <div class="weui-cell__bd">
+                                    <p>可以繼續接單</p>
+                                </div>
+                                <div class="weui-cell__ft" style="width:30px">
+                                    <input type="radio" class="weui-check" :value="true" v-model="postdata.CanOrderOther" name="radio1">
+                                    <span class="weui-icon-checked"></span>
+                                </div>
+                            </div>
+                            <div class="weui-cell weui-check__label" @click="postdata.CanOrderOther=false">
+
+                                <div class="weui-cell__bd">
+                                    <p>專屬老闆</p>
+                                </div>
+                                <div class="weui-cell__ft" style="width:30px">
+                                    <input type="radio" name="radio1" class="weui-check" :value="false" v-model="postdata.CanOrderOther">
+                                    <span class="weui-icon-checked"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="weui-form-preview__item">
+                        <span style="color:red" class="">*冠名後可否被其他闆闆下單</span>
+                    </div>
+                </div>
+                <div class="weui-form-preview__ft">
+                    <a class="weui-form-preview__btn weui-form-preview__btn_primary" @click="post" href="javascript:">新增</a>
+                </div>
+            </div>
+            <br />
+        </div>
+
+
+        <div class="weui-form-preview" v-for="item in Data.SettingData">
+            <div class="weui-form-preview__hd">
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">冠類型</label>
+                    <em class="weui-form-preview__value">{{item.Name}}</em>
+                </div>
+            </div>
+            <div class="weui-form-preview__bd">
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">冠名金額</label>
+                    <span class="weui-form-preview__value">{{item.Fee}}</span>
+                </div>
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">冠名天數</label>
+                    <span class="weui-form-preview__value">{{item.HaveDay}}</span>
+                </div>
+                <div class="weui-form-preview__item">
+                    <label class="weui-form-preview__label">可接訂單</label>
+                    <span class="weui-form-preview__value">{{item.CanOrderOther==true?'可以繼續接單':'專屬老闆'}}</span>
+                </div>
+            </div>
+
+            <div class="weui-form-preview__ft">
+                <a class="weui-form-preview__btn weui-form-preview__btn_primary" @click="del(item.GuanMin_Data_ID)" style="color:red" href="javascript:">刪除</a>
+            </div>
+        </div>
+
+    </div>
+    <div style="height:44px"></div>
+    <script>
+        var ttt;
+        document.addEventListener("plusready", function () {
+            alert = function (e, cb) {
+                plus.nativeUI.alert(e, function () {
+                    if (cb) {
+                        cb()
+                    }
+                }, "訊息", "確定");
+            }
+            plus.key.addEventListener('backbutton', function () {
+                plus.webview.currentWebview().close()
+            }, false);
+
+            var Server_Token = plus.storage.getItem("Server_Token");
+
+            $.ajax({
+                url: "https://api_m.7cplay.com/api/" + "GuanMin",
+                type: 'get',
+                headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                success: function (rs) {
+                    if (rs.result_status) {
+                        ttt = new Vue({
+                            el: '#mybody',
+                            data: {
+                                loaded:false,
+                                canshow: false,
+                                Data: rs.result_content,
+                                postdata: {
+                                    CanOrderOther: true,
+                                    Fee: null,
+                                    HaveDay: null,
+                                    Name: ''
+                                }
+                            },
+                            watch: {
+                                canshow: function (v) {
+                                    if (v) {
+                                        $(this.$refs.newpost).slideDown(200);
+                                    } else {
+                                        $(this.$refs.newpost).slideUp(200);
+                                    }
+
+                                }
+                            },
+                            methods: {
+                                del: function (id) {
+                                    plus.nativeUI.confirm("刪除不會影響目前已冠名的人", function (e) {
+                                        if (e.index == 0) {
+                                            plus.nativeUI.showWaiting()
+                                            $.ajax({
+                                                url: "https://api_m.7cplay.com/api/" + "GuanMin",
+                                                type: 'delete',
+                                                data: { id: id },
+                                                headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                                                success: function (r) {
+                                                    if (r.result_status) {
+                                                        alert("刪除成功");
+                                                        plus.webview.currentWebview().reload();
+                                                    } else {
+                                                       alert(r.result_message);
+                                                    }
+                                                    plus.nativeUI.closeWaiting()
+                                                }
+                                            });
+
+
+                                        }
+
+                                    }, {
+                                            "title": "您確定要刪除此冠名設定嗎?",
+                                            "buttons": ["刪除", "取消"],
+                                            "verticalAlign": "bottom"
+                                        });
+                                },
+                                post: function () {
+                                    var self = this;
+                                    $.ajax({
+                                        url: "https://api_m.7cplay.com/api/" + "GuanMin",
+                                        type: 'post',
+                                        data: self.postdata,
+                                        headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                                        success: function (r) {
+                                            if (r.result_status) {
+                                                alert("新增成功");
+                                                plus.webview.currentWebview().reload();
+                                            } else {
+                                                alert(r.result_message);
+                                            }
+                                            plus.nativeUI.closeWaiting()
+                                        }
+                                    });
+
+                                    //this.Data.SettingData.unshift(JSON.parse(JSON.stringify(this.postdata)))
+
+                                    //this.postdata = {
+                                    //    CanOrderOther: true,
+                                    //    Fee: null,
+                                    //    HaveDay: null,
+                                    //    Name: ''
+                                    //}
+                                    //this.addshow(false)
+                                },
+                                addshow: function (v) {
+                                    var self = this;
+                                    if (v) {
+                                        this.canshow = v;
+                                    } else {
+                                        this.canshow = !this.canshow;
+                                    }
+                                    
+                                    var ws = plus.webview.currentWebview();
+                                    var text = '\uf462';
+                                    if (this.canshow) {
+                                        text = '\uf462';
+                                    } else {
+                                        text = '\uf217';
+                                    }
+                                    ws.setStyle({
+                                        titleNView: {
+                                            'buttons': [
+                                                {
+                                                    'text': text,
+                                                    'float': 'right',
+                                                    "fontSrc": "_www/css/ionicons/ionicons.ttf",
+                                                    onclick: function () { self.addshow() }
+                                                },
+                                            ]
+                                        }
+                                    });
+
+                                }
+                            },
+                            mounted() {
+                                var self = this;
+                                var ws = plus.webview.currentWebview();
+                                ws.show("slide-in-bottom")
+                                this.loaded = true;
+                                try {
+                                    ws.setStyle({
+                                        titleNView: {
+                                            'buttons': [
+                                                {
+                                                    'text': '\uf217',
+                                                    'float': 'right',
+                                                    "fontSrc": "_www/css/ionicons/ionicons.ttf",
+                                                    onclick: function () { self.addshow() }
+                                                },
+                                            ]
+                                        }
+                                    });
+
+
+
+
+                                    var wsv = ws.getSubNViews();
+                                    if (wsv) {
+                                        if (wsv.length > 0) {
+                                            var subNViews = ws.getSubNViews().find(e => e.__id__ == 'loadingsub');
+                                            if (subNViews) {
+                                                subNViews.close()
+                                            }
+                                        }
+                                    }
+
+
+                                } catch (e) {
+
+                                }
+
+
+
+
+                            }
+                        })
+
+                    } else {
+                        alert(rs.result_message);
+                    }
+                },
+
+            });
+
+        })
+
+
+    </script>
+</body>
+</html>
+

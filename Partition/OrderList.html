@@ -1,0 +1,138 @@
+﻿<div class="flexbar navbg" style="position:fixed;top:0;left:0;height:60px;z-index:300;width:100%;overflow:hidden">
+    <div class="memberinfo1" style="width: 10%;height:60px;position:relative;float:left;z-index:301; ">
+        <div id="backSetting" class="backb" onclick="plus.webview.close(plus.webview.currentWebview())" style="width:30px;height:60px;border-radius: 999em;color:white">
+            <i class="fa fa-angle-left" style="font-size:30px;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"> </i>
+        </div>
+    </div>
+    <h4 class="" style="z-index:300;color:white;width:90%;line-height:60px;font-size:24px;position:relative;text-align:center">訂單中心</h4>
+</div>
+<style>
+    .weui-bar__item_on {
+        color: #dc2873;
+    }
+</style>
+<div class="orderlist page bdbg" id="order" :el="order" style="">
+
+    <div class="page__hd " style="height:60px;padding:0"></div>
+    <div id="orderlist" class="page__bd" style="">
+        <div class="weui-tab" style="">
+            <div class="weui-navbar" style="padding-top:2px;padding-bottom:2px">
+
+                <div v-bind:class="{ 'weui-navbar__item': true, 'weui-bar__item_on': (Type=='Buy') }" @click="typechoose('Buy')">
+                    我的下單
+                </div>
+                <div v-bind:class="{ 'weui-navbar__item': true, 'weui-bar__item_on': (Type=='Sell') }" @click="typechoose('Sell')">
+                    接單列表
+                </div>
+            </div>
+            <div class="weui-tab__panel" style="padding-top:40px">
+                <div class="weui-cells" style="" v-for="(item, index) in ShowList" @click="hovernav(index,item.Order_ID)" ref="child" btag="OrderPage">
+                    <div class="weui-cell" style="flex-wrap:wrap;" v-bind:style="{opacity:(item.Order_Status==5 || item.Order_Status==6)?'.3':'1','background-color':(item.Order_Status==7?'rgba(255, 169, 162,.6)':(item.Order_Status==8?'rgba(255, 249, 162,.6)':'rgb(255, 255, 255)'))}">
+                        <div style="width:100%;font-size: 12px;color:#808080">
+                            <span v-bind:style="{'color': ((item.Order_Status==5)?'#dc2873':'#808080'),'text-decoration': ((item.Order_Status==6)?'line-through':'none')}">{{item.StatusName}}</span>
+                            <span>{{item.FinishTime}}</span>
+                            <div style="float:right">
+                                <i v-for="(va,inx) in 5" v-if="item.Order_Status==5" v-bind:class='{ "fa-star": (item.Rate-(inx+1)>=0),"fa-star-half-o": (item.Rate-(inx+1)<0&&item.Rate-(inx+1)>=-0.5),"fa-star-o": (item.Rate-(inx+1)<-0.5) } ' alt="" class="fa fa-2x " style="font-size:18px;color:gold;"></i>
+
+                            </div>
+                            
+                        </div>
+                        <div style="clear:both"></div>
+                        <div class="weui-cell__hd" style="">
+                            <img :src="item.Img+'_s'" onerror="this.src='img/icon/noimage_person.png'" style="width:40px;height:40px;object-fit:cover;border-radius:999em;position:relative;top:0%;left:40%;transform:translate(-50%,10%)">
+                        </div>
+                        <div class="weui-cell__bd">
+                            <p>{{item.Name}}</p>
+                            <p>{{item.GameName}}-{{JSON.parse(item.Member_Certification_History).Title}}</p>
+                       
+                            <p style="font-size: 13px;color: #888888;" v-if="JSON.parse(item.Member_Certification_History).CanFree!=true">費用:{{JSON.parse(item.Member_Certification_History).Fee}}幣/1{{JSON.parse(item.Member_Certification_History).Unit}}</p>
+                            <p style="font-size: 13px;color: #888888;" v-if="JSON.parse(item.Member_Certification_History).CanFree==true">費用:30元體驗單/1局</p>
+                            <p style="font-size: 13px;color: #888888;">預約時間: {{moment(item.PreDate.toString(), "YYYY-MM-DDTHH:mm:ss").calendar()}}</p>
+
+                        </div>
+                        <div class="weui-cell__ft" style="font-size: 12px;">
+                            <div v-if="Type=='Buy' && (item.Order_Status==5 || item.Order_Status==6)" class="weui-btn weui-btn_mini weui-btn_follow" @click.stop="reorder(item.Member_ID,item.Member_Certification_ID)">再次下單</div>
+                        </div>
+
+                    </div>
+                    <div class="weui-cell" style="" v-bind:style="{opacity:(item.Order_Status==5 || item.Order_Status==6)?'.3':'1'}">
+                        <div class="weui-cell__bd">
+                            <p style="font-size: 13px;color: #888888;">下單數:{{item.Times}}</p>
+                        </div>
+                        <div class="weui-cell__ft" style="font-size: 12px;" v-bind:style="{'color': ((item.Order_Status==5)?'#dc2873':'#808080')}">
+                            <span v-if="Type=='Sell'"> {{(item.Order_Status==5)?"已收款":"未收款"}}{{(JSON.parse(item.Member_Certification_History).Fee==0 && item.Times==1 ? 20 :JSON.parse(item.Member_Certification_History).Fee*item.Times)}}幣</span>
+                            <span v-if="Type=='Buy'"> {{(item.Order_Status==5)?"已支付":"未支付"}}{{(JSON.parse(item.Member_Certification_History).Fee==0 && item.Times==1 ? ('1體驗券') :(JSON.parse(item.Member_Certification_History).Fee*item.Times+'幣'))}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="page__ft "></div>
+    <script>
+        addBackEvent(function () {
+            plus.webview.close(plus.webview.currentWebview())
+        });
+        new Vue({
+            el: '#order',
+            data: {
+                Selllist: Enumerable.from(top["DataBase"]["Partition"].Sell).orderBy(e => ((e.Order_Status == 7) ? -2 : (e.Order_Status == 8 ? -1 : e.Order_Status))).thenByDescending(e => e.CreateTime).take(10).toArray(),
+                Buylist: Enumerable.from(top["DataBase"]["Partition"].Buy).orderBy(e => ((e.Order_Status == 7) ? -2 : (e.Order_Status == 8 ? -1 : e.Order_Status))).thenByDescending(e => e.CreateTime).take(10).toArray(),
+                Type: "Sell",
+                ShowList: []
+            },
+            methods: {
+                hovernav: function (idx, id) {
+                    hovernav(this.$refs["child"][idx], id)
+                },
+                typechoose: function (type) {
+                    this.Type = type;
+                    if (this.Type == "Sell") {
+                        this.Selllist = Enumerable.from(top["DataBase"]["Partition"].Sell).orderBy(e => ((e.Order_Status == 7) ? -2 : (e.Order_Status == 8 ? -1 : e.Order_Status))).thenByDescending(e => e.CreateTime).take(this.subpage * 10).toArray();
+                        this.ShowList = Enumerable.from(top["DataBase"]["Partition"].Sell).orderBy(e => ((e.Order_Status == 7) ? -2 : (e.Order_Status == 8 ? -1 : e.Order_Status))).thenByDescending(e => e.CreateTime).take(this.subpage * 10).toArray();
+                    }
+                    else {
+                        console.dir(this.ShowList)
+                        this.Buylist = Enumerable.from(top["DataBase"]["Partition"].Buy).orderBy(e => ((e.Order_Status == 7) ? -2 : (e.Order_Status == 8 ? -1 : e.Order_Status))).thenByDescending(e => e.CreateTime).take(this.subpage * 10).toArray();
+                        this.ShowList = Enumerable.from(top["DataBase"]["Partition"].Buy).orderBy(e => ((e.Order_Status == 7) ? -2 : (e.Order_Status == 8 ? -1 : e.Order_Status))).thenByDescending(e => e.CreateTime).take(this.subpage * 10).toArray();
+                    }
+                },
+                reorder: function (m,c) {
+                    var da = { M: m, C: c };
+                    hovernav($("<a btag='OrderCheckPage'></a>")[0], JSON.stringify(da));
+                }
+            },
+            mounted() {
+                $("#loadingToast").hide();
+
+                this.subpage = 1;
+
+                this.$el.addEventListener('scroll', () => {
+
+                    if (this.$el.scrollTop + this.$el.clientHeight + 200 >= this.$el.scrollHeight) {
+                        this.subpage++;
+                        if (this.Type == "Sell") {
+                            this.Selllist = Enumerable.from(top["DataBase"]["Partition"].Sell).orderBy(e => ((e.Order_Status == 7) ? -2 : (e.Order_Status == 8 ? -1 : e.Order_Status))).thenByDescending(e => e.CreateTime).take(this.subpage * 10).toArray();
+                            this.ShowList = Enumerable.from(top["DataBase"]["Partition"].Sell).orderBy(e => ((e.Order_Status == 7) ? -2 : (e.Order_Status == 8 ? -1 : e.Order_Status))).thenByDescending(e => e.CreateTime).take(this.subpage * 10).toArray();
+                        }
+                        else {
+                            this.Buylist = Enumerable.from(top["DataBase"]["Partition"].Buy).orderBy(e => ((e.Order_Status == 7) ? -2 : (e.Order_Status == 8 ? -1 : e.Order_Status))).thenByDescending(e => e.CreateTime).take(this.subpage * 10).toArray();
+                            this.ShowList = Enumerable.from(top["DataBase"]["Partition"].Buy).orderBy(e => ((e.Order_Status == 7) ? -2 : (e.Order_Status == 8 ? -1 : e.Order_Status))).thenByDescending(e => e.CreateTime).take(this.subpage * 10).toArray();
+                        }
+
+
+                    }
+                }, false)
+                var chksell = top["DataBase"]["Partition"].Sell.find(e => e.Order_ID == "{{param}}");
+                if (chksell) {
+                    this.typechoose("Sell");
+                } else {
+                    this.typechoose("Buy");
+                }
+              
+            }
+        })
+
+    </script>
+</div>

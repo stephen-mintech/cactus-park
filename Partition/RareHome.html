@@ -1,0 +1,931 @@
+﻿<link href="css/index_v2.css" rel="stylesheet" />
+<style>
+    /**** Clearfix ****/
+    .clearfix:before, .clearfix:after {
+        content: "";
+        display: table;
+    }
+
+    .clearfix:after {
+        clear: both;
+    }
+
+    .clearfix {
+        zoom: 1;
+    }
+
+    .barcolor2 {
+        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#e2e2e2+0,dbdbdb+50,d1d1d1+51,fefefe+100;Grey+Gloss+%231 */
+        background: #e2e2e2; /* Old browsers */
+        background: -moz-linear-gradient(top, #e2e2e2 0%, #dbdbdb 50%, #d1d1d1 51%, #fefefe 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(top, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom, #e2e2e2 0%,#dbdbdb 50%,#d1d1d1 51%,#fefefe 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', endColorstr='#fefefe',GradientType=0 ); /* IE6-9 */
+    }
+
+    .barcolor {
+        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#29b8e5+0,b3dced+38,0082b2+81&1+0,1+98,0.32+100 */
+        background: -moz-radial-gradient(center, ellipse cover, rgba(41,184,229,1) 0%, rgba(179,220,237,1) 38%, rgba(0,130,178,1) 81%, rgba(0,130,178,1) 98%, rgba(0,130,178,0.32) 100%); /* FF3.6-15 */
+        background: -webkit-radial-gradient(center, ellipse cover, rgba(41,184,229,1) 0%,rgba(179,220,237,1) 38%,rgba(0,130,178,1) 81%,rgba(0,130,178,1) 98%,rgba(0,130,178,0.32) 100%); /* Chrome10-25,Safari5.1-6 */
+        background: radial-gradient(ellipse at center, rgba(41,184,229,1) 0%,rgba(179,220,237,1) 38%,rgba(0,130,178,1) 81%,rgba(0,130,178,1) 98%,rgba(0,130,178,0.32) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#29b8e5', endColorstr='#520082b2',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+        border-radius: 2em;
+    }
+
+    .weui-navbar__item2 {
+        position: relative;
+        display: block;
+        flex: 1;
+        padding: 6px 0;
+        text-align: center;
+        font-size: 15px;
+        -webkit-tap-highlight-color: rgba(0, 0, 0,0);
+        background-color: rgba(255,255,255,0.4);
+        border-radius: 2em;
+    }
+
+        .weui-navbar__item2:active {
+            background-color: rgba(220,220,220,0.4);
+            border-radius: 2em;
+        }
+
+        .weui-navbar__item2.weui-bar__item_on {
+            background-color: rgba(83,202,255,0.4);
+            border-radius: 2em;
+        }
+
+        .weui-navbar__item2:after {
+            content: " ";
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 1px;
+            bottom: 0;
+            color: #CCCCCC;
+            transform-origin: 100% 0;
+            transform: scaleX(0.5);
+        }
+
+        .weui-navbar__item2:last-child:after {
+            display: none;
+        }
+
+    .weui-grid2 {
+        /* 防止多列布局，分页媒体和多区域上下文中的意外中断 */
+        /*break-inside: avoid;*/
+        background: #fff;
+        width: 100%
+    }
+
+    .mitem {
+        width: 95%;
+        padding-left: 2.5%;
+        /*float: left;*/
+        margin-bottom: 30px;
+    }
+
+    .weui-grid2 p {
+        padding: 5px 10px;
+    }
+
+    .weui-grid2 div {
+        padding-bottom: 10px
+    }
+
+    .weui-grid__label2 {
+        text-align: left;
+        color: #000000;
+        font-size: 14px;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .skilllabel {
+        margin: 0 auto;
+        padding: 5px 10px;
+        text-align: center;
+        font-size: 12px;
+        border-radius: 3em;
+        background-color: rgb(196, 246, 252);
+        color: blue;
+    }
+
+    .weui-grids2 {
+        /*margin: 0 auto;*/
+        /*width: 100%;*/
+        /*column-count: 1;
+            column-width: 20px;
+            column-gap: 10px;*/
+    }
+
+
+    .container2 {
+        padding: 5px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        clear: both;
+    }
+
+    .list li {
+        float: left;
+    }
+
+    .tabs .tab a.active {
+        background-color: transparent;
+        outline: none;
+        color: #ee6e73;
+    }
+</style>
+<div class="home page bdbg" id="homebig" style="position:relative;top:0px;height:100%;overflow-x:hidden;overflow-y:hidden">
+
+    <ul id="homenav" class="tabs " style="">
+        <li class="tab" style="margin:0 auto"><a href="javascript:;" style="padding:0" @click="chgtag(0,0)" class="taba">人氣榜</a></li>
+        <li class="tab" style="margin:0 auto"><a href="javascript:;" style="padding:0" @click="chgtag(1,1)" class="taba">富豪榜</a></li>
+        <li class="tab isand"  style="margin:0 auto"><a href="javascript:;" style="padding:0" @click="chgtag(2,2)" class="taba">禮物榜</a></li>
+        <li class="tab" style="margin:0 auto"><a href="javascript:;" style="padding:0" @click="chgtag(3,3)" class="taba">紅人榜</a></li>
+
+        <li class="indicator" style="background-color: rgb(246, 178, 181); left: -9999px; right: 9999px;"></li>
+    </ul>
+
+    <div class="page__bd" style="height:0;overflow-y:hidden" id="homepagebd">
+
+        <div class="" id="homepagebd2" style="height:100%;width:100%;overflow-y:hidden">
+
+
+
+            <div class="" id="swipe-1" style="height:100%;overflow-x:hidden;overflow-y:auto">
+                <div style="">
+                    <div id="loadmore" class="weui-loadmore">
+                        <i class="weui-loading"></i>
+                        <span class="weui-loadmore__tips">正在讀取資料</span>
+                    </div>
+                    <div v-if="ispop==true" class="weui-grids" style="height:100%;">
+                        <section>
+                            <div class="bottom_wrapper">
+                                <div class="rankings_wrapper" style="width:100%">
+                                    <div class="left rankings_item" style="height:auto;width:100%;background-color:white">
+
+                                       <div class="tab_wrapper" style="padding-bottom:0;">
+                                           <div class="tab_content" style="width:50%;height:3.5vh;display: flex;margin: 2vh auto;">
+                                               <div class="tab_item" style="width: 100%;flex: 1;line-height:3.5vh;font-size:2vh" @click="watype='W';chgtag(hisidx,hisidx)" v-bind:class="{on:((watype=='W')?true:false)}">週榜</div>
+                                               <div class="tab_item" style="width: 100%;flex: 1;line-height:3.5vh;font-size:2vh" @click="watype='M';chgtag(hisidx,hisidx)" v-bind:class="{on:((watype=='M')?true:false)}">月榜</div>
+                                               <div class="tab_item" style="width: 100%;flex: 1;line-height:3.5vh;font-size:2vh" @click="watype='A';chgtag(hisidx,hisidx)" v-bind:class="{on:((watype=='A')?true:false)}">總榜</div>
+                                           </div>
+                                        </div>
+                                        <div class="list_wrapper" style="padding-top: 2px;background-color: white;height:auto">
+                                            <div class="list_item">
+                                                <div class="top" style="height: 38vh;background-size: 100% 30%;">
+                                                    <ul class="list_top_wrapper" style="display: flex;">
+                                                        <li class="list_top_item url_point" style="height: 50%;top:20%;background-color:transparent;flex:1;width:33.333%;left:50%;transform:translateX(-50%);overflow: visible;" :onclick2="'hovernav_new(this, null, {titleText:\''+newslist[0].Member.Name+'\',img:\''+newslist[0].Member.Img+'_s\',moreinfo:true,type:\'transparent\'})'" :onclick="(newslist[0].Member.Member_ID?'hovernav_new(this, null, {titleText:\''+newslist[0].Member.Name+'\',img:\''+newslist[0].Member.Img+'_s\',moreinfo:true,type:\'transparent\'})':'')" :bparam="newslist[0].Member.Member_ID" btag="PlayerPage">
+                                                            <div v-if="newslist[0]" class="logo_wrapper"><img alt="" :src="newslist[0].Member.Img+'_s'" onerror="this.src='img/icon/noimage_person.png'" style="object-fit: contain;object-position:center;width: 18vw;height:18vw" class="logo"><img src="img/index_v2/ico_num_1.png" alt="" style="height:auto;width:100%;object-fit: cover;top: 50%;transform:translateY(-50%)" class="logo_frame"></div>
+                                                            <span style="font-size: 2vh;margin-top: 1vh;margin-bottom:0px" class="text">{{newslist[0].Member.Name}}</span>
+                                                            <!--<div v-if="newslist[0]" class="icon_wrapper">
+                                                                <img src="19.png" alt="" class="icon_title"><img src="10.png" alt="" class="icon_level"><span class="num_wrapper"><img src="ico_pretty_min.png" alt="" class="icon"><span class="text">xt靓号:666668</span></span>
+                                                            </div>-->
+                                                            <div v-if="newslist[0]">
+                                                                <div v-if="newslist[0].Member.OrderTimes>0" class="hot_wrapper" style="margin-top:0"><span class="icon" style="height: 2vh;width: 2vh;"></span><span class="hot_text" style="font-size:2vh">{{newslist[0].Member.OrderTimes|NumFormat}}</span></div>
+                                                                <div v-if="newslist[0].Point && (!newslist[0].Member.Member_ID)" class="hot_wrapper" style="margin-top:0"><span class="icon" style="height: 2vh;width: 2vh;"></span><span class="hot_text" style="font-size:2vh">{{newslist[0].Point|NumFormat}}</span></div>
+                                                                <div v-if="newslist[0].Point && (newslist[0].Member.Member_ID)" class="hot_wrapper" style="margin-top:0"><span class="icon" style="height: 2vh;width: 2vh;"></span><span class="hot_text" style="font-size:2vh">{{newslist[0].Point|NumFormat}}</span></div>
+                                                                <div v-if="newslist[0].Fans && (newslist[0].Member.Member_ID)" class="hot_wrapper" style="margin-top:0"><span class="icon" style="height: 2vh;width: 2vh;"></span><span class="hot_text" style="font-size:2vh">{{newslist[0].Fans|NumFormat}}</span></div>
+
+                                                            </div>
+                                                        </li>
+                                                        <li class="list_top_item url_point" style="height: 50%;top:25%;background-color:transparent;width:33.333%;flex:1;left:0;overflow: visible;" :onclick2="(newslist[1].Member.Member_ID?'hovernav(this)':'')" :onclick="(newslist[1].Member.Member_ID?'hovernav_new(this, null, {titleText:\''+newslist[1].Member.Name+'\',img:\''+newslist[1].Member.Img+'_s\',moreinfo:true,type:\'transparent\'})':'')" :bparam="newslist[1].Member.Member_ID" btag="PlayerPage">
+                                                            <div v-if="newslist[1]" class="logo_wrapper"><img alt="" :src="newslist[1].Member.Img+'_s'" onerror="this.src='img/icon/noimage_person.png'" style="object-fit: contain;object-position:center;width: 18vw;height:18vw" class="logo"><img src="img/index_v2/ico_num_2.png" alt="" style="height:auto;width:100%;object-fit: cover;top: 50%;transform:translateY(-50%)" class="logo_frame"></div>
+                                                            <span style="font-size: 2vh;margin-top: 1vh;margin-bottom:0px" class="text">{{newslist[1].Member.Name}}</span>
+                                                            <!--<div v-if="newslist[1]" class="icon_wrapper">
+                                                                <img src="19.png" alt="" class="icon_title"><img src="10.png" alt="" class="icon_level"><span class="num_wrapper"><img src="ico_pretty_min.png" alt="" class="icon"><span class="text">xt靓号:666668</span></span>
+                                                            </div>-->
+                                                            <div v-if="newslist[1]">
+                                                                <div v-if="newslist[1].Member.OrderTimes>0" class="hot_wrapper" style="margin-top:0"><span class="icon" style="height: 2vh;width: 2vh;"></span><span class="hot_text" style="font-size:2vh">{{newslist[1].Member.OrderTimes|NumFormat}}</span></div>
+                                                                <div v-if="newslist[1].Point && (!newslist[1].Member.Member_ID)" class="hot_wrapper" style="margin-top:0"><span class="icon" style="height: 2vh;width: 2vh;"></span><span class="hot_text" style="font-size:2vh">{{newslist[1].Point|NumFormat}}</span></div>
+                                                                <div v-if="newslist[1].Point && (newslist[1].Member.Member_ID)" class="hot_wrapper" style="margin-top:0"><span class="icon" style="height: 2vh;width: 2vh;"></span><span class="hot_text" style="font-size:2vh">{{newslist[1].Point|NumFormat}}</span></div>
+                                                                <div v-if="newslist[1].Fans && (newslist[1].Member.Member_ID)" class="hot_wrapper" style="margin-top:0"><span class="icon" style="height: 2vh;width: 2vh;"></span><span class="hot_text" style="font-size:2vh">{{newslist[1].Fans|NumFormat}}</span></div>
+
+                                                            </div>
+                                                        </li>
+                                                        <li class="list_top_item url_point" style="height: 50%;top:30%;background-color:transparent;width:33.333%;flex:1;right:0;overflow: visible;" :onclick2="(newslist[2].Member.Member_ID?'hovernav(this)':'')" :onclick="(newslist[2].Member.Member_ID?'hovernav_new(this, null, {titleText:\''+newslist[2].Member.Name+'\',img:\''+newslist[2].Member.Img+'_s\',moreinfo:true,type:\'transparent\'})':'')" :bparam="newslist[2].Member.Member_ID" btag="PlayerPage">
+                                                            <div v-if="newslist[2]" class="logo_wrapper"><img alt="" :src="newslist[2].Member.Img+'_s'" onerror="this.src='img/icon/noimage_person.png'" style="object-fit: contain;object-position:center;width: 18vw;height:18vw" class="logo"><img src="img/index_v2/ico_num_3.png" alt="" style="height:auto;width:100%;object-fit: cover;top: 50%;transform:translateY(-50%)" class="logo_frame"></div>
+                                                            <span style="font-size: 2vh;margin-top: 1vh;margin-bottom:0px" class="text">{{newslist[2].Member.Name}}</span>
+                                                            <!--<div v-if="newslist[2]" class="icon_wrapper">
+                                                                <img src="19.png" alt="" class="icon_title"><img src="10.png" alt="" class="icon_level"><span class="num_wrapper"><img src="ico_pretty_min.png" alt="" class="icon"><span class="text">xt靓号:666668</span></span>
+                                                            </div>-->
+                                                            <div v-if="newslist[2]">
+                                                                <div v-if="newslist[2].Member.OrderTimes>0" class="hot_wrapper" style="margin-top:0"><span class="icon" style="height: 2vh;width: 2vh;"></span><span class="hot_text" style="font-size:2vh">{{newslist[2].Member.OrderTimes|NumFormat}}</span></div>
+                                                                <div v-if="newslist[2].Point && (!newslist[2].Member.Member_ID)" class="hot_wrapper" style="margin-top:0"><span class="icon" style="height: 2vh;width: 2vh;"></span><span class="hot_text" style="font-size:2vh">{{newslist[2].Point|NumFormat}}</span></div>
+                                                                <div v-if="newslist[2].Point && (newslist[2].Member.Member_ID)" class="hot_wrapper" style="margin-top:0"><span class="icon" style="height: 2vh;width: 2vh;"></span><span class="hot_text" style="font-size:2vh">{{newslist[2].Point|NumFormat}}</span></div>
+                                                                <div v-if="newslist[2].Fans && (newslist[2].Member.Member_ID)" class="hot_wrapper" style="margin-top:0"><span class="icon" style="height: 2vh;width: 2vh;"></span><span class="hot_text" style="font-size:2vh">{{newslist[2].Fans|NumFormat}}</span></div>
+
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="bottom" style="height:auto">
+                                                    <ul class="list_bottom_wrapper">
+                                                        <li style="display: flex;width:100%;height: 7vh;" v-for="(item, index) in  newslist.filter((e,idx)=>idx>=3)   " @click2="(item.Member.Member_ID ? hovernav(index,item.Member.Member_ID,item) : null)" :onclick="(item.Member.Member_ID?'hovernav_new(this, null, {titleText:\''+item.Member.Name+'\',img:\''+item.Member.Img+'_s\',moreinfo:true,type:\'transparent\'})':'')" :bparam="item.Member.Member_ID" ref="child" btag="PlayerPage" class="list_bottom_item url_point">
+                                                            <i class="num_wrapper" style="flex: 0 0 7vw;height: 7vw;margin: 0;top: 50%;position: relative;transform: translateY(-50%);">
+                                                                <i class="num_item" style="width: 80%;font-size: 4vw;margin: 0;height: 80%;top: 50%;transform: translateY(-50%);position: relative;"><i style="line-height: 5.6vw;font-size: 4vw;" class="num">{{index+4}}</i></i>
+                                                            </i>
+                                                            <div class="logo_wrapper" style="flex: 0 0 7vh;height: 7vh;margin:0;transform: translateY(-50%);top: 50%;position: relative;"><img alt="" style="object-fit: contain;object-position:center;width: 100%;height: 100%;" :src="item.Member.Img+'_s'" onerror="this.src='img/icon/noimage_person.png'" class="logo"></div>
+                                                            <div class="info_wrapper" style="flex:1">
+                                                                <span class="nick_name" style="margin: 0;height: 100%;line-height: 8vh;width: 100%;font-size:2vh">{{item.Member.Name}}</span>
+                                                                <!--<div class="icon_wrapper"><img src="16.png" alt="" class="icon_title"><img src="3.png" alt="" class="icon_level"></div>-->
+                                                            </div>
+                                                            <div class="right_wrapper" style="flex: 0 0 30vw;display: block;float: none;line-height: 8vh;margin: 0">
+                                                                <div class="right_box" style="width:100%">
+                                                                    <div class="right_content">
+
+                                                                        <div v-if="item.Member.OrderTimes>0" class="hot_wrapper" style="text-align:right"><span class="hot_text" style="font-size:2vh">{{item.Member.OrderTimes|NumFormat}}</span> <span class="icon" style="font-size:2vh"> 人氣值</span></div>
+                                                                        <div v-if="item.Point && (!item.Member.Member_ID)" style="text-align:right" class="hot_wrapper"><span class="hot_text" style="font-size:2vh">{{item.Point|NumFormat}}</span> <span class="icon" style="font-size:2vh"> 貢獻點</span></div>
+                                                                        <div v-if="item.Point && (item.Member.Member_ID)" style="text-align:right" class="hot_wrapper"><span class="hot_text" style="font-size:2vh">{{item.Point|NumFormat}}</span> <span class="icon" style="font-size:2vh"> 魅力值</span></div>
+                                                                        <div v-if="item.Fans && (item.Member.Member_ID)" style="text-align:right" class="hot_wrapper"><span class="hot_text" style="font-size:2vh">{{item.Fans|NumFormat}}</span> <span class="icon" style="font-size:2vh"> 粉絲</span></div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </section>
+
+                        <!--<div v-for="(item, index) in newslist" href="javascript:;" gi="clickdiv" class="weui-grid" style="overflow-x:hidden" @click="(item.Member.Member_ID ? hovernav(index,item.Member.Member_ID,item) : null)" ref="child" btag="PlayerPage">
+
+                            <div class="weui-grid__icon" style="width:80px;height:80px;position:relative;">
+                                <img :src="item.Member.Img+'_s'" style="object-fit:cover;border-radius:999em;width:80px;height:80px" onerror="this.src='img/icon/noimage_person.png'" alt="">
+                                <img v-if="item.Member.header!=''" :src="'img/header/'+item.Member.header+'_C.png'" style="object-fit:cover;width:86px;height:86px;position:absolute;top:-3px;left:-3px" alt="">
+                                <div style="position:absolute;width:80px;height:80px;top:0;left:0;transform: rotate(-15deg);">
+                                    <img v-if="index==0" src="img/icon/golden.png" style="position:absolute;top:-20px;left:30px;width:20px;height:auto;" />
+                                    <img v-if="index==1" src="img/icon/silver.png" style="position:absolute;top:-20px;left:30px;width:20px;height:auto;" />
+                                    <img v-if="index==2" src="img/icon/copper.png" style="position:absolute;top:-20px;left:30px;width:20px;height:auto;" />
+
+                                </div>
+
+                            </div>
+                            <p class="weui-grid__label" v-bind:style="{color:(item.Member.color||'black')}">{{item.Member.Name}}</p>
+                            <p v-if="item.Member.OrderTimes>0" class="" style="font-size:12px;text-align:center;color:gray">接單 {{item.Member.OrderTimes}} 次</p>
+                            <p v-if="item.Point && (!item.Member.Member_ID)" class="" style="font-size:3vw;text-align:center;color:gray">貢獻 {{item.Point}} 點</p>
+                            <p v-if="item.Point && (item.Member.Member_ID)" class="" style="font-size:3vw;text-align:center;color:gray">接收 {{item.Point*4}} 能量</p>
+                            <p v-if="item.Fans && (item.Member.Member_ID)" class="" style="font-size:3vw;text-align:center;color:gray">粉絲 {{item.Fans}} 人</p>
+
+                        </div>-->
+                    </div>
+                    <div v-if="ispop==false" class="weui-grids2" id="cardlist2" binfo="cardlist" style="height:100%;overflow-x:hidden">
+                        <div class="weui-loadmore weui-loadmore_line" v-if="newslist.length==0">
+                            <span class="weui-loadmore__tips" style="background-color:transparent">尚未發表任何動態</span>
+                        </div>
+                        <div v-for="(item, index) in newslist" style="" class="mitem">
+
+                            <div class="weui-grid2" ref="child" btag="NewsPage" style="background-color: rgba(255, 255, 255, 0.6);">
+                                <button type="button" v-on:click.stop v-if="JSON.parse(Server_Token).Member_ID==item.Member.Member_ID" gi="clickdiv" @click="deleteme(index,item.Member_News_ID)" href="javascript:;" style="float:right;z-index:10" class="weui-btn weui-btn_mini weui-btn_default">
+                                    <i class="fa fa-x fa-trash-o"></i>
+                                </button>
+                                <div style="width:100%;height:20px;color:gray;margin-bottom:10px;position:relative" ref="child2" gi="clickdiv" @click="hovernav2(index,item.Member.Member_ID,item)" btag="PlayerPage">
+                                    <img :src="item.Member.Img+'_s'" style="margin:10px 0px 0px 10px;width:30px;height:30px;object-fit:cover;border-radius:999em;float:left" onerror="this.src='img/icon/noimage_person.png'" />
+                                    <img v-if="item.Member.header!=''" :src="'img/header/'+item.Member.header+'_C.png'" style="object-fit:cover;width:32px;height:32px;position:absolute;top:9px;left:9px" alt="">
+
+                                    <!--<img binfo="memberimg" style=" border-radius: 0.3em;height:auto;width:auto;max-width:20px;max-height:20px;float:left" :src="item.Member.Img" alt="">-->
+                                    <div binfo="name" v-bind:style="{color:(item.Member.color||'black')}" style="padding-left:10px;font-size:12px;width:50%;float:left;transform:translateY(10%)">
+                                        {{item.Member.Name}}
+                                        <br>
+                                        <span id="genderlab" v-bind:class='{"ganlabel_g":(item.Member.Gender=="G"),"ganlabel_b":(item.Member.Gender=="B"),"ganlabel_n":(item.Member.Gender=="N")}' class="" style="padding:0 5px;float:left;line-height:14px"><span style="font-size:10px">{{item.Member.Age}}</span></span>
+                                    </div>
+
+                                </div>
+
+                                <div class="either-gif-or-video" style="max-width:96%;width:96%;height:auto;max-height:600px;overflow-y:hidden;position : relative;padding-bottom:0" @click="hovernav(index,item.Member_News_ID,item)" gi="clickdiv">
+
+                                    <video v-if="JSON.parse(item.ImgList).Video!=''" binfo="newstitleVI" style="position:relative;top:0;left:50%;transform:translateX(-50%);width:100%;height:100%;max-height:200px;z-index:2" :src="JSON.parse(item.ImgList).Video" :poster="JSON.parse(item.ImgList).GIF" preload="metadata" loop muted playsinline webkit-playsinline />
+                                    <img v-if="JSON.parse(item.ImgList).GIF!=''" isbg binfo="isbg" style="position:absolute ;top:0;width:100%;height:100%;max-height:200px;filter: blur(10px);z-index:1;object-fit: cover" :src="JSON.parse(item.ImgList).GIF" />
+
+                                    <!--<img v-if="JSON.parse(item.ImgList).GIF!=''" binfo="newstitleVI" style="position:relative;left:50%;transform:translateX(-50%);max-width:96%;width:96%;height:300px;max-height:500px;object-fit:scale-down" :src="JSON.parse(item.ImgList).GIF" />-->
+                                    <img v-if="((JSON.parse(item.ImgList).GIF=='')&&(JSON.parse(item.ImgList).Img.length>0))" :src="JSON.parse(item.ImgList).Img[0]" binfo="newstitleimg" style="object-fit:cover;position:relative;left:50%;transform:translateX(-50%);width:100%;height:100%">
+                                </div>
+                                <p class="weui-grid__label2" @click="hovernav(index,item.Member_News_ID,item)" gi="clickdiv">
+                                    <span binfo="newstitle" style="width:90%;display : inline-block;text-overflow: ellipsis;overflow:hidden;white-space:nowrap">{{item.Content}}</span>
+                                    <span style="color:gray;font-size:12px;float:right">
+
+                                    </span>
+                                </p>
+                                <div v-if="item.SkillInfo" ref="child3" gi="clickdiv" @click="hovernav3(index,item.SkillInfo.Member_Certification_ID,item)" btag="Skill" class="skillinfo" style="width:100%;text-align:center;">
+                                    <span class="skilllabel" style="width:80%;display : inline-block;text-overflow: ellipsis;overflow:hidden;white-space:nowrap">
+                                        {{item.SkillInfo.Name}} {{item.SkillInfo.Fee}}幣/{{item.SkillInfo.Unit}}
+                                    </span>
+                                </div>
+                                <div style="display:flex;padding-bottom:0;color:gray;text-align:center;font-size:14px;line-height:40px;height:40px;vertical-align:middle">
+                                    <!--<div style="flex:1;" @click="hovernav(index,item.Member_News_ID+'|gift',item)" gi="clickdiv">
+                                        <i alt="" class="fa fa-1x fa-gift" style="font-size:14px;"> </i>
+                                        送禮
+                                    </div>-->
+                                    <div style="flex:1;" @click="hovernav(index,item.Member_News_ID,item)" gi="clickdiv">
+                                        <i alt="" class="fa fa-1x fa-comment-o" style="font-size:14px;"> </i>
+                                        留言
+                                    </div>
+                                    <div style="flex:1" @click="setLiked(item.Member_News_ID)" gi="clickdiv">
+                                        <i v-if="item.Liked" alt="" binfo="followicon" class="fa fa-1x fa-heart" style="color:red"></i>
+                                        <i v-if="!item.Liked" alt="" binfo="followicon" class="fa fa-1x fa-heart-o" style=""></i>
+                                        <span binfo="followcount">讚{{item.LikeCount}}</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <br style="clear:both;">
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="page__ft ">
+        <br>
+    </div>
+
+    <script type="text/html" id="infocard">
+        <div style="padding-bottom:10px">
+            <div class="weui-grid2" onclick="hovernav(this,'id')" style="background-color: rgba(255, 255, 255, 0.6);" btag="NewsPage">
+
+                <div style="width:100%;height:20px;padding:10px 10px;color:gray;">
+                    <img binfo="memberimg" style=" border-radius: 0.3em;height:auto;width:auto;max-width:20px;max-height:20px;float:left" src="https://f.gxx.garenanow.com/download/f799cda559ef067aac48bf11b0b4e184040301000000af1a000000000201007c" alt="">
+                    <span binfo="name" style="padding-left:10px;font-size:12px;width:50%;float:left">萌王♥神神💗</span>
+
+                </div>
+                <div class="either-gif-or-video">
+
+                    <!--<video binfo="newstitleV" style="padding-left:2%;width:96%;height:auto" src="image.mp4" autoplay loop muted playsinline webkit-playsinline></video>-->
+                    <img binfo="newstitleimg" style="padding-left:2%;width:96%;height:auto" src="image.gif">
+                </div>
+                <p class="weui-grid__label2">
+                    <span binfo="newstitle" style="width:90%;display : inline-block;text-overflow: ellipsis;overflow:hidden;white-space:nowrap">測試標題</span>
+                    <span style="color:gray;font-size:12px;float:right">
+                        <i alt="" binfo="followicon" class="fa fa-1x fa-heart-o" style="font-size:18px"></i>
+                        <span binfo="followcount">0</span>
+                    </span>
+                </p>
+                <div class="skillinfo" style="width:100%;text-align:center;"><span class="skilllabel" style="width:80%;display : inline-block;text-overflow: ellipsis;overflow:hidden;white-space:nowrap">英雄聯盟 200元/1小時</span></div>
+
+            </div>
+        </div>
+
+
+    </script>
+    <script id="tmpcard">
+
+    </script>
+    <script>
+
+        var data = top["DataBase"]["Home"];
+        var nowdata = [];
+        var isfirsttime = true;
+        var cardlistinterval;
+        var perpage = 20;
+        function chgtag(idx, el) {
+
+        }
+        var cardlist
+        $(function () {
+            var getElementRect = function (element) {
+                var rect = {
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    left: 0
+                };
+
+                var offset = element.offset();
+
+                rect.top = offset.top;
+                rect.right = offset.left + element.width();
+                rect.bottom = offset.top + element.height();
+                rect.left = offset.left;
+
+                return rect;
+            }
+            function checkvideo(el) {
+                // console.dir("checkvideo")
+                if ($(el).is("[isbg]")) {
+                    el.pause();
+                    clearInterval(el["Thead"]);
+                    return true;
+                }
+
+                var vr = getElementRect($(el));
+
+                if (((vr.top > 0 && vr.top < $(document).height()) && (vr.bottom > 0 && vr.bottom < $(document).height())) &&
+                    ((vr.left > 0 && vr.left < $(document).width()) && (vr.right > 0 && vr.right < $(document).width()))) {
+
+                    //console.dir("play")
+                    el.play();
+                } else {
+
+                    if ((el.readyState != 1) && (el.readyState != 0) && (el.paused == false)) {
+                        //console.dir("pause")
+                        el.pause();
+                    }
+
+                }
+                return true;
+            }
+
+            var subpage = 1;
+
+
+            setTimeout(function () {
+
+                // console.dir(plus.screen.resolutionHeight);
+                var nDivHight = plus.screen.resolutionHeight;
+                //$('#cardlist').masonry({
+                //    itemSelector: '.mitem',
+                //    columnWidth: function (containerWidth) {
+                //        return $('#cardlist').width() /1;
+                //    }
+                //})
+                $("#swipe-1").scroll(function () {
+
+                    try {
+                        var nScrollHight = $(this)[0].scrollHeight;
+                        var nScrollTop = $(this)[0].scrollTop;
+                        if (nScrollTop + nDivHight + 200 >= nScrollHight) {
+
+                            subpage++;
+                            nowdata = Enumerable.from(cardlist.chosealldata).take(subpage * perpage).toArray();
+                            cardlist.newslist = nowdata;
+                        }
+                        //var allv = $(".home.page video");
+                        //for (var i = 0; i < allv.length; i++) {
+                        //    //   console.dir(i)
+                        //    checkvideo(allv[i])
+                        //}
+                    } catch (e) {
+
+                    }
+                })
+
+
+                $(".home.page").scroll(function () {
+
+                    try {
+                        //var nScrollHight = $(this)[0].scrollHeight;
+                        //var nScrollTop = $(this)[0].scrollTop;
+                        //console.log(nScrollTop)
+                        $("#scmask").hide();
+                        //if ($("#homepost")[0].getBoundingClientRect().bottom >= $("#homenav")[0].getBoundingClientRect().y) {
+                        //    $("#scmask").hide();
+                        //} else {
+                        //    $("#scmask").show();
+                        //}
+                        //$("#homenav")[0].scrollHeight+$("#homenav")[0].getBoundingClientRect().y
+                        //$("#swipe-1")[0].getBoundingClientRect().top
+                        //$("#swipe-1")[0].getBoundingClientRect().top = $("#homenav").height()+$("#homepost").height()
+                        //$(".home.page")[0].scrollHeight
+                        // checkvideo();
+
+                        //if (nScrollTop + nDivHight + 200 >= nScrollHight) {
+
+                        //    subpage++;
+                        //    nowdata = Enumerable.from(data).take(subpage * perpage).toArray();
+                        //    cardlist.newslist = nowdata;
+                        //}
+                    } catch (ex) {
+
+                    }
+
+
+                });
+                nowdata = Enumerable.from(cardlist.chosealldata).take(subpage * perpage).toArray();
+
+                cardlist.newslist = Object.assign({}, cardlist.newslist, nowdata)
+            }, 30)
+            if (!(cardlistinterval)) {
+                //cardlistinterval = setInterval(function () {
+                //    if (!cardlist.ispop) {
+                //        try {
+                //            $('#cardlist').masonry('reload')
+                //        } catch (ex) { }
+                //    }
+
+
+                //}, 300)
+            }
+
+
+            Vue.filter('NumFormat', function (value) {
+                if (!value) return '0';
+                value = "" + value
+                /*原来用的是Number(value).toFixed(0)，这样取整时有问题，例如0.51取整之后为1，感谢Nils指正*/
+                var intPart = Number(value) | 0; //获取整数部分
+                var intPartFormat = intPart.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,'); //将整数部分逢三一断
+
+                var floatPart = ""; //预定义小数部分
+                var value2Array = value.split(".");
+
+                //=2表示数据有小数位
+                if (value2Array.length == 2) {
+                    floatPart = value2Array[1].toString(); //拿到小数部分
+
+                    if (floatPart.length == 1) { //补0,实际上用不着
+                        return intPartFormat + "." + floatPart + '0';
+                    } else {
+                        return intPartFormat + "." + floatPart;
+                    }
+
+                } else {
+                    return intPartFormat + floatPart;
+                }
+
+            })
+            cardlist = new Vue({
+                el: '#homebig',
+                data: {
+                    newslist: nowdata,
+                    ispop: false,
+                    isloadingpa: false,
+                    odata: null,
+                    ishidefinish: false,
+                    ch: 0,
+                    alldata: null,
+                    chosealldata: null,
+                    maskisshow: true,
+                    isdone: false,
+                    watype: 'W',
+                    hisidx:0
+                },
+                methods: {
+                    setLiked: function (id) {
+                        $.ajax({
+                            url: ajaxurl + "NewsLike",
+                            type: 'post',
+                            data: { id: id },
+                            headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                            timeout: 30000,
+                            success: function (r) {
+                                if (r.result_status) {
+                                    //followsuccess
+
+                                    if (r.result_content != "") {
+                                        plus.webview.getLaunchWebview().evalJS(" if (cardlist.newslist.find(e => e.Member_News_ID == '" + id + "')) { cardlist.newslist.find(e => e.Member_News_ID == '" + id + "').Liked = true; cardlist.newslist.find(e => e.Member_News_ID == '" + id + "').LikeCount ++;}")
+                                    }
+
+                                } else {
+                                    alert(r.result_message);
+
+                                }
+                            },
+                            error: function () {
+                                alert("網路錯誤");
+
+                            }
+                        });
+                    },
+                    maskclick: function (event) {
+
+                        var elem = document.elementsFromPoint(event.clientX, event.clientY);
+
+                        for (var i = 0; i < elem.length; i++) {
+                            if ($(elem[i]).attr("gi") == "clickdiv") {
+                                $(elem[i]).click();
+                                return;
+                            }
+                        }
+
+
+                    },
+                    masktouchmove: function () {
+                        console.dir("masktouchmove")
+                    },
+                    hovernav: function (idx, id, odata) {
+
+                        hovernav(this.$refs["child"][idx], id)
+                        //w.show("slide-in-right");
+                    },
+
+                    hovernav2: function (idx, id, odata) {
+
+                        hovernav(this.$refs["child2"][idx], id)
+                        //w.show("slide-in-right");
+                    },
+                    hovernav3: function (idx, id, odata) {
+
+                        hovernav(this.$refs["child3"][idx], id)
+                        //w.show("slide-in-right");
+                    },
+                    deleteme: function (idx, id) {
+                        var self = this;
+                        plus.nativeUI.confirm("你確定要刪除這篇動態嗎?", function (e) {
+                            if (e.index == 0) {
+                                $("#loadingToast").show();
+                                $.ajax({
+                                    url: ajaxurl + "News/" + id,
+                                    type: 'delete',
+                                    headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                                    timeout: 30000,
+                                    success: function (r) {
+                                        if (r.result_status) {
+                                            //item.Member_News_ID
+                                            if (self.newslist)
+                                                self.newslist.splice(self.newslist.indexOf(self.newslist.find(e => e.Member_News_ID == id)), 1)
+                                            for (var i = 0; i < self.alldata.length; i++) {
+                                                var item = self.alldata[i].data;
+                                                if (item.indexOf(item.find(e => e.Member_News_ID == id)) > -1)
+                                                    item.splice(item.indexOf(item.find(e => e.Member_News_ID == id)), 1)
+                                            }
+
+                                            // $(self.$refs["child"][idx]).remove();
+                                        } else {
+                                            console.error(r.result_message);
+                                        }
+                                        $("#loadingToast").hide();
+                                    },
+                                    error: function (jqXHR, textStatus, errorThrown) {
+                                        $("#loadingToast").hide();
+                                    }
+                                });
+
+
+                            }
+
+                        }, {
+                                "title": "刪除確認",
+                                "buttons": ["刪除", "取消"],
+                                "verticalAlign": "bottom"
+                            });
+
+                    },
+                    getdata: function () {
+
+                        this.alldata = [];
+                        var self = this;
+
+                        var allpa = [];
+                        for (var idx = 0; idx <= 3; idx++) {
+                            var urlparam = "6M";
+
+                            if (idx == 0) {
+                                urlparam = "6M";
+                            } else if (idx == 1) {
+                                urlparam = "3M";
+                            } else if (idx == 2) {
+                                urlparam = "4M";
+                            } else if (idx == 3) {
+                                urlparam = "5M";
+                            }
+                            allpa.push(urlparam);
+
+                            if (idx == 0) {
+                                urlparam = "6A";
+                            } else if (idx == 1) {
+                                urlparam = "3A";
+                            } else if (idx == 2) {
+                                urlparam = "4A";
+                            } else if (idx == 3) {
+                                urlparam = "5A";
+                            }
+                            allpa.push(urlparam);
+                            if (idx == 0) {
+                                urlparam = "6W";
+                            } else if (idx == 1) {
+                                urlparam = "3W";
+                            } else if (idx == 2) {
+                                urlparam = "4W";
+                            } else if (idx == 3) {
+                                urlparam = "5W";
+                            }
+                            allpa.push(urlparam);
+                        }
+                        getimdata("getNewsListAll", JSON.stringify(allpa), function (rl) {
+                            for (var i = 0; i < rl.length; i++) {
+                                var r = rl[i];
+                                if (r.result_status) {
+                                    self.alldata.push({
+                                        idx: r.result_message,
+                                        data: r.result_content
+                                    })
+                                } else {
+                                    console.error(r.result_message);
+                                }
+                            }
+                            self.isdone = true;
+                            self.chgtag(self.ch);
+                        })
+                        //bbim.getNewsListAll(JSON.stringify(allpa), function (rl) {
+                        //    for (var i = 0; i < rl.length; i++) {
+                        //        var r = rl[i];
+                        //        if (r.result_status) {
+                        //            self.alldata.push({
+                        //                idx: r.result_message,
+                        //                data: r.result_content
+                        //            })
+                        //        } else {
+                        //            console.error(r.result_message);
+                        //        }
+                        //    }
+
+                        //    self.chgtag(self.ch);
+                        //})
+                    },
+                    chgtag: function (idx, elidx) {
+                        if (this.isdone == false)
+                            return;
+                        if (this.isloadingpa)
+                            return;
+                        this.isloadingpa = true;
+                        $('.tabs li a').removeClass('active');
+                        $($('.tabs li')[elidx || 0]).find('a').addClass('active');
+                        var nw = 0;
+                        $(".taba.active").parent().nextAll(".tab").each((idx, el) => nw += el.clientWidth)
+                        var pw = 0;
+                        $(".taba.active").parent().prevAll(".tab").each((idx, el) => pw += el.clientWidth)
+                        var fw = $(".taba.active").width() * 0.2;
+                        $(".tabs .indicator").animate({ left: pw + fw, right: nw + fw }, 350);
+
+
+                        this.ispop = false;
+                        //  console.dir("idx"+idx)
+                        //  $("#homenav .weui-bar__item_on").removeClass("weui-bar__item_on");
+                        //  $("[homenav=" + idx + "]").addClass("weui-bar__item_on");
+                        var urlparam = "0";
+                        if (idx == 0) {
+                            urlparam = "6"+this.watype;
+                            this.ispop = true;
+                        } else if (idx == 1) {
+                            urlparam = "3" + this.watype;
+                            this.ispop = true;
+                        } else if (idx == 2) {
+                            urlparam = "4" + this.watype;
+                            this.ispop = true;
+                        } else if (idx == 3) {
+                            urlparam = "5" + this.watype;
+                            this.ispop = true;
+                        }
+                        this.hisidx = idx;
+                        console.dir(idx)
+                        nowdata = [];
+                        this.newslist = nowdata;
+                        // Object.assign(this.$data.newslist, nowdata);
+                        var self = this;
+                       // $("#loadmore").show();
+
+                        subpage = 1;
+                        console.dir(self.alldata)
+                        console.dir(urlparam)
+                        setTimeout(function () {
+                            try {
+                                self.chosealldata = self.alldata.find(e => e.idx == urlparam).data;
+                                if (self.ispop)
+                                    perpage = 200;
+                                else
+                                    perpage = 20;
+                                nowdata = Enumerable.from(self.chosealldata).take(subpage * perpage).toArray();
+
+                                self.newslist = nowdata;
+                                self.isloadingpa = false;
+                                $("#loadmore").hide();
+                                $(".home.page").scroll();
+                            } catch (e) {
+
+                            }
+
+                        }, 10)
+
+
+
+                    }
+                },
+                created: function () {
+                    var self = this;
+                    this.ch = 0;
+                    //if (this.ch == 3) {
+                    //    $("#homepost").hide();
+                    //    $("#homeskilllist").hide();
+                    //    $(".home.page .page__hd").hide();
+                    //    $("#homenav").hide();
+                    //    $("#scmask").hide();
+                    //}
+                    //if (plus.webview.getWebviewById('NewsPage') == null) {
+                    //    plus.nativeUI.showWaiting("載入中...");
+                    //    if (JSON.parse(Server_Token).Status == "管理員") {
+                    //        top["NewsPagew"] = plus.webview.create(debugurl + 'layout.html?needim=false&p=preload&param=&_=' + Math.random(), "NewsPage", { "cachemode": "cacheElseNetwork", "background": "#84D8ff", "backgroundColorTop": "#84D8ff", "backgroundColorBottom": "#84D8ff", "popGesture": "hide", "backButtonAutoControl": "hide" });
+                    //    }
+                    //    else {
+                    //        top["NewsPagew"] = plus.webview.create('layout.html?needim=false&p=preload&param=&_=' + Math.random(), "NewsPage", { "cachemode": "cacheElseNetwork", "background": "#84D8ff", "backgroundColorTop": "#84D8ff", "backgroundColorBottom": "#84D8ff", "popGesture": "hide", "backButtonAutoControl": "hide" });
+                    //    }
+                    //    top["NewsPagew"].addEventListener('rendered', function (e) {
+                    //        console.dir('rendered')
+                    //        self.ishidefinish = true;
+                    //        plus.nativeUI.closeWaiting();
+                    //    }, false);
+
+                    //} else {
+                    //    top["NewsPagew"] = plus.webview.getWebviewById('NewsPage')
+
+                    //}
+                    self.odata = null;
+                    self.ishidefinish = true;
+
+                },
+                mounted: function () {
+                    this.getdata()
+                    // this.chgtag(this.ch);
+
+                    // console.dir("mounted")
+                    // console.dir($("#indextab .weui-bar__item_on").attr("homech"))
+                    //indextab
+
+                },
+                updated: function () {
+                    try {
+                        var my = $(".home.page")[0];
+                        var cuh = $(".home.page .page__hd").height();
+                        var vber = ($(my)[0].scrollTop - cuh);
+                        var vser = ($(my)[0].scrollTop - cuh + $(document).height());
+
+                        //cardlist2
+
+
+                        var allv = $(".home.page video");
+
+                        allv.on("loadedmetadata", function () {
+                            //  console.dir("loadedmetadata")
+                            var self = this;
+                            if (!(this["intv"])) {
+                                self["intv"] = 1;
+                                //self.play();
+                                checkvideo(self)
+                            }
+                            if (!(self["Thead"])) {
+
+                                self["Thead"] = setInterval(function () {
+                                    if ($(".home.page video").length == 0) {
+                                        clearInterval(self["Thead"]);
+                                        $(self).remove();
+                                    }
+
+                                    checkvideo(self)
+                                }, 300)
+                            }
+                        })
+
+                        $("#homepagebd").height($("body").height() - 60)
+                    } catch (ex) {
+
+                    }
+                }
+
+            })
+            //$('#scmask').on('show', function () {
+            //   // console.log('#foo is now visible');
+            //    cardlist.maskisshow = true;
+            //});
+
+            //$('#scmask').on('hide', function () {
+            //  //  console.log('#foo is hidden');
+            //    cardlist.maskisshow = false;
+            //});
+            // M.Tabs.init($('#homenav')[0]);
+            // M.Tabs.init($('#homenav')[0], { "swipeable": true });
+            $(".tabs .indicator").css("background-color", "#f6b2b5");
+            $(".tabs .indicator").css("height", "4px");
+            // $(".tabs-content").height($(document).height() - 138)
+            //for (var i = 1; i <= 4; i++) {
+            //    $("#swipe-" + i).height($(document).height())
+            //}
+            //  $("#swipe-1").height($(document).height() - 138)
+            $("#swipe-1").show();
+            //$("#scmask").on("touchmove", function (evt) {
+            //    evt.stopPropagation();
+            //});
+            $("#swipe-1").css("-webkit-overflow-scrolling", "touch");
+            $(".home.page").css("-webkit-overflow-scrolling", "touch");
+
+            var swiper = new Swiper('.swiper-container', {
+                spaceBetween: 30,
+                centeredSlides: true,
+                autoplay: {
+                    delay: 2500,
+                    disableOnInteraction: false,
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+
+            });
+
+        })
+
+    </script>
+</div>

@@ -1,0 +1,220 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="../js/weui/jquery-2.1.4.js"></script>
+    <script src="../js/weui/jquery-weui.js"></script>
+    <link href="../css/weui/weui.min.css?1" rel="stylesheet" />
+    <script src="../js/BridgeClass.js?15"></script>
+    <meta http-equiv="cache-control" content="private">
+    <meta http-equiv="pragma" content="private">
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <script>
+        window.onerror = function (message, source, lineno, colno, error) {
+            alert(error);
+        };
+        onerror = function (message, source, lineno, colno, error) {
+            alert(error);
+        };
+    </script>
+    <style>
+        .rating {
+            font-size: 0;
+            display: table;
+        }
+
+            .rating > label {
+                color: #ddd;
+                float: right;
+            }
+
+                .rating > label:before {
+                    padding: 5px;
+                    font-size: 24px;
+                    line-height: 1em;
+                    display: inline-block;
+                    content: "★";
+                }
+
+            .rating > input:checked ~ label,
+            .rating:not(:checked) > label:hover,
+            .rating:not(:checked) > label:hover ~ label {
+                color: #FFD700;
+            }
+
+                .rating > input:checked ~ label:hover,
+                .rating > label:hover ~ input:checked ~ label,
+                .rating > input:checked ~ label:hover ~ label {
+                    opacity: 0.5;
+                }
+    </style>
+</head>
+<body style="width:100%;height:100%;display:none">
+    <div class="weui-mask" onclick="plus.webview.close(plus.webview.currentWebview())"></div>
+    <div class="weui-dialog">
+        <div class="weui-dialog__hd" style="text-align:left"><strong class="weui-dialog__title">評價</strong></div>
+        <div class="weui-dialog__bd">
+            <div class="weui-cells__title" style="width:100%;text-align:left">評分:</div>
+            <div class="" style="width:100%;text-align:center">
+                <div class="rating" style="margin:0 auto">
+                    <input type="radio" id="star5" name="rating" value="5" hidden />
+                    <label for="star5"></label>
+                    <input type="radio" id="star4" name="rating" value="4" hidden />
+                    <label for="star4"></label>
+                    <input type="radio" id="star3" name="rating" value="3" hidden />
+                    <label for="star3"></label>
+                    <input type="radio" id="star2" name="rating" value="2" hidden />
+                    <label for="star2"></label>
+                    <input type="radio" id="star1" name="rating" value="1" hidden />
+                    <label for="star1"></label>
+                </div>
+            </div>
+           
+            <div class="weui-cells__title" style="width:100%;text-align:left">評價留言:</div>
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell" style="border-left: 1px solid #e5e5e5;border-right: 1px solid #e5e5e5;">
+                    <div class="weui-cell__bd">
+                        <textarea class="weui-textarea" rows="3" name="Content" style="user-select: all;-webkit-user-select: all;background-color: rgba(255, 255, 255, 0);"></textarea>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="weui-dialog__ft">
+            <a href="javascript:;" btn="0" class="weui-dialog__btn weui-dialog__btn_default" onclick="plus.webview.close(plus.webview.currentWebview())">取消</a>
+            <a href="javascript:;" btn="1" class="weui-dialog__btn weui-dialog__btn_primary" onclick="sendmsg()">送出</a>
+        </div>
+    </div>
+    <script>
+        var Bridge;
+        var $ready;
+        var pready;
+        var ajaxurl;
+        var init = function () {
+            if (!pready)
+                return;
+            if (!$ready)
+                return;
+           
+            alert = function (e, cb) {
+                plus.nativeUI.alert(e, function () {
+                    if (cb) {
+                        cb()
+                    }
+                }, "訊息", "確定");
+            }
+            Bridge = new BridgeClass();
+
+            Bridge.getData("APIUrl", function (apiurl) {
+                // alert(apiurl);
+                ajaxurl = apiurl;
+                Bridge.getData("Server_Token",
+                    function (tok) {
+
+                        if (tok) {
+                            var data = JSON.parse(tok);
+                            data["VCode"] = JSON.parse(tok).Pw;
+                            data["Pw"] = data["oPw"];
+                            Server_Token = tok;
+                            if (JSON.parse(Server_Token).Status == "管理員")
+                                ajaxurl = "http://192.168.1.110:8900/api/"
+                            $("body").show();
+                           // startpage();
+                            plus.nativeUI.closeWaiting();
+
+                            //$.ajax({
+                            //    url: ajaxurl + "Login",
+                            //    type: 'post',
+                            //    data: data,
+                            //    timeout: 30000,
+                            //    success: function (r) {
+                            //        if (r.result_status) {
+                            //            Server_Token = JSON.stringify(r.result_content);
+
+                            //            Bridge.setData("Server_Token", Server_Token, function () {
+                            //                if (JSON.parse(Server_Token).Status == "管理員")
+                            //                    ajaxurl = "http://192.168.1.110:8900/api/"
+
+                            //                $("body").show();
+                            //                //   alldata();
+                            //            });
+                            //        } else {
+
+                            //            alert(r.result_message);
+                            //            //  alldata();
+                            //        }
+                            //    },
+                            //    onerror: function () {
+
+                            //        //  alldata();
+                            //    },
+                            //    complete: function () {
+                            //        plus.nativeUI.closeWaiting();
+                            //    }
+                            //});
+
+                        } else {
+
+                        }
+
+                    }
+                )
+
+
+            })
+        }
+        document.addEventListener('plusready', function () {
+            pready = true;
+            init();
+        }, false);
+
+        $(function () {
+            $ready = true;
+            init();
+        })
+        function sendmsg() {
+            var msg = $("textarea[name=Content]").val();
+            var rate = $("[name=rating]:checked").val();
+            if (!(rate)) {
+                alert("請先選擇評分");
+                return;
+            }
+         
+            if (false) {
+           
+            } else {
+                plus.nativeUI.showWaiting("評價中");
+                $.ajax({
+                    url: ajaxurl + "Order/" + plus.webview.currentWebview().orderid,
+                    type: 'patch',
+                    data: { rate: rate, msg: msg},
+                    headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                    timeout: 30000,
+                    success: function (r) {
+                        if (!r.result_status) {
+                            plus.nativeUI.closeWaiting();
+                          
+                            alert(r.result_message);
+                        } else {
+                          
+                            plus.nativeUI.closeWaiting();
+                            alert("評價完成");
+                     
+                        }
+                        plus.webview.close(plus.webview.currentWebview())
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        plus.nativeUI.closeWaiting();
+                      
+                        alert(textStatus)
+                    },
+                    complete: function () {
+                     
+                    }
+                });
+
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1094 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <!--<script src="html5plus://ready"></script>-->
+    <script src="js/polyfill.js"></script>
+    <script src="js/vue.min.js"></script>
+    <link href="css/ionicons/ionicons.min.css?4" rel="stylesheet" />
+    <!--<script src="js/video.js"></script>
+    <link href="css/video-js.css" rel="stylesheet" />-->
+    <!-- 存储服务 -->
+    <!--<script src="http://cdn.jsdelivr.net/npm/leancloud-storage@3.12.0/dist/av-min.js"></script>-->
+    <!-- 实时消息服务 -->
+    <!--<script src="http://cdn.jsdelivr.net/npm/leancloud-realtime@4.3.0/dist/realtime.browser.min.js"></script>-->
+    <!--<script src="js/jmessage-sdk-web.2.6.0.min.js"></script>-->
+    <!--<script src="js/hammer.min.js"></script>-->
+    <!--<script src="js/canvas-video-player.js"></script>-->
+    <script src="js/eruda.min.js"></script>
+    <script src="js/exif.js"></script>
+    <!--<script src="html5plus://ready"></script>-->
+    <script src="js/html5plus/common.js?5"></script>
+    <!--<script type="text/javascript" src="js/iframeapi.js"></script>-->
+    <!--<script src="js/recorder.mp3.min.js"></script>-->
+    <!--<script type="text/javascript" src="http://player.youku.com/jsapi"></script>-->
+    <script src="js/weui/jquery-2.1.4.js"></script>
+    <script src="js/weui/jquery-weui.min.js"></script>
+    <!--<script src="js/bodymovin.js"></script>-->
+    <!--<script src="js/lottie.min.js?2"></script>-->
+    <!--<script src="js/lottie_light.js"></script>-->
+    <!--<script src="js/weui/weui.min.js"></script>-->
+    <!--<script src="js/weui/swiper.js"></script>-->
+    <!--<script src="js/jquery.qrcode.min.js"></script>-->
+    <!--<script src="js/weui/example.js"></script>-->
+    <link href="css/swiper/swiper.min.css" rel="stylesheet" />
+    <link href="css/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <!--<link href="css/weui/jquery-weui.css" rel="stylesheet" />-->
+    <link href="css/weui/weui.min.css?1" rel="stylesheet" />
+    <link href="css/weui/example.css" rel="stylesheet" />
+    <script src="js/PublicTools.js?13"></script>
+    <script src="js/BridgeClass.js?17"></script>
+    <script src="js/Main.js?15"></script>
+    <!--<script src="js/howler.js?5"></script>-->
+    <!--<script src="js/AudioControl.js?18"></script>-->
+    <script src="js/swiper/swiper.min.js"></script>
+    <script src="js/JQPlus/jquery.masonry.min.js"></script>
+    <script src="js/linq.min.js"></script>
+    <script src="js/linq.jquery.js"></script>
+    <script src="js/moment.min.js"></script>
+    <script src="js/jquery.lazyload.min.js"></script>
+    <script src="js/BBIM.js?5"></script>
+
+    <meta http-equiv="cache-control" content="max-age=80000">
+    <meta http-equiv="pragma" content="public">
+    <meta http-equiv="Expires" content="600">
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title></title>
+    <style>
+        /*@font-face {
+            font-family: "HanyiSenty";
+            src: url('css/font/HanyiSenty.ttf');
+        }*/
+
+        * {
+            font-family: Ionicons;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+
+
+        input {
+            -webkit-user-select: all;
+            user-select: all;
+        }
+
+        .weui-bar__item_on .shadow_icon {
+            /*-webkit-filter: drop-shadow(3px 3px 4px white);*/
+        }
+
+        .btn_click:active {
+            -webkit-transform: scale(.8);
+        }
+
+        .add_icon {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 80px;
+            right: 20px;
+            z-index: 1;
+        }
+
+        .swiper-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        .ganlabel_g {
+            margin: 0 auto;
+            padding: 2px 8px;
+            text-align: center;
+            font-size: 12px;
+            line-height: 20px;
+            border-radius: 5em;
+            background-color: hotpink;
+            color: white;
+        }
+
+            .ganlabel_g::before {
+                content: "♀ ";
+            }
+
+        .ganlabel_b {
+            margin: 0 auto;
+            padding: 2px 8px;
+            text-align: center;
+            font-size: 12px;
+            line-height: 20px;
+            border-radius: 5em;
+            background-color: rgb(110, 209, 248);
+            color: white;
+        }
+
+            .ganlabel_b::before {
+                content: "♂ ";
+            }
+
+        .ganlabel_s {
+            margin: 0 auto;
+            padding: 2px 8px;
+            text-align: center;
+            font-size: 12px;
+            line-height: 20px;
+            border-radius: 5em;
+            background-color: rgb(110, 209, 248);
+            color: white;
+        }
+
+        .ganlabel_n {
+            margin: 0 auto;
+            padding: 2px 8px;
+            text-align: center;
+            font-size: 12px;
+            line-height: 20px;
+            border-radius: 5em;
+            background-color: rgb(196, 59, 255);
+            color: white;
+        }
+
+            .ganlabel_n::after {
+                content: "y";
+            }
+    </style>
+    <style id="ggs">
+        .isand {
+            display: none !important;
+        }
+
+        .isnotand {
+            display: inherit;
+        }
+    </style>
+    <script>
+        function R_GInfo(s) {
+            //GInfo = s;
+            var info = s;
+            console.dir(info)
+            GInfo.MyInfo = info.MyInfo
+            GInfo.MyCert = info.MyCert
+            GInfo.KindList = info.KindList
+        }
+        var ajaxurl = "";
+        // var debugurl = "http://192.168.1.254:888/Zuzu/";
+        var debugurl = "http://192.168.1.110:8999/";
+
+        window.onerror = function (message, source, lineno, colno, error) {
+            location.href = "ErrorMsg.html?msg=" + encodeURIComponent(error + "," + lineno);
+        };
+        onerror = function (message, source, lineno, colno, error) {
+            location.href = "ErrorMsg.html?msg=" + encodeURIComponent(error + "," + lineno);
+        };
+        var conf = {}
+        conf = new Vue({
+            data: {
+                hidenews: false
+            },
+            watch: {
+                hidenews: function (val) {
+                    var self = this;
+                    this.$nextTick(function () {
+                        self.review()
+                    })
+                }
+
+            },
+            methods: {
+                review: function () {
+                    // $("#ggs").html(".isand{display:inherit ;}.isnotand{display:none !important;}")
+                    if (this.hidenews == true) {
+                        $("#ggs").html(".isand{display:none !important;}.isnotand{display:inherit ;}")
+
+                    } else {
+                        $("#ggs").html(".isand{display:inherit ;}.isnotand{display:none !important;}")
+
+                    }
+                }
+            }
+        })
+    </script>
+
+</head>
+
+<body ontouchstart style="height:1920px;">
+    <div id="loadingToast" style="display:none">
+        <div class="weui-mask" style=""></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">載入中</p>
+        </div>
+    </div>
+    <div class="container" id="container">
+        <div class="page layers js_show bdbg" style="">
+
+
+        </div>
+        <div class="js_dialog" id="NoLogin" style="display: none;">
+            <div class="weui-mask"></div>
+            <div class="weui-dialog">
+                <div class="weui-dialog__hd"><strong class="weui-dialog__title">訊息</strong></div>
+                <div class="weui-dialog__bd">您尚未登入會員</div>
+                <div class="weui-dialog__ft">
+                    <a href="javascript:;" onclick="$('#NoLogin').fadeOut(500)" class="weui-dialog__btn weui-dialog__btn_default">稍後登入</a>
+                    <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">前往登入</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script id="AllTab" type="text/html">
+        <div class="weui-tab__panel " id="MainPanel" style="height: 100%;background-color:white;"></div>
+        <div class="weui-tabbar tabbg" style="">
+            <a href="javascript:;" onclick="clicknav(this)" btag="Home" ctag="index" class="weui-tabbar__item weui-bar__item_on">
+                <span style="display: inline-block;position: relative;">
+                    <i alt="" class="weui-tabbar__icon shadow_icon fa fa-2x fa-search "></i>
+
+                </span>
+                <p class="weui-tabbar__label">首頁</p>
+
+            </a>
+            <a href="javascript:;" onclick="clicknav(this)" btag="FollowList" class="weui-tabbar__item ">
+                <span style="display: inline-block;position: relative;">
+                    <i alt="" class="weui-tabbar__icon shadow_icon fa fa-2x fa-group"></i>
+                    <!--<span id="hiscount" class="weui-badge" style="position: absolute;top: -2px;right: -13px;display:none"></span>-->
+                </span>
+                <p class="weui-tabbar__label">群組</p>
+            </a>
+            <!--<a href="javascript:;" onclick="clicknav(this)" btag="Skill" class="weui-tabbar__item">
+                <span style="display: inline-block;position: relative;">
+                    <i alt="" class="weui-tabbar__icon shadow_icon fa fa-2x fa-briefcase"></i>
+                </span>
+                <p class="weui-tabbar__label">消息</p>
+            </a>-->
+            <a href="javascript:;" onclick="clicknav(this)" btag="OrderList" class="weui-tabbar__item">
+                <span style="display: inline-block;position: relative;">
+                    <i alt="" class="weui-tabbar__icon shadow_icon fa fa-2x fa-envelope-o"></i>
+                </span>
+                <p class="weui-tabbar__label">消息</p>
+            </a>
+            <a href="javascript:;" onclick="clicknav(this);" btag="Setting" class="weui-tabbar__item">
+                <i alt="" class="weui-tabbar__icon shadow_icon fa fa-2x fa-user"></i>
+                <p class="weui-tabbar__label">個人</p>
+            </a>
+        </div>
+    </script>
+
+    <script id="toast1" type="text/html">
+
+
+    </script>
+
+    <!--<script src="js/fastclick.js"></script>-->
+    <script>
+
+        //var JIM = new JMessage();
+        var first = null;
+        var BackBtnFn = function () {
+            var ws = plus.webview.currentWebview();
+            plus.webview.close(ws);
+
+        };
+        var BackBtnFn_org = function () {
+            var ws = plus.webview.currentWebview();
+            plus.webview.close(ws);
+
+        };
+        var BackBtnFnHover_org = function () {
+            var ws = plus.webview.currentWebview();
+            plus.webview.close(ws);
+        };
+        var winH = $(window).height();
+        $("body").height(winH);
+        var bgsoundid;
+
+
+        //window.onfocus = onFocus;
+        //window.onblur = onBlur;
+
+        var Server_Token = "";
+        var HistoryCount = 0;
+        var NowHistoryCount = 0;
+        var $layers = $(".layers__layer"),
+            $infos = $(".j_info");
+        function showInfo(name) {
+            $infos.filter("[data-for='" + name + "']").show().siblings().hide();
+        }
+
+        function addBackEvent(fn) {
+            plus.key.removeEventListener('backbutton', BackBtnFn);
+            BackBtnFn = fn;
+            plus.key.addEventListener('backbutton', BackBtnFn, false);
+        }
+        function clicknav(e, param) {
+            // addBackEvent(BackBtnFn_org);
+            if (param == undefined) {
+                if ($(e).attr("bparam"))
+                    param = $(e).attr("bparam");
+                else
+                    param = "";
+            }
+
+
+            if ($(e).is('.weui-tabbar__item')) {
+                $(".weui-tabbar__item").removeClass("weui-bar__item_on");
+                $(e).addClass("weui-bar__item_on");
+            }
+            var tagid = $(e).attr("btag");
+
+            $(".weui-tab__panel").html("");
+            $("#MainPanel").html("");
+            //$(".layers").append($("#toast").html());
+            $("#loadingToast").show();
+            $(".weui-navbar").hide();
+            $("#NavTitle").text("");
+            $("#BackBtn").css("visibility", "hidden");
+            $("#BackBtn").attr("disabled", "disabled")
+            $("#addbtn").hide();
+            $("#addbtn").off("click");
+
+            var callback = function (s) {
+                var $html = $(s).addClass('slideIn');
+                $html.on('animationend webkitAnimationEnd',
+                    function () {
+                        $html.removeClass('slideIn').addClass('js_show');
+                    });
+                $("#loadingToast").hide();//$("#loadingToast").remove();
+                $(".weui-tab__panel").children().remove();
+                $(".weui-tab__panel").empty();
+
+                $(".weui-tab__panel").html($html);
+
+            }
+
+            eval("mainui." + $(e).attr("btag") + "(Server_Token,callback,param)");
+
+        }
+        var hoverwindow;
+
+        function hovernav(e, param, needim, orgdata) {
+            var newneedim = true;
+            if (needim == false) {
+                newneedim = false;
+            }
+            if (needim == undefined) {
+                needim = "";
+            }
+            // addBackEvent(BackBtnFn_org);
+            if (param == undefined) {
+                if ($(e).attr("bparam"))
+                    param = $(e).attr("bparam");
+                else
+                    param = "";
+            }
+
+            var tagid = e;
+
+            //$(".layers").append($("#toast").html());
+            //  $("#loadingToast").show();
+
+
+
+
+            var callback = function (s) {
+                var $html = $(s).addClass('slideIn').css("z-index", $(".page").length + 499);
+
+                $html.on('animationend webkitAnimationEnd',
+                    function () {
+                        $html.removeClass('slideIn').addClass('js_show');
+                        $("#loadingToast").hide();//$("#loadingToast").remove();
+                    });
+
+                $(".layers.page").prepend($html);
+
+            }
+            //if (JSON.parse(Server_Token).Status == "管理員") {
+            //    ajaxurl = "http://192.168.1.110:8900/api/"
+            //    var w = plus.webview.create(debugurl + 'layout.html?needim=' + needim + '&p=' + $(e).attr("btag") + "&param=" + encodeURI(param), { "cachemode": "noCache", "background": "#84D8ff", "backgroundColorTop": "#84D8ff", "backgroundColorBottom": "#84D8ff", "popGesture": "close" });
+            //    w.show("slide-in-right");
+            //}
+            //else {
+            //    var w = plus.webview.create('layout.html?needim=' + needim + '&p=' + $(e).attr("btag") + "&param=" + encodeURI(param), { "cachemode": "noCache", "background": "#84D8ff", "backgroundColorTop": "#84D8ff", "backgroundColorBottom": "#84D8ff", "popGesture": "close" });
+            //    w.show("slide-in-right");
+
+
+            //}
+            //if ($(e).attr("btag") == "NewsPage") {
+            //    eval("mainui." + $(e).attr("btag") + "(Server_Token,callback,param)");
+            //    return;
+            //}
+            if (JSON.parse(Server_Token).Status == "管理員") {
+                // hoverwindow.loadURL(debugurl + 'layout.html?needim=' + needim + '&p=' + $(e).attr("btag") + "&param=" + param, $(e).attr("btag"), { PreloadData: orgdata})
+                var w = plus.webview.create(debugurl + 'layout.html?needim=' + needim + '&p=' + $(e).attr("btag"), $(e).attr("btag"), { "cachemode": "default", "popGesture": "close", "userSelect": true, "softinputMode": "adjustResize" }, { PreloadData: (orgdata || null), param: encodeURIComponent(param), newneedim: newneedim });
+                w.show("slide-in-right");
+            }
+            else {
+                // hoverwindow.loadURL('layout.html?needim=' + needim + '&p=' + $(e).attr("btag") + "&param=" + param, $(e).attr("btag"), { PreloadData: orgdata })
+                var w = plus.webview.create('layout.html?needim=' + needim + '&p=' + $(e).attr("btag"), $(e).attr("btag"), { "cachemode": "default", "popGesture": "close", "userSelect": true, "softinputMode": "adjustResize" }, { PreloadData: (orgdata || null), param: encodeURIComponent(param), newneedim: newneedim });
+                w.show("slide-in-right");
+
+
+            }
+            //eval("mainui." + $(e).attr("btag") + "(Server_Token,callback,param)");
+
+        }
+        function hovernav_new(e, param, nview) {
+            var orgdata = null
+            var needim = false;
+            var newneedim = true;
+            if (needim == false) {
+                newneedim = false;
+            }
+            if (needim == undefined) {
+                needim = "";
+            }
+            addBackEvent(BackBtnFn_org);
+            if (param == undefined) {
+                if ($(e).attr("bparam"))
+                    param = $(e).attr("bparam");
+                else
+                    param = "";
+            }
+            if (nview == undefined) {
+                if ($(e).attr("nview"))
+                    nview = JSON.parse($(e).attr("nview"));
+                else
+                    nview = {};
+            }
+
+            var tagid = e;
+            var needadddebug = "";
+            if (JSON.parse(Server_Token).Status == "管理員") {
+                needadddebug = debugurl;
+            }
+            else {
+                needadddebug = "";
+            }
+            var nbtn = [
+                {
+                    'type': 'back',
+                    'float': 'left',
+                    'background': '#dd7299',
+
+                }
+            ]
+            if (nview.moreinfo == true) {
+                nbtn.push({
+                    'type': 'menu',
+                    'background': '#dd7299',
+                    'float': 'right',
+                    'onclick': function () {
+                        w.evalJS('moreclick()')
+
+                    }
+                })
+            }
+            var ntags = [];
+            if ((nview.img || '') != '') {
+                //var imgview = {
+                //    'tag': 'img',
+                //    'id': 'imgview',
+                //    'position': { right: '44px',top:'2px', width: '40px', height: '40px' },
+                //    'src': nview.img,
+                //    'rectStyles': {
+                //        'radius':'999px'
+                //    }
+
+                //}
+                //var imgview2 = {
+                //    'tag': 'rect',
+                //    'id': 'rectview',
+                //    'position': { right: '88px', top: '2px', width: '40px', height: '40px' },
+
+                //    'rectStyles': {
+                //        'color':'white',
+                //        'radius': '999px'
+                //    }
+
+                //}
+                //ntags.push(imgview)
+                //ntags.push(imgview2)
+            }
+            console.dir(ntags);
+            var sntags = [
+                {
+                    'tag': 'img',
+                    'id': 'loadingpic',
+                    'position': { top: 'auto', left: 'auto', width: '50%', height: 'auto' },
+                    'sprite': { top: 'auto', left: 'auto', width: '100%', height: '100%' },
+                    'src': 'img/loading.gif'
+
+
+                }
+            ]
+            if ((nview.img || '') != '') {
+                if ((nview.img || '') != '') {
+                    // nview.img = nview.img.replace(".jpg_s", ".jpg").replace(".gif_s", ".gif")
+                }
+                sntags = [
+                    {
+                        'tag': 'img',
+                        'id': 'loadingpic1',
+                        'position': { top: 'auto', left: 'auto', width: 'auto', height: '100%' },
+                        'sprite': { top: '0px', width: 'auto', bottom: '0px' },
+                        'src': nview.img
+
+                    },
+
+                    {
+                        'tag': 'rect',
+                        'id': 'loadingrect',
+                        'position': { margin: 'auto', width: '100%', height: '100%' },
+                        'color': 'rgba(0,0,0,0.3)'
+
+                    },
+
+                ]
+            }
+            var w = plus.webview.create(needadddebug + 'layout.html?needim=' + needim + '&p=' + $(e).attr("btag"), $(e).attr("btag"), {
+                "cachemode": "default",
+                "popGesture": "close",
+                "userSelect": true,
+                'backButtonAutoControl': 'none',
+                'plusrequire': 'ahead',
+
+                'titleNView': {
+                    // autoBackButton:true,
+                    'backgroundColor': '#dd7299',
+                    'type': (nview.type || 'default'),
+                    'titleColor': 'white',
+                    'titleText': (nview.titleText || ''),
+                    'buttons': nbtn,
+                    'tags': ntags
+                },
+                'subNViews': [{
+                    'id': 'loadingsub',
+                    'styles': { 'height': '100%', 'width': "auto", backgroundColor: (((nview.img || '') == '') ? '#FFFFFF' : '#000000') },
+                    'tags': sntags
+                }]
+            }, { PreloadData: (orgdata || null), param: encodeURIComponent(param), newneedim: newneedim });
+
+            //w.addEventListener("close", function () {
+            //    console.dir("close")
+            //    w.removeEventListener("rendered", rendw)
+            //})
+            //w.addEventListener("rendered", rendw)
+            // w.show("slide-in-right");
+            if ((nview.img || '') != '') {
+                plus.nativeUI.showWaiting("", { loading: { icon: "img/loading.png", display: "inline", height: "150px", interval: 50 }, background: 'rgba(0,0,0,0)' });
+            }
+
+            w.show("fade-in");
+        }
+        function freshhiscount() {
+            HistoryCount = JSON.parse(NowHistoryCount);
+            $("#hiscount").hide();
+        }
+        var pready = false;
+        var $ready = false;
+        var GInfo;
+        var mainui;
+        var audiocontrol;
+        var Bridge;
+        var publicTools;
+        var IMClient;
+        var bbim;
+        function getimdata(fnname, param, cccb) {
+            var puuid = plus.webview.currentWebview().__uuid__;
+            var eventname = "ev" + (new Date().getTime()) +""+ (Math.random()*10000000);
+
+            var param = JSON.stringify(param);
+
+            window.addEventListener(eventname, function (ev) {
+                var r = ev.detail;
+
+                cccb(r)
+            });
+            //getWebviewById
+            plus.webview.getWebviewById("BBIM").evalJS("bbim.p_get('" + puuid + "','" + eventname + "','" + fnname + "'," + param + ")")
+            // plus.webview.getLaunchWebview().evalJS("bbim.p_get('" + puuid + "','" + eventname + "','" + fnname + "'," + param + ")")
+        }
+
+        function reloadnew(p, html) {
+
+            var $html = $(html);
+
+            $(".layers.page").empty();
+            $(".layers.page").prepend($html);
+            $html.removeClass('slideIn').addClass('js_show');
+            // eval("mainui." + p + "(Server_Token,ccb,param)")
+        }
+        function refreshstyle(s) {
+            var filestyle = "style1.css";
+            if (s == "2")
+                filestyle = "style2.css";
+            Bridge.readFile("css/style/" + filestyle, function (styst) {
+                $("#globalstyle").html(styst);
+
+            });
+        }
+        var indexready = function () {
+            if (!pready || !$ready) {
+                return;
+            }
+
+            addBackEvent(BackBtnFn_org);
+            //plus.key.addEventListener('backbutton', BackBtnFn, false);
+            $(".weui-tab").html($("#AllTab").html());
+
+            Bridge = new BridgeClass();
+            mainui = new MainUI();
+            // audiocontrol = new AudioControl();
+            publicTools = new PublicTools();
+            document.addEventListener("pause", function () {
+                console.log("pause")
+                //audiocontrol.BGPause("background");
+            }, false);
+            document.addEventListener("resume", function () {
+                console.log("resume")
+                //publicTools.CheckVersion();
+                //audiocontrol.BGPlay();
+            }, false);
+            document.addEventListener("background", function () {
+                console.log("background")
+
+            }, false);
+            document.addEventListener("foreground", function () {
+                console.log("foreground")
+
+            }, false);
+
+
+
+
+            var alldata = function () {
+                Bridge.getData("GetStyle", function (sty) {
+                    var filestyle = "style1.css";
+                    if (sty == "2")
+                        filestyle = "style2.css";
+                    Bridge.readFile("css/style/" + filestyle, function (styst) {
+                        $("html").append("<style id='globalstyle'>" + styst + "</style>");
+                    });
+                })
+                var url = location.href;
+                var p = "";
+                var param = "";
+                var needim = "";
+                //再來用去尋找網址列中是否有資料傳遞(QueryString)
+                if (url.indexOf('?') != -1) {
+                    var id = "";
+                    //在此直接將各自的參數資料切割放進ary中
+                    var ary = url.split('?')[1].split('&');
+                    //此時ary的內容為：
+                    //ary[0] = 'id=U001'，ary[1] = 'name=GQSM'
+
+                    //下迴圈去搜尋每個資料參數
+                    for (i = 0; i <= ary.length - 1; i++) {
+                        //如果資料名稱為id的話那就把他取出來
+                        if (ary[i].split('=')[0] == 'p')
+                            p = ary[i].split('=')[1];
+                        //if (ary[i].split('=')[0] == 'param')
+                        //    param = ary[i].split('=')[1];
+                        if (ary[i].split('=')[0] == 'needim')
+                            needim = ary[i].split('=')[1];
+                    }
+
+                }
+                param = plus.webview.currentWebview().param;
+                var newneedim = plus.webview.currentWebview().newneedim;
+                var ccb = function (s) {
+                    var $html = $(s).addClass('slideIn');
+
+                    $html.on('animationend webkitAnimationEnd',
+                        function () {
+                            $html.removeClass('slideIn').addClass('js_show');
+                            $("#loadingToast").hide();//$("#loadingToast").remove();
+                        });
+                    $(".layers.page").prepend($html);
+                }
+
+                if (JSON.parse(Server_Token).Status == "管理員") {
+                    ajaxurl = "http://192.168.1.110:8900/api/"
+                    window.eruda && eruda.init() && eruda.get('console').config.set('displayUnenumerable', false);
+                }
+
+                var imurl = "wss://wss.7cplay.com:2053/App/";
+                if (JSON.parse(Server_Token).Status == "管理員")
+                    imurl = "wss://192.168.1.110:3002/App/";
+
+                var isnewed = false;
+                //if (parent.bbim) {
+                //    bbim = parent.bbim;
+                //    if (plus.webview.currentWebview().PreloadData) {
+                //        param = plus.webview.currentWebview().PreloadData
+                //    }
+                //    eval("mainui." + p + "(Server_Token,ccb,param)")
+                //} else {
+                //    bbim = new BBIM(imurl, Server_Token, function (ev) {
+                //        if (isnewed)
+                //            return;
+
+                //        isnewed = true;
+                //        if (plus.webview.currentWebview().PreloadData) {
+                //            param = plus.webview.currentWebview().PreloadData
+                //        }
+                //        eval("mainui." + p + "(Server_Token,ccb,param)")
+
+                //    })
+                //}
+                //bbim = parent.bbim;
+                if (plus.webview.currentWebview().id == "Skill")
+                    newneedim = false;
+                if (plus.webview.currentWebview().id == "PlayerPage")
+                    newneedim = false;
+                if (plus.webview.currentWebview().id == "NewsPage")
+                    newneedim = false;
+                if (plus.webview.currentWebview().id == "SkillListView")
+                    newneedim = false;
+                if (plus.webview.currentWebview().id == "Wallet")
+                    newneedim = false;
+                if (plus.webview.currentWebview().id == "Coupon")
+                    newneedim = false;
+                if (plus.webview.currentWebview().id == "CertSkill")
+                    newneedim = false;
+                if (plus.webview.currentWebview().id == "SkillList")
+                    newneedim = false;
+                if (plus.webview.currentWebview().id == "CertUpload")
+                    newneedim = false;
+                if (plus.webview.currentWebview().id == "CertSkillEdit")
+                    newneedim = false;
+                if (plus.webview.currentWebview().id == "CertSkillEditDetail")
+                    newneedim = false;
+                if (plus.webview.currentWebview().id == "AddNews")
+                    newneedim = false;
+                if (plus.webview.currentWebview().id == "Announcement")
+                    newneedim = false;
+                if (plus.webview.currentWebview().id == "NewPlayer")
+                    newneedim = false;
+                if (plus.webview.currentWebview().id == "OrderList")
+                    newneedim = false;
+                if (plus.webview.currentWebview().id == "OrderPage")
+                    newneedim = false;
+                if (plus.webview.currentWebview().id == "Setting")
+                    newneedim = false;
+                if (plus.webview.currentWebview().id == "GetMoney")
+                    newneedim = false;
+                if (plus.webview.currentWebview().id == "GetMoneyDetail")
+                    newneedim = false;
+                if (plus.webview.currentWebview().id == "GiftList")
+                    newneedim = false;
+                if (plus.webview.currentWebview().id == "ParamPage")
+                    newneedim = false;
+                if (plus.webview.currentWebview().id == "HistoryTrace")
+                    newneedim = false;
+                if (plus.webview.currentWebview().id == "HomeAllType")
+                    newneedim = false;
+                if (plus.webview.currentWebview().id == "PaiDanPage")
+                    newneedim = false;
+                if (plus.webview.currentWebview().id == "MessagePage") {
+                    newneedim = false;
+
+
+                    //__uuid__
+                    var chk = plus.webview.all().find(eef => eef.id == "MessagePage" && eef.__uuid__ != plus.webview.currentWebview().__uuid__);
+                    console.dir(chk)
+                    if (chk) {
+                        chk.close()
+                    }
+                }
+
+                if (newneedim) {
+                    var bbimot = setTimeout(function () {
+                        if (typeof (BBIM) == 'undefined') {
+                            bbimot();
+                            return;
+                        }
+                        bbim = new BBIM(imurl, Server_Token, function (ev) {
+                            if (isnewed)
+                                return;
+
+                            isnewed = true;
+                            if (plus.webview.currentWebview().PreloadData) {
+                                param = plus.webview.currentWebview().PreloadData
+                            }
+                            if (p != "preload")
+                                eval("mainui." + p + "(Server_Token,ccb,param)")
+
+                        }, function () {
+
+                        })
+                    }, 50)
+                } else {
+                    if (isnewed)
+                        return;
+
+                    isnewed = true;
+                    if (plus.webview.currentWebview().PreloadData) {
+                        param = plus.webview.currentWebview().PreloadData
+                    }
+                    if (p != "preload")
+                        eval("mainui." + p + "(Server_Token,ccb,param)")
+                }
+
+
+
+                // 存储服务
+
+
+
+
+            }
+            //alert(7);
+            Bridge.getData("APIUrl", function (apiurl) {
+                // alert(apiurl);
+                ajaxurl = apiurl;
+                Bridge.getData("Server_Token",
+                    function (tok) {
+                        Server_Token = tok;
+
+                        conf.hidenews = JSON.parse(tok).hidenews;
+                        //conf.hidenews = false;
+                        conf.review()
+                        if (tok) {
+                            console.dir("tok")
+                            GInfo = new Vue({
+                                data: {
+                                    MyInfo: JSON.parse(tok),
+                                    MyCert: [],
+                                    KindList: {}
+                                },
+                                mounted: function () {
+
+                                },
+                                methods: {
+                                    unblock: function (id, name, closeorreload) {
+                                        plus.nativeUI.confirm("解除後，您將可繼續收到對方的任何消息，對方也會看見您的動態", function (e) {
+                                            if (e.index == 0) {
+                                                plus.nativeUI.showWaiting()
+                                                $.ajax({
+                                                    url: ajaxurl + "Block/",
+                                                    type: 'post',
+                                                    data: { targetid: id, block: false },
+                                                    headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                                                    timeout: 30000,
+                                                    success: function (r) {
+                                                        if (r.result_status) {
+                                                            alert("解除成功");
+                                                            if (closeorreload == 'close')
+                                                                plus.webview.currentWebview().close('auto');
+                                                            else
+                                                                plus.webview.currentWebview().reload();
+                                                        } else {
+                                                            console.error(r.result_message);
+                                                        }
+                                                        plus.nativeUI.closeWaiting()
+                                                    },
+                                                    error: function (jqXHR, textStatus, errorThrown) {
+                                                        plus.nativeUI.closeWaiting()
+                                                    }
+                                                });
+
+
+                                            }
+
+                                        }, {
+                                                "title": "你確定要解除 " + name + " 嗎?",
+                                                "buttons": ["解除", "取消"],
+                                                "verticalAlign": "bottom"
+                                            });
+                                    },
+                                    block: function (id, name, closeorreload) {
+                                        plus.nativeUI.confirm("封鎖後，您將不再收到對方的任何消息，對方也會看不到您的動態", function (e) {
+                                            if (e.index == 0) {
+                                                plus.nativeUI.showWaiting()
+                                                $.ajax({
+                                                    url: ajaxurl + "Block/",
+                                                    type: 'post',
+                                                    data: { targetid: id, block: true },
+                                                    headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                                                    timeout: 30000,
+                                                    success: function (r) {
+                                                        if (r.result_status) {
+                                                            alert("封鎖成功");
+                                                            if (closeorreload == 'reload')
+                                                                plus.webview.currentWebview().reload();
+                                                            else
+                                                                plus.webview.currentWebview().close('auto');
+
+                                                        } else {
+                                                            console.error(r.result_message);
+                                                        }
+                                                        plus.nativeUI.closeWaiting()
+                                                    },
+                                                    error: function (jqXHR, textStatus, errorThrown) {
+                                                        plus.nativeUI.closeWaiting()
+                                                    }
+                                                });
+
+
+                                            }
+
+                                        }, {
+                                                "title": "你確定要封鎖 " + name + " 嗎?",
+                                                "buttons": ["封鎖", "取消"],
+                                                "verticalAlign": "bottom"
+                                            });
+                                    }
+                                }
+                            })
+                            console.dir("R_GInfo")
+                            plus.webview.getLaunchWebview().evalJS("R_GInfo()")
+                            alldata();
+
+                        } else {
+                            alldata();
+                        }
+
+                    }
+                )
+
+
+            })
+            //alert(8);
+            $(document).on('click', '.btn_click', function (e) {
+                if ($(this).attr("disabled") == "disabled") {
+                    return;
+                }
+                if ($(this).attr("visibility") == "hidden") {
+                    return;
+                }
+
+                //if (!$(this).is('.nosound'))
+                //    audiocontrol.ClickPlay()
+
+            })
+            // alert(9);
+            $(document).on('click', '.btn_click_org', function (e) {
+                if ($(this).attr("disabled") == "disabled") {
+                    return;
+                }
+                if ($(this).attr("visibility") == "hidden") {
+                    return;
+                }
+
+                // if (!$(this).is('.nosound'))
+                //  audiocontrol.ClickPlay()
+
+            })
+            //alert(10);
+            function initWebUX() {
+                switch (plus.os.name) {
+                    case "Android":
+                        // Android平台: plus.android.*
+                        break;
+                    case "iOS":
+                        // iOS平台: plus.ios.*
+                        //取消長按事件
+                        document.body.style.webkitTouchCallout = "none";
+                        //取消拖曳事件
+                        document.body.setAttribute("ondragstart", "return false");
+                        break;
+                    default:
+                        // 其它平台
+                        break;
+                }
+            }
+            initWebUX();
+
+        }
+
+        //  $("#loadingToast").show();
+        var plusrd = function () {
+            console.dir("documentplusready")
+            pready = true;
+            //   hoverwindow = plus.webview.create("", { "cachemode": "noCache", "background": "#84D8ff", "backgroundColorTop": "#84D8ff", "backgroundColorBottom": "#84D8ff", "popGesture": "close" });
+
+            //alert("pready")
+            alert = function (e, cb) {
+                plus.nativeUI.alert(e, function () {
+                    if (cb) {
+                        cb()
+                    }
+                }, "訊息", "確定");
+            }
+            var _bridge2;
+            if (plus.os.name == "Android") {
+                _bridge2 = plus.android.importClass('tw.com.sevencplay.core.Bridge');
+            } else if (plus.os.name == "iOS") {
+                _bridge2 = plus.ios.importClass('_cplay.WebUtil');
+            }
+
+            var content = _bridge2.readFile("Version.json");
+
+            var Version = JSON.parse(content).Version;
+            var APIUrl = JSON.parse(content).APIUrl;
+
+            plus.storage.setItem("Version", "" + Version);
+            plus.storage.setItem("APIUrl", "" + APIUrl);
+
+            indexready();
+
+        }
+
+
+        $(function () {
+            $ready = true;
+            //alert("$ready")
+
+            indexready();
+
+            var $iosActionsheet = $('#iosActionsheet');
+            var $iosMask = $('#iosMask');
+
+            function hideActionSheet() {
+                $iosActionsheet.removeClass('weui-actionsheet_toggle');
+
+                $iosMask.hide();
+
+            }
+
+            $iosMask.on('click', hideActionSheet);
+            $('#iosActionsheetCancel').on('click', hideActionSheet);
+        })
+        // console.dir('window.plus')
+        //console.dir(window.plus)
+        if (window.plus) {
+            plusrd()
+        } else {
+            document.addEventListener('plusready', plusrd, false);
+        }
+        function logout() {
+
+            Bridge.ClearData(function () {
+                Bridge.LogOut(function () {
+                    // location.href = "Login.html";
+                })
+
+            })
+
+        }
+    </script>
+</body>
+
+</html>

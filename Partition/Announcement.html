@@ -1,0 +1,67 @@
+﻿<div class="flexbar navbg" style="position:fixed;top:0;left:0;height:60px;z-index:300;width:100%;padding-bottom:10px;overflow:hidden">
+    <div class="memberinfo1" style="width: 10%;height:60px;position:relative;margin:20px 0px auto;float:left;z-index:301; ">
+        <div id="backSetting" class="backb" onclick="plus.webview.close(plus.webview.currentWebview())" style="width:30px;height:30px;border-radius: 999em;color:white">
+            <i class="fa fa-angle-left" style="font-size:30px;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"> </i>
+        </div>
+    </div>
+    <h4 class="" style="z-index:300;color:white;width:90%;line-height:60px;font-size:24px;position:relative;text-align:center">官方公告</h4>
+</div>
+<style>
+    .spanmsg {
+        letter-spacing: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+    }
+</style>
+<div class="announcement page bdbg" id="announcement" style="display:none">
+    <div class="page__hd " style=""></div>
+    <div class="page__bd">
+        <div  v-for="(item) in list">
+            <div class="weui-form-preview">
+                <div class="weui-form-preview__hd">
+                    <img style="width:100%;height:auto;max-height:500px;object-fit:contain;object-position:center" :src="item.ImageUrl" />
+                    <p class="" style="font-size:18px;line-height:18px;text-align:left;padding-bottom:10px">{{item.Title}}</p>
+                    <span class="spanmsg" style="font-size:14px;line-height:14px;text-align:left;color:dimgray">{{item.Description}}</span>
+                    <p style="font-size:11px;line-height:11px;text-align:right;color:gray;padding-top:10px">{{moment(item.CreateTime).startOf('second').fromNow()}}</p>
+                </div>
+             
+                <div class="weui-form-preview__ft">
+                    <a class="weui-form-preview__btn weui-form-preview__btn_primary" style="" @click="newu(item.Url)" href="javascript:;">完整瀏覽</a>
+                </div>
+            </div>
+            <br>
+        </div>
+        
+        
+    </div>
+    <div class="page__ft "></div>
+    <script>
+        getimdata("getAnnouncement", "", function (rs) {
+            if (rs.result_status) {
+                new Vue({
+                    el: '#announcement',
+                    data: {
+                        list: rs.result_content,
+
+                    },
+                    methods: {
+                        newu: function (url) {
+                            plus.runtime.openURL(url);
+                        }
+                    },
+                    mounted() {
+                        $("#announcement").show()
+                    }
+                })
+            } else {
+                alert(rs.result_message)
+            }
+        })
+     
+         
+    </script>
+</div>

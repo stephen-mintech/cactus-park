@@ -1,0 +1,105 @@
+﻿<!--<div class="flexbar navbg" style="position:fixed;top:0;left:0;height:60px;z-index:300;width:100%;padding-bottom:10px;overflow:hidden">
+    <div class="memberinfo1" style="width: 10%;height:60px;position:relative;margin:20px 0px auto;float:left;z-index:301; ">
+        <div id="backSetting" class="backb" onclick="plus.webview.close(plus.webview.currentWebview())" style="width:30px;height:30px;border-radius: 999em;color:white">
+            <i class="fa fa-angle-left" style="font-size:30px;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"> </i>
+        </div>
+    </div>
+    <h4 class="" style="z-index:300;color:white;width:90%;line-height:60px;font-size:24px;position:relative;text-align:center">新進用戶</h4>
+</div>-->
+<style>
+    .spanmsg {
+        letter-spacing: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+    }
+</style>
+<div class="announcement  bdbg" id="announcement" >
+    <div class="page__hd " style="padding:0;height:0px"></div>
+    <div class="page__bd">
+        <div class="weui-loadmore" id="loadingdiv">
+            <i class="weui-loading"></i>
+            <span class="weui-loadmore__tips">資料載入中</span>
+        </div>
+        <div class="weui-cells" style="display:none">
+
+            <div class="weui-cell weui-cell_access" v-for="(item, index) in list" :onclick="'hovernav_new(this, null, {titleText:\''+item.Name+'\',img:\''+item.Img+'_s\',moreinfo:true,type:\'transparent\'})'"  :bparam="item.Member_ID" btag="PlayerPage">
+                <div class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+                    <img class="" :src="item.Img + '_s'" style="object-fit:cover;border-radius:999em;width:50px;height:50px" onerror="this.src='img/icon/noimage_person.png'" alt="">
+
+                </div>
+                <div class="weui-cell__bd">
+                    <p>{{item.Name}}</p>
+                    <p class="weui-media-box__desc" style="font-size: 13px;color: #888888;" v-bind:style="{color:(item.LastTime==null?'lightgreen':'darkgray')}">
+                        {{(item.LastTime==null? "正在線上":moment(item.LastTime).startOf('second').fromNow())}}
+                    </p>
+                </div>
+                <div class="weui-cell__ft" style="font-size: 0">
+                </div>
+            </div>
+        </div>
+        <div class="weui-loadmore weui-loadmore_line"  id="notvip" style="display:none">
+            <span class="weui-loadmore__tips " style="background-color:transparent">免費用戶只開放15名查詢</span>
+        </div>
+
+
+    </div>
+    <div class="page__ft "></div>
+    <script>
+        $.ajax({
+            url: ajaxurl + "NewPlayer",
+            type: 'get',
+            headers: { "Server_Token": encodeURIComponent(Server_Token) },
+            success: function (rs) {
+                if (rs.result_status) {
+                    new Vue({
+                        el: '#announcement',
+                        data: {
+                            list: rs.result_content,
+                            canshow:false,
+                        },
+                        methods: {
+                         
+                        },
+                        mounted() {
+                            var ws = plus.webview.currentWebview();
+                            try {
+                                ws.setTitleNViewButtonStyle(0, { onclick: function () { ws.close() } }); ws.setTitleNViewButtonStyle(1, { onclick: function () { moreclick() } })
+                                var wsv = ws.getSubNViews();
+                                if (wsv) {
+                                    if (wsv.length > 0) {
+                                        var subNViews = ws.getSubNViews().find(e => e.__id__ == 'loadingsub');
+                                        if (subNViews) {
+                                            subNViews.close()
+                                        }
+                                    }
+                                }
+
+                            } catch (e) {
+
+                            }
+                            $("#loadingdiv").hide()
+                            $("#announcement .weui-cells").show();
+                            $("#notvip").show();
+                            var idxpage = plus.webview.getLaunchWebview();
+                            if (idxpage) {
+                                idxpage.evalJS("infodot.setTick()")
+                                idxpage.evalJS("infodot.NewerCount = " + 0)
+                            }
+                           
+                        }
+                    })
+
+                } else {
+                   alert(rs.result_message);
+                }
+            },
+          
+        });
+      
+         
+    </script>
+</div>

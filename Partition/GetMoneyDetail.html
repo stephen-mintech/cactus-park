@@ -1,0 +1,219 @@
+﻿<style>
+    a.weui-media-box:active {
+        background-color: #ECECEC;
+    }
+</style>
+<div class="getmoneydetail page bdbg" id="getmoneydetailbd" style="overflow-y:hidden;display:none">
+
+
+    <div class="page__hd navbg" style="padding:0;margin:0;height:60px;position:relative">
+        <h4 class="" style="color:white;width:100%;line-height:60px;font-size:24px;position:absolute;text-align:center">
+            {{(type=='CanGive'?'已入帳':(type=='NotGet'?'待入帳':(type=='Frozen'?'申請提領中':'已提領')))}}
+        </h4>
+
+        <div id="backSetting" class="backb" onclick="plus.webview.close(plus.webview.currentWebview())" style="width:30px;height:60px;border-radius: 999em;color:white">
+            <i class="fa fa-angle-left" style="font-size:30px;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"> </i>
+        </div>
+
+    </div>
+
+    <div class="page__bd" style="overflow-y:auto;height:0%;padding-top:0px;">
+        <div style="height:5px"></div>
+        <div class="weui-cells__title" style="text-align:right">
+            金額共:
+            <span v-bind:style="{color:color}" style="font-weight:bold;position:relative">{{Math.abs(Enumerable.from(orgdata).sum(e=>e.PointChange))|NumFormat}} TWD </span>
+        </div>
+        <div class="weui-panel weui-panel_access">
+
+            <div class="weui-panel__bd">
+                <a href="javascript:void(0);" @click="hov(item.Order ? item.Order.Order_ID:(type=='Frozen'?item:null))" v-for="item in data" class="weui-media-box weui-media-box_appmsg">
+
+                    <div class="weui-media-box__bd">
+                        <h4 v-if="type.indexOf('Frozen')==-1 && item.Order" class="weui-media-box__title">
+                            {{item.Order.Member_Certification_History.GameName}} -
+                            {{item.Order.Member_Certification_History.Title}}
+                            ({{item.Order.Times||1}}/{{item.Order.Member_Certification_History.Unit}})
+
+                        </h4>
+                        <h4 v-if="type.indexOf('Frozen')==-1 && item.Gift" class="weui-media-box__title">
+                            {{item.Gift.MemberName}} 送
+                            {{item.Gift.GiftName}}
+                            (花費{{item.Gift.GetPoints}}紅利)
+
+                        </h4>
+                        <h4 v-if="type.indexOf('Frozen')!=-1" class="weui-media-box__title">
+                            {{((item.Memo == '[GetingMoney:NotCheck]' && (!(item.Deny)) )?"提領申請中":(item.Memo =='[GetingMoney:Checked]'?"提領完成":"提領被拒 原因:"+item.Deny.Memo.split(':')[3].replace(']','')))}}
+                        </h4>
+                        <p v-if="type=='CanGive'" class="weui-media-box__desc">
+                            入帳時間：{{moment(item.CreateTime).add(15, 'days').format('LL')}}
+                        </p>
+                        <p v-if="type=='NotGet'" class="weui-media-box__desc">
+                            交易完成時間：{{moment(item.CreateTime).format('LL')}}
+                        </p>
+                        <p v-if="type.indexOf('Frozen')!=-1" class="weui-media-box__desc">
+                            申請時間：{{moment(item.CreateTime).format('LL')}}
+                        </p>
+                    </div>
+                    <div v-if="type.indexOf('Frozen')==-1" class="weui-media-box__ft">
+                        <span v-bind:style="{color:color}" style="font-weight:bold;position:relative">{{item.PointChange|NumFormat}} TWD </span>
+                        <span style="color:lightgray"><i class="ion-chevron-right fa-1x text-inverse"></i></span>
+
+                    </div>
+                    <div v-if="type.indexOf('Frozen')!=-1" class="weui-media-box__ft">
+                        <p style="text-align:right">
+                            <span v-bind:style="{color:((!item.Deny)?color:'lightgray'),'text-decoration':((item.Memo.indexOf('[GetingMoney:Deny]')>-1 || item.Deny) ? 'line-through':'')}" style="font-weight:bold;position:relative">{{item.PointChange*-1|NumFormat}} TWD </span>
+                            <span style="color:lightgray"><i class="ion-chevron-right fa-1x text-inverse"></i></span>
+
+                        </p>
+                        <p  style="color:red;font-size:3.5vw" v-bind:style="{color:(item.ReportUrl==''?'red':'green')}">
+                            {{item.ReportUrl==""?'尚未填寫勞務報酬單':'點我檢視勞務報酬單'}}
+                        </p>
+                    </div>
+                  
+
+                </a>
+
+            </div>
+
+        </div>
+        <div class="weui-cells__title" style="text-align:right">
+            金額共:
+            <span v-bind:style="{color:color}" style="font-weight:bold;position:relative">{{Math.abs(Enumerable.from(orgdata).sum(e=>e.PointChange))|NumFormat}} TWD </span>
+        </div>
+        <div style="height:20px"></div>
+    </div>
+   
+    <script>
+        plus.nativeUI.showWaiting("資料加載中")
+        //plus.webview.getWebviewById("GetMoney").evalJS("getdetail()")
+     
+        Vue.filter('NumFormat', function (value) {
+            if (!value) return '0';
+            value = "" + value 
+            /*原来用的是Number(value).toFixed(0)，这样取整时有问题，例如0.51取整之后为1，感谢Nils指正*/
+            var intPart = Number(value) | 0; //获取整数部分
+            var intPartFormat = intPart.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,'); //将整数部分逢三一断
+
+            var floatPart = ""; //预定义小数部分
+            var value2Array = value.split(".");
+
+            //=2表示数据有小数位
+            if (value2Array.length == 2) {
+                floatPart = value2Array[1].toString(); //拿到小数部分
+
+                if (floatPart.length == 1) { //补0,实际上用不着
+                    return intPartFormat + "." + floatPart + '0';
+                } else {
+                    return intPartFormat + "." + floatPart;
+                }
+
+            } else {
+                return intPartFormat + floatPart;
+            }
+
+        })
+        function setdata(orgdata) {
+            var data = JSON.parse(JSON.stringify(orgdata));
+            if (data.type.indexOf('Frozen') != -1) {
+                var data1 = Enumerable.from(data.data).where(e => e.Memo.indexOf("GetingMoney:Deny") == -1).toArray();
+                var datadeny = Enumerable.from(data.data).where(e => e.Memo.indexOf("GetingMoney:Deny") != -1).toArray();
+                for (var i = 0; i < datadeny.length; i++) {
+                    var item = datadeny[i];
+                    console.dir("item")
+                    console.dir(item)
+                    var chgitem = data1.find(e => e.Member_Points_Detail_ID == item.Memo.split(":")[2]);
+                    console.dir("chgitem")
+                    console.dir(chgitem)
+                    if (chgitem) {
+                        chgitem["Deny"] = JSON.parse(JSON.stringify(item));
+                        console.dir(chgitem)
+                    }
+
+
+                }
+                if (data.type == 'Frozen') {
+                    data.data = Enumerable.from(data1).where(e => e.Memo.indexOf("GetingMoney:Checked") == -1).toArray();
+                    data.orgdata = Enumerable.from(orgdata.data).where(e => e.Memo.indexOf("GetingMoney:Checked") == -1).toArray();
+                }
+                else {
+                    data.data = Enumerable.from(data.data).where(e => e.Memo.indexOf("GetingMoney:Checked") != -1).toArray();
+                    data.orgdata = data.data;
+                }
+
+            } else {
+                data.orgdata = orgdata.data;
+            }
+            
+            var test = new Vue({
+                el: "#getmoneydetailbd",
+                data: data,
+                methods: {
+                    hov: function (id) {
+
+                        if (this.type == "Frozen") {
+                            this.reportctrl(id);
+                        } else {
+                            if (id) {
+                                $('<a onclick="hovernav(this,\'' + id + '\')" btag="OrderPage" ></a>').click();
+                            }
+                        }
+                    },
+                    reportctrl: function (item) {
+                        console.dir(item)
+                        var self = this;
+                        if (item.Memo == '[GetingMoney:NotCheck]' && item.Deny) {
+                            alert("拒絕原因:" + item.Deny.Memo.split(':')[3].replace(']', ''))
+                        }
+                        if (item.Memo == '[GetingMoney:NotCheck]' && !item.Deny) {
+                            plus.nativeUI.actionSheet(
+                                {
+                                    title: "選擇操作",
+                                    cancel: "取消",
+                                    buttons: [
+                                        {
+                                            title: "檢視勞務報酬單",
+                                            color: "#dd7299"
+                                        }
+                                    ]
+                                },
+                                function (e) {
+                                    console.log("User pressed: " + e.index);
+                                    if (e.index == 1) {
+                                      
+                                        plus.nativeUI.previewImage([
+                                            item.ReportUrl
+                                        ]);
+                                        
+                                       
+                                    } 
+                                }
+                            );
+                        }
+
+                    }
+                },
+                created: function () {
+                    if (this.type == 'CanGive') {
+                        this.color = "green"
+                    } else if (this.type == 'NotGet') {
+                        this.color = "red"
+                    } else {
+                        this.color = "blue"
+                    }
+                },
+                mounted: function () {
+                    $("#getmoneydetailbd").show()
+                    plus.nativeUI.closeWaiting()
+                }
+            })
+            top["test"] = test
+        }
+        
+        $(function () {
+            var od = plus.storage.getItem("detaildata");
+            setdata(JSON.parse(od))
+            
+            $("#getmoneydetailbd .page__bd").height($(document).height() - 106)
+        })
+    </script>
+</div>

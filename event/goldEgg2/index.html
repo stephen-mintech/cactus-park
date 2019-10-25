@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>砸金蛋</title>
+    <link rel="stylesheet" href="../common/css/swiper.min.css">
+    <link rel="stylesheet" href="../common/css/common_mobile.css?version=1.0.0">
+    <link rel="stylesheet" href="css/index.css?version=1.0.0">
+    <script src="../../js/vue.min.js"></script>
+    <!-- 移动端适配-->
+    <script>
+        var html = document.querySelector('html');
+        changeRem();
+        window.addEventListener('resize', changeRem);
+
+        function changeRem() {
+            var width = html.getBoundingClientRect().width;
+            //console.log( width );
+            html.style.fontSize = width / 10 + 'px';
+        }
+    </script>
+</head>
+
+<body>
+<div id="wrap">
+    <div class="rule"></div>
+    <!--<a href="../my.html" id="myWin">
+        <div class="my"></div>
+    </a>-->
+    <!--砸蛋区域-->
+    <div class="box">
+        <p class="tips">機會尚有<span id="change"></span>次</p>
+        <div id="hammer" class="shak"></div>
+        <ul class="egg clearfix">
+            <li>
+                <img src="image/egg.png" class="goldegg init">
+                <img src="image/base.png">
+                <div class="info"></div>
+            </li>
+            <li>
+                <img src="image/egg.png" class="goldegg init">
+                <img src="image/base.png">
+                <div class="info"></div>
+            </li>
+            <li>
+                <img src="image/egg.png" class="goldegg init">
+                <img src="image/base.png">
+                <div class="info"></div>
+            </li>
+            <li>
+                <img src="image/egg.png" class="goldegg init">
+                <img src="image/base.png">
+                <div class="info"></div>
+            </li>
+            <li>
+                <img src="image/egg.png" class="goldegg init">
+                <img src="image/base.png">
+                <div class="info"></div>
+            </li>
+            <li>
+                <img src="image/egg.png" class="goldegg init">
+                <img src="image/base.png">
+                <div class="info"></div>
+            </li>
+            <li>
+                <img src="image/egg.png" class="goldegg init">
+                <img src="image/base.png">
+                <div class="info"></div>
+            </li>
+            <li>
+                <img src="image/egg.png" class="goldegg init">
+                <img src="image/base.png">
+                <div class="info"></div>
+            </li>
+            <li>
+                <img src="image/egg.png" class="goldegg init">
+                <img src="image/base.png">
+                <div class="info"></div>
+            </li>
+        </ul>
+        <!--奖品展示-->
+        <div class="awards">
+            <img src="image/prize.png" class="prize">
+            <div class="swiper-container">
+                <ul class="swiper-wrapper" id="giftlist_v">
+
+                    <li v-for="item in plus.webview.currentWebview().data" class="swiper-slide" style="text-align:center">
+                        <img :src="'image/'+item.Img">
+                        <p>{{item.Name}}</p>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--游戏规则弹窗-->
+    <div id="mask-rule">
+        <div class="box-rule">
+            <span class="star"></span>
+            <h2>活動規則:</h2>
+            <span id="close-rule"></span>
+            <div class="con">
+                <div class="text">
+                    <p>活動時間: 2019/8/23 20:00~2019/8/26 08:00</p>
+                    <br />
+                    <p>1.凡是在活動期間儲值，每儲值一次就可獲得一張砸蛋券，接著就可以到砸蛋遊戲中進行砸金蛋。儲得越多能砸得越多喔~ (老闆獲得砸蛋券也可以送給陪陪，陪陪也可以去砸金蛋喔^^)</p>
+                    <br />
+                    <p>2.虛擬點數獎項會在得獎當下直接轉入玩家帳戶內。實體獎品部分，客服會在一周內連繫得獎者。</p>
+                    <br />
+                    <p>3.實體獎項或獎金不論金額，皆須另外填寫【勞務報酬單】，並依財政部國稅局各類所得扣繳率標準規定：競技競賽、機會中獎獎金或給付超過新臺幣 1,000 元，須列單申報該管稽徵機關。故舉凡中獎金額或獎項年度累計總額超過新台幣1,000元整，本公司將依稅法規定於年度開立扣繳憑單予活動得獎人，屆時得獎人可憑扣繳憑單之扣繳稅額抵減個人綜合所得稅。</p>
+                    <br />
+                    <p>4.中獎金額或獎項價值超過新台幣20,000元整，依法應扣繳10%稅金(非中華民國境內居住之個人，依法扣繳20%稅金)；若中獎人未能依法繳納應繳稅額，即視為喪失得獎資格。</p>
+                    <br />
+                    <p>5.活動因故無法進行時，本公司得決定取消、終止、修改或暫停活動及贈品內容。</p>
+                    <br />
+                    <p>6.如有任何因電腦、網路、電話、技術或不可歸責於本公司之事由，若因觸犯遊戲規章遭受凍結處份、個人線路不穩，導致斷線、連接失敗等問題，而使系統誤送活動訊息或中獎通知，或是而使參加者所寄出或登錄之資料有遲延、遺失、錯誤、無法辨識或毀損之情況，本公司均不負責，不另做補償。</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--中奖提示-->
+    <div id="mask">
+        <div class="blin"></div>
+        <div class="caidai"></div>
+        <div class="winning">
+            <div class="red-head"></div>
+            <div class="red-body"><p style="line-height:4.8rem;text-align:center;font-size:.4rem;color:yellow" id="winmsg"></p></div>
+            <div id="card">
+                <a href="" target="_self" class="win"></a>
+            </div>
+          
+            <a href="" target="_self" class="btn"></a>
+            <!--<span id="close"></span>-->
+        </div>
+    </div>
+</div>
+
+<script src="js/jquery.min.js"></script>
+<script src="../common/js/swiper.jquery.min.js"></script>
+<script src="../common/js/jquery.cookie.js"></script>
+<script src="../common/js/h5_game_common.js?version=1.0.0"></script>
+<script src="js/index.js?version=1.0.0"></script>
+<script>
+    
+</script>
+</body>
+</html>

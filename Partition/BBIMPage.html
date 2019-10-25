@@ -1,0 +1,207 @@
+﻿<!DOCTYPE html>
+<html> 
+<head>
+    <script src="../js/weui/jquery-2.1.4.js"></script>
+   
+    <script src="../js/BBIM.js"></script>
+</head>
+<body>
+    <div class=" page bdbg" id="" style="overflow-y:hidden;display:none">
+
+        <script>
+            var bbim;
+            document.addEventListener('plusready', function () {
+                try {
+                    plus.nativeUI.showWaiting("伺服器連線中...", { back: 'none' })
+                } catch (fa) {
+
+                }
+                var Server_Token = plus.storage.getItem("Server_Token");
+                var imurl = "wss://wss.7cplay.com:2053/App/";
+                if (JSON.parse(Server_Token).Status == "管理員")
+                    imurl = "wss://192.168.1.110:3002/App/";
+                var isfirst = true;
+                var bbimot = function () {
+                    if (typeof (BBIM) == 'undefined') {
+                        setTimeout(bbimot, 50)
+                        //   bbimot();
+                        return;
+                    }
+                    bbim = new BBIM(imurl, Server_Token, function (ev2) {
+
+                        bbim.on("OrderCount", function (ev) {
+                            plus.webview.getLaunchWebview().evalJS('OrderCountfn(' + JSON.stringify(ev) + ')')
+                        });
+                        bbim.on("UnreadUpdate", function (ev) {
+                            plus.webview.getLaunchWebview().evalJS('UnreadUpdatefn(' + JSON.stringify(ev) + ')')
+                        })
+                        plus.webview.getLaunchWebview().evalJS('bbimfn(' + JSON.stringify(ev2) + ')')
+
+                        bbim.on("GetRedBag_r", function (r) {
+                            var picurl = "success.jpg";
+                            if (r.result_status == false) {
+                                picurl = "fail.jpg";
+                            }
+                            var bitmap1 = new plus.nativeObj.Bitmap('envelopebox');
+                            bitmap1.load('../img/' + picurl, function () {
+                               
+                                var view = new plus.nativeObj.View('envelopeboxview', { top: 'auto', left: '10%',  width: '80%', opacity: 1 });
+                                view.drawBitmap(bitmap1, { top: '0px', left: '0px', width: '100%', height: 'auto' }, { top: 'auto', left: 'auto', width: '100%', height: 'auto' });
+                                if (r.result_status == true) {
+                                    view.drawText(r.result_message, { top: '0px', left: '0px', width: '100%', height: '100%' }, { size: '18px', color: '#000000', align: "center" });
+
+                                } else {
+                                    if (r.result_content) {
+                                        if (r.result_content.length > 0) {
+                                            var richtext = "";
+
+                                            function htmlencode(s) {
+                                                var div = document.createElement('div');
+                                                div.appendChild(document.createTextNode(s));
+                                                return div.innerHTML;
+                                            }
+                                            for (var i = 0; i < r.result_content.length; i++) {
+                                                var item = r.result_content[i];
+                                                var name = htmlencode(item.Name)
+                                                richtext += '<font color="#000000" style="font-size:10px;">' + name + '</font><font color="#FF0000" style="font-size:10px;">　　　$' + item.GetPoint + '</font><br/>';
+                                            }
+                                              // 绘制文本
+                                            //view.drawText("紅包已經被搶完啦", { top: '0px', left: '0px', width: '100%', height: '100%' }, { size: '18px', color: '#000000', align: "center" });
+                                            view.drawRichText(richtext, { top: '47%', left: '20%', width: '60%' }, { align: "center" });
+                                        } else {
+                                            view.drawText(r.result_message, { top: '0px', left: '0px', width: '100%', height: '100%' }, { size: '18px', color: '#000000', align: "center" });
+
+                                        }
+                                    } else {
+                                        view.drawText(r.result_message, { top: '0px', left: '0px', width: '100%', height: '100%' }, { size: '18px', color: '#000000', align: "center" });
+
+                                    }
+                                   
+
+                                }
+                                view.addEventListener("click", function () {
+                                  
+                                    view.close()
+                                    view = null;
+
+                                }, false);
+
+                                view.show();
+
+                            }, function (e) {
+                                console.log('bmp1.png load failed! ' + JSON.stringify(e));
+                            });
+                        })
+                        bbim.on("RedBag_r", function (ev) {
+                            if (ev.key == "Open") {
+                                var bitmap1 = new plus.nativeObj.Bitmap('envelope');
+                                bitmap1.load('../img/envelope.png', function () {
+                                    var h = getRandomInt(0, window.outerHeight - 50)
+                                    var w = getRandomInt(0, window.outerWidth - 50)
+
+                                    var view = new plus.nativeObj.View('envelope' + ev.param, { top: h + 'px', left: w + 'px', height: '50px', width: '50px', opacity: 1 });
+                                    view.drawBitmap(bitmap1, { top: '0px', left: '0px', width: '100%', height: '100%' }, { top: 'auto', left: 'auto', width: '100%', height: '100%' });
+
+                                    view.addEventListener("click", function () {
+                                        console.dir(ev.param)
+                                        var initdata = {};
+                                        initdata["cmd"] = "GetRedBag";
+                                        initdata["param"] = ev.param;
+                                        bbim.send(initdata);
+
+                                        view.close()
+                                        view = null;
+
+                                    }, false);
+
+                                    view.show();
+
+                                }, function (e) {
+                                    console.log('bmp1.png load failed! ' + JSON.stringify(e));
+                                });
+                                var getRandomInt = function (min, max) {
+                                    return Math.floor(Math.random() * (max - min + 1)) + min;
+                                }
+                            } else {
+                                var view = plus.nativeObj.View.getViewById('envelope' + ev.param);
+                                if (view != null) {
+                                    view.close();
+                                    view = null
+                                }
+                            }
+                           
+                        })
+                       
+
+                        //if (isfirst) {
+                        //    isfirst = false;
+                        //    bitmap1 = new plus.nativeObj.Bitmap('star');
+                        //    bitmap1.load('../img/emoji/star.png', function () {
+                        //        var view = plus.nativeObj.View.getViewById("starget");
+                        //        if (view != null) {
+                        //            view.close();
+                        //            view = null
+                        //        }
+                        //        // 绘制图片
+                        //        var starthead = function () {
+                        //            if (view == null) {
+                        //                console.dir(window.outerHeight)
+
+                        //                console.dir(view)
+                        //                var h = getRandomInt(0, window.outerHeight - 50)
+                        //                var w = getRandomInt(0, window.outerWidth - 50)
+                        //                console.dir("1")
+                        //                console.dir(view)
+                        //                view = new plus.nativeObj.View('starget', { top: h + 'px', left: w + 'px', height: '50px', width: '50px', opacity: 1 });
+                        //                view.drawBitmap(bitmap1, { top: '0px', left: '0px', width: '100%', height: '100%' }, { top: 'auto', left: 'auto', width: '100%', height: '100%' });
+                        //                console.dir("2")
+                        //                console.dir(view)
+                        //                view.addEventListener("click", function () {
+                        //                    var initdata = {};
+                        //                    initdata["cmd"] = "getstar";
+                        //                    bbim.send(initdata);
+                        //                    plus.nativeUI.toast("摘到星星了 (星空點 +1)")
+                        //                    view.close()
+                        //                    view = null;
+                        //                    clearTimeout(startheadtime);
+                        //                    //  clearInterval(goghost);
+                        //                    startheadtime = setTimeout(starthead, 3 * 60 * 1000);
+                        //                }, false);
+                        //                console.dir("3")
+                        //                console.dir(view)
+                                       
+                        //                view.show();
+                        //                console.dir("4")
+                        //                console.dir(view)
+                        //                top["view"] = view
+                                     
+                        //            }
+
+                        //        };
+                        //        //starthead();
+                        //        //var startheadtime = setTimeout(starthead, 3 * 60 * 1000);
+                        //    }, function (e) {
+                        //        console.log('bmp1.png load failed! ' + JSON.stringify(e));
+                        //    });
+                        //    var getRandomInt = function (min, max) {
+                        //        return Math.floor(Math.random() * (max - min + 1)) + min;
+                        //    }
+                        //  //  var chkview = plus.nativeObj.View.getViewById("starget")
+                        //   // if (chkview != null) {
+                        //   //     chkview.close();
+                        //   // }
+                            
+                        //}
+                        
+                        
+                    })
+                }
+                setTimeout(bbimot, 50)
+
+            }, false)
+
+        </script>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,1852 @@
+﻿<div class="messagePage page bdbg" style="width:100%;overflow-x:hidden;overflow-y:hidden">
+    <style>
+        .weui-grid2 {
+            position: relative;
+            display: inline-block;
+            margin-top: 5px;
+            height: 100px;
+        }
+
+        .memberinfo {
+            width: 90%;
+            text-align: center;
+            height: 100px
+        }
+
+        .weui-media-box__hd2 {
+            margin-right: .2em;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+        }
+
+        .order_progress {
+            counter-reset: step;
+        }
+
+            .order_progress li {
+                list-style-type: none;
+                float: left;
+                width: 25%;
+                position: relative;
+                text-align: center;
+                font-size: 10px;
+                color: gray;
+                z-index: 1;
+            }
+
+                .order_progress li:before {
+                    /*content: "●";*/
+                    counter-increment: step;
+                    width: 30px;
+                    height: 30px;
+                    line-height: 30px;
+                    border: 1px solid #ddd;
+                    display: block;
+                    text-align: center;
+                    margin: 0 auto 0px auto;
+                    border-radius: 50%;
+                    background-color: #fff;
+                    font-size: 30px;
+                }
+
+
+
+                .order_progress li:first-child:after {
+                    content: none;
+                }
+
+                .order_progress li.active {
+                    color: #dc2873;
+                }
+
+                    .order_progress li.active:before {
+                        font-size: 20px;
+                    }
+
+                    .order_progress li.active + li:after {
+                        background-color: #dc2873;
+                    }
+
+                .order_progress li:after {
+                    content: "";
+                    position: absolute;
+                    width: 100%;
+                    height: 1px;
+                    background-color: gray;
+                    top: 15px;
+                    left: -50%;
+                    z-index: -1;
+                    transform: translateX(15px)
+                }
+
+        .N1Active:before {
+            content: "\f453";
+            border-color: gray;
+            z-index: 1;
+        }
+
+        .N1Active.active:before {
+            content: "\f453";
+            color: white;
+            background-color: #dc2873;
+            border-color: transparent;
+            z-index: 1;
+        }
+
+        .N2Active:before {
+            content: "\f4c0";
+            border-color: gray;
+        }
+
+        .N2Active.active:before {
+            content: "\f4c0";
+            color: white;
+            background-color: #dc2873;
+            border-color: transparent
+        }
+
+        .N3Active:before {
+            content: "\f47d";
+            border-color: gray;
+        }
+
+        .N3Active.active:before {
+            content: "\f47d";
+            color: white;
+            background-color: #dc2873;
+            border-color: transparent
+        }
+
+        .N4Active:before {
+            content: "\f4b2";
+            border-color: gray;
+        }
+
+        .N4Active.active:before {
+            content: "\f4b2";
+            color: white;
+            background-color: #dc2873;
+            border-color: transparent
+        }
+
+        /* Inner content of the start/*/
+
+        .button--animate .button__content--listen::before,
+        .button--animate .button__content--listen::after {
+            -webkit-animation: anim-ripple 1.2s ease-out infinite forwards;
+            animation: anim-ripple 1.2s ease-out infinite forwards;
+        }
+
+        .button--animate .button__content--listen::after {
+            -webkit-animation-delay: 0.6s;
+            animation-delay: 0.6s;
+        }
+
+        @-webkit-keyframes anim-ripple {
+            0% {
+                opacity: 0;
+                -webkit-transform: scale3d(3, 3, 1);
+                transform: scale3d(3, 3, 1);
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                -webkit-transform: scale3d(1, 1, 1);
+                transform: scale3d(1, 1, 1);
+            }
+        }
+
+        @keyframes anim-ripple {
+            0% {
+                opacity: 0;
+                -webkit-transform: scale3d(3, 3, 1);
+                transform: scale3d(3, 3, 1);
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                -webkit-transform: scale3d(1, 1, 1);
+                transform: scale3d(1, 1, 1);
+            }
+        }
+
+
+        .button__content--start {
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.2em;
+            text-indent: 1px;
+            letter-spacing: 1px;
+            -webkit-transition-timing-function: cubic-bezier(0.8, -0.6, 0.2, 1);
+            transition-timing-function: cubic-bezier(0.8, -0.6, 0.2, 1);
+        }
+
+        .button__content--listen {
+            bottom: 0;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            -webkit-transition-timing-function: cubic-bezier(0.8, 0, 0.2, 1);
+            transition-timing-function: cubic-bezier(0.8, 0, 0.2, 1);
+        }
+
+            .button__content--listen::before,
+            .button__content--listen::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                opacity: 0;
+                border: 1px solid rgba(255, 255, 255, 0.4);
+                border-radius: 50%;
+            }
+    </style>
+
+    <div class="weui-tab" style="overflow-x:hidden;overflow-y:visible">
+        <div id="hdfix" style="position: fixed;width:100%;z-index:300;overflow-y:visible">
+
+            <div class="flexbar navbg" style="display: flex;padding-bottom:10px;overflow-x:hidden;overflow-y:visible;flex-wrap:wrap;">
+                <div class="memberinfo1" style="width: 10%;height:60px;position:relative; flex: 0 0 10%; ">
+                    <div id="backSetting" class="backb" onclick="plus.webview.close(plus.webview.currentWebview())" style="margin:0 auto;width:100%;height:100%;border-radius: 999em;color:white">
+                        <i class="fa fa-angle-left" style="font-size:30px;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"> </i>
+                    </div>
+                </div>
+                <div id="hdfixvue" class="memberinfo " style="height:60px;width: 90%;position:relative;top:0px;flex: 0 0 90%;opacity:0">
+                    <a href="javascript:void(0);" style="padding:5px" class="weui-media-box weui-media-box_appmsg" onclick="hovernavre(this,'{{sheinfo.Member_ID}}','{{sheinfo.Name}}','{{sheinfo.Img}}')" btag="PlayerPage">
+                        <!--<div class="weui-media-box__hd2">
+                    <img class="weui-media-box__thumb" style="border-radius: 0.5em;" src="{{sheinfo.Img}}" alt="">
+                </div>-->
+
+                        <div class="weui-media-box__bd">
+                            <h4 class="weui-media-box__title" style="color:white">{{(order?((order.Order_Status)?"與":""):"")}} {{sheinfo.Name}} {{(order?((order.Order_Status)?"訂單進行中":""):"")}}</h4>
+
+                        </div>
+
+                        <img class="weui-media-box__thumb" style="margin-right:10px;object-fit:cover;border-radius:999em;width:50px;height:50px" src="{{sheinfo.Img}}_s" onerror="this.src='img/icon/noimage_person.png'" alt="">
+
+                    </a>
+                    <div class="js_dialog" id="orderlistp" v-if="(order?((order.Order_Status)?true:false):false)" style="display: none;">
+                        <div class="weui-mask" onclick="$('#orderlistp').hide()"></div>
+                        <div class="weui-dialog">
+                            <div class="weui-dialog__hd bdbg"><strong class="weui-dialog__title">訂單總覽</strong></div>
+                            <div class="weui-dialog__bd bdbg" style="overflow-y:auto;height:350px;padding:0">
+                                <div v-for="(item,idx) in orderlist">
+                                    <div class="weui-form-preview">
+
+                                        <div class="weui-form-preview__bd">
+                                            <div class="weui-form-preview__item">
+                                                <label class="weui-form-preview__label">單號:</label>
+                                                <span class="weui-form-preview__value">{{item.OrderNo}}</span>
+                                            </div>
+                                            <div class="weui-form-preview__item">
+                                                <label class="weui-form-preview__label">技能: {{item.GameName}}-{{JSON.parse(item.Member_Certification_History).Title}}</label>
+                                                <span class="weui-form-preview__value" v-if="JSON.parse(order.Member_Certification_History).CanFree!=true">{{JSON.parse(item.Member_Certification_History).Fee*item.Times}}幣/{{item.Times}}{{JSON.parse(item.Member_Certification_History).Unit}}</span>
+                                                <span class="weui-form-preview__value" v-if="JSON.parse(order.Member_Certification_History).CanFree==true">30元體驗單/1局</span>
+                                            </div>
+
+                                            <div class="weui-form-preview__item">
+                                                <label class="weui-form-preview__label">預約時間:</label>
+                                                <span class="weui-form-preview__value">{{moment(item.PreDate.toString(), "YYYY-MM-DDTHH:mm:ss").calendar()}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="weui-form-preview__ft">
+                                            <a class="weui-form-preview__btn weui-form-preview__btn_primary chgo" href="javascript:;" :bidx="idx" @click2="OrderControl.changeorder(idx)" >切換</a>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                            <div class="weui-dialog__ft bdbg">
+                                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default" onclick="$('#orderlistp').hide()">返回</a>
+                                <!--<a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="orderpanel" style="width:100%;overflow-x:auto;overflow-y:visible">
+                    <div id="vapp0" style="display:none;overflow-y:visible">
+
+                        <div id="orderinfo" v-if="(order!=null )" class="orderinfo" style="position:relative;flex: 0 0 100%;background-color:white ">
+                            <div class="weui-btn weui-btn_mini weui-btn_follow" style="float:right;margin-top:5px;right:5px" href="javascript:" @click="OrderControl.showlist()" id="">訂單總覽</div>
+                            <div style="margin-left:2%;color:gray">
+                                <p class="page__desc" style="min-height:0">訂單單號:{{order.OrderNo}}</p>
+                                <p class="page__desc" style="min-height:0">技能:{{order.GameName}}-{{JSON.parse(order.Member_Certification_History).Title}}</p>
+                                <p class="page__desc" style="min-height:0" v-if="JSON.parse(order.Member_Certification_History).CanFree!=true">費用:{{JSON.parse(order.Member_Certification_History).Fee*order.Times}}幣/{{order.Times}}{{JSON.parse(order.Member_Certification_History).Unit}}</p>
+                                <p class="page__desc" style="min-height:0" v-if="JSON.parse(order.Member_Certification_History).CanFree==true">費用: 30元體驗單/1局</p>
+
+                            </div>
+                            <br>
+                            <div style="width:100%;position:relative;">
+
+                                <div v-if="order.Order_Status == 8" style="width:100%;height:100%;background-color:rgba(0,0,0,0.3)">
+                                    交易申請取消中
+
+                                </div>
+                                <div v-if="order.Order_Status == 7" style="width:100%;height:100%;background-color:rgba(0,0,0,0.3)">
+                                    客服調解中
+
+                                </div>
+                                <ul v-if="order.Order_Status != 8 && order.Order_Status != 7" class="order_progress">
+                                    <li v-bind:class="{active:true,'active': N1Active,'N1Active': true}">已下單</li>
+                                    <li v-bind:class="{active:true,'active': N2Active,'N2Active': true}">待確認</li>
+                                    <li v-bind:class="{active:true,'active': N3Active,'N3Active': true}">待服務</li>
+                                    <li v-bind:class="{active:true,'active': N4Active,'N4Active': true}">評價中</li>
+                                </ul>
+                            </div>
+                            <div style="clear:both"></div>
+
+                            <span style="float:right;padding-right:5px;" v-if="order.Order_Status != 7">
+
+                                <a v-if="btnshower=='{{myinfo.Member_ID}}'" @click="nextstep" href="javascript:;" class="weui-btn weui-btn_mini weui-btn_primary">{{btntext}}</a>
+                                <a href="javascript:;" @click="cancelorder" v-if="order.Order_Status != 8 && order.Order_Status != 4" class="weui-btn weui-btn_mini weui-btn_warn">交易取消</a>
+                                <a href="javascript:;" @click="keeporder" v-if="order.Order_Status == 8 && order.OP == '{{myinfo.Member_ID}}'" class="weui-btn weui-btn_mini weui-btn_primary">繼續交易</a>
+                                <a href="javascript:;" @click="cancelorder_twice" v-if="order.Order_Status == 8 && order.OP != '{{myinfo.Member_ID}}'" class="weui-btn weui-btn_mini weui-btn_warn">接受取消</a>
+                                <a href="javascript:;" @click="keeporder" v-if="order.Order_Status == 8 && order.OP != '{{myinfo.Member_ID}}'" class="weui-btn weui-btn_mini weui-btn_primary">繼續交易</a>
+                                <!--<a href="javascript:;" @click="appealorder" style="background-color:black" class="weui-btn weui-btn_mini weui-btn_warn">申訴</a>-->
+                            </span>
+                            <div style="clear:both;margin-bottom:10px"></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <a href="javascript:;" v-if="order!=null" onclick="$('#orderinfo').toggle();$(this).find('i').toggle()" class="orderinfo weui-btn weui-btn_mini weui-btn_default" style="position:absolute;height:20px;font-size:12px;line-height:20px;right:10px;bottom:0;transform:translateY(50%);">
+                <i class="fa fa-1x fa-angle-up"></i>
+                <i class="fa fa-1x fa-angle-down" style="display:none"></i>
+            </a>
+        </div>
+        <div style="display:none" id="audiodiv"></div>
+        <div class="weui-tab__panel " id="dom_id" style="height: 100%;box-sizing: border-box;  border: 0; ">
+            <ul id="result"></ul>
+
+        </div>
+        <div style="overflow-x:hidden;overflow-y:hidden" id="extrabar">
+            <div class="weui-tabbar" v-if="'{{sheinfo.Member_ID}}' !='admin'" style="position: fixed;background-color:lightgray">
+                <div class="weui-cell" style="flex:0 0 65%">
+
+                    <div class="weui-cell__bd">
+                        <form action="" onsubmit="sendmsg(this); return false;">
+                            <input class="weui-input" type="text" id="msg" placeholder="說點什麼吧~~" style="background-color:transparent;-webkit-appearance:none;user-select: all;-webkit-user-select: all;">
+                        </form>
+
+                    </div>
+
+
+                </div>
+                <!--<div class="" style="flex:0 0 20%">
+
+                </div>-->
+                <div class="" style="flex:0 0 35%">
+                    <button class="weui-btn_disabled weui-btn_mini weui-btn_primary sendbtn" style="position:relative;top:50%;transform:translateY(-50%)" disabled type="button" href="javascript:" onclick="sendmsg(this)" id="">傳送</button>
+                    <a class="" href="javascript:" @click="isshoworder=true" id="" style="margin-left: auto;margin-right: auto;padding-left: 2px;text-align: center;font-size: 14px;">
+                        <i class="fa fa-2x fa-plus-circle" style="position:relative;top:50%;transform:translateY(-50%);line-height:18px;color:gray"></i>
+                    </a>
+                </div>
+            </div>
+            <div v-bind:style="{display:(isshoworder2?'block':'none')}" style="position:absolute;top:0;width:100%;height:100%">
+                <div class="weui-mask" id="" @click="isshoworder2=false" v-bind:style="{display:(isshoworder2?'block':'none')}"></div>
+                <div v-bind:style="{display:(isshoworder2?'block':'none')}" id="messageBtn" class="bdbg " style="text-align:center;z-index:1001;width:100px;height:100px;border-radius:999em;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)">
+                    <div class="button__content--listen ">
+                        <i class="ion-mic-a fa-4x text-inverse " style="color:dimgray"></i>
+                    </div>
+
+                </div>
+            </div>
+            <div style="position:relative;top:9999px">
+                <div class="weui-mask" id="" @click="isshoworder=false" v-bind:style="{display:(isshoworder?'block':'none')}"></div>
+                <div class="weui-actionsheet" v-bind:class="{'weui-actionsheet_toggle':isshoworder}" id="iosActionsheet">
+                    <!--<div class="weui-actionsheet__title">
+                        <p class="weui-actionsheet__title-text">这是一个标题，可以为一行或者两行。</p>
+                    </div>-->
+                    <div class="weui-actionsheet__menu">
+                        <div class="weui-grids" style="text-align:center">
+                            <a href="javascript:;" @click="sendpic()" ref="myphoto" class="weui-grid" v-if="(isblock!=true)">
+                                <div class="weui-grid__icon">
+                                    <i style="color:black;" class="ion-images fa-1x text-inverse"></i>
+                                </div>
+                                <p class="weui-grid__label">圖片</p>
+                            </a>
+                            <a href="javascript:;" @click="sendvoice()" class="weui-grid" v-if="(isblock!=true)">
+                                <div class="weui-grid__icon">
+                                    <i style="color:black" class="ion-mic-a fa-1x text-inverse"></i>
+                                </div>
+                                <p class="weui-grid__label">錄音</p>
+                            </a>
+                            <a href="javascript:;" @click="sendvideo()" class="weui-grid" v-if="(isblock!=true)">
+                                <div class="weui-grid__icon">
+                                    <i style="color:black" class="ion-videocamera fa-1x text-inverse"></i>
+                                </div>
+                                <p class="weui-grid__label">影片</p>
+                            </a>
+                            <a href="javascript:;" v-if="'{{sheinfo.Member_ID}}' !='admin' && (isblock!=true) " @click="callphone()" class="weui-grid">
+                                <div class="weui-grid__icon">
+                                    <i style="color:black" class="ion-ios-telephone fa-1x text-inverse"></i>
+                                </div>
+                                <p class="weui-grid__label">語音通話</p>
+                            </a>
+                            <a href="javascript:;" v-if="'{{sheinfo.Member_ID}}' !='admin'" @click="blockplayer()" class="weui-grid">
+                                <div class="weui-grid__icon">
+                                    <i style="color:black" class="ion-ios-eye fa-1x text-inverse"></i>
+                                </div>
+                                <p class="weui-grid__label">{{(isblock==true)?"解除封鎖":"封鎖"}}</p>
+                            </a>
+                            <a href="javascript:;" v-if="'{{sheinfo.Member_ID}}' !='admin'" onclick="trashmsg()" class="weui-grid">
+                                <div class="weui-grid__icon">
+                                    <i style="color:black" class="ion-ios-paper fa-1x text-inverse"></i>
+                                </div>
+                                <p class="weui-grid__label">舉報</p>
+                            </a>
+                            <!--<a href="javascript:;" class="weui-grid button__content button__content--listen">
+                                <div class="weui-grid__icon">
+                                    <img src="./images/icon_tabbar.png" alt="">
+                                </div>
+                                <p class="weui-grid__label">Grid</p>
+                            </a>-->
+                            <!--<button class="button button--hidden">
+                                <span class="button__content button__content--start">听这首歌</span>
+                                <span class="button__content button__content--listen"><span class="icon icon--microphone"></span></span>
+                            </button>-->
+                            <!--<a href="javascript:;" class="weui-grid">
+                                <div class="weui-grid__icon">
+                                    <img src="./images/icon_tabbar.png" alt="">
+                                </div>
+                                <p class="weui-grid__label">Grid</p>
+                            </a>
+                            <a href="javascript:;" class="weui-grid">
+                                <div class="weui-grid__icon">
+                                    <img src="./images/icon_tabbar.png" alt="">
+                                </div>
+                                <p class="weui-grid__label">Grid</p>
+                            </a>-->
+
+                        </div>
+
+                    </div>
+                    <div class="weui-actionsheet__action">
+                        <div class="weui-actionsheet__cell" @click="isshoworder=false">取消</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/html" id="warnmsg">
+        <li style="text-align:center;padding:10px 0 ">
+            <span onclick="trashmsg()" style="position:relative;font-size:12px;color:blue;background-color:lightgray;padding:3px 10px;border-radius:999em">被騷擾了嗎?快速舉報!</span>
+
+        </li>
+    </script>
+    <script type="text/html" id="timemsg">
+        <li style="text-align:center;padding:10px 0 ">
+            <span style="position:relative;font-size:12px;color:dimgray;background-color:lightgray;padding:3px 10px;border-radius:999em"></span>
+
+        </li>
+    </script>
+    <script type="text/html" id="othermsg">
+        <li>
+            <div class="weui-media-box weui-media-box_appmsg weui-media-box_text" style="position:relative;bottom:0;padding:3px">
+                <div class="weui-media-box__hd" style="position: absolute;left: 0;height:100%">
+                    <!--<img class="weui-media-box__thumb" style="border-radius:0.5em;" src="{{sheinfo.Img}}" alt="">-->
+
+                    <img class="weui-media-box__thumb" onclick="hovernavre(this,'{{sheinfo.Member_ID}}','{{sheinfo.Name}}','{{sheinfo.Img}}')" btag="PlayerPage" style="position:relative;top:3px;object-fit:cover;border-radius:999em;width:40px;height:40px" src="{{sheinfo.Img}}_s" onerror="this.src='img/icon/noimage_person.png'" alt="">
+
+                </div>
+                <div class="weui-media-box__bd" style="padding-left:60px;">
+                    <h4 class="weui-media-box__title" style="font-size:12px;text-align:left;color:gray" onclick2="hovernavre(this,'{{sheinfo.Member_ID}},'{{sheinfo.Name}}','{{sheinfo.Img}}')" btag="PlayerPage">{{sheinfo.Name}}</h4>
+                    <div class="msgcontent" style="float:left;position:relative ;display:inline;word-break:break-word;color:black;max-width:60%;padding:5px 15px;background-color:white;font-size:14px;border-radius:1em"></div>
+                    <div class="TimeShow" style="color:gray;font-size:8px;position: relative;float:left;height: 100%;">123</div>
+                </div>
+
+            </div>
+        </li>
+    </script>
+    <script type="text/html" id="mymsg">
+        <li>
+            <div class="weui-media-box weui-media-box_appmsg weui-media-box_text" style="padding:3px;flex-wrap: wrap;">
+
+                <div class="weui-media-box__bd" style="padding-right:60px">
+                    <h4 class="weui-media-box__title" style="width:100%;font-size:12px;text-align:right;color:gray" onclick2="hovernavre(this,'{{myinfo.Member_ID}}','{{myinfo.Name}}','{{myinfo.Img}}')" btag="PlayerPage">{{myinfo.Name}}</h4>
+                    <div class="msgcontent" style="float:right;position:relative ;display:inline;word-break:break-word;color:white;max-width:60%;padding:5px 15px;background-color:#dd7299;font-size:14px;border-radius:1em"></div>
+                    <div class="TimeShow" style="color:gray;font-size:8px;position: relative;float:right;height: 100%;">234</div>
+                </div>
+                <div style="clear: both;"></div>
+                <div class="weui-media-box__hd" style="position: absolute;right: 0;height:100%">
+                    <!--<img class="weui-media-box__thumb" style="border-radius:0.5em;" src="{{myinfo.Img}}" alt="">-->
+
+                    <img class="weui-media-box__thumb" onclick="hovernavre(this,'{{myinfo.Member_ID}}','{{myinfo.Name}}','{{myinfo.Img}}')" btag="PlayerPage" style="position:relative;top:0;object-fit:cover;border-radius:999em;width:40px;height:40px" src="{{myinfo.Img}}_s" onerror="this.src='img/icon/noimage_person.png'" alt="">
+
+                </div>
+            </div>
+
+        </li>
+    </script>
+    <script>
+
+
+        $('#result').on('touchstart', '.msgcontent', function (e,f,g) {
+            var self = this;
+            this.CountDelay = setTimeout(function () {
+              //  alert(self.CountDelay)
+                console.dir($(self).text())
+                console.dir(self.SourseText)
+                var content = "";
+                var thumbs = undefined;
+                var type = "";
+                if (self.SourseText) {
+                    if (self.SourseText.indexOf("[msgimg:") == 0) {
+                        //content = self.SourseText.replace("[msgimg:", "").split("]")[0];
+                        alert("為保障雙方隱私，圖片禁止轉傳")
+                        return;
+                    }
+                    else if (self.SourseText.indexOf("[msgvideo:") == 0) {
+                       // content = self.SourseText.replace("[msgvideo:", "").split("]")[0] + "mp4";
+                        alert("為保障雙方隱私，影片禁止轉傳")
+                        return;
+
+                    }
+                    else if (self.SourseText.indexOf("[msgvoice:") == 0) {
+                       // content = "https:" + self.SourseText.replace("[msgvoice:", "").split("]")[0].split(":")[1];
+                        alert("為保障雙方隱私，音檔禁止轉傳")
+                        return;
+                    }
+                    else {
+
+                        content = "" + self.SourseText;
+
+                    }
+                 
+                } else {
+                    content = "" + $(self).text();
+                }
+                //plus.share.sendWithSystem({ type: "text", content: content }, function () {
+                //    console.log('分享成功');
+                //}, function (e) {
+                //    console.log('分享失败：' + JSON.stringify(e));
+                //});
+                if(plus.os.name == "Android") {
+                    var Context = plus.android.importClass("android.content.Context");
+                    var main = plus.android.runtimeMainActivity();
+                    var clip = main.getSystemService(Context.CLIPBOARD_SERVICE);
+                    plus.android.invoke(clip, "setText", content);
+                } else {
+                    var UIPasteboard = plus.ios.importClass("UIPasteboard");
+                    var generalPasteboard = UIPasteboard.generalPasteboard();
+                    generalPasteboard.setValueforPasteboardType(content, "public.utf8-plain-text");
+
+                }
+                plus.nativeUI.toast(
+                    "文字已經複製到剪貼版",
+                    {
+                        type: 'text',
+                        align: "center"
+                    }
+                );
+            }, 500);
+            //console.dir(f)
+            //console.dir(g)
+        })
+        $('#result').on('touchend', '.msgcontent', function (e, f, g) {
+            clearTimeout(this.CountDelay)
+           // this.CountDelay = Math.random();
+            console.dir(this.CountDelay)
+            //console.dir(g)
+        })
+        //onTouchEnd
+        var datanowstring = "";
+
+        
+
+      var msgvue=  new Vue({
+            el: "#extrabar",
+            data: {
+                isshoworder: false,
+                isshoworder2: false,
+                isblock:false
+            },
+          methods: {
+              blockplayer: function () {
+                  this.isshoworder = false;
+                  if (this.isblock) {
+                      plus.nativeUI.confirm("解除後將會繼續接受此人信息、電話及動態，對方也會看見您的動態", function (e) {
+                          if (e.index == 0) {
+                              $("#loadingToast").show();
+                              $.ajax({
+                                  url: ajaxurl + "Block/",
+                                  type: 'post',
+                                  data: { targetid: "{{sheinfo.Member_ID}}",block:false },
+                                  headers: { "cache-control": "no-cache","Server_Token": encodeURIComponent(Server_Token) },
+                                  timeout: 30000,
+                                  success: function (r) {
+                                      if (r.result_status) {
+                                          alert("解除成功");
+                                          plus.webview.currentWebview().reload();
+                                      } else {
+                                          console.error(r.result_message);
+                                      }
+                                      $("#loadingToast").hide();
+                                  },
+                                  error: function (jqXHR, textStatus, errorThrown) {
+                                      $("#loadingToast").hide();
+                                  }
+                              });
+
+
+                          }
+
+                      }, {
+                              "title": "你確定要解除 " + "{{sheinfo.Name}}" + " 嗎?",
+                              "buttons": ["解除", "取消"],
+                              "verticalAlign": "bottom"
+                          });
+                  } else {
+                      plus.nativeUI.confirm("封鎖後將接收不到任何信息、電話及動態，對方也會看不見您的動態", function (e) {
+                          if (e.index == 0) {
+                              $("#loadingToast").show();
+                              $.ajax({
+                                  url: ajaxurl + "Block/",
+                                  type: 'post',
+                                  data: { targetid: "{{sheinfo.Member_ID}}", block: true },
+                                  headers: { "cache-control": "no-cache","Server_Token": encodeURIComponent(Server_Token) },
+                                  timeout: 30000,
+                                  success: function (r) {
+                                      if (r.result_status) {
+                                          alert("封鎖成功");
+                                          plus.webview.currentWebview().close('auto');
+                                      } else {
+                                          console.error(r.result_message);
+                                      }
+                                      $("#loadingToast").hide();
+                                  },
+                                  error: function (jqXHR, textStatus, errorThrown) {
+                                      $("#loadingToast").hide();
+                                  }
+                              });
+
+
+                          }
+
+                      }, {
+                              "title": "你確定要封鎖 " + "{{sheinfo.Name}}" + " 嗎?",
+                              "buttons": ["封鎖", "取消"],
+                              "verticalAlign": "bottom"
+                          });
+                  }
+
+              },
+              callphone: function () {
+                 // callbyme = "isme";
+              
+                  var chk = plus.webview.getWebviewById("CallPage");
+                  if (chk == null) {
+                      var cw;
+
+                      if (JSON.parse(Server_Token).Status == "管理員") {
+                          cw = plus.webview.create(debugurl + "Partition/CallPage.html", "CallPage", { "cachemode": "noCache", "background": "white", "popGesture": "none", "height": "100%", "margin": "auto", "width": "100%", "userSelect": false }, { roomid: "", memid: GInfo.MyInfo.Member_ID, callbyme: "isme", meimg: "{{myinfo}}", herimg: "{{sheinfo}}" });
+                      }
+                      else {
+                          cw = plus.webview.create('Partition/CallPage.html', "CallPage", { "cachemode": "noCache", "background": "white", "popGesture": "none", "height": "100%", "margin": "auto", "width": "100%", "userSelect": false }, { roomid: "", memid: GInfo.MyInfo.Member_ID, callbyme: "isme", meimg: "{{myinfo}}", herimg: "{{sheinfo}}" });
+                      }
+                    
+                      cw.show();
+
+                  } else {
+                      alert("您正在通話中");
+                  }
+
+                  this.isshoworder = false;
+
+              },
+                sendvoice: function () {
+                    this.isshoworder2 = true;
+                    this.isshoworder = false;
+                  //  cw.show();
+                },
+              sendvideo: function () {
+                  var lfs;
+                    var self = this;
+                    console.dir(1)
+                    var cb = function (name, divid, id, src) {
+
+
+                        plus.io.resolveLocalFileSystemURL(src, function (entry) {
+                            entry.getMetadata(function (md) {
+
+
+                                var path = entry.toLocalURL();//圖片本地路徑
+                               // alert(path)
+                                var name = entry.name//圖片名稱
+                                if ('video' == 'video') {
+                                    //開始壓縮
+
+                                    Bridge.setffmpegStatisticsCallback(function (st) {
+
+                                    })
+
+                                    var isnext = false;
+                                    var smallpic = "";
+                                    var alltime = 0;
+                                    var wWaiting = plus.nativeUI.showWaiting("壓縮中...", { back: "none", width: "100px", height: "100px" });
+                                    Bridge.setffmpegLogCallback(function (st) {
+                                        //  console.dir(dst);
+                                        var dst = decodeURIComponent(st).replace(/\+/g, ' ')
+                                        //console.dir(dst);
+                                        try {
+                                            if (isnext) {
+                                                var timearray = dst.split(":");
+
+                                                alltime = (timearray[0] * 60 + (timearray[1] * 1)) * 60 + (timearray[2] * 1.0);
+
+                                                isnext = false;
+                                                if (alltime > 30) {
+                                                    //Bridge.ffmpegCancel();
+                                                    //alert("檔案超過30秒");
+                                                    //wWaiting.close();
+                                                    alltime = 30;
+                                                }
+                                            }
+                                            if (dst.indexOf("  Duration: ") != -1) {
+                                                isnext = true;
+                                            }
+                                            if ((dst.indexOf(" time=") != -1) && (dst.indexOf(" bitrate") != -1)) {
+                                                var nowtime = dst.split(" time=")[1].split(" bitrate")[0];
+                                                if (nowtime.indexOf("-") == -1) {
+                                                    var nowtimearray = nowtime.split(":");
+                                                    var nowtimeint = (nowtimearray[0] * 60 + (nowtimearray[1] * 1)) * 60 + (nowtimearray[2] * 1.0);
+                                                    // console.log("setffmpegLogCallback", nowtimeint + " / " + alltime)
+                                                    wWaiting.setTitle("進度" + parseInt((nowtimeint / alltime) * 100) + "%");
+                                                }
+
+                                            }
+                                            if (dst.indexOf("video:") == 0) {
+                                                plus.io.requestFileSystem(plus.io.PRIVATE_DOC, function (fs) {
+                                                    var cmd2 = "-i " + path + " -an -vframes 1 " + fs.root.toLocalURL() + "tmp.jpg" + " -y";
+                                                  //  console.dir(cmd2);
+
+                                                    Bridge.setffmpegLogCallback(function (st2) {
+                                                        var dst2 = decodeURIComponent(st2).replace(/\+/g, ' ')
+                                                        if (dst2.indexOf("video:") == 0) {
+                                                            setTimeout(function () {
+                                                                var task = plus.uploader.createUpload(ajaxurl + "UploadMsg", {
+                                                                    method: "POST", timeout: 0, blocksize: 0
+                                                                },
+                                                                    function (t, status) {
+                                                                        //alert(t.responseText);
+                                                                        var r = JSON.parse(t.responseText);
+                                                                        if (r.result_status) {
+                                                                            wWaiting.close();
+                                                                            var $html = $($("#mymsg").html());
+                                                                            var msg = "[msgvideo:" + r.result_content + "]";
+                                                                            $html.find(".msgcontent").html(msg);
+                                                                            if (datanowstring != moment().format('L')) {
+                                                                                datanowstring = moment().format('L');
+                                                                                var $timehtml = $($("#timemsg").html());
+                                                                                $timehtml.find("span").text(datanowstring);
+                                                                                $("#result").append($timehtml);
+                                                                            }
+                                                                            $html.find(".TimeShow").text(moment().format('LT'));
+                                                                            //getimdata("getHistoryList", { count: 0, member: "" }, function (ee) { })
+                                                                            getimdata("sendmsg_new", { targetid: "{{sheinfo.Member_ID}}", msg: msg }, function (ee) { })
+                                                                            //bim.sendmsg({ targetid: "{{sheinfo.Member_ID}}" , msg:msg}, function () {
+                                                                            //})
+                                                                            var chkst = $html.find(".msgcontent").html();
+                                                                            $html.find(".msgcontent")[0].SourseText = $html.find(".msgcontent").html();
+                                                                            if (chkst.indexOf("[msgimg:") == 0) {
+                                                                                var url = chkst.replace("[msgimg:", "").split("]")[0];
+                                                                                var newhtml = '<img src="' + url + '" style="width:auto;height:auto;max-width:150px;max-height:300px;object-fit:scale-down" onclick="showimg(\'' + url + '\')"  />';
+                                                                                $html.find(".msgcontent").html(newhtml);
+                                                                                $("#result").append($html);
+                                                                            } else if (chkst.indexOf("[msgvideo:") == 0) {
+                                                                                //<video v-if="JSON.parse(item.ImgList).Video!=''" binfo="newstitleVI" style="position:relative;top:0;left:50%;transform:translateX(-50%);width:100%;height:100%;max-height:200px;z-index:2" :src="JSON.parse(item.ImgList).Video" :poster="JSON.parse(item.ImgList).GIF" preload="metadata" loop muted playsinline webkit-playsinline />
+                                                                                var url = chkst.replace("[msgvideo:", "").split("]")[0];
+                                                                                var newhtml = '<video src="' + url + 'mp4" poster="' + url + 'jpg" style="width:150px;height:100px;max-width:150px;max-height:300px;object-fit:scale-down" preload="none"   />';
+                                                                                newhtml += '<a style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)" onclick="showimg(\'' + url + 'mp4\')"><i class="fa fa-2x fa-play" style="color:white"></a>'
+                                                                                $html.find(".msgcontent").html(newhtml);
+                                                                                $("#result").append($html);
+                                                                            } else if (chkst.indexOf("[msgvoice:") == 0) {
+                                                                                var newhtml = "";
+                                                                                var url = chkst.replace("[msgvoice:", "").split("]")[0].split(":")[1];
+                                                                                var dur = chkst.replace("[msgvoice:", "").split("]")[0].split(":")[2];
+                                                                                var name = "V_" + url.split("/")[url.split("/").length - 1].split(".")[0];
+                                                                                var $voicehtml = $("#voicetemp").html();
+                                                                                $voicehtml = $voicehtml.replace("#id", name);
+                                                                                $html.find(".msgcontent").css("padding", "0px")
+                                                                                $html.find(".msgcontent").html($voicehtml);
+                                                                                $("#result").append($html);
+                                                                                initvoice(name, url, dur)
+                                                                            } else {
+
+                                                                                $("#result").append($html);
+                                                                            }
+
+                                                                            $("#dom_id").scrollTop($("#dom_id")[0].scrollHeight);
+
+                                                                            self.isshoworder = false;
+                                                                            //self.data.Img = r.result_content + "?" + Math.random();
+                                                                            //plus.webview.all()[plus.webview.all().length - 2].loadURL("index.html?p=Setting");
+                                                                        }
+                                                                        else {
+                                                                            alert(r.result_message);
+                                                                            wWaiting.close();
+                                                                        }
+                                                                    }
+                                                                );
+                                                                task.addFile(fs.root.toLocalURL() + "tmp.mp4", { key: "file" });
+                                                                task.addFile(fs.root.toLocalURL() + "tmp.jpg", { key: "fileimg" });
+                                                                task.addData("type", "video");
+                                                                task.setRequestHeader("Server_Token", encodeURIComponent(Server_Token))
+                                                                task.start();
+                                                            }, 2000)
+                                                           
+                                                        }
+
+                                                    })
+                                                    Bridge.ffmpegExecute(cmd2, function () { }, "MessagePage")
+                                                    wWaiting.setTitle("上傳中");
+
+                                                    //fs.root.toLocalURL() + "tmp.mp4"
+
+                                                    //alert(ajaxurl + "UpdateTitleImg");
+
+                                                })
+                                                // console.log("setffmpegLogCallback", "轉檔完成");
+
+                                            }
+                                        } catch (exx) {
+                                            console.dir(exx)
+                                        }
+
+
+                                    })
+
+                                    plus.io.requestFileSystem(plus.io.PRIVATE_DOC, function (fs) {
+                                        //I路徑 path
+                                        //O路徑 fs.root + "/tmp.mp4"
+                                        //console.dir(fs.root)
+
+                                        var cmd = "-i " + path + " -vf \"fps=60\" -vf scale='min(720,iw):-2' -t 30 -strict experimental -profile:v high -vcodec libx264 -bsf:v h264_mp4toannexb -f mp4 -movflags +faststart " + fs.root.toLocalURL() + "tmp.mp4" + " -y";
+
+                                        fs.root.getDirectory("tmp", { create: true }, function () {
+                                            Bridge.ffmpegExecute(cmd, function (st) {
+
+                                            }, "MessagePage")
+                                        })
+
+
+
+                                    }, function (e) {
+                                        alert("Request file system failed: " + e.message);
+                                    });
+
+
+
+
+
+                                }
+
+                            })
+
+                        }, function (e) {
+
+                        });
+
+
+
+                    }
+                    plus.gallery.pick(function (p) {
+                        console.dir(2)
+                        var pitem = p;
+                     
+                        plus.io.resolveLocalFileSystemURL(p, function (entry) {
+                           // console.dir(entry.toLocalURL());
+                            console.dir(3)
+                            console.dir(lfs)
+                            cb('', '', '', entry.toLocalURL())
+                        }, function (e) {
+                            console.dir(4)
+                            console.dir(lfs)
+                            plus.nativeUI.toast("读取拍照文件错误：" + e.message);
+                        });
+                        // }
+
+                    }, function (err) {
+                        console.dir(err)
+
+                    }, {
+                            filename: "_doc/camera/",
+                            filter: 'video',
+                            system: true,
+                            multiple: false,
+                            maximum: 1,
+                            selected: lfs,
+                            onmaxed: function () {
+                                plus.nativeUI.alert('目前只能一個一個選擇');
+                            }
+                        });
+                   // publicTools.ShowActionSheet(this.$refs.myphoto, cb, true, true);
+                    //  task.setRequestHeader("Server_Token",encodeURIComponent(Server_Token))
+                },
+                sendpic: function () {
+                    var self = this;
+                    var cb = function (imgId, imgkey, id, src) {
+
+
+                        var wa = plus.nativeUI.showWaiting();
+                        //alert(ajaxurl + "UpdateTitleImg");
+                        var task = plus.uploader.createUpload(ajaxurl + "UploadMsg", {
+                            method: "POST", timeout: 0, blocksize: 0
+                        },
+                            function (t, status) {
+                                //alert(t.responseText);
+                                var r = JSON.parse(t.responseText);
+                                if (r.result_status) {
+                                    wa.close();
+                                    var $html = $($("#mymsg").html());
+                                    var msg = "[msgimg:" + r.result_content + "]";
+                                    $html.find(".msgcontent").html(msg);
+                                    if (datanowstring != moment().format('L')) {
+                                        datanowstring = moment().format('L');
+                                        var $timehtml = $($("#timemsg").html());
+                                        $timehtml.find("span").text(datanowstring);
+                                        $("#result").append($timehtml);
+                                    }
+                                    $html.find(".TimeShow").text(moment().format('LT'));
+                                    getimdata("sendmsg_new", { targetid: "{{sheinfo.Member_ID}}", msg: msg }, function (ee) { })
+                                   //bim.sendmsg("{{sheinfo.Member_ID}}", msg, function () {
+
+                                       // console.log('Tom & Jerry', '发送成功！');
+
+                                   // })
+                                    var chkst = $html.find(".msgcontent").html();
+                                    $html.find(".msgcontent")[0].SourseText = $html.find(".msgcontent").html();
+                                    if (chkst.indexOf("[msgimg:") == 0) {
+                                        var url = chkst.replace("[msgimg:", "").split("]")[0];
+                                        var newhtml = '<img src="' + url + '" style="width:auto;height:auto;max-width:150px;max-height:300px;object-fit:scale-down" onclick="showimg(\'' + url + '\')"  />';
+                                        $html.find(".msgcontent").html(newhtml);
+                                        $("#result").append($html);
+                                    } else if (chkst.indexOf("[msgvideo:") == 0) {
+                                        //<video v-if="JSON.parse(item.ImgList).Video!=''" binfo="newstitleVI" style="position:relative;top:0;left:50%;transform:translateX(-50%);width:100%;height:100%;max-height:200px;z-index:2" :src="JSON.parse(item.ImgList).Video" :poster="JSON.parse(item.ImgList).GIF" preload="metadata" loop muted playsinline webkit-playsinline />
+                                        var url = chkst.replace("[msgvideo:", "").split("]")[0];
+                                        var newhtml = '<video src="' + url + 'mp4" poster="' + url + 'jpg" style="width:150px;height:100px;max-width:150px;max-height:300px;object-fit:scale-down" preload="none"   />';
+                                        newhtml += '<a style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)" onclick="showimg(\'' + url + 'mp4\')"><i class="fa fa-2x fa-play" style="color:white"></a>'
+                                        $html.find(".msgcontent").html(newhtml);
+                                        $("#result").append($html);
+                                    } else if (chkst.indexOf("[msgvoice:") == 0) {
+                                        var newhtml = "";
+                                        var url = chkst.replace("[msgvoice:", "").split("]")[0].split(":")[1];
+                                        var dur = chkst.replace("[msgvoice:", "").split("]")[0].split(":")[2];
+                                        var name = "V_" +url.split("/")[url.split("/").length - 1].split(".")[0];
+                                        var $voicehtml = $("#voicetemp").html();
+                                        $voicehtml = $voicehtml.replace("#id", name);
+                                        $html.find(".msgcontent").css("padding", "0px")
+                                        $html.find(".msgcontent").html($voicehtml);
+                                        $("#result").append($html);
+                                        initvoice(name, url, dur)
+                                    } else {
+
+                                        $("#result").append($html);
+                                    }
+
+                                    $("#dom_id").scrollTop($("#dom_id")[0].scrollHeight);
+                                    self.isshoworder = false;
+
+                                    //self.data.Img = r.result_content + "?" + Math.random();
+                                    //plus.webview.all()[plus.webview.all().length - 2].loadURL("index.html?p=Setting");
+                                }
+                                else {
+                                    alert(r.result_message);
+                                    wa.close();
+                                }
+                            }
+                        );
+                        task.addFile(src, { key: "file" });
+                        task.addData("type", "img");
+                        task.setRequestHeader("Server_Token", encodeURIComponent(Server_Token))
+                        task.start();
+                    }
+                    publicTools.ShowActionSheet(this.$refs.myphoto, cb, true,true);
+                    //  task.setRequestHeader("Server_Token",encodeURIComponent(Server_Token))
+                },
+            }
+        })
+        function showimg(img) {
+            var cw;
+            if (JSON.parse(Server_Token).Status == "管理員") {
+                cw = plus.webview.create(debugurl + "Partition/Gallery.html", "Gallery", { "backButtonAutoControl": "close", "popGesture": "close", "height": "100%", "margin": "auto", "width": "100%", "userSelect": false, "scalable": true }, { Img: img });
+            }
+            else {
+                cw = plus.webview.create('Partition/Gallery.html', "Gallery", { "backButtonAutoControl": "close", "popGesture": "close", "height": "100%", "margin": "auto", "width": "100%", "userSelect": false, "scalable": true }, { Img: img });
+            }
+            //cw.show("slide-in-right");
+            cw.show();
+        }
+        setInterval(function () {
+            $("#dom_id").css("border-top", $("#hdfix").height() +"px  solid transparent")
+            //border-top: initial solid white;
+        }, 10)
+        function trashmsg() {
+            var cw;
+            if (JSON.parse(Server_Token).Status == "管理員") {
+                cw = plus.webview.create(debugurl + "Partition/TrashMsg.html", "callcr", { "cachemode": "noCache", "background": "transparent", "popGesture": "close", "height": "100%", "margin": "auto", "width": "100%" }, { mid: "{{sheinfo.Member_ID}}",type:"Message" });
+            }
+            else {
+                cw = plus.webview.create('Partition/TrashMsg.html', "callcr", { "cachemode": "noCache", "background": "transparent", "popGesture": "close", "height": "100%", "margin": "auto", "width": "100%" }, { mid: "{{sheinfo.Member_ID}}", type: "Message" });
+            }
+            cw.addEventListener('close', function (e) {
+                //plus.nativeUI.closeWaiting();
+            }, false);
+            plus.webview.currentWebview().append(cw)
+        }
+        function htmlencode(s) {
+            var div = document.createElement('div');
+            div.appendChild(document.createTextNode(s));
+            return div.innerHTML;
+        }
+        function htmldecode(s) {
+            var div = document.createElement('div');
+            div.innerHTML = s;
+            return div.innerText || div.textContent;
+
+        }
+        function sendmsg(e) {
+            if ($("#msg").val() == "") {
+                return;
+            }
+            if (msgvue.isblock) {
+                return;
+            }
+                var $html = $($("#mymsg").html());
+                var msg = htmlencode($("#msg").val());
+                msg = msg.replace(/ /g, "&nbsp;");
+            $html.find(".msgcontent").html(msg);
+            if (datanowstring != moment().format('L')) {
+                datanowstring = moment().format('L');
+                var $timehtml = $($("#timemsg").html());
+                $timehtml.find("span").text(datanowstring);
+                $("#result").append($timehtml);
+            }
+            $html.find(".TimeShow").text(moment().format('LT'));
+            getimdata("sendmsg_new", { targetid: "{{sheinfo.Member_ID}}", msg: msg }, function (ee) { })
+           //bim.sendmsg("{{sheinfo.Member_ID}}", msg, function () { })
+            $("#msg").val("");
+            $("#result").append($html);
+            $("#dom_id").scrollTop($("#dom_id")[0].scrollHeight);
+
+
+
+
+        }
+        var Conversation;
+        var messageIterator;
+        var OrderControl;
+        var ordervue;
+        function hovernavre(a, b, c, d) {
+            if (b == "admin") {
+                return;
+            }
+            hovernav_new(a, b, {
+                titleText: c,
+                img:d,
+                moreinfo: true,
+                type: 'transparent'
+            })
+        }
+   var getHistory;
+    $(function () {
+        var orderinfo = null;
+        //if ("{{orderinfo}}")
+        //    orderinfo = JSON.parse("{{orderinfo}}");
+        //$("#dom_id").height($("#dom_id").height()-60)
+        //$("#dom_id").css("margin-top","60px")
+
+        $(".sendbtn").attr("disabled", false);
+        $(".sendbtn").removeClass("weui-btn_disabled").addClass("weui-btn");
+        plus.nativeUI.showWaiting("聊天系統連線中...");
+        var noworderidx = 0;
+
+        getHistory = function () {
+            getimdata("getOrderInfo", "{{sheinfo.Member_ID}}", function (ev) { 
+           //bim.getOrderInfo("{{sheinfo.Member_ID}}", function (ev) {
+            
+                orderinfo = ev;
+                if (OrderControl) {
+                    OrderControl.order = (orderinfo.length == 0 ? null : orderinfo[0]);
+                  //  OrderControl.orderlist = orderinfo;
+                    OrderControl.orderlist = Object.assign([], OrderControl.orderlist, orderinfo)
+                } else {
+                    OrderControl = new Vue({
+                        el: '#hdfixvue',
+                        data: {
+                            order: (orderinfo.length == 0 ? null : orderinfo[0]),
+                            orderlist: orderinfo,
+
+                        },
+                        mounted: function () {
+                            $("#hdfixvue").css("opacity", "1")
+                          //  ordervue.order = (this.orderlist[0]||null)
+                            $(".chgo").on("click", function () {
+                                var d = parseInt($(this).attr("bidx"));
+                                OrderControl.changeorder(d)
+                            })
+                        },
+                        methods: {
+                            changeorder: function (idx) {
+                                console.dir(idx)
+                                ordervue.order = this.orderlist[idx]
+                                noworderidx = idx;
+                                $('#orderlistp').hide()
+                            },
+                            showlist: function () {
+                                $("#orderlistp").show()
+                            }
+                        }
+                    })
+                }
+
+                if (ordervue) {
+                    if (orderinfo.length == 0) {
+                        ordervue.order = null;
+                    } else if (orderinfo.length - 1 < noworderidx) {
+                        ordervue.order = orderinfo[0];
+                    } else {
+                        ordervue.order = orderinfo[noworderidx];
+                    }
+
+                } else {
+                    ordervue = new Vue({
+                        el: '#hdfix',
+                        data: {
+                            order: null,
+
+                            N1Active: false,
+                            N2Active: false,
+                            N3Active: false,
+                            N4Active: false,
+                            btntext: "",
+                            btnshower: ""
+                        },
+                        methods: {
+                            hovernav: function (idx, id) {
+                                hovernavre(this.$refs["child"][idx], id)
+                            },
+                            changeorder: function (idx) {
+                                console.dir(idx)
+                                this.order = OrderControl.orderlist[idx]
+                                noworderidx = idx;
+                                $('#orderlistp').hide()
+                            },
+                            cancelorder: function () {
+                                var cw;
+                                if (JSON.parse(Server_Token).Status == "管理員") {
+                                    cw = plus.webview.create(debugurl + "Partition/CancelOrder.html", "callcr", { "cachemode": "noCache", "background": "transparent", "popGesture": "close", "height": "100%", "margin": "auto", "width": "100%" }, { orderid: this.order.Order_ID });
+                                }
+                                else {
+                                    cw = plus.webview.create('Partition/CancelOrder.html', "callcr", { "cachemode": "noCache", "background": "transparent", "popGesture": "close", "height": "100%", "margin": "auto", "width": "100%" }, { orderid: this.order.Order_ID });
+                                }
+                                cw.addEventListener('close', function (e) {
+                                    //plus.nativeUI.closeWaiting();
+                                }, false);
+                                plus.webview.currentWebview().append(cw)
+                            },
+                            cancelorder_twice: function () {
+                                var self = this;
+                                plus.nativeUI.confirm("確認後將會把款項或體驗券(體驗券只能被歸還一次)還給買方,你確定嗎?", function (e) {
+                                    if (e.index == 0) {
+                                        plus.nativeUI.showWaiting("確定取消中");
+                                        $.ajax({
+                                            url: ajaxurl + "Order/" + self.order.Order_ID,
+                                            type: 'delete',
+                                            headers: { "cache-control": "no-cache","Server_Token": encodeURIComponent(Server_Token) },
+                                            data: { se: "", msg: "" },
+                                            timeout: 30000,
+                                            success: function (r) {
+                                                if (!r.result_status) {
+                                                    plus.nativeUI.closeWaiting();
+
+                                                    alert(r.result_message);
+                                                } else {
+                                                    alert("訂單已取消");
+                                                    // plus.webview.close(plus.webview.currentWebview())
+                                                }
+                                            },
+                                            error: function (jqXHR, textStatus, errorThrown) {
+                                                plus.nativeUI.closeWaiting();
+
+                                                alert(textStatus)
+                                            },
+                                            complete: function () {
+
+                                            }
+                                        });
+                                    }
+                                }, {
+                                        "title": "再次確認",
+                                        "buttons": ["確定", "再想想"],
+                                        "verticalAlign": "bottom"
+                                    });
+                            },
+                            keeporder: function () {
+                                var self = this;
+                              
+                                plus.nativeUI.showWaiting(this.btntext + "中");
+                                $.ajax({
+                                    url: ajaxurl + "Order/" + self.order.Order_ID,
+                                    type: 'patch',
+                                    data: { id: self.order.Order_ID },
+                                    headers: { "cache-control": "no-cache","Content-Type": "application/json","Server_Token": encodeURIComponent(Server_Token) },
+                                    timeout: 30000,
+                                    success: function (r) {
+                                        if (!r.result_status) {
+
+                                            alert(r.result_message);
+                                        }
+                                        plus.nativeUI.closeWaiting();
+                                    },
+                                    error: function (jqXHR, textStatus, errorThrown) {
+
+                                    },
+                                    complete: function () {
+                                        plus.nativeUI.closeWaiting();
+                                        //  plus.nativeUI.closeWaiting();
+                                    }
+                                });
+                            },
+                            appealorder: function () {
+                                var self = this;
+                                plus.nativeUI.confirm("申訴之後雙方將會被鎖定此單操作,需等候客服調解,你確定嗎?", function (e) {
+                                    if (e.index == 0) {
+                                        plus.nativeUI.showWaiting("確認申訴中");
+                                        $.ajax({
+                                            url: ajaxurl + "Order/" + self.order.Order_ID,
+                                            type: 'put',
+                                            headers: { "cache-control": "no-cache","Server_Token": encodeURIComponent(Server_Token) },
+                                            timeout: 30000,
+                                            success: function (r) {
+                                                if (!r.result_status) {
+
+
+                                                    alert(r.result_message);
+                                                } else {
+                                                    alert("已進行申訴");
+                                                    //plus.webview.close(plus.webview.currentWebview())
+                                                }
+                                            },
+                                            error: function (jqXHR, textStatus, errorThrown) {
+
+
+                                                alert(textStatus)
+                                            },
+                                            complete: function () {
+                                                plus.nativeUI.closeWaiting();
+                                            }
+                                        });
+                                    }
+                                }, {
+                                        "title": "再次確認",
+                                        "buttons": ["確定", "再想想"],
+                                        "verticalAlign": "bottom"
+                                    });
+                            },
+                            nextstep: function () {
+                                var self = this;
+                                plus.nativeUI.showWaiting(this.btntext + "中");
+                                if (this.order.Order_Status == 8) {
+                                    plus.nativeUI.closeWaiting();
+                                }
+                                else if (this.order.Order_Status == 4) {
+                                    
+                                    if (self.order.isFree == false) {
+                                        var cw;
+                                        if (JSON.parse(Server_Token).Status == "管理員") {
+                                            cw = plus.webview.create(debugurl + "Partition/RateOrder.html", "callr", { "cachemode": "noCache", "background": "transparent", "popGesture": "close", "height": "100%", "margin": "auto", "width": "100%" }, { orderid: this.order.Order_ID });
+                                        }
+                                        else {
+                                            cw = plus.webview.create('Partition/RateOrder.html', "callr", { "cachemode": "noCache", "background": "transparent", "popGesture": "close", "height": "100%", "margin": "auto", "width": "100%" }, { orderid: this.order.Order_ID });
+                                        }
+                                        cw.addEventListener('close', function (e) {
+                                            // plus.nativeUI.closeWaiting();
+                                        }, false);
+                                        plus.webview.currentWebview().append(cw)
+                                    } else {
+                                       
+                                        $.ajax({
+                                            url: ajaxurl + "Order/" + self.order.Order_ID,
+                                            type: 'patch',
+                                            data: { rate: 5, msg: "" },
+                                            headers: { "cache-control": "no-cache","Server_Token": encodeURIComponent(Server_Token) },
+                                            timeout: 30000,
+                                            success: function (r) {
+                                                if (!r.result_status) {
+                                                    plus.nativeUI.closeWaiting();
+                                                    console.dir(r.result_message)
+                                                    alert(r.result_message);
+                                                } else {
+
+                                                    plus.nativeUI.closeWaiting();
+                                                    alert("體驗單自動完成評價,評價完成");
+
+                                                }
+                                               // plus.webview.close(plus.webview.currentWebview())
+                                            },
+                                            error: function (jqXHR, textStatus, errorThrown) {
+                                                plus.nativeUI.closeWaiting();
+
+                                                alert(textStatus)
+                                            },
+                                            complete: function () {
+
+                                            }
+                                        });
+                                    }
+                                    plus.nativeUI.closeWaiting();
+                                  
+                                } else {
+                                   
+                                    $.ajax({
+                                        url: ajaxurl + "Order/" + self.order.Order_ID,
+                                        type: 'patch',
+                                        data: { id: self.order.Order_ID},
+                                        headers: { "cache-control": "no-cache","Content-Type": "application/json","Server_Token": encodeURIComponent(Server_Token) },
+                                        timeout: 30000,
+                                        success: function (r) {
+                                            if (!r.result_status) {
+                                              //  plus.nativeUI.closeWaiting();
+                                                alert(r.result_message);
+                                            }
+                                        },
+                                        error: function (jqXHR, textStatus, errorThrown) {
+
+                                        },
+                                        complete: function () {
+                                            plus.nativeUI.closeWaiting();
+                                        }
+                                    });
+                                }
+
+
+
+                            }
+                        },
+                        mounted: function () {
+                            this.order = (OrderControl.orderlist[0] || null)
+                            $(".chgo").on("click", function () {
+                                var d = parseInt($(this).attr("bidx"));
+                                OrderControl.changeorder(d)
+                            })
+                        },
+                        updated: function () {
+
+                            if (this.order) {
+
+                                if (this.order.Order_Status == 1) {
+                                    this.N1Active = true;
+                                    this.N2Active = false;
+                                    this.N3Active = false;
+                                    this.N4Active = false;
+                                    this.btntext = "確認接單";
+                                    this.btnshower = this.order.Seller;
+                                }
+                                if (this.order.Order_Status == 2) {
+                                    this.N1Active = true;
+                                    this.N2Active = true;
+                                    this.N3Active = false;
+                                    this.N4Active = false;
+                                    this.btntext = "完成服務";
+                                    this.btnshower = this.order.Seller;
+                                }
+                                if (this.order.Order_Status == 3) {
+                                    this.N1Active = true;
+                                    this.N2Active = true;
+                                    this.N3Active = true;
+                                    this.N4Active = false;
+                                    this.btntext = "確認完成";
+                                    this.btnshower = this.order.Buyer;
+                                }
+                                if (this.order.Order_Status == 4) {
+                                    this.N1Active = true;
+                                    this.N2Active = true;
+                                    this.N3Active = true;
+                                    this.N4Active = true;
+                                    this.btntext = "進行評價";
+                                    this.btnshower = this.order.Buyer
+                                }
+                                if (this.order.Order_Status == 8) {
+                                    this.N1Active = false;
+                                    this.N2Active = false;
+                                    this.N3Active = false;
+                                    this.N4Active = false;
+                                    this.btntext = "繼續";
+                                    if (this.order.Seller == this.order.OP) {
+                                        this.btnshower = "";
+                                    }
+                                    if (this.order.Buyer == this.order.OP) {
+                                        this.btnshower = "";
+                                    }
+                                }
+                                if (this.order.Order_Status == 7) {
+                                    this.N1Active = false;
+                                    this.N2Active = false;
+                                    this.N3Active = false;
+                                    this.N4Active = false;
+                                    this.btntext = "繼續";
+                                    this.btnshower = "";
+                                }
+
+                            }
+                            plus.nativeUI.closeWaiting();
+                        }
+                    })
+                    $('#vapp0').css("display", "flex")
+                    plus.nativeUI.closeWaiting();
+                    $("#dom_id").scrollTop($("#dom_id")[0].scrollHeight);
+                }
+
+            });
+            getimdata("getHistory_new", { targetid: "{{sheinfo.Member_ID}}",co:100}, function (ev) { 
+           //bim.getHistory("{{sheinfo.Member_ID}}", 200, function (ev) {
+                $("#result").empty();
+                getimdata("on", "RevMsg", function (revl) { 
+                //bim.on("RevMsg", function (revl) {
+
+                    for (var i = 0; i < revl.length; i++) {
+                        var rev = revl[i];
+                        if (rev.From == "{{sheinfo.Member_ID}}") {
+                            var $html = $($("#othermsg").html());
+                            $html.find(".msgcontent").html(rev.Msg);
+                            if (datanowstring != moment(rev.CreateTime).format('L')) {
+                                datanowstring = moment(rev.CreateTime).format('L');
+                                var $timehtml = $($("#timemsg").html());
+                                $timehtml.find("span").text(datanowstring);
+                                $("#result").append($timehtml);
+                            }
+                            $html.find(".TimeShow").text(moment(rev.CreateTime).format('LT'));
+                            var chkst = $html.find(".msgcontent").html();
+                            $html.find(".msgcontent")[0].SourseText = $html.find(".msgcontent").html();
+                            if (chkst.indexOf("[msgimg:") == 0) {
+                                var url = chkst.replace("[msgimg:", "").split("]")[0];
+                                var newhtml = '<img src="' + url + '" style="width:auto;height:auto;max-width:150px;max-height:300px;object-fit:scale-down" onclick="showimg(\'' + url+'\')"  />';
+                                $html.find(".msgcontent").html(newhtml);
+                                $("#result").append($html);
+                            } else if (chkst.indexOf("[msgvideo:") == 0) {
+                                //<video v-if="JSON.parse(item.ImgList).Video!=''" binfo="newstitleVI" style="position:relative;top:0;left:50%;transform:translateX(-50%);width:100%;height:100%;max-height:200px;z-index:2" :src="JSON.parse(item.ImgList).Video" :poster="JSON.parse(item.ImgList).GIF" preload="metadata" loop muted playsinline webkit-playsinline />
+                                var url = chkst.replace("[msgvideo:", "").split("]")[0];
+                                  var newhtml = '<video src="' + url + 'mp4" poster="' + url + 'jpg" style="width:150px;height:100px;max-width:150px;max-height:300px;object-fit:scale-down" preload="none"   />';
+                              newhtml += '<a style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)" onclick="showimg(\'' + url + 'mp4\')"><i class="fa fa-2x fa-play" style="color:white"></a>'
+                                $html.find(".msgcontent").html(newhtml);
+                                $("#result").append($html);
+                            } else if (chkst.indexOf("[msgvoice:") == 0) {
+                                var newhtml = "";
+                                var url = chkst.replace("[msgvoice:", "").split("]")[0].split(":")[1];
+                                var dur = chkst.replace("[msgvoice:", "").split("]")[0].split(":")[2];
+                                var name = "V_" + url.split("/")[url.split("/").length - 1].split(".")[0];
+                                var $voicehtml = $("#voicetemp").html();
+                                $voicehtml = $voicehtml.replace("#id", name);
+                                $html.find(".msgcontent").css("padding", "0px")
+                                $html.find(".msgcontent").html($voicehtml);
+                                $("#result").append($html);
+                                initvoice(name, url, dur)
+                            } else {
+
+                                $("#result").append($html);
+                            }
+
+                            $("#dom_id").scrollTop($("#dom_id")[0].scrollHeight);
+                            getimdata("readed", { targetid: "{{sheinfo.Member_ID}}", li: [rev.Chat_Histroy_ID] }, function(){})
+                           //bim.readed("{{sheinfo.Member_ID}}", [rev.Chat_Histroy_ID]);
+                            getimdata("readed", { targetid: "{{sheinfo.Member_ID}}" }, function () { })
+                           //bim.readed("{{sheinfo.Member_ID}}");
+                        }
+                    }
+
+                })
+                var $warnhtml = $($("#warnmsg").html());
+                if (ev == "block") {
+                    msgvue.isblock = true;
+                    $("#dom_id").css("background-color", "gray")
+                    $("#msg").attr("disabled", true).attr("placeholder","封鎖中")
+                    return;
+                } else {
+                    for (var i = 0; i < ev.length; i++) {
+
+                        var message = ev[i];
+                        var $html
+                        var readed = [];
+                        if (message.From == JSON.parse(Server_Token).Member_ID) {
+                            $html = $($("#mymsg").html());
+                        }
+                        else {
+                            $html = $($("#othermsg").html());
+                            readed.push(message.Chat_Histroy_ID);
+                        }
+                        // console.dir(message)
+                        $html.find(".msgcontent").html(message.Msg);
+                        if (datanowstring != moment(message.CreateTime).format('L')) {
+                            datanowstring = moment(message.CreateTime).format('L');
+                            var $timehtml = $($("#timemsg").html());
+                            $timehtml.find("span").text(datanowstring);
+                            $("#result").append($timehtml);
+                        }
+
+                        $html.find(".TimeShow").text(moment(message.CreateTime).format('LT'));
+                        var chkst = $html.find(".msgcontent").html();
+                        $html.find(".msgcontent")[0].SourseText = $html.find(".msgcontent").html();
+                        if (chkst.indexOf("[msgimg:") == 0) {
+                            var url = chkst.replace("[msgimg:", "").split("]")[0];
+                            var newhtml = '<img src="' + url + '" style="width:auto;height:auto;max-width:150px;max-height:300px;object-fit:scale-down" onclick="showimg(\'' + url + '\')"  />';
+                            $html.find(".msgcontent").html(newhtml);
+                            $("#result").append($html);
+                        } else if (chkst.indexOf("[msgvideo:") == 0) {
+                            //<video v-if="JSON.parse(item.ImgList).Video!=''" binfo="newstitleVI" style="position:relative;top:0;left:50%;transform:translateX(-50%);width:100%;height:100%;max-height:200px;z-index:2" :src="JSON.parse(item.ImgList).Video" :poster="JSON.parse(item.ImgList).GIF" preload="metadata" loop muted playsinline webkit-playsinline />
+                            var url = chkst.replace("[msgvideo:", "").split("]")[0];
+                            var newhtml = '<video src="' + url + 'mp4" poster="' + url + 'jpg" style="width:auto;height:auto;max-width:150px;max-height:300px;object-fit:scale-down" preload="none"   />';
+                            newhtml += '<a style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)" onclick="showimg(\'' + url + 'mp4\')"><i class="fa fa-2x fa-play" style="color:white"></i></a>'
+                            $html.find(".msgcontent").html(newhtml);
+                            $("#result").append($html);
+                        } else if (chkst.indexOf("[msgvoice:") == 0) {
+                            var newhtml = "";
+                            var url = chkst.replace("[msgvoice:", "").split("]")[0].split(":")[1];
+                            var dur = chkst.replace("[msgvoice:", "").split("]")[0].split(":")[2];
+                            var name = "V_" + url.split("/")[url.split("/").length - 1].split(".")[0];
+                            var $voicehtml = $("#voicetemp").html();
+                            $voicehtml = $voicehtml.replace("#id", name);
+                            $html.find(".msgcontent").css("padding", "0px")
+                            $html.find(".msgcontent").html($voicehtml);
+                            $("#result").append($html);
+                            initvoice(name, url, dur)
+                        } else {
+
+                            $("#result").append($html);
+                        }
+
+                        if (i == 0 && '{{sheinfo.Member_ID}}' != "admin") {
+
+                            $("#result").append($warnhtml);
+                        }
+                        if (i >= 2) {
+                            $warnhtml.remove()
+                        }
+                        $("#dom_id").scrollTop($("#dom_id")[0].scrollHeight);
+                        $("#result img").on("load", function () {
+                            $("#dom_id").scrollTop($("#dom_id")[0].scrollHeight);
+                        })
+                        $("#result video").on("load", function () {
+                            $("#dom_id").scrollTop($("#dom_id")[0].scrollHeight);
+                        })
+
+                    }
+                }
+                getimdata("readed", { targetid: "{{sheinfo.Member_ID}}", li: readed }, function () { })
+                //bim.readed("{{sheinfo.Member_ID}}", readed);
+                plus.nativeUI.closeWaiting();
+            });
+        }
+        getHistory();
+
+
+        //bim.on("ReconnectListener", function (revl) {
+        //    getHistory();
+
+        //})
+        });
+
+        $(".page.layers").css("overflow","hidden")
+    </script>
+    <script type="text/html" id="voicetemp">
+        <div id="#id" @click="playaudio" style="height:100%;color:black;width:100%;border-radius:999em;overflow:hidden">
+
+            <div style="width:100%;height:100%;padding:5px 15px;" v-bind:style="{'background':'linear-gradient(to right, rgba(0,0,0,.3) '+(currentTime/duration*100)+'%,  rgba(0,0,0,0) '+(((currentTime/duration))*100)+'%)'}">
+                <i class=" fa-1x text-inverse" v-bind:class='{"ion-ios-play":(!isplaying),"ion-ios-pause":isplaying}' style="margin:15px 0 auto"></i>
+                <span style="position:relative;padding-left:5px;border-left:1px solid gray;margin:15px 0 auto">{{padding1(mins,2)}}"{{padding1(seconds,2)}}</span>
+
+            </div>
+
+        </div>
+
+    </script>
+    <script type="text/javascript">
+        function createUpload(url, cb) {
+            msgvue.isshoworder2 = false;
+            var wa = plus.nativeUI.showWaiting();
+            //alert(ajaxurl + "UpdateTitleImg");
+            var task = plus.uploader.createUpload(ajaxurl + "UploadMsg", {
+                method: "POST", timeout: 0, blocksize: 0
+            },
+                function (t, status) {
+                    //alert(t.responseText);
+                    var r = JSON.parse(t.responseText);
+                    if (r.result_status) {
+                        var elm = $("<audio src='" + r.result_content + "'></audio>")
+
+                        $("#audiodiv").empty()
+                        $("#audiodiv").append(elm);
+                        elm.on("loadedmetadata", function () {
+
+                           // console.dir(this.duration)
+                            var tl =Math.floor(this.duration / (1))
+                            wa.close();
+                            var $html = $($("#mymsg").html());
+                            var msg = "[msgvoice:" + r.result_content + ":" + tl + "]";
+                            $html.find(".msgcontent").html(msg);
+                            if (datanowstring != moment().format('L')) {
+                                datanowstring = moment().format('L');
+                                var $timehtml = $($("#timemsg").html());
+                                $timehtml.find("span").text(datanowstring);
+                                $("#result").append($timehtml);
+                            }
+                            $html.find(".TimeShow").text(moment().format('LT'));
+                            getimdata("sendmsg_new", { targetid: "{{sheinfo.Member_ID}}", msg: msg }, function (ee) { })
+                            //bim.sendmsg("{{sheinfo.Member_ID}}", msg, function () { })
+                            var chkst = $html.find(".msgcontent").html();
+                            $html.find(".msgcontent")[0].SourseText = $html.find(".msgcontent").html();
+                            if (chkst.indexOf("[msgimg:") == 0) {
+                                var url = chkst.replace("[msgimg:", "").split("]")[0];
+                                var newhtml = '<img src="' + url + '" style="width:auto;height:auto;max-width:150px;max-height:300px;object-fit:scale-down" onclick="showimg(\'' + url + '\')"  />';
+                                $html.find(".msgcontent").html(newhtml);
+                                $("#result").append($html);
+                            } else if (chkst.indexOf("[msgvideo:") == 0) {
+                                //<video v-if="JSON.parse(item.ImgList).Video!=''" binfo="newstitleVI" style="position:relative;top:0;left:50%;transform:translateX(-50%);width:100%;height:100%;max-height:200px;z-index:2" :src="JSON.parse(item.ImgList).Video" :poster="JSON.parse(item.ImgList).GIF" preload="metadata" loop muted playsinline webkit-playsinline />
+                                var url = chkst.replace("[msgvideo:", "").split("]")[0];
+                                var newhtml = '<video src="' + url + 'mp4" poster="' + url + 'jpg" style="width:150px;height:100px;max-width:150px;max-height:300px;object-fit:scale-down" preload="none"   />';
+                                newhtml += '<a style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)" onclick="showimg(\'' + url + 'mp4\')"><i class="fa fa-2x fa-play" style="color:white"></a>'
+                                $html.find(".msgcontent").html(newhtml);
+                                $("#result").append($html);
+                            } else if (chkst.indexOf("[msgvoice:") == 0) {
+                                var newhtml = "";
+                                var url = chkst.replace("[msgvoice:", "").split("]")[0].split(":")[1];
+                                var dur = chkst.replace("[msgvoice:", "").split("]")[0].split(":")[2];
+                                var name = "V_" + url.split("/")[url.split("/").length - 1].split(".")[0];
+                                var $voicehtml = $("#voicetemp").html();
+                                $voicehtml = $voicehtml.replace("#id", name);
+                                $html.find(".msgcontent").css("padding", "0px")
+                                $html.find(".msgcontent").html($voicehtml);
+                                $("#result").append($html);
+                                initvoice(name, url, dur)
+                            } else {
+
+                                $("#result").append($html);
+                            }
+
+
+                            $("#dom_id").scrollTop($("#dom_id")[0].scrollHeight);
+                        });
+
+
+
+                        //self.data.Img = r.result_content + "?" + Math.random();
+                        //plus.webview.all()[plus.webview.all().length - 2].loadURL("index.html?p=Setting");
+                    }
+                    else {
+                        alert(r.result_message);
+                        wa.close();
+                    }
+                }
+            );
+            task.addFile(url, { key: "file" });
+            task.addData("type", "voice");
+            task.setRequestHeader("Server_Token", encodeURIComponent(Server_Token))
+            task.start();
+        }
+
+        var r = null, t = null, ri = null, rt = null, p = null;
+        var entry = null;
+        var isstart = false;
+        var isplaying = false;
+        function stopRecord() {
+           // console.dir("RECORDStop")
+            isstart = false;
+            if (r != null) {
+              //  clearTimeout(t);
+                r.stop();
+            }
+
+        }
+        function startRecord(ele) {
+            //  console.dir("RECORD")
+            isstart = true;
+            //$(ele).find("i").show();
+            r = plus.audio.getRecorder();
+            if (r == null) {
+                alert('錄音實例化失敗');
+                return;
+            }
+            var forma = "";
+
+            if (plus.os.name == "Android")
+                forma = "amr";
+            else
+                forma = "aac";
+
+            r.record({ filename: '_doc/audio/', format: forma, }, function (p) {
+               // $(ele).find("i").hide();
+               // $(ele).find("span").text("");
+                createUpload(p, function (t) {
+
+                });
+            }, function (e) {
+                alert('錄音失敗：' + e.message);
+            });
+            //t = setTimeout(function () { stopRecord(); }, 30000);
+
+        }
+
+
+        var btnElem = document.getElementById("messageBtn");//获取ID
+        var posStart = 0;//初始化起点坐标
+        var posEnd = 0;//初始化终点坐标
+        var posMove = 0;//初始化滑动坐标
+       // console.log(screen);
+        function initEvent() {
+            btnElem.addEventListener("touchstart", function (event) {
+                event.preventDefault();//阻止浏览器默认行为
+                posStart = 0;
+                posStart = event.touches[0].pageY;//获取起点坐标
+               // btnElem.value = '松开 结束';
+                $(btnElem).addClass("button--animate");
+                $(btnElem).find("i").css("color","red");
+                //button--animate
+                startRecord();
+               // console.log("start");
+              //  console.log(posStart + '---------开始坐标');
+            });
+            //btnElem.addEventListener("touchmove", function (event) {
+            //    event.preventDefault();//阻止浏览器默认行为
+            //    posMove = 0;
+            //    posMove = event.targetTouches[0].pageY;//获取滑动实时坐标
+            //    if (posStart - posMove < 500) {
+            //        btnElem.value = '松开 结束';
+            //    } else {
+            //        btnElem.value = '松开手指，取消发送';
+            //    }
+            //    /*console.log(posStart+'---------');
+            //    console.log(posMove+'+++++++++');*/
+            //});
+            btnElem.addEventListener("touchend", function (event) {
+                event.preventDefault();
+                posEnd = 0;
+                posEnd = event.changedTouches[0].pageY;//获取终点坐标
+               // btnElem.value = '按住 说话';
+                $(btnElem).removeClass("button--animate");
+                $(btnElem).find("i").css("color", "dimgray");
+              //  console.log("End");
+              //  console.log(posEnd + '---------结束坐标');
+                //if (posStart - posEnd < 500) {
+                //    console.log("发送成功");
+                //    save();
+                //} else {
+                //    console.log("取消发送");
+                //    console.log("Cancel");
+                //};
+                stopRecord();
+            });
+        };
+        initEvent();
+        function initvoice(id,url,dur) {
+            new Vue({
+                el: "#"+id,
+                data: {
+                    orga: "https://"+url,
+                    mins: 0,
+                    seconds: 0,
+                    isplaying: false,
+                    currentTime: 0.0,
+                    audioobj: null,
+                    duration: 0,
+                    invaupl: 0
+                },
+                created: function () {
+
+                    var tl = parseFloat(dur) ;
+                    this.duration = parseFloat(dur) ;
+                    this.mins = Math.floor(tl / (60));
+                    tl -= this.mins * (60);
+                    this.seconds = Math.floor(tl / (1));
+                    tl -= this.seconds * (1);
+                    this.currentTime = 0.0;
+                   // console.dir("this.seconds")
+                   // console.dir(parseInt(dur))
+                },
+                methods: {
+                    playaudio: function () {
+                        var self = this;
+                        if ((this.orga || "") != "") {
+                            var elm = $("<audio src='" + this.orga + "'></audio>")
+
+                            $("#audiodiv").empty()
+                            $("#audiodiv").append(elm);
+
+                            elm.on("loadedmetadata", function () {
+                              //  console.dir("canplay")
+                                self.audioobj = this;
+                              //  console.dir("this.duration")
+                              //  console.dir(this.duration)
+                                var tl = this.duration;
+                                self.duration = this.duration;
+                                self.mins = Math.floor(tl / (60));
+                                tl -= self.mins * (60);
+                                self.seconds = Math.floor(tl / (1));
+                                tl -= self.seconds * (1);
+                                self.currentTime = this.currentTime;
+
+                                if (self.audioobj) {
+
+
+                                    self.isplaying = !self.isplaying;
+                                 //   console.dir(self.isplaying)
+                                    if (self.isplaying) {
+                                        self.audioobj.play();
+                                        self.invaupl = setInterval(function () {
+                                            var tl = self.audioobj.duration - self.audioobj.currentTime;
+                                        //    console.dir(self.audioobj.currentTime)
+                                            self.mins = Math.floor(tl / (60));
+                                            tl -= self.mins * (60);
+                                            self.seconds = Math.floor(tl / (1));
+                                            tl -= self.seconds * (1);
+                                            self.currentTime = self.audioobj.currentTime;
+
+                                        }, 50)
+                                    } else {
+                                        self.audioobj.pause();
+                                        clearInterval(self.invaupl);
+                                    }
+                                }
+                            });
+                            elm.on("ended", function () {
+
+                                this.currentTime = 0;
+                            });
+
+                        }
+
+
+                    },
+                    padding1: function (num, length) {
+                        for (var len = (num + "").length; len < length; len = num.length) {
+                            num = "0" + num;
+                        }
+                        return num;
+                    }
+                },
+            })
+        }
+
+        plus.webview.currentWebview().addEventListener('close', function (e) {
+
+            plus.webview.getLaunchWebview().evalJS("reloadmsgbox()");
+        }, false);
+    </script>
+</div>

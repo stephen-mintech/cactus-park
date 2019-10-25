@@ -1,0 +1,507 @@
+﻿<style>
+    a.weui-media-box:active {
+        background-color: #ECECEC;
+    }
+</style>
+<div class="getmoney page bdbg" id="getmoneybd" style="overflow-y:hidden">
+
+
+    <div class="page__hd navbg" style="padding:0;margin:0;height:60px;position:relative">
+        <h4 class="" style="color:white;width:100%;line-height:60px;font-size:24px;position:absolute;text-align:center">提領</h4>
+
+        <div id="backSetting" class="backb" onclick="plus.webview.close(plus.webview.currentWebview())" style="width:30px;height:60px;border-radius: 999em;color:white">
+            <i class="fa fa-angle-left" style="font-size:30px;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"> </i>
+        </div>
+        <div style="position:absolute;top:0;right:0;width:60px;height:60px;vertical-align:middle;text-align:center">
+            <i class="ion-ios-help-outline " style="font-weight:bold;font-size:30px;color:white;position:relative;line-height:60px" @click="info"></i>
+
+        </div>
+    </div>
+
+    <div class="page__bd" style="overflow-y:auto;height:0%;padding-top:0px">
+        <div style="height:5px"></div>
+        <div class="weui-panel weui-panel_access">
+
+            <div class="weui-panel__bd">
+                <a href="javascript:void(0);" @click="GetMoneyDetail('CanGive')" class="weui-media-box weui-media-box_appmsg">
+
+                    <div class="weui-media-box__bd">
+                        <div style="display:flex">
+                            <h4 style="flex:1" class="weui-media-box__title">已入帳：</h4>
+                        </div>
+                        <p class="weui-media-box__desc">交易完成後金流確認入帳款項</p>
+                    </div>
+                    <div class="weui-media-box__ft">
+                        <span style="color:green;font-weight:bold;position:relative">{{Enumerable.from(CanGive).sum(e=>e.PointChange)|NumFormat}} TWD </span>
+                        <span style="color:lightgray"><i class="ion-chevron-right fa-1x text-inverse"></i></span>
+                    </div>
+                </a>
+                <!--<a href="javascript:void(0);" @click="GetMoneyDetail('NotGet')" class="weui-media-box weui-media-box_appmsg">
+
+                    <div class="weui-media-box__bd">
+                        <div style="display:flex">
+                            <h4 style="flex:1" class="weui-media-box__title">待入帳：</h4>
+                        </div>
+                        <p class="weui-media-box__desc">交易完成後金流尚未確認款項</p>
+                    </div>
+                    <div class="weui-media-box__ft">
+                        <span style="color:red;font-weight:bold;position:relative">{{Enumerable.from(NotGet).sum(e=>e.PointChange)|NumFormat}} TWD </span>
+                        <span style="color:lightgray"><i class="ion-chevron-right fa-1x text-inverse"></i></span>
+                    </div>
+                </a>-->
+                <a href="javascript:void(0);" @click="GetMoneyDetail('Frozen')" class="weui-media-box weui-media-box_appmsg">
+
+                    <div class="weui-media-box__bd">
+                        <div style="display:flex">
+                            <h4 style="flex:1" class="weui-media-box__title">申請提領中：</h4>
+                        </div>
+                        <p class="weui-media-box__desc">等待隔月十號系統撥款金額</p>
+                    </div>
+                    <div class="weui-media-box__ft">
+                        <span style="color:blue;font-weight:bold;position:relative">{{Enumerable.from(Frozen).where(e=>e.Memo!='[GetingMoney:Checked]').sum(e=>e.PointChange*-1)|NumFormat}} TWD </span>
+                        <span style="color:lightgray"><i class="ion-chevron-right fa-1x text-inverse"></i></span>
+                    </div>
+                </a>
+                <a href="javascript:void(0);" @click="GetMoneyDetail('Frozen1')" class="weui-media-box weui-media-box_appmsg">
+
+                    <div class="weui-media-box__bd">
+                        <div style="display:flex">
+                            <h4 style="flex:1" class="weui-media-box__title">已提領：</h4>
+                        </div>
+                        <p class="weui-media-box__desc">歷史提領總金額</p>
+                    </div>
+                    <div class="weui-media-box__ft">
+                        <span style="color:blue;font-weight:bold;position:relative">{{Enumerable.from(Frozen).where(e=>e.Memo=='[GetingMoney:Checked]').sum(e=>e.PointChange*-1)|NumFormat}} TWD </span>
+                        <span style="color:lightgray"><i class="ion-chevron-right fa-1x text-inverse"></i></span>
+                    </div>
+                </a>
+                <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
+
+                    <div class="weui-media-box__bd">
+                        <div style="display:flex">
+                            <h4 style="flex:1" class="weui-media-box__title">剩餘可提領金額：</h4>
+                        </div>
+                        <p class="weui-media-box__desc">剩餘可提領金額</p>
+                    </div>
+                    <div class="weui-media-box__ft">
+                        <span style="color:green;font-weight:bold;position:relative">{{Enumerable.from(CanGive).sum(e=>e.PointChange)+Enumerable.from(Frozen).sum(e=>e.PointChange)|NumFormat}} TWD </span>
+                        <span style="color:lightgray"><i class="ion-chevron-right fa-1x text-inverse"></i></span>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+        <div class="weui-cells__title">台灣身分證號碼或護照號碼</div>
+        <div class="weui-cells" @click="$('#iosDialog1').show();$('#iosDialog1 .weui-dialog').fadeIn(200)">
+            <div class="weui-cell weui-cell_access">
+                <div class="weui-cell__bd">{{((IDNumber||'')==''?'未輸入':IDNumber)}}</div>
+                <div class="weui-cell__ft" style="font-size: 0">
+                    <span style="vertical-align:middle; font-size: 17px;">修改</span>
+                </div>
+            </div>
+        </div>
+        <div class="weui-cells__title">地址</div>
+        <div class="weui-cells" @click="$('#iosDialog2').show();$('#iosDialog2 .weui-dialog').fadeIn(200)">
+            <div class="weui-cell weui-cell_access">
+                <div class="weui-cell__bd">{{((Address||'')==''?'未輸入':Address)}}</div>
+                <div class="weui-cell__ft" style="font-size: 0">
+                    <span style="vertical-align:middle; font-size: 17px;">修改</span>
+                </div>
+            </div>
+        </div>
+        <div class="weui-cells__title">電子簽名</div>
+        <div class="weui-cells" @click="chgsign" style="padding:5px 5px;position:relative">
+            <img :src="Signature" @error="Signature='img/signin.png'" style="position:relative;border:1px dashed gray;left:20%;width:60%;height:20vh;object-fit:contain;object-position:center" />
+
+            <!--<a href="javascript:;" v-if="Signature=='img/signin.jpg'" style="position:absolute;top:10vh;left:50%;transform:translate(-50%,-50%)" class="weui-btn weui-btn_mini weui-btn_default">進行電子簽名</a>-->
+        </div>
+        <div class="weui-cells__title">台灣身分證正面或護照封面</div>
+        <div class="weui-cells" @click="chgimg(1)" style="padding:5px 5px;position:relative">
+            <img :src="ID1" @error="ID1='img/ID1_default.jpg'" style="position:relative;border:1px dashed gray;left:20%;width:60%;height:20vh;object-fit:contain;object-position:center" />
+
+            <a href="javascript:;" v-if="ID1=='img/ID1_default.jpg'" style="position:absolute;top:10vh;left:50%;transform:translate(-50%,-50%)" class="weui-btn weui-btn_mini weui-btn_default">上傳證件正面</a>
+        </div>
+        <div class="weui-cells__title">台灣身分證反面或護照內頁</div>
+        <div class="weui-cells" @click="chgimg(2)" style="padding:5px 5px;position:relative">
+            <img :src="ID2" @error="ID2='img/ID2_default.jpg'" style="position:relative;border:1px dashed gray;left:20%;width:60%;height:20vh;object-fit:contain;object-position:center" />
+            <a href="javascript:;" v-if="ID2=='img/ID2_default.jpg'" style="position:absolute;top:10vh;left:50%;transform:translate(-50%,-50%)" class="weui-btn weui-btn_mini weui-btn_default">上傳證件反面</a>
+
+        </div>
+
+        <div style="height:20px"></div>
+    </div>
+    <div style="position:fixed;bottom:0;width:100%;height:46px;background-color:white;z-index:10">
+        <a href="javascript:;" @click="getmoney" class="weui-btn weui-btn_block weui-btn_primary">申請提領</a>
+    </div>
+    <div>
+        <div class="weui-mask" id="iosMask" @click="showGet=false" v-bind:style="{display:(showGet?'block':'none')}"></div>
+        <div class="weui-actionsheet" v-bind:class="{'weui-actionsheet_toggle':showGet}">
+            <div class="weui-actionsheet__title">
+                <p class="weui-actionsheet__title-text">
+                    剩餘可提領金額：     <span style="color:green;font-weight:bold;position:relative">{{Enumerable.from(CanGive).sum(e=>e.PointChange)+Enumerable.from(Frozen).sum(e=>e.PointChange)|NumFormat}} TWD </span>
+                </p>
+            </div>
+            <div class="weui-cells weui-cells_form" style="margin-top:5px">
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">申請提領</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="number" pattern="[0-9]*" v-model.number="GetMoneyNumber" placeholder="最小單位為1000TWD">
+                    </div>
+                </div>
+
+            </div>
+            <div class="weui-actionsheet__action">
+                <div class="weui-actionsheet__cell" style="display:flex">
+                    <div style="flex:1;padding:5px 5px">
+                        <a href="javascript:;" @click="GetMoneyPost" class="weui-btn weui-btn_default">確定提領</a>
+                    </div>
+                    <div style="flex:1;padding:5px 5px">
+                        <a href="javascript:;" @click="showGet=false" class="weui-btn weui-btn_warn">取消</a>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+        </div>
+        <div id="">
+            <!--BEGIN dialog1-->
+            <div class="js_dialog" id="iosDialog1" style="display: none;">
+                <div class="weui-mask" @click="$('#iosDialog1 .weui-dialog').fadeOut(200,function(){$('#iosDialog1').hide()})"></div>
+                <div class="weui-dialog" style="display:none">
+                    <div class="weui-dialog__hd" style="text-align:left"><strong class="weui-dialog__title">證件號碼：</strong></div>
+                    <div class="weui-dialog__bd">
+                        <div class="weui-cells" style="margin:0">
+                            <div class="weui-cell">
+                                <div class="weui-cell__bd">
+                                    <input class="weui-input" v-model="PostIDNumber" type="text" placeholder="請輸入證件號碼">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="weui-dialog__ft">
+                        <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default" @click="$('#iosDialog1 .weui-dialog').fadeOut(200,function(){$('#iosDialog1').hide()})">取消</a>
+                        <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" @click="saveid()">保存</a>
+                    </div>
+                </div>
+            </div>
+            <div class="js_dialog" id="iosDialog2" style="display: none;">
+                <div class="weui-mask" @click="$('#iosDialog2 .weui-dialog').fadeOut(200,function(){$('#iosDialog2').hide()})"></div>
+                <div class="weui-dialog" style="display:none">
+                    <div class="weui-dialog__hd" style="text-align:left"><strong class="weui-dialog__title">地址：</strong></div>
+                    <div class="weui-dialog__bd">
+                        <div class="weui-cells" style="margin:0">
+                            <div class="weui-cell">
+                                <div class="weui-cell__bd">
+                                    <input class="weui-input" v-model="PostAddress" type="text" placeholder="請輸入地址">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="weui-dialog__ft">
+                        <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default" @click="$('#iosDialog2 .weui-dialog').fadeOut(200,function(){$('#iosDialog2').hide()})">取消</a>
+                        <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" @click="saveid()">保存</a>
+                    </div>
+                </div>
+            </div>
+            <!--END dialog1-->
+            <!--BEGIN dialog2-->
+            <div class="js_dialog" id="iosDialog2" style="opacity: 0; display: none;">
+                <div class="weui-mask"></div>
+                <div class="weui-dialog">
+                    <div class="weui-dialog__bd">弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内</div>
+                    <div class="weui-dialog__ft">
+                        <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+                    </div>
+                </div>
+            </div>
+            <!--END dialog2-->
+            <!--BEGIN dialog3-->
+            <div class="js_dialog" id="androidDialog1" style="display: none;">
+                <div class="weui-mask"></div>
+                <div class="weui-dialog weui-skin_android">
+                    <div class="weui-dialog__hd"><strong class="weui-dialog__title">弹窗标题</strong></div>
+                    <div class="weui-dialog__bd">
+                        弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内
+                    </div>
+                    <div class="weui-dialog__ft">
+                        <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">辅助操作</a>
+                        <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">主操作</a>
+                    </div>
+                </div>
+            </div>
+            <!--END dialog3-->
+            <!--BEGIN dialog4-->
+            <div class="js_dialog" id="androidDialog2" style="display: none;">
+                <div class="weui-mask"></div>
+                <div class="weui-dialog weui-skin_android">
+                    <div class="weui-dialog__bd">
+                        弹窗内容，告知当前状态、信息和解决方法，描述文字尽量控制在三行内
+                    </div>
+                    <div class="weui-dialog__ft">
+                        <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default">辅助操作</a>
+                        <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary">主操作</a>
+                    </div>
+                </div>
+            </div>
+            <!--END dialog4-->
+        </div>
+    </div>
+    <div class="js_dialog" id="servicedia" style="display:none">
+        <div class="weui-mask" onclick='$("#servicedia").hide()'></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd" style="height:300px;overflow-y:auto;text-align:left"></div>
+            <div class="weui-dialog__ft">
+                <a onclick='$("#servicedia").hide()' class="weui-dialog__btn weui-dialog__btn_primary">我知道了</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        Vue.filter('NumFormat', function (value) {
+            if (!value) return '0';
+            value = "" + value
+            /*原来用的是Number(value).toFixed(0)，这样取整时有问题，例如0.51取整之后为1，感谢Nils指正*/
+            var intPart = Number(value) | 0; //获取整数部分
+            var intPartFormat = intPart.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,'); //将整数部分逢三一断
+
+            var floatPart = ""; //预定义小数部分
+            var value2Array = value.split(".");
+
+            //=2表示数据有小数位
+            if (value2Array.length == 2) {
+                floatPart = value2Array[1].toString(); //拿到小数部分
+
+                if (floatPart.length == 1) { //补0,实际上用不着
+                    return intPartFormat + "." + floatPart + '0';
+                } else {
+                    return intPartFormat + "." + floatPart;
+                }
+
+            } else {
+                return intPartFormat + floatPart;
+            }
+
+        })
+        top["DataBase"]["Partition"]["showGet"] = false;
+        top["DataBase"]["Partition"]["GetMoneyNumber"] = 0;
+        top["DataBase"]["Partition"]["PostIDNumber"] = JSON.parse(JSON.stringify(top["DataBase"]["Partition"]["IDNumber"]));
+        top["DataBase"]["Partition"]["PostAddress"] = JSON.parse(JSON.stringify(top["DataBase"]["Partition"]["Address"]));
+        var detaildata = {};
+        var getdetail = function () {
+            plus.webview.getWebviewById("GetMoneyDetail").evalJS("setdata(" + JSON.stringify(detaildata) + ")")
+        }
+        var test = new Vue({
+            el: "#getmoneybd",
+            data: top["DataBase"]["Partition"],
+
+            methods: {
+                info: function () {
+                    Bridge.readFile("Template/getmoney.txt", function (st) {
+                        $("#servicedia .weui-dialog__bd").empty();
+                        var stline = st.split('\r');
+                        for (var i = 0; i < stline.length; i++) {
+                            if (stline[i].trim() != "")
+                                $("#servicedia .weui-dialog__bd").append("<p>" + stline[i] + "</p><br>")
+                        }
+
+                        $("#servicedia").show();
+
+                    });
+                },
+                saveid: function () {
+                    //UpdateIDNumber
+                    var self = this;
+                    plus.nativeUI.showWaiting()
+                    $.ajax({
+                        url: ajaxurl + "UpdateIDNumber",
+                        type: 'post',
+                        data: { id: self.PostIDNumber, addr: self.PostAddress },
+                        headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                        success: function (r) {
+                            if (r.result_status) {
+                                self.IDNumber = JSON.parse(JSON.stringify(self.PostIDNumber));
+                                self.Address = JSON.parse(JSON.stringify(self.PostAddress));
+                                alert("修改成功");
+                                $('#iosDialog1 .weui-dialog').fadeOut(200, function () { $('#iosDialog1').hide() })
+                                $('#iosDialog2 .weui-dialog').fadeOut(200, function () { $('#iosDialog2').hide() })
+                                plus.nativeUI.closeWaiting()
+                            } else {
+                                alert(r.result_message);
+                                plus.nativeUI.closeWaiting()
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            plus.nativeUI.closeWaiting()
+                            Bridge.LogOut(function () { }, "連線逾時，請您重新登入")
+                        }
+                    });
+
+                },
+                GetMoneyPost: function () {
+                    var self = this;
+                    var allmoney = Enumerable.from(this.CanGive).sum(e => e.PointChange);
+                    var submitmoney = this.GetMoneyNumber;
+                    if (submitmoney < 1000) {
+                        alert("最少提領1000TWD");
+                        return;
+                    }
+                    if (allmoney < submitmoney) {
+                        alert("金額不足提領");
+                        return;
+                    }
+                    plus.nativeUI.showWaiting("申請提領中")
+                    $.ajax({
+                        url: ajaxurl + "GetMoney",
+                        type: 'post',
+                        data: { Money: submitmoney },
+                        headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                        success: function (r) {
+                            if (r.result_status) {
+
+                                self.Frozen = r.result_content;
+                                alert("申請提領已完成，您可以到申請提領中去檢視勞務報酬單。")
+                                self.GetMoneyDetail('Frozen')
+                                plus.nativeUI.closeWaiting()
+                            } else {
+                                alert(r.result_message);
+                                plus.nativeUI.closeWaiting()
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            plus.nativeUI.closeWaiting()
+                            Bridge.LogOut(function () { }, "連線逾時，請您重新登入")
+                        }
+                    });
+
+                },
+                getmoney: function () {
+                    if (((this.ID1 || "img/ID1_default.jpg") == "img/ID1_default.jpg") || ((this.ID2 || "img/ID2_default.jpg") == "img/ID2_default.jpg")) {
+                        alert("請先上傳證件");
+                        return;
+                    }
+                    if ((this.IDNumber || '') == '') {
+                        alert("請先輸入證件號碼");
+                        return;
+                    }
+                    if ((this.Signature || '') == '') {
+                        alert("請先簽電子簽名");
+                        return;
+                    }
+                    if ((this.Address || '') == '') {
+                        alert("請先輸入地址");
+                        return;
+                    }
+                    this.showGet = true
+                },
+                GetMoneyDetail: function (id) {
+                    var data = {};
+                    if (id == "CanGive")
+                        data["data"] = this.CanGive;
+                    if (id == "NotGet")
+                        data["data"] = this.NotGet;
+                    if (id == "Frozen")
+                        data["data"] = this.Frozen;
+                    if (id == "Frozen1")
+                        data["data"] = this.Frozen;
+                    data["type"] = id;
+                    console.dir(data)
+                    detaildata = data
+                    plus.storage.setItem("detaildata", JSON.stringify(data));
+                    $('<a onclick="hovernav(this)"  btag="GetMoneyDetail" ></a>').attr("bparam", "{}").click();
+                },
+                hov: function (id) {
+                    $('<a onclick="hovernav(this,\'' + id + '\')" btag="Skill" ></a>').click();
+                },
+                savesign: function (s) {
+                    var self = this;
+                    var wa = plus.nativeUI.showWaiting();
+                    //alert(ajaxurl + "UpdateTitleImg");
+                    var task = plus.uploader.createUpload(ajaxurl + "UpdateSignImg", {
+                        method: "POST", timeout: 0, blocksize: 0
+                    },
+                        function (t, status) {
+                            console.dir(t.responseText);
+                            var r = JSON.parse(t.responseText);
+                            if (r.result_status) {
+                                wa.close();
+                                self.Signature = r.result_content + "?" + Math.random()
+                                plus.webview.getWebviewById("Sign").close()
+                            }
+                            else {
+                                alert(r.result_message);
+                                wa.close();
+                            }
+                        }
+                    );
+                 
+                    task.addData("img", s);
+                    task.setRequestHeader("Server_Token", encodeURIComponent(Server_Token))
+                    task.start();
+                },
+                chgsign: function () {
+                    plus.nativeUI.closeWaiting();
+                 
+                    var cw;
+                    if (JSON.parse(Server_Token).Status == "管理員") {
+                        cw = plus.webview.create(debugurl + "Partition/Sign.html", "Sign", { "backButtonAutoControl":"close", "cachemode": "noCache", "background": "transparent", "popGesture": "close", "top": "35%", "bottom": "35%", "margin": "auto", "width": "95%", "userSelect": false });
+                    }
+                    else {
+                        cw = plus.webview.create('Partition/Sign.html', "Sign", { "backButtonAutoControl": "close","cachemode": "noCache", "background": "transparent", "popGesture": "close", "top": "35%", "bottom": "35%", "margin": "auto", "width": "95%", "userSelect": false });
+                    }
+                    cw.addEventListener("close", function () {
+                        ws.setStyle({ mask: 'none' });
+                    })
+
+                    cw.show()
+
+                    ws = plus.webview.currentWebview();
+                    // 显示遮罩层
+                    ws.setStyle({ mask: 'rgba(0,0,0,0.5)' });   
+                    ws.addEventListener('maskClick', function () {
+                      
+                        cw.close()
+                    }, false);
+                },
+                chgimg: function (idx) {
+                    var self = this;
+                    var cb = function (imgId, imgkey, id, src) {
+
+
+                        var wa = plus.nativeUI.showWaiting();
+                        //alert(ajaxurl + "UpdateTitleImg");
+                        var task = plus.uploader.createUpload(ajaxurl + "UpdateIDImg", {
+                            method: "POST", timeout: 0, blocksize: 0
+                        },
+                            function (t, status) {
+                                console.dir(t.responseText);
+                                var r = JSON.parse(t.responseText);
+                                if (r.result_status) {
+                                    wa.close();
+                                    if (idx == 1) {
+                                        self.ID1 = r.result_content + "?" + Math.random()
+                                    } else {
+                                        self.ID2 = r.result_content + "?" + Math.random()
+                                    }
+
+                                }
+                                else {
+                                    alert(r.result_message);
+                                    wa.close();
+                                }
+                            }
+                        );
+                        task.addFile(src, { key: "file" + idx });
+                        //task.addData("user", Server_Token);
+                        task.setRequestHeader("Server_Token", encodeURIComponent(Server_Token))
+                        task.start();
+                    }
+                    publicTools.ShowActionSheet({ id: "id" }, cb, true, true);
+                },
+            }
+        })
+        $(function () {
+            $("#getmoneybd .page__bd").height($(document).height() - 106)
+        })
+    </script>
+</div>

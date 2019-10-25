@@ -1,0 +1,616 @@
+﻿<div class="flexbar navbg" style="display: flex;position:fixed;top:0;left:0;height:60px;z-index:300;width:100%;padding-bottom:10px;overflow:hidden">
+    <div class="memberinfo1" style="width: 10%;height:60px;position:relative; flex: 0 0 50%;margin:20px 0px 20px 0px ; ">
+        <div id="backSetting" class="backb" onclick="plus.webview.close(plus.webview.currentWebview())" style="width:30px;height:30px;border-radius: 999em;color:white">
+            <i class="fa fa-angle-left" style="font-size:30px;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"> </i>
+        </div>
+    </div>
+    <div class="" style="height:60px;position:relative;top:0px;flex: 0 0 50%;">
+        <div style="font-size:24px;text-align: left;position:absolute;top:50%;left:0;color:white;transform:translate(-50%,-50%);">{{data.KindName}}</div>
+    </div>
+</div>
+<div class="certSkillEdit page bdbg" id="certSkillEdit" style="  ">
+    <style>
+    </style>
+
+    <div class="page__hd">
+    </div>
+    <div class="page__bd">
+        <div class="weui-toast" id="postMask" style="display: none;">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">更新中</p>
+        </div>
+
+        <div class="weui-gallery" id="gallery">
+            <span class="weui-gallery__img" id="galleryImg" style="background-image:url('{{data.GameImg}}')"></span>
+            <div class="weui-gallery__opr">
+
+            </div>
+        </div>
+        <form id="form_jquery" onsubmit="submitForm_jquery(); return false;" action="#">
+            <!--<div class="weui-cells__title">上架開關</div>
+    <div class="weui-cells weui-cells_form">
+        <div class="weui-cell weui-cell_switch">
+            <div class="weui-cell__bd">上架</div>
+            <div class="weui-cell__ft">
+                <input class="weui-switch" name="isEnable" type="checkbox">
+            </div>
+        </div>
+
+    </div>-->
+            <!--<div class="weui-cells__title">認證資訊</div>-->
+            <div class="weui-cells weui-cells_form" style="display:none">
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">暱稱</label></div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="text" name="GameName" value="{{data.GameName}}" readonly disabled>
+                    </div>
+                </div>
+
+            </div>
+            <input style="display:none" type="text" name="id" value="{{data.Member_Certification_ID}}">
+            <div class="weui-cells__title">認證照片</div>
+            <div class="weui-cells weui-cells_form">
+
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <div class="weui-uploader">
+
+                            <div class="weui-uploader__bd">
+                                <ul class="weui-uploader__files" id="uploaderFiles">
+
+                                    <li class="weui-uploader__file" onclick="chgimg()" onclick2="$('#gallery').fadeIn(100);$('.flexbar').hide()" style="background-image:url('{{data.GameImg}}');background-color:gray"></li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">介紹</label></div>
+                    <div class="weui-cell__bd">
+                        <textarea class="weui-textarea" rows="5" style="user-select: all;-webkit-user-select: all;background-color: rgba(255, 255, 255, 0);" name="Title" placeholder="請輸入500字內簡介">{{data.Title}}</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-cells__title" style="margin-bottom:0">體驗技能設置，有助您得到更多訂單</div>
+            <div class="weui-cells__title" style="margin-top:0">(每月1號重置次數)</div>
+            <div class="weui-cells weui-cells_checkbox">
+
+                <label class="weui-cell weui-check__label" for="x11" @click="CanFree=!CanFree">
+                    <div class="weui-cell__hd">
+                        <input type="checkbox" class="weui-check" name="checkbox1" id="s11" v-bind="{checked:CanFree}">
+                        <i class="weui-icon-checked"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>是否願意提供30元體驗</p>
+                    </div>
+
+                </label>
+                <div class="weui-cell weui-cell_vcode" v-show="CanFree==true">
+                    <div class="weui-cell__hd">
+                        <label class="weui-label">每月可提供</label>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <input class="weui-input" type="number" pattern="[0-9]*" placeholder="請輸入次數" v-model.number="FreeTimesPreMonth">
+                    </div>
+                    <div class="weui-cell__ft">
+                        <div class="weui-vcode-btn" style="color:black">次</div>
+                    </div>
+                </div>
+                <div class="weui-cell" v-show="CanFree==true">
+                    本月已提供30元體驗 {{FreeTimesLess}} 次 / 剩餘 {{(FreeTimesPreMonth - FreeTimesLess<0?0:FreeTimesPreMonth - FreeTimesLess)}} 次
+                </div>
+            </div>
+        
+            <div class="weui-cells__title">自訂音檔</div>
+            <div class="weui-cells weui-cells_form">
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">錄製(30秒)</label></div>
+                    <div class="weui-cell__bd" style="">
+                        <a href="javascript:;" style="margin:5px 15% auto" class="weui-btn weui-btn weui-btn_warn" ontouchstart="startRecord(this)" ontouchend="stopRecord(this)"><span></span><i class="weui-loading" style="display:none"></i>按住錄音</a>
+                        <a href="javascript:;" style="margin:5px 15% auto" class="weui-btn weui-btn weui-btn_primary recoredPlay" onclick="recoredPlay(this)"><i class="weui-loading" style="display:none"></i>播放試聽</a>
+                        <!--<a href="javascript:;" style="margin:5px 15% auto" class="weui-btn weui-btn weui-btn_default " onclick="recordUpload(this)">自行上傳</a>-->
+                    </div>
+                </div>
+            </div>
+            <div class="weui-cells__title">設定接單日期</div>
+            <div class="weui-cells">
+                <div class="weui-cell weui-cell_select">
+                    <div class="weui-cell__bd">
+                        <select class="weui-select" name="OrderWeek" v-model="OrderWeek">
+                            <option selected="" value="1">周一至周日</option>
+                            <option value="2">自訂區間</option>
+                            <option value="3">自訂星期</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+            <div v-if="OrderWeek==2">
+                <div class="weui-cells__title">自訂區間</div>
+                <div class="weui-cells">
+                    <div class="weui-cell weui-cell_select weui-cell_select-after">
+                        <div class="weui-cell__hd">
+                            <label for="" class="weui-label">起始星期</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <select class="weui-select" v-model="OrderWeekFor2Begin">
+                                <option v-for="(item,idx) in WeekTemp" :value="item.k">{{item.v}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="weui-cell weui-cell_select weui-cell_select-after">
+                        <div class="weui-cell__hd">
+                            <label for="" class="weui-label">結束星期</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <select class="weui-select" v-model="OrderWeekFor2End">
+                                <option v-for="(item,idx) in WeekTemp" :value="item.k">{{item.v}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div v-if="OrderWeek==3">
+                <div class="weui-cells__title">自訂星期</div>
+                <div class="weui-cells weui-cells_checkbox">
+                    <label class="weui-cell weui-check__label" :for="'s1'+item.k" v-for="(item) in WeekTemp">
+                        <div class="weui-cell__hd">
+                            <input type="checkbox" class="weui-check" name="checkbox1" :value="item.k" v-model="OrderWeekFor3List" :id="'s1'+item.k">
+                            <i class="weui-icon-checked"></i>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <p>{{item.v}}</p>
+                        </div>
+                    </label>
+
+                </div>
+            </div>
+            <div class="weui-cells__title">設定接單時段</div>
+            <div class="weui-cells">
+                <div class="weui-cell weui-cell_select">
+                    <div class="weui-cell__bd">
+                        <select class="weui-select" v-model="OrderTime">
+                            <option selected="" value="1">全天可接單</option>
+                            <option value="2">自訂時段區間</option>
+
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+            <div v-if="OrderTime==2">
+                <div class="weui-cells__title">自訂時段區間</div>
+                <div class="weui-cells">
+                    <div class="weui-cell weui-cell_select weui-cell_select-after">
+                        <div class="weui-cell__hd">
+                            <label for="" class="weui-label">起始小時</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <select class="weui-select" v-model="OrderTimeFor2Begin">
+                                <option v-for="(item,idx) in 24" :value="idx">{{idx}}時</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="weui-cell weui-cell_select weui-cell_select-after">
+                        <div class="weui-cell__hd">
+                            <label for="" class="weui-label">結束小時</label>
+                        </div>
+                        <div class="weui-cell__bd">
+                            <select class="weui-select" v-model="OrderTimeFor2End">
+                                <option v-for="(item,idx) in 24" :value="idx">{{idx}}時</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weui-cells__title">販售項目編輯</div>
+            <div class="weui-cells">
+                <div class="weui-cell weui-cell_access" btag="CertSkillEditDetail" onclick="hovernav(this,'{{data.Member_Certification_ID}}')">
+
+                    <div class="weui-cell__bd">瀏覽項目</div>
+                    <div class="weui-cell__ft" style="font-size: 0">
+
+                    </div>
+                </div>
+            </div>
+            <!--<div class="weui-cells weui-cells_form">
+
+         <div class="weui-cell weui-cell_vcode">
+            <div class="weui-cell__hd">
+                <label class="weui-label">收費</label>
+            </div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="number" name="Fee" pattern="[0-9]*" placeholder="請輸入收費元" value="{{data.Fee}}">
+            </div>
+            <div class="weui-cell__ft">
+                <div class="weui-vcode-btn" style="color:black">元</div>
+            </div>
+        </div>
+        <div class="weui-cell weui-cell_select">
+            <div class="weui-cell__hd"><label class="weui-label">出售單位</label></div>
+            <div class="weui-cell__bd">
+                <select class="weui-select" id="UnitS" name="Unit" v-model="us">
+                    <option v-for="(item,idx) in UnitList" :value="item">{{item}}</option>
+                </select>
+
+            </div>
+        </div>
+
+    </div>-->
+            <br>
+            <a href="javascript:;" onclick="submitForm_jquery()" class="weui-btn weui-btn_primary">更新資料</a>
+        </form>
+
+    </div>
+    <div class="page__ft ">
+        <div id="PostToast" style="display: none;">
+            <div class="weui-mask_transparent"></div>
+            <div class="weui-toast">
+                <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+                <p class="weui-toast__content">已完成</p>
+            </div>
+        </div>
+        <div class="js_dialog" id="servicedia" style="display:none" >
+            <div class="weui-mask" onclick='$("#servicedia").hide()'></div>
+            <div class="weui-dialog">
+                <div class="weui-dialog__bd" style="height:300px;overflow-y:auto;text-align:left;font-size:17px"></div>
+                <div class="weui-dialog__ft">
+                    <div class="weui-cells weui-cells_checkbox"  style="width:60%;height:100%;margin:0">
+                        <label class="weui-cell weui-check__label" style="" for="s12">
+                            <div class="weui-cell__hd">
+                                <input type="checkbox" class="weui-check" name="checkbox1" value="1" id="s12">
+                                <i class="weui-icon-checked"></i>
+                            </div>
+                            <div class="weui-cell__bd">
+                                <p>不再提醒</p>
+                            </div>
+                        </label>
+
+                    </div>
+                    <a onclick='$("#servicedia").hide();Bridge.setData("ReadSkillEdit",$("#s12:checked").val()||"0")' class="weui-dialog__btn weui-dialog__btn_primary">了解</a>
+                </div>
+            </div>
+        </div>
+        <audio id="recordtag" onended="playend()" onerror="playend()" controls="controls" style="display:none" src=""></audio>
+    </div>
+    <script type="text/javascript">
+        var tmp = JSON.parse("{{data}}");
+
+        var olddata = JSON.parse(tmp.TimeInfo||"{}")
+        var EditVue= new Vue({
+            el: "#certSkillEdit",
+            data: {
+                CanFree: tmp.CanFree,
+                FreeTimesLess: tmp.FreeTimesLess,
+                FreeTimesPreMonth:tmp.FreeTimesPreMonth,
+                WeekTemp: [{ k: 1, v: "周一" }, { k: 2, v: "周二" }, { k: 3, v: "周三" }, { k: 4, v: "周四" }, { k: 5, v: "周五" }, { k: 6, v: "周六" }, { k: 7, v: "周日" }],
+                OrderWeek: olddata["OrderWeek"]||"1",
+                OrderTime: olddata["OrderTime"] ||"1",
+                OrderWeekFor2Begin: olddata["OrderWeekFor2Begin"] ||1,
+                OrderWeekFor2End: olddata["OrderWeekFor2End"] ||1,
+                OrderTimeFor2Begin: olddata["OrderTimeFor2Begin"] ||0,
+                OrderTimeFor2End: olddata["OrderTimeFor2End"] || 0,
+                OrderWeekFor3List: olddata["OrderWeekFor3List"] ||[]
+            }
+        })
+        function submitForm_jquery() {
+            if ($("input[name=Title]").val() == "") {
+                alert("標題不可為空!");
+                return;
+            }
+            if ($("input[name=Fee]").val() == "") {
+                alert("收費不可為空!");
+                return;
+            }
+
+            var postdata = {};
+            //postdata["isEnable"] = $("[name=isEnable]")[0].checked;
+            postdata["Title"] = $("textarea[name=Title]").val();
+            postdata["Fee"] = $("input[name=Fee]").val();
+            postdata["Unit"] = EditVue.us;
+            postdata["CanFree"] = EditVue.CanFree;
+            postdata["FreeTimesPreMonth"] = EditVue.FreeTimesPreMonth;
+
+            var ttt = JSON.parse(JSON.stringify(EditVue.$data))
+            delete ttt["WeekTemp"]
+            postdata["TimeInfo"] = JSON.stringify(ttt);
+            $("#postMask").show();
+            $.ajax({
+                url: ajaxurl + "Certification/{{data.Member_Certification_ID}}",
+                type: 'patch',
+                data: postdata,
+                headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                timeout: 30000,
+                success: function (r) {
+                    $("#postMask").hide();
+                    if (r.result_status) {
+                        $("#PostToast .weui-toast__content").text(r.result_message);
+                        $("#PostToast").show();
+
+                        plus.webview.getWebviewById('CertSkill').reload(true)
+                        setTimeout(function () {
+                            $("#PostToast").fadeOut(100);
+                            plus.webview.close(plus.webview.currentWebview())
+                        }, 2000);
+                    } else {
+                        alert(r.result_message);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorMessage) {
+                    $("#postMask").hide();
+                    alert(errorMessage);
+                }
+            });
+        }
+        var r = null, t = null, ri = null, rt = null, p = null;
+        var entry = null;
+        var isstart = false;
+        var isplaying = false;
+        function stopRecord() {
+            console.dir("RECORDStop")
+            isstart = false;
+            if (r != null) {
+                clearTimeout(t);
+                r.stop();
+            }
+
+        }
+        function recordUpload() {
+
+        }
+        function startRecord(ele) {
+          //  console.dir("RECORD")
+            isstart = true;
+            $(ele).find("i").show();
+            r = plus.audio.getRecorder();
+            if (r == null) {
+                alert('錄音實例化失敗');
+                return;
+            }
+            var forma = "";
+
+            if (plus.os.name == "Android")
+                forma = "amr";
+            else
+                forma = "aac";
+
+            r.record({ filename: '_doc/audio/', format: forma, }, function (p) {
+                $(ele).find("i").hide();
+                $(ele).find("span").text("");
+                createUpload(p, function (t) {
+                    recordurl = t;
+                    $("#loadingToast").hide();
+                });
+            }, function (e) {
+                alert('錄音失敗：' + e.message);
+            });
+            t = setTimeout(function () { stopRecord(); }, 30000);
+            //Bridge.getPermissions("RECORD", function (e) {
+            //    //alert("getPermissions:reutrn"+e)
+            //    if (!e) {
+            //        // alert("openPermissions now")
+            //       //Bridge.openPermissions(function (e) {
+            //       //
+            //       //})
+            //        var tr = plus.audio.getRecorder();
+            //        if (tr == null) {
+            //            alert('錄音實例化失敗');
+            //            return;
+            //        }
+            //        tr.record({  }, function (p) {
+            //           // alert("Audio record success!");
+            //        }, function (e) {
+            //            //alert("Audio record failed: " + e.message);
+            //            });
+            //        tr.stop();
+            //    } else {
+
+            //    }
+            //})
+
+
+
+        }
+        var recordurl = "{{data.Audio}}";
+
+        var recoredsoundobj;
+        function recoredPlay(ele) {
+            if (isstart)
+                return;
+            if (isplaying)
+                return;
+            if (recordurl == "") {
+                alert("尚未錄音")
+                return;
+            }
+
+
+            var audiotag = $("#recordtag");
+            audiotag.attr("src", recordurl);
+            //alert(recordurl)
+            $(ele).find("i").show();
+            isplaying = true;
+
+            $("#recordtag")[0].play();
+
+        }
+        function playend() {
+
+            $(".recoredPlay i").hide();
+            isplaying = false;
+        }
+        //压缩图片
+        var compressImage = function (url, filename, divid, cb) {
+            var name = "_doc/upload/" + divid + "-" + filename;//_doc/upload/F_ZDDZZ-1467602809090.jpg
+            plus.zip.compressImage({
+                src: url,//src: (String 类型 )压缩转换原始图片的路径
+                dst: name,//压缩转换目标图片的路径
+                quality: 50,//quality: (Number 类型 )压缩图片的质量.取值范围为1-100
+                overwrite: true,//overwrite: (Boolean 类型 )覆盖生成新文件
+
+            },
+                function (event) {
+                    //uploadf(event.target,divid);
+                    var path = name;//压缩转换目标图片的路径
+                    console.dir(event.target)
+                    console.dir(divid)
+                    console.dir(filename)
+                    console.dir(path)
+                    saveimage(event.target, divid, filename, path, cb);
+                }, function (error) {
+                    plus.nativeUI.toast("压缩图片失败，请稍候再试");
+                });
+        }
+        var saveimage = function (url, divid, name, path, cb) {
+            var state = 0;
+            var wt = plus.nativeUI.showWaiting();
+            var id = "";
+            var src = url;
+            cb(name, divid, id, src);
+            wt.close();
+
+        }
+        function pickph(callb) {
+            var divid = "cert"
+               var cb = function (name, divid, id, src) {
+
+
+                plus.io.resolveLocalFileSystemURL(src, function (entry) {
+                    entry.getMetadata(function (md) {
+
+
+                        var path = entry.toLocalURL();//圖片本地路徑
+                        var name = entry.name//圖片名稱
+                        console.dir("path")
+                        console.dir(path)
+                        callb(path);
+
+
+                    })
+
+                }, function (e) {
+
+                });
+
+
+
+            }
+
+           
+            plus.gallery.pick(function (p) {
+               
+                // for (var i = 0; i < p.files.length; i++) {
+
+                // var pitem = p.files[i];
+                var pitem = p;
+
+                plus.io.resolveLocalFileSystemURL(p, function (entry) {
+                    compressImage(entry.toLocalURL(), entry.name, divid, cb);
+
+                }, function (e) {
+                    plus.nativeUI.toast("读取拍照文件错误：" + e.message);
+                });
+                // }
+
+            }, function (err) {
+
+            }, {
+                    filename: "_doc/camera/",
+                    filter: 'image',
+                    system: true,
+                    multiple: false,
+                    maximum: 1,
+                    onmaxed: function () {
+                        plus.nativeUI.alert('目前只能一個一個選擇');
+                    }
+                });
+
+        }
+        function chgimg() {
+            $("#loadingToast").show();
+            pickph(function (path) {
+                var task = plus.uploader.createUpload(ajaxurl + "UploadCertImg",
+                    { method: "POST", timeout: 0, blocksize: 0 },
+                    function (t, status) {
+                        try {
+                            var r = JSON.parse(t.responseText);
+                            if (r.result_status) {
+                                $("#loadingToast").hide();
+                                $("#uploaderFiles li").css("background-image", "url('" + r.result_content+"')")
+                            }
+                            else {
+                                alert("Upload failed: " + r.result_message);
+                                $("#loadingToast").hide();
+                            }
+                        } catch (ex) {
+                            console.dir(t)
+                        }
+                    }
+                );
+                task.addFile(path, { key: "file" });
+                task.addData("ID", "{{data.Member_Certification_ID}}");
+                task.setRequestHeader('Server_Token', encodeURIComponent(Server_Token));
+                task.start();
+            })
+            
+        }
+        function createUpload(url, cb) {
+            $("#loadingToast").show();
+            var task = plus.uploader.createUpload(ajaxurl + "UploadRecord",
+                { method: "POST", timeout: 0, blocksize: 0 },
+                function (t, status) {
+                    try {
+                        var r = JSON.parse(t.responseText);
+                        if (r.result_status) {
+
+                            cb(r.result_content);
+                        }
+                        else {
+                            alert("Upload failed: " + r.result_message);
+                            $("#loadingToast").hide();
+                        }
+                    } catch (ex) {
+                        console.dir(t)
+                    }
+                }
+            );
+            task.addFile(url, { key: "file" });
+            task.addData("ID", "{{data.Member_Certification_ID}}");
+            task.setRequestHeader('Server_Token', encodeURIComponent(Server_Token));
+            task.start();
+        }
+        function seerule() {
+            Bridge.readFile("Template/skilleditrule.txt", function (st) {
+                $("#servicedia .weui-dialog__bd").empty();
+                var stline = st.split('\r');
+                for (var i = 0; i < stline.length; i++) {
+                    if (stline[i].trim() != "")
+                        $("#servicedia .weui-dialog__bd").append("<p>" + stline[i] + "</p><br>")
+                }
+
+                $("#servicedia").show();
+
+            });
+        }
+        $(function () {
+            //if ("{{data.isEnable}}" == "true") {
+            //    $("[name=isEnable]")[0].checked = true
+
+            //}
+            var $gallery = $("#gallery");
+            $gallery.on("click", function () {
+                $gallery.fadeOut(100);
+                $('.flexbar').show()
+            });
+            Bridge.getData("ReadSkillEdit", function (ReadSkillEdit) {
+                if (ReadSkillEdit != "1") {
+                    seerule();
+                }
+            })
+        });
+
+    </script>
+
+</div>

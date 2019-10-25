@@ -1,0 +1,216 @@
+﻿<div class="settingregpage page bdbg">
+    <div class="page__bd" style="">
+        <div class="weui-cells__title">會員註冊</div>
+        <div class="weui-cells" id="regform">
+
+            <div class="weui-cell  ">
+                <!--<div class="weui-cell__hd">
+            <select class="weui-select" name="Phone_Area_Code">
+                <option value="886">+886</option>
+                <option value="86">+86</option>
+                <option value="852">+852</option>
+
+            </select>
+        </div>-->
+                <div class="weui-cell__hd"><label class="weui-label" style="text-align:center;margin-right:5px;">Email</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" name="Email" type="email" placeholder="請輸入Email">
+                </div>
+
+            </div>
+            <div class="weui-cell ">
+                <div class="weui-cell__hd">
+                    <label class="weui-label weui-btn weui-btn_mini weui-btn_primary" style="font-size:12px;word-break:keep-all;margin-right:5px;" onclick="sendvcode()">發送驗證碼</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" name="vcode" type="text" pattern="[0-9]*" maxlength="6" placeholder="請輸入Email驗證碼">
+                </div>
+
+            </div>
+            <!--<div class="weui-cell ">
+        <div class="weui-cell__hd"><label class="weui-label">驗證碼</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" name="vcode" type="text" pattern="[0-9]*" maxlength="6" placeholder="請輸入EMAIL驗證碼">
+        </div>
+        <div class="weui-cell__ft">
+            <button class="weui-vcode-btn" onclick="sendvcode()">發送驗證碼</button>
+        </div>
+    </div>-->
+            <!--<div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label" style="text-align:center;margin-right:5px;">會員密碼</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" name="Pw" type="password" maxlength="20" placeholder="請輸入6~20位密碼">
+                </div>
+            </div>-->
+            <!--<div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label" style="text-align:center;margin-right:5px;">確認密碼</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" name="Pw2" type="password" maxlength="20" placeholder="請輸入6~20位密碼">
+                </div>
+            </div>-->
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label" style="text-align:center;margin-right:5px;">會員暱稱</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" name="Name" type="text" maxlength="30" placeholder="請輸入暱稱,往後可更改">
+                </div>
+            </div>
+        </div>
+
+     
+        <br>
+        <div class="weui-btn-area regbtn">
+            <a class="weui-btn weui-btn_primary " style="" href="javascript:" onclick="reg();">註冊會員</a>
+            <a class="weui-btn weui-btn_primary weui-btn_loading " style="display:none" href="javascript:"><i class="weui-loading"></i>註冊會員</a>
+        </div>
+       
+        <div class="weui-btn-area">
+            <a class="weui-btn weui-btn_default" style="" href="javascript:" onclick="clicknav(this)" btag="Setting_Login">已有帳號請登入</a>
+
+        </div>
+
+
+
+        <div id="dialogs">
+            <div class="js_dialog" id="Reg_Wran" style="display: none;">
+                <div class="weui-mask"></div>
+                <div class="weui-dialog">
+                    <div class="weui-dialog__bd" id="Reg_Wran_Msg"></div>
+                    <div class="weui-dialog__ft">
+                        <a href="javascript:;" onclick="$('#Reg_Wran').fadeOut(200)" class="weui-dialog__btn weui-dialog__btn_primary">確認</a>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div id="regsuccess" style="display: none;">
+            <div class="weui-mask_transparent"></div>
+            <div class="weui-toast">
+                <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+                <p class="weui-toast__content">註冊完成</p>
+            </div>
+        </div>
+    </div>
+    <div class="page__ft ">
+
+    </div>
+    <script>
+        function sendvcode() {
+            var reg = /^\w+((-\w+))@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+).[A-Za-z0-9]+$/; //正则表达式
+            var obj = $("#regform [name=Email]"); //要验证的对象
+            if (obj.val() === "") { //输入不能为空
+                alert("EMAIL不能為空!");
+                return false;
+            } else if (!reg.test(obj.val())) { //正则验证不通过，格式不对
+                alert("EMAIL格式錯誤!");
+                return false;
+            }
+            $.ajax({
+                url: ajaxurl + "SendVCode",
+                type: 'post',
+                data: { Email: obj.val() ,UsePlace:"Reg"},
+                timeout: 30000,
+                success: function (r) {
+                    if (r.result_status) {
+                        alert("發送成功,60秒後若沒收到驗證請再重新發送!");
+                    } else {
+                        alert(r.result_message);
+                    }
+                },
+                error: function () {
+                    alert("網路錯誤")
+                }
+            });
+        }
+        function reg() {
+            var data = {};
+         
+            data["Email"] = $("#regform [name=Email]").val();
+            data["vcode"] = $("#regform [name=vcode]").val();
+           /// data["Pw"] = $("#regform [name=Pw]").val();
+            data["Name"] = $("#regform [name=Name]").val();
+            //alert(JSON.stringify(data));
+            $("#regform .weui-cell").removeClass("weui-cell_warn");
+
+            var reg = /^\w+((.\w+)|(-\w+))@[A-Za-z0-9]+((.|-)[A-Za-z0-9]+).[A-Za-z0-9]+$/; //正则表达式
+            var obj = $("#regform [name=Email]"); //要验证的对象
+            if (obj.val() === "") { //输入不能为空
+                alert("EMAIL不能為空!");
+                return false;
+            } else if (!reg.test(obj.val())) { //正则验证不通过，格式不对
+                alert("EMAIL格式錯誤!");
+                return false;
+            }
+
+            if (data["vcode"] == "") {
+                $("#regform [name=vcode]").parents(".weui-cell").addClass("weui-cell_warn");
+                $("#Reg_Wran_Msg").text("驗證碼必填");
+                $("#Reg_Wran").show();
+                return;
+            }
+            //if (data["Pw"].length <6) {
+            //    $("#regform [name=Pw]").parents(".weui-cell").addClass("weui-cell_warn");
+            //    $("#Reg_Wran_Msg").text("密碼需要大於6位");
+            //    $("#Reg_Wran").show();
+            //    return;
+            //}
+            if (data["Name"] == "") {
+                $("#regform [name=Name]").parents(".weui-cell").addClass("weui-cell_warn");
+                $("#Reg_Wran_Msg").text("暱稱不可為空");
+                $("#Reg_Wran").show();
+                return;
+            }
+            //if (data["Pw"] != $("#regform [name=Pw2]").val()) {
+            //    $("#regform [name=Pw]").parents(".weui-cell").addClass("weui-cell_warn");
+            //    $("#Reg_Wran_Msg").text("兩次密碼不相符");
+            //    $("#Reg_Wran").show();
+            //    return;
+            //}
+            $(".regbtn a").toggle();
+            $.ajax({
+                url: ajaxurl + "Reg",
+                type: 'post',
+                data: data,
+                timeout: 30000,
+                success: function (r) {
+                    if (r.result_status) {
+
+                        $("#regsuccess").fadeIn(200);
+                        setTimeout(function () {
+                            $("#regsuccess").hide();
+                            Server_Token = JSON.stringify(r.result_content);
+
+                            Bridge.setData("Server_Token", Server_Token, function () {
+                                var ws = plus.webview.currentWebview();
+                                ws.loadURL("index.html?" + Math.random());
+                            });
+                            //$("[btag=Setting_Login]").click();
+                        }, 1500)
+
+                    } else {
+                        $("#Reg_Wran_Msg").text(r.result_message);
+                        $("#Reg_Wran").show();
+                        $(".regbtn a").toggle();
+                    }
+                },
+                error: function () {
+                    $("#Reg_Wran_Msg").text("網路錯誤");
+                    $("#Reg_Wran").show();
+                    $(".regbtn a").toggle();
+                }
+            });
+        }
+       
+        $(function () {
+          
+            //alert($("#loadingToast_tra")[0].svganima);
+            //$("#loadingToast_tra")[0].svganima.destroy();
+            $(".weui-navbar").hide();
+            $("#idxtab").hide();
+          
+
+        });
+
+
+    </script>
+</div>

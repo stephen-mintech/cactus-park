@@ -1,0 +1,140 @@
+﻿<div class="flexbar navbg" style="position:fixed;top:0;left:0;height:60px;z-index:300;width:100%;overflow:hidden">
+    <div class="memberinfo1" style="width: 10%;height:60px;position:relative;float:left;z-index:301; ">
+        <div id="backSetting" class="backb" onclick="plus.webview.close(plus.webview.currentWebview())" style="width:30px;height:60px;border-radius: 999em;color:white">
+            <i class="fa fa-angle-left" style="font-size:30px;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"> </i>
+        </div>
+    </div>
+    <h4 class="" style="z-index:300;color:white;width:90%;line-height:60px;font-size:24px;position:relative;text-align:center">推薦分紅</h4>
+</div>
+<div class="recommendPage page bdbg" id="recommendPage"  style="">
+
+    <div class="page__hd " style=""></div>
+    <div id="" class="page__bd">
+        <div class="weui-panel weui-panel_access">
+
+            <div class="weui-panel__bd" style="">
+                <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg" style="">
+                    <div class="weui-media-box__hd" id="myphoto">
+                        <img class="weui-media-box__thumb" onerror="this.onerror=null;this.src='img/icon/noimage_person.png';" :src="GInfo.MyInfo.Img" style="object-fit:cover;border-radius:999em;width:50px;height:50px" alt="Alternate Text" />
+                    </div>
+                    <div class="weui-media-box__bd" style="height:50px">
+                        <h4 class="weui-media-box__title">{{GInfo.MyInfo.Status}} / {{GInfo.MyInfo.Name}}</h4>
+
+                        <p class="weui-media-box__desc" style="color:cornflowerblue;text-align:left" @click="copycode(GInfo.MyInfo.RecommendCode)">
+                            我的推薦碼:{{GInfo.MyInfo.RecommendCode}}
+                            <i class="ion-clipboard fa-1x text-inverse" style="color:black"></i>
+                        </p>
+                    </div>
+                    <i class="ion-ios-help-outline fa-2x text-inverse" style="color:#dd7299" @click="info"></i>
+                </a>
+                <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg" style="display:flex">
+                    <div style="flex:1">總計分紅：{{Enumerable.from(list).sum(e=>e.TotalPoint)}}幣</div>
+                    <div style="flex:1">當月分紅：{{Enumerable.from(list).sum(e=>e.ThisMonthPoint)}}幣</div>
+                </a>
+            </div>
+        </div>
+        <div class="weui-cells" style="background-color:white">
+            <div class="weui-cell weui-cell_access" @click="goboss((GInfo.MyInfo.MyBoss==null)?null:GInfo.MyInfo.MyBoss.Member_ID)">
+                <div class="weui-cell__bd">我的推薦人</div>
+                <div class="weui-cell__ft" style="font-size: 0">
+                    <span style="vertical-align:middle; font-size: 17px;">{{(GInfo.MyInfo.MyBoss==null)?"無":GInfo.MyInfo.MyBoss.Name}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="weui-cells__title">我推薦的人</div>
+        <div class="weui-cells">
+            <div class="weui-media-box weui-media-box_appmsg" style="" v-for="(item) in list">
+                <div class="weui-media-box__hd">
+                    <img class="weui-media-box__thumb" style="border-radius:999em;width:50px;height:50px;object-fit:fill" onerror="this.onerror=null;this.src='img/icon/noimage_person.png';" :src="item.Img" alt="">
+                </div>
+                <div class="weui-media-box__bd" style="padding-left:10px">
+                    <h4 class="weui-media-box__title" style="">{{item.Name}}</h4>
+                    <ul class="weui-media-box__info" style="margin-top:5px">
+                      
+                        <li class="weui-media-box__info__meta">本月交易:{{item.ThisMonthOrderCount}}筆</li>
+                        <li class="weui-media-box__info__meta weui-media-box__info__meta_extra">本月分紅:{{item.ThisMonthPoint}}幣</li>
+                    </ul>
+                </div>
+              
+            </div>
+         
+        </div>
+    </div>
+    <div class="page__ft "></div>
+    <script>
+
+        addBackEvent(function () {
+            plus.webview.close(plus.webview.currentWebview())
+        });
+        new Vue({
+            el: '#recommendPage',
+            data: {
+                list: top["DataBase"]["Partition"]
+            },
+            methods: {
+                info: function () {
+                    plus.nativeUI.alert("只要將上方的推薦碼複製給好友，請好友在推薦分紅的「我的推薦人」輸入您的推薦碼，即可享有推薦分紅的紅利喔！\r\n\r\n您的好友在傾心內與陪陪的每一筆交易，我們都會提撥1%分紅給您。推薦超過10名以上，分紅提撥升為2%，超過50名分紅提升為3%。該分紅不設定期限，終生享有~", function () {
+
+                    }, "", "我知道了");
+                },
+                hovernav: function (idx, id) {
+                    hovernav(this.$refs["child"][idx], id)
+                },
+                copycode: function (st) {
+                    if (plus.os.name == "Android") {
+                        var Context = plus.android.importClass("android.content.Context");
+                        var main = plus.android.runtimeMainActivity();
+                        var clip = main.getSystemService(Context.CLIPBOARD_SERVICE);
+                        plus.android.invoke(clip, "setText", st);
+                    } else {
+                        var UIPasteboard = plus.ios.importClass("UIPasteboard");
+                        var generalPasteboard = UIPasteboard.generalPasteboard();
+                        generalPasteboard.setValueforPasteboardType(st, "public.utf8-plain-text");
+
+                    }
+                    plus.nativeUI.toast(
+                        "推薦碼已經複製到剪貼版",
+                        {
+                            type: 'text',
+                            align: "center"
+                        }
+                    );
+                },
+                goboss: function (id) {
+                    if (id) {
+                        $('<div btag="PlayerPage" onclick="hovernav(this,\'' + id + '\')" ></div>').click();
+                    } else {
+                        plus.nativeUI.prompt("請輸入推薦人的推薦碼: ", function (e) {
+                            if ((e.index == 0)) {
+                                $.ajax({
+                                    url: ajaxurl + "Recommend",
+                                    type: 'post',
+                                    headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                                    data: { UpMemberCode: e.value},
+                                    timeout: 30000,
+                                    success: function (r) {
+                                        if (r.result_status) {
+                                           alert("綁定成功")
+
+                                        } else {
+                                            alert(r.result_message);
+                                        }
+                                    },
+                                    error: function (jqXHR, textStatus, errorThrown) {
+
+                                        Bridge.LogOut(function () { }, "連線逾時，請您重新登入")
+                                    }
+                                });
+                            }
+                        }, "綁定推薦人", "推薦人的推薦碼", ["確定", "取消"]);
+                    }
+                }
+            },
+            mounted() {
+            
+            },
+
+        })
+
+    </script>
+</div>

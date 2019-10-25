@@ -1,0 +1,106 @@
+﻿<style>
+    .weui-grids2 {
+        overflow-x: auto;
+        white-space: nowrap;
+        list-style: none;
+    }
+
+    .weui-grid2 {
+        position: relative;
+        display: inline-block;
+        margin-top: 5px;
+       
+    }
+</style>
+<div class="homeAllType  bdbg" id="skillpagebd" style="overflow-y:hidden">
+    
+
+    <!--<div class="page__hd navbg" style="padding:0;margin:0;height:60px;position:relative">
+        <h4 class="" style="color:white;width:100%;line-height:60px;font-size:24px;position:absolute;text-align:center">全部品類</h4>
+
+        <div id="backSetting" class="backb" onclick="plus.webview.close(plus.webview.currentWebview())" style="width:30px;height:60px;border-radius: 999em;color:white">
+            <i class="fa fa-angle-left" style="font-size:30px;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"> </i>
+        </div>
+
+    </div>-->
+    
+    <div class="page__bd" style="overflow-y:auto;height:0%;padding-top:0px">
+        <!--<div style="height:20px"></div>-->
+        <div v-for="(item,idx) in GInfo.KindList">
+            <div style="font-size:18px;color:black;margin-top:5px" class="weui-cells__title">{{item.Name}}</div>
+            <div class='weui-grids'>
+                <a @click="hov(arr.ID)" :bparam='JSON.stringify({id:arr.ID})' btag="SkillListView" v-for="(arr, index) in item.Detail" href="javascript:;" class="weui-grid2" style="width:20%;padding:0 2.5%">
+                    <div class="weui-grid__icon" v-bind:style='{"background-image": "url(\"img/icon/game/" + arr.Img  + "\")" }' style=" width: 100%;padding-bottom:100%;height: 0; border-radius: 999em;background-repeat: no-repeat;background-position: center;-webkit-background-size: auto 100%;background-color:#dd7299" infotag="MemberImg">
+
+                    </div>
+                    <p class="weui-grid__label" infotag="MemberName">{{arr.Name}}</p>
+                </a>
+            </div>
+        </div>
+    </div>
+    <script>
+        new Vue({
+            el: "#skillpagebd",
+
+            methods: {
+                hov: function (id) {
+                    console.dir(plus.webview.currentWebview().param);
+                    var isfree = (plus.webview.currentWebview().param == "" ? false : true);
+                   // return;
+                    if (id) {
+                        var obj = { id: id, isfree: isfree }
+
+
+                    }
+                    else {
+                        var obj = { id: 0, isfree: isfree }
+
+                    }
+                    var nviewobj = {};
+
+                    for (var i = 0; i < GInfo.KindList.length; i++) {
+                        for (var j = 0; j < GInfo.KindList[i].Detail.length; j++) {
+                            var item = GInfo.KindList[i].Detail[j];
+                            if (item.ID == id) {
+                                nviewobj.titleText = item.Name + " ";
+                            }
+                        }
+                    }
+                    nviewobj.titleText += (isfree ? "30元體驗區" : "官方嚴選")
+                    console.dir(nviewobj.titleText)
+                    //hovernav_new()
+                    // $('<a onclick=\'hovernav(this)\' btag="SkillListView" ></a>').attr("bparam", JSON.stringify(obj)).click();
+                    $('<a onclick=\'hovernav_new(this)\' btag="SkillListView" ></a>')
+                        .attr("bparam", JSON.stringify(obj))
+                        .attr("nview", JSON.stringify(nviewobj)).click();
+
+                    // $('<a onclick="hovernav(this,\'' + id + '\')" btag="Skill" ></a>').click();
+
+                }
+            },
+            mounted: function () {
+                var ws = plus.webview.currentWebview();
+                try {
+                    ws.setTitleNViewButtonStyle(0, { onclick: function () { ws.close() } });  ws.setTitleNViewButtonStyle(1, { onclick: function () { moreclick() } })
+
+                    var wsv = ws.getSubNViews();
+                    if (wsv) {
+                        if (wsv.length > 0) {
+                            var subNViews = ws.getSubNViews().find(e => e.__id__ == 'loadingsub');
+                            if (subNViews) {
+                                subNViews.close()
+                            }
+                        }
+                    }
+
+                } catch (e) {
+
+                }
+            }
+        })
+       
+        $(function () {
+            $("#skillpagebd .page__bd").height($(document).height())
+        })
+    </script>
+</div>

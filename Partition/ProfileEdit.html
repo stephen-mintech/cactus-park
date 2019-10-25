@@ -1,0 +1,251 @@
+﻿<style>
+    .namecolor {
+    }
+
+        .namecolor.on:before {
+            position: absolute;
+            border-radius: 999em;
+            width: 19px;
+            height: 19px;
+            border: 2px solid gray;
+            content: " ";
+            left: -4px;
+            top: 1px;
+            z-index: 2;
+        }
+</style>
+<div class="flexbar navbg" style="display: flex;position:fixed;top:0;left:0;height:60px;z-index:300;width:100%;padding-bottom:10px;overflow:hidden">
+    <div class="memberinfo1" style="width: 10%;height:60px;position:relative; flex: 0 0 50%;margin:20px 0px 20px 0px ; ">
+        <div id="backSetting" class="backb" onclick="plus.webview.close(plus.webview.currentWebview())" style="width:30px;height:30px;border-radius: 999em;color:white">
+            <i class="fa fa-angle-left" style="font-size:30px;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"> </i>
+        </div>
+    </div>
+    <div class="" style="height:60px;position:relative;top:0px;flex: 0 0 50%;">
+        <div style="font-size:24px;text-align: left;position:absolute;top:50%;left:0;color:white;transform:translate(-50%,-50%);">個人資料</div>
+    </div>
+</div>
+<div class="profileEdit page bdbg" id="profileEdit" style="height:100%;overflow-y:hidden">
+
+
+
+    <div id="newrentsuccess" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">保存成功</p>
+        </div>
+    </div>
+    <div class="page__bd" id="prefilebd" style="overflow-y:auto;margin:70px 0">
+        <div class="weui-cells__title" style="position:relative;display:flex">
+            <div style="flex:0 0 30%">基本資料</div>
+            <div style="flex:0 0 70%;text-align:right">
+                <p style="">
+                    手機認證狀態:
+                    <span style="color:red;font-weight:bold" v-bind:style="{color:((GInfo.MyInfo.Phone||'')==''?'red':'green')}">{{((GInfo.MyInfo.Phone||'')==''?'未認證':'已認證')}}</span>
+                  
+                 
+                </p>
+            </div>
+
+
+        </div>
+
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="" class="weui-label">頭像</label></div>
+                <div class="weui-cell__bd" @click="chgimg" id="myphoto" ref="myphoto">
+                    <img class="" style="width:auto;height:auto;max-height:100%;max-width:100%" onerror="this.onerror=null;this.src='img/icon/noimage_person.png';" v-model="data.Img" :src="data.Img" />
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">手機認證</label></div>
+                <div class="weui-cell__bd" style="position:relative">
+                    <a v-if="((GInfo.MyInfo.Phone||'')=='')" href="javascript:;" @click="chkphone" class="weui-btn weui-btn_block weui-btn_default">
+                        前往認證 
+                    </a>
+                    <span style="color:green"  @click="chkphone" v-if="((GInfo.MyInfo.Phone||'')!='')">
+                        {{'+'+GInfo.MyInfo.Phone_Area_Code+' ' + GInfo.MyInfo.Phone}}
+                    </span>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">暱稱</label></div>
+                <div class="weui-cell__bd" style="position:relative" onclick="$(this).find('input').css('visibility', 'visible'); $(this).find('input').focus();$(this).find('div').hide()">
+                    <input class="weui-input" style="visibility:hidden;" type="text" maxlength="10" onblur="$(this).css('visibility', 'hidden');$(this).next().show()" name="Name" v-model="data.Name">
+                    <div v-bind:class="{nameshadow:(chosecolor!=0)}" style="top:0;position:absolute" v-bind:style="{color:((colorlist.find(e=>e.SN==chosecolor)?(colorlist.find(e=>e.SN==chosecolor).color):'black') )}">{{data.Name}}</div>
+
+                </div>
+            </div>
+            <div class="weui-cell ">
+                <div class="weui-cell__hd">
+                    <label for="" class="weui-label">暱稱色彩</label>
+                </div>
+                <div class="weui-cell__bd" style="overflow-x:auto;display:flex;flex-wrap:nowrap;padding:0 5px">
+                    <div v-for="(item,idx) in colorlist" @click="chosecolorfn(item.SN)" style="flex:0 0 30px;position:relative">
+                        <div class="namecolor" v-bind:style='{"background-color":item.color}' v-bind:class="{'on':(item.SN==chosecolor)}" style="margin:5px 0 5px 0;height:15px;width:15px;border-radius:999em">
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="weui-cell weui-cell_select weui-cell_select-after">
+                <div class="weui-cell__hd">
+                    <label for="" class="weui-label">性別</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select" name="Gender" v-model="data.Gender">
+                        <option value="N">不公開</option>
+                        <option value="B">男生</option>
+                        <option value="G">女生</option>
+                    </select>
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="" class="weui-label">生日</label></div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" type="date" name="Birthday" v-model="data._Birthday">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd"><label class="weui-label">簡介</label></div>
+                <div class="weui-cell__bd">
+                    <textarea class="weui-textarea" rows="5" name="Description" v-model="data.Description" style="background-color: rgba(255, 255, 255, 0);user-select: all;-webkit-user-select: all;"></textarea>
+                </div>
+            </div>
+            <br>
+
+            <!--      <img class="weui-media-box__thumb" onerror="this.onerror=null;this.src='img/icon/noimage_person.png';" alt="Alternate Text" /> -->
+        </div>
+
+        <div style="height:20px"></div>
+    </div>
+    <div class="page__ft " style="padding-bottom:0px;padding-top:0px;position:fixed;bottom:0;width:100%;z-index:10">
+        <a href="javascript:;" @click="newpost" class="weui-btn weui-btn_primary">保存</a>
+    </div>
+
+    <script>
+        //top["DataBase"]["Partition"]
+        new Vue({
+            el: '#profileEdit',
+            data: {
+                data: top["DataBase"]["Partition"],
+                colorlist: [
+                    { SN: 0, color: "black" },
+                    { SN: 1, color: "#009f8b" },
+                    { SN: 2, color: "#00FF00" },
+                    { SN: 3, color: "#0000FF" },
+                    { SN: 4, color: "#ff8224" },
+                    { SN: 5, color: "#ff249a" },
+                    { SN: 6, color: "#00abc0" },
+                    { SN: 7, color: "#045f00" },
+                    { SN: 8, color: "#7f34da" },
+                ],
+                chosecolor: 2
+            },
+            methods: {
+                chkphone: function () {
+                    if ((GInfo.MyInfo.Phone || '') != '') {
+                        alert("因安全性問題,暫時不提供修改手機功能");
+                        return;
+                    }
+                    var cw;
+                    if (JSON.parse(Server_Token).Status == "管理員") {
+                        cw = plus.webview.create(debugurl + "Partition/ChkPhone.html", "ChkPhone", { "cachemode": "noCache", "backButtonAutoControl": "close", "background": "transparent", "popGesture": "close", "height": "100%", "margin": "auto", "width": "100%", "userSelect": false }, { phone: GInfo.MyInfo.Phone });
+                    }
+                    else {
+                        cw = plus.webview.create('Partition/ChkPhone.html', "ChkPhone", { "cachemode": "noCache", "backButtonAutoControl": "close", "background": "transparent", "popGesture": "close", "height": "100%", "margin": "auto", "width": "100%", "userSelect": false }, { phone: GInfo.MyInfo.Phone });
+                    }
+                    //cw.show("slide-in-right");
+                    plus.webview.currentWebview().append(cw)
+                },
+                chosecolorfn: function (sn) {
+                    this.chosecolor = sn;
+                    this.data.color = (this.colorlist.find(e => e.SN == sn) ? this.colorlist.find(e => e.SN == sn).color : 'black')
+                },
+                newpost: function () {
+                    console.dir(this.data);
+                    var self = this;
+                    if (this.data._Birthday == "") {
+                        alert("生日不能為空!")
+                        return;
+                    }
+                    this.data["Birthday"] = this.data["_Birthday"]
+                    $("#loadingToast").show();
+                    $.ajax({
+                        url: ajaxurl + "PlayerInfo",
+                        type: 'post',
+                        data: self.data,
+                        headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                        success: function (r) {
+                            if (r.result_status) {
+                                if (plus.webview.getWebviewById("BBIM") != null)
+                                     plus.webview.getWebviewById("BBIM").reload()
+                               // plus.webview.all()[plus.webview.all().length - 2].loadURL("index.html?p=Setting");
+                                $("#loadingToast").hide();
+                                $("#newrentsuccess").fadeIn(200);
+                                setTimeout(function () {
+                                    $("#newrentsuccess").hide();
+                                    $("#backSetting").click();
+                                }, 2000)
+                            } else {
+                                $("#loadingToast").hide();
+                                alert(r.result_message);
+
+                            }
+                        },
+                        error: function () {
+                            $("#loadingToast").hide();
+                            alert("網路錯誤");
+
+                        }
+                    });
+                },
+                chgimg: function () {
+                    var self = this;
+                    var cb = function (imgId, imgkey, id, src) {
+
+
+                        var wa = plus.nativeUI.showWaiting();
+                        //alert(ajaxurl + "UpdateTitleImg");
+                        var task = plus.uploader.createUpload(ajaxurl + "UpdateTitleImg", {
+                            method: "POST", timeout: 0, blocksize: 0
+                        },
+                            function (t, status) {
+                                //alert(t.responseText);
+                                var r = JSON.parse(t.responseText);
+                                if (r.result_status) {
+                                    wa.close();
+
+                                    self.data.Img = r.result_content + "?" + Math.random();
+                                    plus.webview.all()[plus.webview.all().length - 2].loadURL("index.html?p=Setting");
+                                }
+                                else {
+                                    alert(r.result_message);
+                                    wa.close();
+                                }
+                            }
+                        );
+                        task.addFile(src, { key: "file" });
+                        task.addData("user", Server_Token);
+                        //tmpp.setRequestHeader("Server_Token",Server_Token)
+                        task.start();
+                    }
+                    publicTools.ShowActionSheet(this.$refs.myphoto, cb, true);
+                },
+            },
+            beforeMount() {
+                this.chosecolor = (this.colorlist.find(e => e.color == this.data.color) ? this.colorlist.find(e => e.color == this.data.color).SN : 0)
+                this.data["_Birthday"] = this.data.Birthday.replace(/\//g, '-')
+                //console.dir(this.data)
+            },
+            mounted() {
+                $("#loadingToast").hide();
+                setInterval(function () {
+                    $("#prefilebd").height($("#profileEdit").height() - 110)
+                }, 50)
+              
+            }
+        })
+    </script>
+</div>

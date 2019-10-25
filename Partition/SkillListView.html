@@ -1,0 +1,197 @@
+﻿<style>
+
+    .T_R {
+        position: absolute;
+        top: 5px;
+        right: -15px;
+        /* 擺放位置 */
+        width: 50px;
+        height: 10px;
+        background-color: #4084f6;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        /* 尺寸大小、顏色、陰影 */
+        color: #fff;
+        line-height: 10px;
+        text-align: center;
+        font-size: 8px;
+        letter-spacing: 1.5px;
+        /* 文字設定 */
+        transform: rotate(45deg); /* 轉45度 */
+    }
+
+        .T_R:after {
+            content: "推薦";
+        }
+
+    .T_T {
+        position: absolute;
+        top: 5px;
+        right: -15px;
+        /* 擺放位置 */
+        width: 50px;
+        height: 10px;
+        background-color: #E53935;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        /* 尺寸大小、顏色、陰影 */
+        color: #fff;
+        line-height: 10px;
+        text-align: center;
+        font-size: 8px;
+        letter-spacing: 1.5px;
+        /* 文字設定 */
+        transform: rotate(45deg); /* 轉45度 */
+    }
+
+        .T_T:after {
+            content: "置頂";
+        }
+    .T_Free1 {
+        position: absolute;
+        top: 0px;
+        left: -15px;
+        /* 擺放位置 */
+        width: 50px;
+        height: 20px;
+        background-color: #e32fc0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        /* 尺寸大小、顏色、陰影 */
+        color: #fff;
+        line-height: 28px;
+        vertical-align: bottom;
+        text-align: center;
+        font-size: 8px;
+        letter-spacing: 1.5px;
+        /* 文字設定 */
+        transform: rotate(-45deg); /* 轉45度 */
+    }
+
+        .T_Free1:after {
+            content: "可體驗";
+        }
+</style>
+<div class="skilllistview bdbg" id="skillpagebd" style="overflow-y:hidden">
+   
+    <!--<div class="page__hd navbg" style="padding:0;margin:0;height:60px;position:relative">
+        <h4 class="" style="color:white;width:100%;line-height:60px;font-size:24px;position:absolute;text-align:center">{{data.Zuzu_Kind_Name + (top['DataBase']['Free'] == true?' 30元體驗區':' 官方嚴選')}}</h4>
+
+        <div id="backSetting" class="backb" onclick="plus.webview.close(plus.webview.currentWebview())" style="width:30px;height:60px;border-radius: 999em;color:white">
+            <i class="fa fa-angle-left" style="font-size:30px;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"> </i>
+        </div>
+
+
+    </div>-->
+    <div style="padding:0;margin:0;height:40px;position:relative">
+
+        <div style="height:25px;width:25px;border-radius:999em;background-position:center;background-size:cover;position:absolute;top:50%;transform:translateY(-50%)" v-bind:style='{"background-image":"url("+arr.Img+"_s)","left":((18*(idx))+8)+"px","opacity":(((idx+1)*0.02)+0.8)}' v-for="(arr,idx) in list.slice(0,10)">
+
+        </div>
+     
+        <div v-if="top['DataBase']['Free'] != true" onclick="hovernav_new(this,null,{titleText:'條件搜尋'})" :bparam="data.Zuzu_Kind_ID"  btag="SkillList" style="right:0;margin-right:5px;position:absolute;top:50%;transform:translateY(-50%)" class="weui-btn weui-btn_mini weui-btn_default">
+            <i class="ion-ios-search-strong text-inverse"></i>
+            條件搜尋
+        </div>
+        <div style="clear:both"></div>
+    </div>
+
+    <div class="page__bd" id="listviewid" style="overflow-y:auto;height:0%;padding-top:0px;position:relative">
+
+        <div style="width:47%;float:left;padding-left:2% ;padding-bottom:10px;overflow:hidden;position:relative" v-for="arr in list" @click="hov(arr.Member_Certification_ID)">
+            <div style="width:98%;background-color:white;border-radius:10px;position:relative;overflow:hidden;padding-bottom:5px">
+                <div style="object-fit:cover;width:100%;height:22vh;border-radius:10px;position:relative;background-position:top;background-size:cover;" v-bind:style='{"background-image":"url("+arr.Img+"_s)"}'>
+                    <div v-bind:class="((arr.R.isRecommand==true)?{T_R:true}:((arr.R.isTop==true)?{T_T:true}:{}))" class=""></div>
+
+                    <!--<div style="position:relative;width:100%;top:110px;height:18px">
+        <span id="genderlab" class="ganlabel_star" style="padding:0 5px;line-height:14px"><span style="font-size:10px">{{(arr.Birthday?publicTools.Xingzuo(moment(arr.Birthday).month()+1, moment(arr.Birthday).date()):"不公開")}}</span></span>
+    </div>-->
+
+                    <div style="overflow:hidden;position:relative;width:100%;top:20vh;height:2vh;background-color:rgba(0,0,0,.3)">
+                        <span class="" style="float:left;font-size:1vh;line-height:2vh;color:white;padding-left:5px">
+                            <i v-for="(va,inx) in 5" v-bind:class='{ "fa-star": ((arr.Rate)-(inx+1)>=0),"fa-star-half-o": ((arr.Rate)-(inx+1)<0&&(arr.Rate)-(inx+1)>=-0.5),"fa-star-o": ((arr.Rate)-(inx+1)<-0.5) } ' alt="" class="fa fa-2x " style="font-size:10px;color:gold"></i>
+                            ({{arr.Rate}})
+                        </span>
+                        <span style="display: inline-block;float: right;width: 1.2vh;height: 1.2vh;margin-top: 0.4vh;margin-right: 3px;border-radius: 999em;" v-bind:class="{'light_online':(arr.LastTime==null),'light_offline':(arr.LastTime!=null)}"></span>
+                        <span style="color:white;float:right;font-size:1vh;line-height:2vh;margin-right: 3px;" v-bind:style="{'color':(arr.LastTime==null?'greenyellow':'white')}">{{((arr.LastTime==null)?"線上":moment(arr.LastTime).startOf('second').fromNow())}}</span>
+                    </div>
+
+                </div>
+                <div binfo="name" style="padding-left:10px;font-size:12px;width:100%;position:relative;white-space:nowrap">
+                    <span v-bind:style="{color:(arr.color||'black')}" v-bind:class="{nameshadow:(arr.color||'black' != 'black')}">{{arr.Name}}</span>
+
+                    <span v-if="(conf.hidenews)?false:true" id="genderlab" v-bind:class='{"ganlabel_g":(arr.Gender=="G"),"ganlabel_b":(arr.Gender=="B"),"ganlabel_n":(arr.Gender=="N")}' style="padding:0 5px;line-height:14px"><span style="font-size:10px">{{arr.Age}}</span></span>
+
+                </div>
+
+                <div v-if="!conf.hidenews" style="padding-left:10px;font-size:10px;position:relative;color:gray;line-height:15px">
+                    接單{{arr.OrderTimes}}次
+                    <span v-if="top['DataBase']['Free'] != true" style="color:red;font-size:10px;float:right;padding-right:5px"> {{arr.Fee}}幣/ {{arr.Unit}}</span>
+                    <span v-if="top['DataBase']['Free'] == true" style="color:red;font-size:10px;float:right;padding-right:5px"> 30元體驗單/1局</span>
+                </div>
+
+                <div style="clear:both"></div>
+                <div style="padding-left:10px;font-size:10px;position:relative;color:gray;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                    {{(arr.Title||"")==""?"&nbsp":arr.Title}}
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+      var viewvue =   new Vue({
+            el: "#skillpagebd",
+            data: {
+                alllist: JSON.parse(JSON.stringify(top["DataBase"]["NewHome"].List)),
+                list: Enumerable.from(JSON.parse(JSON.stringify(top["DataBase"]["NewHome"].List))).take(14).toArray(),
+                data: JSON.parse(JSON.stringify(top["DataBase"]["NewHome"])),
+            },
+            methods: {
+                hov: function (id) {
+                    $('<a onclick="hovernav(this,\'' + id + '\')" btag="Skill" ></a>').click();
+                }
+          },
+          mounted: function () {
+              var ws = plus.webview.currentWebview();
+              try {
+                  ws.setTitleNViewButtonStyle(0, { onclick: function () { ws.close() } }); ws.setTitleNViewButtonStyle(1, { onclick: function () { moreclick() } })
+                  var wsv = ws.getSubNViews();
+                  if (wsv) {
+                      if (wsv.length > 0) {
+                          var subNViews = ws.getSubNViews().find(e => e.__id__ == 'loadingsub');
+                          if (subNViews) {
+                              subNViews.close()
+                          }
+                      }
+                  }
+
+              } catch (e) {
+
+              }
+          }
+        })
+        var subpage = 1;
+        var nDivHight = plus.screen.resolutionHeight;
+        $("#listviewid").scroll(function () {
+         
+            try {
+                var nScrollHight = $(this)[0].scrollHeight;
+                var nScrollTop = $(this)[0].scrollTop;
+             
+                if (nScrollTop + nDivHight + 200 >= nScrollHight) {
+
+                    subpage++;
+                    viewvue.list = Enumerable.from(viewvue.alllist).take(subpage * 14).toArray();
+                  
+                }
+                //var allv = $(".home.page video");
+                //for (var i = 0; i < allv.length; i++) {
+                //    //   console.dir(i)
+                //    checkvideo(allv[i])
+                //}
+            } catch (e) {
+                
+            }
+        })
+        $(function () {
+            $("#skillpagebd .page__bd").height($(document).height() - 40)
+        })
+    </script>
+</div>

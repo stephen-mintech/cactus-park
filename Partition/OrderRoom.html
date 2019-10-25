@@ -1,0 +1,470 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="../js/vue.min.js"></script>
+    <link href="../css/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <script src="../js/weui/jquery-2.1.4.js"></script>
+    <script src="../js/weui/jquery-weui.js"></script>
+    <link href="../css/weui/weui.min.css?1" rel="stylesheet" />
+    <script src="../js/html5plus/common.js?4"></script>
+    <link href="../css/ionicons/ionicons.min.css" rel="stylesheet" />
+    <script src="../js/BBIM.js"></script>
+    <script src="../js/BridgeClass.js"></script>
+    <script src="https://embed.twitch.tv/embed/v1.js"></script>
+    <meta http-equiv="cache-control" content="private">
+    <meta http-equiv="pragma" content="private">
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <script>
+        window.onerror = function (message, source, lineno, colno, error) {
+            alert(error);
+        };
+        onerror = function (message, source, lineno, colno, error) {
+            alert(error);
+        };
+    </script>
+    <style>
+        .dot {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .hdbg {
+            /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#0b1f3a+1,102c54+59,485687+100 */
+            background: #0b1f3a; /* Old browsers */
+            background: -moz-linear-gradient(top, #0b1f3a 1%, #102c54 59%, #485687 100%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(top, #0b1f3a 1%,#102c54 59%,#485687 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to bottom, #0b1f3a 1%,#102c54 59%,#485687 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0b1f3a', endColorstr='#485687',GradientType=0 ); /* IE6-9 */
+        }
+    </style>
+</head>
+<body style="width:100%;height:100%;overflow-x:hidden">
+
+    <div class="bdbg " id="callid" style="display: none;width:100%;height:100%;">
+        <div style="height:20%;width:100%" class="hdbg">
+            <div style="height:40%;width:100%;display:flex">
+                <div style="flex:0 0 20%;height:100%"></div>
+                <div style="flex:0 0 60%;height:100%;overflow-x:hidden;padding-top:10px;text-align:center">
+                    <p class="dot" style="font-size:5vw;line-height:8vw;color:white;">[派單:01] 測試測試派單廳</p>
+                    <p class="dot" style="font-size:3.5vw;line-height:5vw;color:lightgray;">RoomID:77001 在線 999</p>
+
+                </div>
+                <div style="flex:0 0 20%;height:100%"></div>
+            </div>
+            <div style="height:60%;width:100%;display:flex">
+
+                <div style="flex:0 0 60%;display:flex">
+                    <div style="flex:0 0 40%">
+                        <div style="background-color:gray;border-radius:999em;border:2px solid lightgray;width:18vw;height:18vw;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+
+                    </div>
+                    <div style="flex:0 0 60%;overflow:hidden">
+                        <div style="height:18vw;width:100%;position:relative;top:50%;left:50%;transform:translate(-50%,-50%);overflow:hidden">
+                            <p style="font-size:6vw;line-height:8vw;color:white">主持:逼逼糖</p>
+                            <p style="font-size:3.5vw;line-height:5vw;color:lightgray">本月接單率 <span style="color:white">100%</span></p>
+                            <p style="font-size:3.5vw;line-height:5vw;color:lightgray">滿意度 ***** 5.0</p>
+                        </div>
+
+                    </div>
+                </div>
+                <div style="flex:0 0 40%">
+                    <div style="font-size:3.5vw;line-height:7vw;height:18vw;width:100%;position:relative;top:50%;left:50%;transform:translate(-50%,-50%);overflow:hidden;padding-right:5vw">
+                        <div style="height:50%;text-align:right;position:relative">
+                            <span style="position:relative;top:100%;transform:translateY(-100%);display:inline-block;color:white;padding:0 8px;border-radius:2vw;background-color:rgba(255, 255, 255, 0.2)">派單計時 - -</span>
+                        </div>
+                        <div style="height:50%;text-align:right;position:relative">
+                            <span style="position:relative;top:100%;transform:translateY(-100%);display:inline-block;color:white;padding:0 8px;border-radius:2vw;background-color:rgba(255, 255, 255, 0.2)">
+                                房間公告
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div style="height:80%;width:100%" class="hdbg">
+            <div style="height:35%;width:100%;display:flex;flex-wrap:wrap">
+                <!--<div v-for="item in 8" style="flex:0 0 25%;height:50%;position:relative">
+                    <div style="background-color:gray;border-radius:999em;border:2px solid lightgray;width:15vw;height:15vw;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+                </div>-->
+                <div id="twitch-embed"></div>
+            </div>
+            <div style="height:55%;width:100%;position:relative;">
+                <div style="height:96%;top:2%;width:90%;left:5%;position:relative;border-radius:10px;background-color:rgba(0, 0, 0, 0.5)">
+
+                </div>
+            </div>
+            <div style="height:10%;width:100%;display:flex">
+                <div style="flex:0 0 50%">
+                    <div style="width:90%;left:5%;height:80%;top:10%;position:relative;background-color:rgba(0, 0, 0, 0.4);border-radius:999em"></div>
+                </div>
+                <div style="flex:0 0 50%;display:flex">
+                    <div v-for="item in 3" style="flex:1">
+                        <div style="background-color:rgba(0, 0, 0, 0.4);border-radius:999em;width:9vw;height:9vw;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var embed = new Twitch.Embed("twitch-embed", {
+            width: "100%",
+            height: "100%",
+            channel: "7cplay",
+            layout: "video",
+            autoplay: true
+        });
+
+        embed.addEventListener(Twitch.Embed.VIDEO_READY, () => {
+            var player = embed.getPlayer();
+            player.play();
+        });
+    </script>
+    <script>
+        var GCloudVoiceEngineInstance = null;
+        var GCloudVoicePoll = 0;
+        var Speakerhis = "off";
+        var GInfo;
+
+        function callevent(data) {
+
+
+            var j = JSON.parse(decodeURIComponent(data));
+            console.dir(decodeURIComponent(data));
+            if (j.name.toUpperCase() == "OnJoinRoom".toUpperCase()) {
+                //if (plus.os.name == "Android") {
+                //    GCloudVoiceEngineInstance.OpenMic();
+                //    GCloudVoiceEngineInstance.OpenSpeaker();
+                //} else {
+                //    GCloudVoiceEngineInstance.openMic();
+                //    GCloudVoiceEngineInstance.openSpeaker();
+                //}
+
+
+            }
+            else if (j.name.toUpperCase() == "OnEvent".toUpperCase()) {
+
+                //if (Speakerhis == "on") {
+                //    if (plus.os.name == "Android")
+                //        GCloudVoiceEngineInstance.EnableSpeakerOn(true);
+                //    else
+                //        GCloudVoiceEngineInstance.enableSpeakerOn(true);
+                //} else {
+                //    if (plus.os.name == "Android")
+                //        GCloudVoiceEngineInstance.EnableSpeakerOn(false);
+                //    else
+                //        GCloudVoiceEngineInstance.enableSpeakerOn(false);
+                //}
+
+            } else if (j.name.toUpperCase() == "OnMemberVoice".toUpperCase()) {
+
+
+            }
+        }
+        var p;
+        var callvue;
+        var nohondupthead;
+        var Server_Token;
+        var bbim;
+        var Bridge;
+        var alldata = function () {
+            var imurl = "wss://wss.7cplay.com:2053/App/";
+            if (JSON.parse(Server_Token).Status == "管理員")
+                imurl = "wss://192.168.1.110:3002/App/";
+
+
+            var memid = plus.webview.currentWebview().memid;
+
+            callvue = new Vue({
+                el: "#callid",
+                data: {
+                    isspeaker: false,
+                    ismic: true,
+                    isvoice: true,
+                    ishandon: false,
+                    meinfo: "",
+                    herinfo: "",
+                    calltimer: 0,
+                    cutmin: 5,
+                    needcut: false,
+                    callbegin: false,
+                    callbyme: "",
+                    mejoin: false,
+                    herjoin: false
+                },
+                mounted: function () {
+                    var GCloudVoiceEngine;
+                    if (plus.os.name == "Android") {
+                        GCloudVoiceEngine = plus.android.importClass("com.tencent.gcloud.voice.GCloudVoiceEngine");
+                        var activity = plus.android.runtimeMainActivity()
+                        GCloudVoiceEngineInstance = GCloudVoiceEngine.getInstance()
+                        GCloudVoiceEngineInstance.init(activity.getApplicationContext(), activity)
+                        GCloudVoiceEngineInstance.SetAppInfo('1069760063', '29f84e2ca267ef95687b5fab81237dde', memid);
+                    } else {
+                        GCloudVoiceEngine = plus.ios.importClass("GVGCloudVoice");
+                        GCloudVoiceEngineInstance = GCloudVoiceEngine.sharedInstance();
+                        plus.ios.importClass("_cplay.WebUtil").setGVoiceAppInfo(GCloudVoiceEngineInstance, "1069760063", "29f84e2ca267ef95687b5fab81237dde", memid);
+                    }
+
+
+
+                    var self = this;
+                    var winH = $(window).height();
+                    $("#callid").height(winH);
+
+
+                    $("#callid").show()
+                    if (plus.webview.currentWebview().getSubNViews().find(e => e.id == 'subnview1')) {
+                        plus.webview.currentWebview().getSubNViews().find(e => e.id == 'subnview1').close()
+                    }
+                   
+                    // if (handoffbg)
+                },
+                watch: {
+                    calltimer: function (value) {
+                        console.dir(value)
+                        var totalsec = this.cutmin * 60;
+                        if ((totalsec - 60) == value) {
+                            //放提示
+                            var root;
+                            if (plus.os.name == "Android") {
+                                root = plus.android.importClass("tw.com.sevencplay.core.Bridge").getRoot();
+                            } else {
+                                root = plus.ios.importClass("_cplay.WebUtil").getRoot();
+                            }
+
+
+                            var ale = plus.audio.createPlayer(root + "audio/call/alerm.mp3");
+                            ale.play(function () {
+                                ale.stop();
+                            });
+
+                        } else if (totalsec <= value) {
+                            if (this.needcut) {
+                                this.needcut = false;
+                                this.beout()
+                            }
+                        }
+                    }
+                },
+                methods: {
+                    imjoin: function () {
+                        if (callbyme == "") {
+                            var sendobj = { CallTarget: herinfo.Member_ID, Event: "Join" };
+                            // bbim.callphone(JSON.stringify(sendobj));
+
+                        }
+
+                    },
+                    startcall: function () {
+                        var self = this;
+
+                        var root;
+                        if (plus.os.name == "Android") {
+                            root = plus.android.importClass("tw.com.sevencplay.core.Bridge").getRoot();
+                        } else {
+                            root = plus.ios.importClass("_cplay.WebUtil").getRoot();
+                        }
+                        p = plus.audio.createPlayer(root + "audio/call/1.mp3");
+                        p.setRoute(plus.audio.ROUTE_EARPIECE);
+                        var pp = function () {
+                            p.play(function () {
+                                p.stop();
+                                p = plus.audio.createPlayer(root + "audio/call/1.mp3");
+                                pp();
+                            }, function (e) {
+
+                            });
+                        }
+                        pp();
+                        this.callbegin = true;
+
+                        var sendobj = { CallTarget: this.herinfo.Member_ID, Event: "Call" };
+                        //  bbim.callphone(JSON.stringify(sendobj));
+                    },
+                    addmin: function (i) {
+                        if (i > 0) {
+                            this.cutmin += 5;
+                        } else {
+                            if (this.cutmin <= 5) {
+                                plus.nativeUI.toast("最小提醒時間為5分鐘");
+                                return;
+                            }
+                            this.cutmin -= 5;
+                        }
+                    },
+                    playbgm: function (id) {
+                        if (GCloudVoiceEngineInstance) {
+                            if (plus.os.name == "Android")
+                                GCloudVoiceEngineInstance.SetVoiceEffects(id);
+                            else
+                                GCloudVoiceEngineInstance.setVoiceEffects(id);
+                        }
+
+                    },
+                    padLeft: function (str, lenght) {
+                        if (str.length >= lenght)
+                            return str;
+                        else
+                            return this.padLeft("0" + str, lenght);
+                    },
+
+                    getcall: function (keepring) {
+
+                        if (this.ishandon == false) {
+                            this.ishandon = true;
+                            if (!(keepring)) {
+                                if (p)
+                                    p.stop();
+                            }
+                            var waitback = -1;
+                            if (plus.os.name == "Android")
+                                waitback = GCloudVoiceEngineInstance.Init();
+                            else
+                                waitback = GCloudVoiceEngineInstance.initEngine();
+
+                            if (waitback == 0) {
+                                var delegate;
+                                if (plus.os.name == "Android") {
+                                    delegate = plus.android.importClass("tw.com.sevencplay.core.Bridge").getGVoiceNotify(plus.webview.currentWebview().id, "callevent")
+                                    GCloudVoiceEngineInstance.SetNotify(delegate)
+                                    GCloudVoiceEngineInstance.SetMode(0)
+                                    GCloudVoicePoll = setInterval(function () { GCloudVoiceEngineInstance.Poll() }, 100)
+                                    GCloudVoiceEngineInstance.SetMicVolume(100);
+                                    GCloudVoiceEngineInstance.EnableSpeakerOn(false);
+                                    GCloudVoiceEngineInstance.JoinTeamRoom(roomid, 10 * 1000)
+                                } else {
+                                    delegate = plus.ios.importClass("_cplay.WebUtil").getGVoiceNotify(plus.webview.currentWebview().id, "callevent");
+                                    GCloudVoiceEngineInstance.setDelegate(delegate);
+                                    GCloudVoiceEngineInstance.setMode(0);
+                                    GCloudVoicePoll = setInterval(function () { GCloudVoiceEngineInstance.poll() }, 100)
+                                    GCloudVoiceEngineInstance.setMicVolume(100);
+                                    GCloudVoiceEngineInstance.enableSpeakerOn(false);
+                                    plus.ios.importClass("_cplay.WebUtil").joinTeamRoom(GCloudVoiceEngineInstance, roomid, 10 * 1000);
+
+                                }
+
+
+
+
+                                if (callbyme == "") {
+                                    this.herjoin = true;
+                                }
+                                this.mejoin = true;
+                                this.imjoin();
+                                this.chkalljoin();
+                            }
+
+                        } else {
+
+                            this.beout();
+
+
+                        }
+
+                    },
+                    chkalljoin: function () {
+                        var self = this;
+                        if (self.herjoin && self.mejoin) {
+                            if (p)
+                                p.stop();
+                            if (self.calltimer == 0) {
+                                clearTimeout(nohondupthead);
+                                self.calltimer += 1;
+                                setInterval(function () {
+                                    self.calltimer += 1;
+                                }, 1000)
+                            }
+                        }
+                    },
+                    speakeron: function () {
+                        if (this.ishandon) {
+                            if (this.isspeaker) {
+                                this.isspeaker = false;
+                                if (plus.os.name == "Android")
+                                    GCloudVoiceEngineInstance.EnableSpeakerOn(false);
+                                else
+                                    GCloudVoiceEngineInstance.enableSpeakerOn(false);
+                                Speakerhis = "off";
+
+                            } else {
+                                this.isspeaker = true;
+                                if (plus.os.name == "Android")
+                                    GCloudVoiceEngineInstance.EnableSpeakerOn(true);
+                                else
+                                    GCloudVoiceEngineInstance.enableSpeakerOn(true);
+
+                                Speakerhis = "on";
+
+                            }
+                        }
+                    },
+                    speakermute: function () {
+                        if (this.ishandon) {
+                            if (this.isvoice) {
+                                this.isvoice = false;
+                                if (plus.os.name == "Android")
+                                    GCloudVoiceEngineInstance.SetSpeakerVolume(0);
+                                else
+                                    GCloudVoiceEngineInstance.setSpeakerVolume(0);
+
+
+                            } else {
+                                this.isvoice = true;
+                                if (plus.os.name == "Android")
+                                    GCloudVoiceEngineInstance.SetSpeakerVolume(100);
+                                else
+                                    GCloudVoiceEngineInstance.setSpeakerVolume(100);
+
+
+                            }
+                        }
+                    },
+                    micmute: function () {
+                        if (this.ishandon) {
+                            if (this.ismic) {
+                                this.ismic = false;
+                                if (plus.os.name == "Android")
+                                    GCloudVoiceEngineInstance.SetMicVolume(0);
+                                else
+                                    GCloudVoiceEngineInstance.setMicVolume(0);
+                            } else {
+                                this.ismic = true;
+                                if (plus.os.name == "Android")
+                                    GCloudVoiceEngineInstance.SetMicVolume(100);
+                                else
+                                    GCloudVoiceEngineInstance.setMicVolume(100);
+
+                            }
+                        }
+                    }
+                }
+            })
+        }
+        document.addEventListener('plusready', function () {
+            plus.key.addEventListener('backbutton', function () {
+
+            }, false);
+            Bridge = new BridgeClass();
+            Bridge.getData("Server_Token",
+                function (tok) {
+                    Server_Token = tok;
+                    GInfo = new Vue({
+                        data: {
+                            MyInfo: JSON.parse(tok),
+                            MyCert: {},
+                            KindList: {}
+                        },
+                    })
+                    alldata();
+
+                }
+            )
+
+        }, false);
+    </script>
+</body>
+
+</html>

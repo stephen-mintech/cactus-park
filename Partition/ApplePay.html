@@ -1,0 +1,229 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="../js/vue.min.js"></script>
+    <script src="../js/html5plus/common.js?2"></script>
+    <script src="../js/weui/jquery-2.1.4.js"></script>
+    <script src="../js/weui/jquery-weui.js"></script>
+    <link href="../css/weui/weui.min.css?1" rel="stylesheet" />
+    <script src="../js/BridgeClass.js?15"></script>
+    <meta http-equiv="cache-control" content="private">
+    <meta http-equiv="pragma" content="private">
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <script>
+        window.onerror = function (message, source, lineno, colno, error) {
+            alert(error);
+        };
+        onerror = function (message, source, lineno, colno, error) {
+            alert(error);
+        };
+    </script>
+    <style>
+    </style>
+</head>
+<body style="width:100%;height:100%;display:none">
+    <div class="weui-mask" onclick="plus.webview.close(plus.webview.currentWebview())"></div>
+
+    <div class="weui-dialog" id="vueview" style="display: flex;width:95%;height:80%;border-radius:0.8em;margin:0 0 auto">
+        <div class="weui-cells" style="overflow-y:auto;padding-bottom:50px;padding-top:0">
+            <div class="weui-cell " v-for="(item, index) in list">
+
+                <div class="weui-cell__bd" style="text-align:left">
+                    <div class="weui-media-box weui-media-box_text">
+                        <h4 class="weui-media-box__title">{{item.title}}</h4>
+                        <p class="weui-media-box__desc">{{item.description}}</p>
+
+                    </div>
+                </div>
+                <div class="weui-cell__ft">
+                    <a href="javascript:;" @click="pay(item.productid)" class="weui-btn weui-btn_primary">NTD{{item.price}}</a>
+                </div>
+            </div>
+        </div>
+        <div class="weui-btn weui-btn_primary" style="  z-index: 5000;position:absolute;width:100%;bottom:0;margin:0 0 auto" onclick="plus.webview.close(plus.webview.currentWebview())">關閉</div>
+
+    </div>
+    <script>
+        var Bridge;
+        var $ready;
+        var pready;
+        var ajaxurl;
+        var startpage = function () {
+
+            new Vue({
+                el: '#vueview',
+                data: {
+                    list: plus.webview.currentWebview().data.sort(function (a, b) {
+                        return a.price > b.price ? 1 : -1;
+                    })
+                },
+                methods: {
+                    pay: function (id) {
+                        var iap;
+                        plus.payment.getChannels(function (channels) {
+                            console.dir(channels)
+                            for (var i in channels) {
+                                var channel = channels[i];
+                                if (channel.id === 'appleiap') {
+                                    iap = channel;
+                                }
+                            }
+                            plus.nativeUI.showWaiting('检测支付环境...');
+                            iap.requestOrder(plus.webview.currentWebview().IAPOrders, function (e) {
+                                plus.nativeUI.showWaiting('', { style: "black", background: "rgba(0,0,0,0)" });
+                                plus.payment.request(iap, { productid: id,username: JSON.parse(Server_Token).Member_ID }, function (result) {
+                                  
+                                    $.ajax({
+                                        url: ajaxurl + "Payment",
+                                        type: 'post',
+                                        headers: { "Server_Token": encodeURIComponent(Server_Token) },
+                                        data: {  PaymentType_ID: 1, JSONCallBack: JSON.stringify(result)},
+                                        timeout: 30000,
+                                        success: function (r) {
+                                            if (r.result_status) {
+                                                plus.nativeUI.alert("支付成功", function () {
+                                                  
+                                                }, "支付");
+                                            } else {
+
+                                                alert(r.result_message);
+                                                plus.nativeUI.closeWaiting();
+                                            }
+                                        },
+                                        onerror: function () {
+                                            plus.nativeUI.closeWaiting();
+                                        },
+                                        complete: function () {
+                                            plus.nativeUI.closeWaiting();
+                                        }
+                                    });
+                                 
+                                }, function (e) {
+                                    plus.nativeUI.closeWaiting();
+                                    plus.nativeUI.alert("错误信息：" + e.message, null, "支付失败：" + e.code);
+                                });
+                               
+                            }, function (e) {
+                                console.log('requestOrder failed: ' + JSON.stringify(e));
+                                plus.nativeUI.closeWaiting();
+                                plus.nativeUI.confirm("错误信息：" + JSON.stringify(e), function (e) {
+                                    if (e.index == 0) {
+                                        requestOrder();
+                                    } else {
+                                        back();
+                                    }
+                                }, '重新请求支付', ['确定', '取消']);
+                            });
+                        }, function (e) {
+                            console.log("获取支付通道失败：" + e.message);
+                        });
+                      
+                        
+                    }
+                },
+                mounted() {
+
+                }
+            })
+        }
+        var init = function () {
+            if (!pready)
+                return;
+            if (!$ready)
+                return;
+            switch (plus.os.name) {
+                case "Android":
+                    // Android平台: plus.android.*
+                    break;
+                case "iOS":
+                    // iOS平台: plus.ios.*
+                    //取消長按事件
+                    document.body.style.webkitTouchCallout = "none";
+                    //取消拖曳事件
+                    document.body.setAttribute("ondragstart", "return false");
+                    break;
+                default:
+                    // 其它平台
+                    break;
+            }
+            alert = function (e, cb) {
+                plus.nativeUI.alert(e, function () {
+                    if (cb) {
+                        cb()
+                    }
+                }, "訊息", "確定");
+            }
+            Bridge = new BridgeClass();
+
+            Bridge.getData("APIUrl", function (apiurl) {
+                // alert(apiurl);
+                ajaxurl = apiurl;
+                Bridge.getData("Server_Token",
+                    function (tok) {
+
+                        if (tok) {
+                            var data = JSON.parse(tok);
+                            data["VCode"] = JSON.parse(tok).Pw;
+                            data["Pw"] = data["oPw"];
+                            Server_Token = tok;
+                            if (JSON.parse(Server_Token).Status == "管理員")
+                                ajaxurl = "http://192.168.1.110:8900/api/"
+                            $("body").show();
+                            startpage();
+                            plus.nativeUI.closeWaiting();
+                            //$.ajax({
+                            //    url: ajaxurl + "Login",
+                            //    type: 'post',
+                            //    data: data,
+                            //    timeout: 30000,
+                            //    success: function (r) {
+                            //        if (r.result_status) {
+                            //            Server_Token = JSON.stringify(r.result_content);
+
+                            //            Bridge.setData("Server_Token", Server_Token, function () {
+                            //                if (JSON.parse(Server_Token).Status == "管理員")
+                            //                    ajaxurl = "http://192.168.1.110:8900/api/"
+
+                            //                $("body").show();
+                            //                startpage();
+                            //                //   alldata();
+                            //            });
+                            //        } else {
+
+                            //            alert(r.result_message);
+                            //            //  alldata();
+                            //        }
+                            //    },
+                            //    onerror: function () {
+
+                            //        //  alldata();
+                            //    },
+                            //    complete: function () {
+                            //        plus.nativeUI.closeWaiting();
+                            //    }
+                            //});
+
+                        } else {
+
+                        }
+
+                    }
+                )
+
+
+            })
+        }
+        document.addEventListener('plusready', function () {
+            pready = true;
+            init();
+        }, false);
+
+        $(function () {
+            $ready = true;
+            init();
+        })
+
+    </script>
+</body>
+
+</html>

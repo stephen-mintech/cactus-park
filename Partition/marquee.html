@@ -1,0 +1,48 @@
+﻿<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <script src="../js/vue.min.js"></script>
+    <script src="../js/weui/jquery-2.1.4.js"></script>
+</head>
+<body style="margin:0 0 0 0;display:none">
+
+    <div class="" style="background-color:rgba(0,0,0,0.3);">
+       
+        <span class="" id="gm" style="position:relative;height:20px;color:white;white-space:nowrap"></span>
+        <script>
+            document.addEventListener('plusready', function () {
+                new Vue({
+                    el: "#gm",
+                    data: {
+                        text: ""
+                    },
+                    mounted: function () {
+                        var self = this;
+                      
+                        $("body").fadeIn(100, function () {
+                            $('#gm').text(plus.webview.currentWebview().text);
+                            var bl = $("body").width() + 30;
+                            var al = -$('#gm').width() - 30;
+                            $("#gm").offset({ left: bl })
+                         
+                       
+                         
+                            $('#gm').animate({ left: al }, (bl - al) * 15,"linear", function () {
+                                $("body").fadeOut(100, function () {
+                                    plus.webview.currentWebview().close();
+                                })
+                               
+                            });
+                        });
+                      
+                    },
+                    methods: {
+                        mfinish: function () {
+                            plus.webview.currentWebview().close();
+                        }
+                    }
+                })
+            }, false);
+        </script>
+    </div>
+
+</body>

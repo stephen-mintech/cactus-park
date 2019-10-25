@@ -1,0 +1,56 @@
+﻿<div class="flexbar navbg" style="position:fixed;top:0;left:0;height:60px;z-index:300;width:100%;overflow:hidden">
+    <div class="memberinfo1" style="width: 10%;height:60px;position:relative;float:left;z-index:301; ">
+        <div id="backSetting" class="backb" onclick="plus.webview.close(plus.webview.currentWebview())" style="width:30px;height:60px;border-radius: 999em;color:white">
+            <i class="fa fa-angle-left" style="font-size:30px;position:relative;top:50%;left:50%;transform:translate(-50%,-50%)"> </i>
+        </div>
+    </div>
+    <h4 class="" style="z-index:300;color:white;width:90%;line-height:60px;font-size:24px;position:relative;text-align:center">關注列表</h4>
+</div>
+<div class="followpage page bdbg" id="followpage" :el="followpage" style="">
+    <div class="page__hd " style=""></div>
+    <div id="followlist" class="page__bd" >
+        <div class="weui-cells">
+            <div class="weui-cell" v-for="(item, index) in list" onclick="hovernav_new(this)" :bparam="item.Member_ID" :nview="JSON.stringify({moreinfo: true,type: 'transparent', titleText: item.Name,img:item.Img})" ref="child" btag="PlayerPage">
+                <div class="weui-cell__hd" style="position: relative;margin-right: 10px;">
+                    <img :src="item.Img + '_s'" onerror="this.src='img/icon/noimage_person.png'" style="width: 50px;display: block">
+                </div>
+                <div class="weui-cell__bd">
+                    <p>{{item.Name}}</p>
+                    <p class="weui-media-box__desc" style="font-size: 13px;color: #888888;">{{item.Description}}</p>
+                </div>
+                <div class="weui-cell__ft" style="font-size: 12px;">
+                    接單{{item.OrderTimes}}次
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page__ft "></div>
+    <script>
+        addBackEvent(function () {
+            plus.webview.close(plus.webview.currentWebview())
+        });
+           new Vue({
+                el: '#followpage',
+                data: {
+                    list: Enumerable.from(top["DataBase"]["Partition"]).take(10).toArray()
+                },
+                methods: {
+                    hovernav: function (idx, id) {
+                        hovernav(this.$refs["child"][idx], id)
+                    },
+                },
+                mounted() {
+                    $("#loadingToast").hide();
+                    this.subpage = 1;
+                    this.alldata = top["DataBase"]["Partition"];
+                    this.$el.addEventListener('scroll', () => {
+                        if (this.$el.scrollTop + this.$el.clientHeight + 200 >= this.$el.scrollHeight) {
+                            this.subpage++;
+                            this.list = Enumerable.from(this.alldata).take(this.subpage * 10).toArray();
+                        }
+                    }, false)
+                }
+            })
+         
+    </script>
+</div>
